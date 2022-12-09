@@ -19,7 +19,7 @@
    - [PDF补丁丁](https://www.cnblogs.com/pdfpatcher/)：免费开源，PDF简单编辑合并挺好用。
    - [WPS](https://www.wps.cn/)：Office文件处理，PDF阅读器。
    - [欧路词典](https://dict.eudic.net/)：手机电脑英语必备，免费版也挺干净的。
-   - [Onenote](11)：除了同步有点卡顿，其余堪称完美。
+   - 待修改[Onenote](11)：除了同步有点卡顿，其余堪称完美。
    - [语雀](https://www.yuque.com/)：仅用于展示一些东西，当笔记软件，还有点嫩。
    - [PowerToys](https://github.com/microsoft/PowerToys)：官方良心好物，插件合集。
    - [Handshaker](https://www.smartisan.com/apps/#/handshaker)：手机电脑最好用的文件传输工具，没有之一。
