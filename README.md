@@ -1,3 +1,5 @@
+[书签页（测试）](https://js-ping.github.io/书签.markdown)
+
 # 软件合集网
 
 - [腾讯软件中心](https://pc.qq.com/)
@@ -44,12 +46,6 @@
 	- [百度网盘](https://pan.baidu.com/download)：目前扔有很多分享文件。
 	- [阿里云盘](https://www.aliyundrive.com/)：新近崛起，存储视频照片的主要地方，已放弃一刻。
 	- [蓝奏云](https://www.lanzoux.com/)：某些特定软件的外链网盘。
-- 音乐播放器：
-	- [落雪](https://github.com/lyswhut/lx-music-desktop#readme)：免费开源第三方，大部分歌曲可搜索可下载。
-	- [Listen1](https://listen1.github.io/listen1/)：除了不能下载，算是最好的了，有推荐歌单，可登录网易QQ。
-	- [Foobar2000 （官方）](https://www.foobar2000.org/)：免费但是没有原生中文。
-	- [Foobar2000 （汉化）](https://wwp.lanzoul.com/inkKw06briwf)：好心人汉化过的，推荐。
-	- [MusicPlayer2](https://github.com/zhongyang219/MusicPlayer2)：免费开源，但是觉得音质还是Foobar2000强一点，观望。
 - 录屏软件：
 	- [OBS](https://obsproject.com/)：免费开源，录屏直播最好用，有点门槛。
 	- [Captura（开源）](https://captura.updatestar.com/)
@@ -101,16 +97,12 @@
     - [CAD字体](https://wwa.lanzoui.com/iOkizqoc77g)：之前收集的，也不全。
     - [CAD 2022](https://www.aliyundrive.com/s/RCP47zLSKpE)：CAD 2022 挺好的版本，没必要不换。
     - [CAD 2007](https://www.aliyundrive.com/s/H1nquwbdSs2)：CAD 2007，经典。
-    - [Revit 2020 许可管理器不起作用](https://www.aliyundrive.com/s/9cghFT6R4gW)：内有教程。
     - [CADZXW](http://www.cadzxw.com/download.html/)：CAD 自学网，软件挺全，百度网盘 Geek 工具进行卸载，先卸载主软件，再卸载配套软件，清理其他内容时要注意甄别，因为 Revit 可能会被误删。
 - Revit：
-    - []():
     - [Revit 2020](https://www.aliyundrive.com/s/vzLK6MD4V46)：内含方法。
-	- [插件-橄榄山](http://www.glsbim.com/intro/42.html)：支持到2022。
+    - [Revit 2020 许可管理器不起作用](https://www.aliyundrive.com/s/9cghFT6R4gW)：内有教程。
+    - [插件-橄榄山](http://www.glsbim.com/intro/42.html)：支持到2022。
     - [插件-构件坞](https://www.goujianwu.com/plugin)：原装的构件没有梁就很神奇。
-
-[]():
-
 
 # Android 软件
 
@@ -153,7 +145,7 @@
 
 #### Chrome 插件
 
-- [chrome同步助手](https://wwp.lanzoul.com/imLlR06gic3g)
+- ~~[chrome同步助手](https://wwp.lanzoul.com/imLlR06gic3g)：已失效。~~
 - [B站视频下载](https://wwe.lanzoux.com/iQTevkvhb3c)
 - [bilibili-helper](https://wwa.lanzoui.com/ivb3awqw3kd)
 
@@ -229,5 +221,11 @@
 
 - ~~[知犀](https://www.zhixi.com/)：脑图，都差不多，先试试这个。~~
 - ~~[Syncthing](https://syncthing.net/)：手机电脑或电脑电脑直接同步文件。~~
+- ~~音乐播放器：~~
+	- ~~[落雪](https://github.com/lyswhut/lx-music-desktop#readme)：免费开源第三方，大部分歌曲可搜索可下载。~~
+	- ~~[Listen1](https://listen1.github.io/listen1/)：除了不能下载，算是最好的了，有推荐歌单，可登录网易QQ。~~
+	- ~~[Foobar2000 （官方）](https://www.foobar2000.org/)：免费但是没有原生中文。~~
+	- ~~[Foobar2000 （汉化）](https://wwp.lanzoul.com/inkKw06briwf)：好心人汉化过的，推荐。~~
+	- ~~[MusicPlayer2](https://github.com/zhongyang219/MusicPlayer2)：免费开源，但是觉得音质还是Foobar2000强一点，观望。~~
 
 
