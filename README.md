@@ -64,13 +64,12 @@
 	- [NewFolderWizard](https://wwp.lanzoul.com/iiabi03qrb1e)：批量创建文件夹，神器。
 	- [Drop](http://www.dropitproject.com/)：文件按照自设定的协议进行分类，目前用不到。
 	- [BandiZip（6.25版本）](https://wwe.lanzoux.com/ialDVihl5sj)：免费最后一版，界面舒服无广告。
-	- [7z （压缩）](https://www.7-zip.org/)：经典好用，就是界面有点怀旧，有个好看点的，[Nanazip](https://apps.microsoft.com/store/detail/nanazip/9N8G7TSCL18R?hl=zh-CN)。
+	- [7z （压缩）](https://www.7-zip.org/)：经典好用，就是界面有点怀旧，有个好看点的。
 - 图片浏览：
 	- [HoneyView（荐）](https://www.bandisoft.com/honeyview/)：浏览图片没有之一，好用快速。
 	- [Billfish](https://www.billfish.cn/)：图片管理没有之一，目前免费。
 	- [Picasa](https://pjs.lanzoux.com/ibipdvi/)：老牌，被谷歌丢弃，但功能依然强大。
-	- [光影魔术手](http://www.neoimaging.cn/)：图片处理，不需要PS时的最佳选择
-- CAD、天正：[CADZXW](http://www.cadzxw.com/download.html/)，
+	- [光影魔术手](http://www.neoimaging.cn/)：图片处理，不需要PS时的最佳选择。
 - 装机工具：
 	- [驱动人生万能网卡](https://wwp.lanzoul.com/i0Urz06m6kvg)：没网时候用得到。
 	- [Ventoy](https://www.ventoy.net/cn/index.html)：制作装机盘，全平台通吃，开源免费，可存放多种多个盘，优先推荐。
@@ -100,6 +99,7 @@
 	- [DeskPins](https://efotinis.neocities.org/deskpins/)：强制页面图钉，简单好用，由于官方工具内置，所以舍弃。
 - CAD
     - [CAD字体](https://wwa.lanzoui.com/iOkizqoc77g)：之前收集的，也不全。
+    - [revit2020许可管理器不起作用](https://www.aliyundrive.com/s/9cghFT6R4gW)：内有教程。
     - [CADZXW](http://www.cadzxw.com/download.html/)：CAD 自学网，软件挺全，百度网盘 Geek 工具进行卸载，先卸载主软件，再卸载配套软件，清理其他内容时要注意甄别，因为 Revit 可能会被误删。
 - Revit：
     - []():
