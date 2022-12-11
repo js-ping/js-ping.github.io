@@ -1,10 +1,10 @@
 # 软件合集网
 
-[腾讯软件中心](https://pc.qq.com/)
-[联想软件管家](https://lestore.lenovo.com/)
-[Softonic](https://en.softonic.com/)
-[Win10 官网下载](https://www.microsoft.com/zh-cn/software-download/windows10)
-[升级win11](https://www.microsoft.com/zh-cn/software-download/windows11)
+- [腾讯软件中心](https://pc.qq.com/)
+- [联想软件管家](https://lestore.lenovo.com/)
+- [Softonic](https://en.softonic.com/)
+- [Win10 官网下载](https://www.microsoft.com/zh-cn/software-download/windows10)
+- [升级win11](https://www.microsoft.com/zh-cn/software-download/windows11)
 
 # PC 软件
 
@@ -19,30 +19,29 @@
 	- [火绒](https://www.huorong.cn/)：系统安全，某些时候用得到，可不下。
 	- [格式工厂](http://www.pcfreetime.com/formatfactory/CN/index.html)：良心软件，各种格式随意转换。
 	- [PDF补丁丁](https://www.cnblogs.com/pdfpatcher/)：免费开源，PDF简单编辑合并挺好用。
-	- [WPS](https://www.wps.cn/)：Office文件处理，PDF阅读器。
+	- [WPS](https://www.wps.cn/)：Office文件处理，PDF阅读器，对旧电脑不友好。
 	- [欧路词典](https://dict.eudic.net/)：手机电脑英语必备，免费版也挺干净的。
-	- [Onenote](https://www.onenote.com/?public=1&wdorigin=ondcauth2&wdorigin=ondc)：除了同步有点卡顿，其余堪称完美。
+	- [Onenote](https://www.onenote.com/?public=1&wdorigin=ondcauth2&wdorigin=ondc)：同步也已经很快了，没有之一。
 	- [语雀](https://www.yuque.com/)：仅用于展示一些东西，当笔记软件，还有点嫩。
 	- [PowerToys](https://github.com/microsoft/PowerToys)：插件合集，悬停、分屏、快速启动等。
 	- [Handshaker](https://www.smartisan.com/apps/#/handshaker)：手机电脑最好用的文件传输工具，没有之一。
 	- [Geek](https://geekuninstaller.com/download)：辅助卸载工具，清理功能强大。
-	- [uTools](https://u.tools/)：快速启动，没有之一，高效。
-	- [win11任务栏](https://wwp.lanzoul.com/i7Bsx09zt0fe)，[win10任务栏](https://wwp.lanzoul.com/iDK3P06gbcpg)：任务栏样式及透明设置。
-	- [Snipaste](https://zh.snipaste.com/)：截图软件，设置开机启动，快捷键设置为`ctrl+alt+a`。
+	- [uTools](https://u.tools/)：快速启动，没有之一，PowerToys 里自带的Wox功能少点。
+	- [win11任务栏](https://wwp.lanzoul.com/i7Bsx09zt0fe)，[win10任务栏](https://wwp.lanzoul.com/iDK3P06gbcpg)
+	  ：任务栏样式及透明设置，还是喜欢 win7 的样式。
+	- [Snipaste](https://zh.snipaste.com/)：截图软件，设置开机启动，快捷键设置为`ctrl+alt+a`，安装商店版本。
 	- [QucikLook](https://www.microsoft.com/zh-cn/p/quicklook/9nv4bs3l1h4s?ocid=badge&rtc=1&activetab=pivot:overviewtab/)：按空格显示文件基本信息，图片视频可以直接浏览。
 	- [Potplayer](https://wwzt.lanzoul.com/iGOC20if05mb)：本地视频、音频播放器。[Potplayer（官网）](https://potplayer.daum.net/)登不上，视频播放器，插件，[动态插帧Bluesky](https://bluesky-soft.com/en/BlueskyFRC.html)。
 	- [迅雷（绿色版）](https://wwp.lanzoul.com/iBJZN06omy5c)：BT下载没一个能用的，迅雷太强大了。
-	- [Adobe 全家桶](https://www.aliyundrive.com/s/kyRiDLhoBGW)：按需下载安装。
+	- [Adobe 全家桶](https://www.aliyundrive.com/s/kyRiDLhoBGW)：按需下载安装，ps、pr。
 	- [PasteEx](https://github.com/huiyadanli/PasteEx)：复制后的文字图片可以直接粘贴为文件，设置监听模式。
 	- [CopyQ](https://hluk.github.io/CopyQ/)：自动储存复制过的内容。
     - [Scratch](https://scratch.iruanhui.cn/?bd_vid=11038991590739980576)：儿童编程。
-	- [知犀](https://www.zhixi.com/)：脑图，都差不多，先试试这个。
     - [OneCommander](https://onecommander.com/)：文件管理工具，免费版本就挺好用。
 - 网盘同步：
 	- [坚果云](https://www.jianguoyun.com/s/downloads)：支持WebDAV，可以云存储某些网盘的文件，但有时内容可能会被吞。
 	- [Joplin](https://joplinapp.org/)：算是中规中矩的 markdown 笔记，同步用 onedrive。
 	- [百度网盘](https://pan.baidu.com/download)：目前扔有很多分享文件。
-	~~ - [Syncthing](https://syncthing.net/)：手机电脑或电脑电脑直接同步文件。~~
 	- [阿里云盘](https://www.aliyundrive.com/)：新近崛起，存储视频照片的主要地方，已放弃一刻。
 	- [蓝奏云](https://www.lanzoux.com/)：某些特定软件的外链网盘。
 - 音乐播放器：
@@ -71,7 +70,7 @@
 	- [Billfish](https://www.billfish.cn/)：图片管理没有之一，目前免费。
 	- [Picasa](https://pjs.lanzoux.com/ibipdvi/)：老牌，被谷歌丢弃，但功能依然强大。
 	- [光影魔术手](http://www.neoimaging.cn/)：图片处理，不需要PS时的最佳选择
-- CAD、天正：[CADZXW](http://www.cadzxw.com/download.html/)，[CAD字体](https://wwa.lanzoui.com/iOkizqoc77g)。
+- CAD、天正：[CADZXW](http://www.cadzxw.com/download.html/)，
 - 装机工具：
 	- [驱动人生万能网卡](https://wwp.lanzoul.com/i0Urz06m6kvg)：没网时候用得到。
 	- [Ventoy](https://www.ventoy.net/cn/index.html)：制作装机盘，全平台通吃，开源免费，可存放多种多个盘，优先推荐。
@@ -100,7 +99,8 @@
 	- [Ditto](https://ditto-cp.sourceforge.io/)：粘贴板，将复制的东西有序地进行粘贴，特定情况下有用。
 	- [DeskPins](https://efotinis.neocities.org/deskpins/)：强制页面图钉，简单好用，由于官方工具内置，所以舍弃。
 - CAD
-    - 
+    - [CAD字体](https://wwa.lanzoui.com/iOkizqoc77g)：之前收集的，也不全。
+    - [CADZXW](http://www.cadzxw.com/download.html/)：CAD 自学网，软件挺全，百度网盘 Geek 工具进行卸载，先卸载主软件，再卸载配套软件，清理其他内容时要注意甄别，因为 Revit 可能会被误删。
 - Revit：
     - []():
 	- [插件-橄榄山](http://www.glsbim.com/intro/42.html)：支持到2022。
@@ -221,3 +221,10 @@
 - MobaXterm，finalshell
 - f.lux
 - wireshark，pdf xviewer
+
+#### 已废除
+
+- ~~[知犀](https://www.zhixi.com/)：脑图，都差不多，先试试这个。~~
+- ~~[Syncthing](https://syncthing.net/)：手机电脑或电脑电脑直接同步文件。~~
+
+
