@@ -99,11 +99,13 @@
 	- [DeskPins](https://efotinis.neocities.org/deskpins/)：强制页面图钉，简单好用，由于官方工具内置，所以舍弃。
 - CAD
     - [CAD字体](https://wwa.lanzoui.com/iOkizqoc77g)：之前收集的，也不全。
-    - [revit2020许可管理器不起作用](https://www.aliyundrive.com/s/9cghFT6R4gW)：内有教程。
+    - [CAD 2022](https://www.aliyundrive.com/s/RCP47zLSKpE)：CAD 2022 挺好的版本，没必要不换。
+    - [CAD 2007](https://www.aliyundrive.com/s/H1nquwbdSs2)：CAD 2007，经典。
+    - [Revit 2020 许可管理器不起作用](https://www.aliyundrive.com/s/9cghFT6R4gW)：内有教程。
     - [CADZXW](http://www.cadzxw.com/download.html/)：CAD 自学网，软件挺全，百度网盘 Geek 工具进行卸载，先卸载主软件，再卸载配套软件，清理其他内容时要注意甄别，因为 Revit 可能会被误删。
 - Revit：
     - []():
-    - []():
+    - [Revit 2020](https://www.aliyundrive.com/s/vzLK6MD4V46)：内含方法。
 	- [插件-橄榄山](http://www.glsbim.com/intro/42.html)：支持到2022。
     - [插件-构件坞](https://www.goujianwu.com/plugin)：原装的构件没有梁就很神奇。
 
