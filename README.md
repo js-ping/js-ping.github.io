@@ -1,8 +1,10 @@
 # 软件合集网
 
 [腾讯软件中心](https://pc.qq.com/)
+[联想软件管家](https://lestore.lenovo.com/)
 [Softonic](https://en.softonic.com/)
 [Win10 官网下载](https://www.microsoft.com/zh-cn/software-download/windows10)
+[升级win11](https://www.microsoft.com/zh-cn/software-download/windows11)
 
 # PC 软件
 
@@ -117,19 +119,16 @@
 - 高德地图 百度地图 下厨房 最右
 - 百度网盘 手心输入法
 - gitme 阿里云网盘 微软数学
+- Joplin
 - SandVXposed（双开)
 - [MIXplorer（aaaa）](https://wwp.lanzoul.com/b017p1i3g)：文件管理，还要附带把那几个插件一起安装。
 - spacedesk：当作电脑的副屏，延迟太高
 
 备份：1. 微信聊天记录可在电脑客户端备份。2. QQ输入法为QQ登录，其他都为微信登录。fh
 
-# win11
+# Win11
 
-- [升级win11。](https://www.microsoft.com/zh-cn/software-download/windows11)
-- 更新过多次，最后都退回来了，用起来挺好，就是打开文件夹有延迟，不能忍。
-# Win10
-
-#### win10 设置
+#### win11 设置
 
 - 要保持一个至少一年重置一次电脑的频率才行，有些难以清理的东西，只能通过这种行为才能根除。
 
@@ -146,13 +145,6 @@
 2. 打开命令窗口，复制这个命令slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX，在命令窗口鼠标右键，会自动粘贴，按回车键执行，安装win10专业版密钥；
 3. 接着执行命令slmgr /skms zh.us.to，设置kms服务器，kms服务器还可以是kms.03k.org；
 4. 最后执行命令slmgr /ato，激活win10系统，激活完成后提示成功地激活了产品；
-
-#### 联想电脑管家养护模式
-
-1. 搜索regedit应用，并以管理员方式打开注册表
-2. 定位到以下注册表路径：`计算机\HKEY_LOCAL_MACHINE\SOFTWARE\Lenovo\PcManager\BatteryCache`，双击IsBatteryPolymer并将其数值改为0 ，修改后立即生效。再次查看你任务栏上的绿色小电池图标，此时“电池养护模式已经可用”。
-
-
 
 # Chrome 浏览器
 
@@ -187,8 +179,9 @@
 	- 小米67W可以，笔记本手机都可充，而且还支持华为快充。
 
 - 打印机：
-	- 惠普m126nw无线打印扫描，硒鼓CC388A很实惠。
-	- 容易出现只能打印不能扫描的情况，解决办法，[惠普m126nw驱动](https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-mfp-m126-series/5396665/model/5303411?ssfFlag=true&sku=)下载只安装扫描仪，[惠普P1108驱动](https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-p1106-p1108-printer-series/5099191?ssfFlag=true&sku=)下载后，手动添加hp laserjet p1108驱动，`控制面板——设备和打印机——添加打印机——我需要的打印机不在列表中——通过手动——创建（添加）端口——standard tcp/ip，输入打印机ip，下一步，下一步，直到完成 ——从磁盘安装——浏览到打印机驱动文件夹选.inf后缀文件——打开，确定——下一步直到完成`。用P1108打印。
+	- 惠普m126nw无线打印扫描，硒鼓CC388A很实惠，买粉买芯片用起来更方便吧。
+    - 容易出现只能打印不能扫描的情况，解决办法，[惠普m126nw驱动](https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-mfp-m126-series/5396665/model/5303411?ssfFlag=true&sku=)下载只安装扫描仪，
+     [惠普P1108驱动](https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-p1106-p1108-printer-series/5099191?ssfFlag=true&sku=)下载后，手动添加hp laserjet p1108驱动。
 
 - 键盘：
 	- 薄膜键盘K380：按键太软，但价格还算良心，7号电池续航是真地长。
