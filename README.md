@@ -21,21 +21,21 @@
 	- [欧路词典](https://dict.eudic.net/)：手机电脑英语必备，免费版也挺干净的。
 	- [Onenote](https://www.onenote.com/?public=1&wdorigin=ondcauth2&wdorigin=ondc)：除了同步有点卡顿，其余堪称完美。
 	- [语雀](https://www.yuque.com/)：仅用于展示一些东西，当笔记软件，还有点嫩。
-	- [PowerToys](https://github.com/microsoft/PowerToys)：官方良心好物，插件合集。
+	- [PowerToys](https://github.com/microsoft/PowerToys)：插件合集，悬停、分屏、快速启动等。
 	- [Handshaker](https://www.smartisan.com/apps/#/handshaker)：手机电脑最好用的文件传输工具，没有之一。
 	- [Geek](https://geekuninstaller.com/download)：辅助卸载工具，清理功能强大。
 	- [uTools](https://u.tools/)：快速启动，没有之一，高效。
 	- [win11任务栏](https://wwp.lanzoul.com/i7Bsx09zt0fe)，[win10任务栏](https://wwp.lanzoul.com/iDK3P06gbcpg)：任务栏样式及透明设置。
 	- [Snipaste](https://zh.snipaste.com/)：截图软件，设置开机启动，快捷键设置为`ctrl+alt+a`。
 	- [QucikLook](https://www.microsoft.com/zh-cn/p/quicklook/9nv4bs3l1h4s?ocid=badge&rtc=1&activetab=pivot:overviewtab/)：按空格显示文件基本信息，图片视频可以直接浏览。
-	- [Potplayer（中文搬运）](https://potplayer.org/)：[Potplayer（官网）](https://potplayer.daum.net/)，视频播放器，插件，[动态插帧Bluesky](https://bluesky-soft.com/en/BlueskyFRC.html)。
+	- [Potplayer](https://wwzt.lanzoul.com/iGOC20if05mb)：本地视频、音频播放器。[Potplayer（官网）](https://potplayer.daum.net/)登不上，视频播放器，插件，[动态插帧Bluesky](https://bluesky-soft.com/en/BlueskyFRC.html)。
 	- [迅雷（绿色版）](https://wwp.lanzoul.com/iBJZN06omy5c)：BT下载没一个能用的，迅雷太强大了。
-	- [CMM](https://github.com/BluePointLilac/ContextMenuManager/releases)：鼠标右键管理工具，可以关闭那些多余的。
 	- [Adobe 全家桶](https://www.aliyundrive.com/s/kyRiDLhoBGW)：按需下载安装。
 	- [PasteEx](https://github.com/huiyadanli/PasteEx)：复制后的文字图片可以直接粘贴为文件，设置监听模式。
 	- [CopyQ](https://hluk.github.io/CopyQ/)：自动储存复制过的内容。
     - [Scratch](https://scratch.iruanhui.cn/?bd_vid=11038991590739980576)：儿童编程。
 	- [知犀](https://www.zhixi.com/)：脑图，都差不多，先试试这个。
+    - [OneCommander](https://onecommander.com/)：文件管理工具，免费版本就挺好用。
 - 网盘同步：
 	- [坚果云](https://www.jianguoyun.com/s/downloads)：支持WebDAV，可以云存储某些网盘的文件，但有时内容可能会被吞。
 	- [Joplin](https://joplinapp.org/)：算是中规中矩的 markdown 笔记，同步用 onedrive。
@@ -79,6 +79,7 @@
 	- U盘启动错误，Verification failed，开机F2，关闭Security BOOT。
 - 小工具：
 	- [SpaceSniffer](http://www.uderzo.it/main_products/space_sniffer/index.html)：优雅查看电脑文件大小。
+  	- [CMM](https://github.com/BluePointLilac/ContextMenuManager/releases)：鼠标右键管理工具，可以关闭那些多余的。
 	- [Quicker](https://getquicker.net/)：是个全能神器，但好像自己需求并不大。
 	- [Spacedesk](https://spacedesk.net/)：手机屏幕当电脑副屏，略微延迟 。
 	- [Simplenote](https://simplenote.com/)：跨平台免费笔记应用，简单，本人需求不大。
@@ -97,6 +98,7 @@
 	- [Ditto](https://ditto-cp.sourceforge.io/)：粘贴板，将复制的东西有序地进行粘贴，特定情况下有用。
 	- [DeskPins](https://efotinis.neocities.org/deskpins/)：强制页面图钉，简单好用，由于官方工具内置，所以舍弃。
 - CAD
+    - 
 - Revit：
     - []():
 	- [插件-橄榄山](http://www.glsbim.com/intro/42.html)：支持到2022。
