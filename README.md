@@ -116,7 +116,7 @@
 - gitme 阿里云网盘 微软数学
 - Joplin
 - SandVXposed（双开)
-- [MIXplorer（aaaa）](https://wwp.lanzoul.com/b017p1i3g)：文件管理，还要附带把那几个插件一起安装。
+- [MIXplorer](https://wwp.lanzoul.com/b017p1i3g)：文件管理，还要附带把那几个插件一起安装。
 - spacedesk：当作电脑的副屏，延迟太高
 
 备份：1. 微信聊天记录可在电脑客户端备份。2. QQ输入法为QQ登录，其他都为微信登录。fh
@@ -146,18 +146,24 @@
 #### Chrome 插件
 
 - ~~[chrome同步助手](https://wwp.lanzoul.com/imLlR06gic3g)：已失效。~~
-- [B站视频下载](https://wwe.lanzoux.com/iQTevkvhb3c)
-- [bilibili-helper](https://wwa.lanzoui.com/ivb3awqw3kd)
 - [IA图片助手](http://www.pullywood.com/ImageAssistant/)：最好用的网页图片下载工具，没有之一。
 - [DarkReader](https://darkreader.org/)：最好用的网页黑色模式工具，没有之一。
 - [Octotree](https://www.octotree.io/)：Github 网页插件。
-- https://violentmonkey.github.io/
 - [暴力猴](https://violentmonkey.github.io/)。
 - [Tampermonkey](https://www.tampermonkey.net/)：脚本安装插件。[相关脚本网站](https://www.tampermonkey.net/scripts.php?ext=dhdg)。
 - [哔哩哔哩过滤器](https://s.xmcp.ltd/pakkujs/?src=wext_homepage)。
 - [浏览器截图插件](https://getfireshot.com/)：挺好用 ，就是官网打开有点慢。
+- [哔哩哔哩下载助手](https://csser.top/)。
 - []()
 - []()
+- []()
+- []()
+- []()
+- []()
+- []()
+- []()
+
+
 
 #### Chrome 设置
 
