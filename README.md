@@ -145,17 +145,20 @@
 
 #### Chrome 插件
 
+- 登录插件是没法用了，重装或卸载之前，把**密码、书签、插件**进行备份，都可以导出导入。
+- [chrome 包](https://wwzt.lanzoul.com/b018bxcu)：密码1111。
+
 - ~~[chrome同步助手](https://wwp.lanzoul.com/imLlR06gic3g)：已失效。~~
 - [IA图片助手](http://www.pullywood.com/ImageAssistant/)：最好用的网页图片下载工具，没有之一。
 - [DarkReader](https://darkreader.org/)：最好用的网页黑色模式工具，没有之一。
 - [Octotree](https://www.octotree.io/)：Github 网页插件。
-- [暴力猴](https://violentmonkey.github.io/)。
+- [暴力猴](https://github.com/violentmonkey/violentmonkey/releases)。
 - [Tampermonkey](https://www.tampermonkey.net/)：脚本安装插件。[相关脚本网站](https://www.tampermonkey.net/scripts.php?ext=dhdg)。
 - [哔哩哔哩过滤器](https://s.xmcp.ltd/pakkujs/?src=wext_homepage)。
 - [浏览器截图插件](https://getfireshot.com/)：挺好用 ，就是官网打开有点慢。
 - [哔哩哔哩下载助手](https://csser.top/)。
-- []()
-- []()
+- [腾讯交互翻译](https://transmart.qq.com/zh-CN/download)
+- [uBlock](https://github.com/gorhill/uBlock/releases)：广告屏蔽插件。
 - []()
 - []()
 - []()
