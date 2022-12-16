@@ -14,13 +14,15 @@
 
 
 - 装机必备：
-	- [Chrome](https://www.google.cn/chrome/)：浏览器，没有之一，[Edge](https://www.microsoftedgeinsider.com/en-us/download/)还差点火候。
+	- [Chrome](https://www.google.cn/chrome/)：浏览器，没有之一
+    - [Edge](https://www.microsoftedgeinsider.com/en-us/download/)还差点火候，也属于必装软件。
 	- [QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)：社交必备。
 	- [手心输入法](http://www.xinshuru.com/index.html?p=win)：输入法，干净整洁，没有之一。
 	- [NDM](http://www.neatdownloadmanager.com/index.php/en/)：配合浏览器辅助下载工具，免费神器。
 	- [火绒](https://www.huorong.cn/)：系统安全，某些时候用得到，可不下。
 	- [格式工厂](http://www.pcfreetime.com/formatfactory/CN/index.html)：良心软件，各种格式随意转换。
 	- [PDF补丁丁](https://www.cnblogs.com/pdfpatcher/)：免费开源，PDF简单编辑合并挺好用。
+    - [PDF24](https://tools.pdf24.org/zh/)：PDF工具集，合并分割等好多，免费开源。
 	- [WPS](https://www.wps.cn/)：Office文件处理，PDF阅读器，对旧电脑不友好。
 	- [欧路词典](https://dict.eudic.net/)：手机电脑英语必备，免费版也挺干净的。
 	- [Onenote](https://www.onenote.com/?public=1&wdorigin=ondcauth2&wdorigin=ondc)：同步也已经很快了，没有之一。
@@ -93,6 +95,7 @@
 	- [FFmpeg](https://ffmpeg.org/)：视频工具，记得写入环境变量即可。
 	- [Ditto](https://ditto-cp.sourceforge.io/)：粘贴板，将复制的东西有序地进行粘贴，特定情况下有用。
 	- [DeskPins](https://efotinis.neocities.org/deskpins/)：强制页面图钉，简单好用，由于官方工具内置，所以舍弃。
+    - [MIUI+](https://www.mi.com/service/notebook/drivers/A53)：小米手机和电脑连接的工具。
 - CAD
     - [CAD字体](https://wwa.lanzoui.com/iOkizqoc77g)：之前收集的，也不全。
     - [CAD 2022](https://www.aliyundrive.com/s/RCP47zLSKpE)：CAD 2022 挺好的版本，没必要不换。
@@ -111,11 +114,11 @@
 - 淘宝 天猫 支付宝 京东 拼多多 云闪付
 - 哔哩哔哩 优酷 网易云音乐 酷安 全历史 wps 知乎
 - 欧路词典 onenote 习惯 屏幕时钟 NFCToolsPRO
-- 高德地图 百度地图 下厨房 最右
+- 高德地图 百度地图 下厨房 最右 古文岛
 - 百度网盘 手心输入法
 - gitme 阿里云网盘 微软数学
 - Joplin
-- SandVXposed（双开)
+- SandVXposed（双开）
 - [MIXplorer](https://wwp.lanzoul.com/b017p1i3g)：文件管理，还要附带把那几个插件一起安装。
 - spacedesk：当作电脑的副屏，延迟太高
 
@@ -145,8 +148,11 @@
 
 #### Chrome 插件
 
+- [第三方插件网站](https://crx.bysjb.cn/)。
+
 - 登录插件是没法用了，重装或卸载之前，把**密码、书签、插件**进行备份，都可以导出导入。
 - [chrome 包](https://wwzt.lanzoul.com/b018bxcu)：密码1111。
+- [Chrome重装后需要添加的东西（隐私）](https://wwzt.lanzoul.com/b018bzwle)。
 
 - ~~[chrome同步助手](https://wwp.lanzoul.com/imLlR06gic3g)：已失效。~~
 - [IA图片助手](http://www.pullywood.com/ImageAssistant/)：最好用的网页图片下载工具，没有之一。
