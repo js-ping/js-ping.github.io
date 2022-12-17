@@ -1,5 +1,7 @@
 [书签页（测试）](https://js-ping.github.io/书签.markdown)
 
+[TOC]
+
 # 软件合集网
 
 - [腾讯软件中心](https://pc.qq.com/)
@@ -94,7 +96,7 @@
 	- [Fliqlo](https://fliqlo.com/screensaver/)：屏保。无安装，将文件放入这两个文件夹内 ，`C:\Windows\System32`和`C:\Windows\SysWOW64`，无法取消开机登录，弃坑。
 	- [FFmpeg](https://ffmpeg.org/)：视频工具，记得写入环境变量即可。
 	- [Ditto](https://ditto-cp.sourceforge.io/)：粘贴板，将复制的东西有序地进行粘贴，特定情况下有用。
-	- [DeskPins](https://efotinis.neocities.org/deskpins/)：强制页面图钉，简单好用，由于官方工具内置，所以舍弃。
+	~~- [DeskPins](https://efotinis.neocities.org/deskpins/)：强制页面图钉，简单好用，由于官方工具内置，所以舍弃。~~
     - [MIUI+](https://www.mi.com/service/notebook/drivers/A53)：小米手机和电脑连接的工具。
 - CAD
     - [CAD字体](https://wwa.lanzoui.com/iOkizqoc77g)：之前收集的，也不全。
@@ -200,9 +202,7 @@
 
 - 打印机：
 	- 惠普m126nw无线打印扫描，硒鼓CC388A很实惠，买粉买芯片用起来更方便吧。
-    - 容易出现只能打印不能扫描的情况，解决办法，[惠普m126nw驱动](https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-mfp-m126-series/5396665/model/5303411?ssfFlag=true&sku=)下载只安装扫描仪，
-     [惠普P1108驱动](https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-p1106-p1108-printer-series/5099191?ssfFlag=true&sku=)下载后，手动添加hp laserjet p1108驱动。
-
+    - [惠普m126nw驱动](https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-mfp-m126-series/5396665/model/5303411?ssfFlag=true&sku=)。
 - 键盘：
 	- 薄膜键盘K380：按键太软，但价格还算良心，7号电池续航是真地长。
 	- 机械键盘S200，双模，电池，矮红轴，没用过，但很期待。
@@ -221,7 +221,7 @@
 	- 三菱防污UL-S，0.5HB。
 	- 三菱彩铅，颜色浅，容易断，尝鲜后退坑。
 - 中性笔：
-	- 百乐P500，正版太贵，代工厂的货就挺好用。
+	- 百乐P500，笔尖的三点称托，盗版模仿不来。
 
 #### 小技巧
 
