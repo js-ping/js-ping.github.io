@@ -37,13 +37,16 @@
 	  ：任务栏样式及透明设置，还是喜欢 win7 的样式。
 	- [Snipaste](https://zh.snipaste.com/)：截图软件，设置开机启动，快捷键设置为`ctrl+alt+a`，安装商店版本。
 	- [QucikLook](https://www.microsoft.com/zh-cn/p/quicklook/9nv4bs3l1h4s?ocid=badge&rtc=1&activetab=pivot:overviewtab/)：按空格显示文件基本信息，图片视频可以直接浏览。
-	- [Potplayer](https://wwzt.lanzoul.com/iGOC20if05mb)：本地视频、音频播放器。[Potplayer（官网）](https://potplayer.daum.net/)登不上，视频播放器，插件，[动态插帧Bluesky](https://bluesky-soft.com/en/BlueskyFRC.html)。
+	- [Potplayer](https://wwzt.lanzoul.com/iGOC20if05mb)：
+      - 本地视频、音频播放器。[Potplayer（官网）](https://potplayer.daum.net/)登不上，视频播放器，插件，[动态插帧Bluesky](https://bluesky-soft.com/en/BlueskyFRC.html)。
+      - 右键，选项，鼠标单击改为播放暂停，鼠标双击改为全屏。皮肤不用改原装挺好。
 	- [迅雷（绿色版）](https://wwp.lanzoul.com/iBJZN06omy5c)：BT下载没一个能用的，迅雷太强大了。
 	- [Adobe 全家桶](https://www.aliyundrive.com/s/kyRiDLhoBGW)：按需下载安装，ps、pr。
 	- [PasteEx](https://github.com/huiyadanli/PasteEx)：复制后的文字图片可以直接粘贴为文件，设置监听模式。
 	- [CopyQ](https://hluk.github.io/CopyQ/)：自动储存复制过的内容。
     - [Scratch](https://scratch.iruanhui.cn/?bd_vid=11038991590739980576)：儿童编程。
     - [OneCommander](https://onecommander.com/)：文件管理工具，免费版本就挺好用。
+    - [AMD 驱动升级](https://www.amd.com/zh-hans/support)。
 - 网盘同步：
 	- [坚果云](https://www.jianguoyun.com/s/downloads)：支持WebDAV，可以云存储某些网盘的文件，但有时内容可能会被吞。
 	- [Joplin](https://joplinapp.org/)：算是中规中矩的 markdown 笔记，同步用 onedrive。
@@ -176,7 +179,7 @@
 
 
 
-#### Chrome 设置
+#### Chrome 设置（暂时用不到）
 
 - 手机版
 	- chrome://flags/#force-enable-home-page-button Enabled 主页键
