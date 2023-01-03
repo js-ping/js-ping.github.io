@@ -1,7 +1,5 @@
 [书签页（测试）](https://js-ping.github.io/书签.markdown)
 
-[TOC]
-
 # 软件合集网
 
 - [腾讯软件中心](https://pc.qq.com/)
@@ -25,7 +23,7 @@
 	- [格式工厂](http://www.pcfreetime.com/formatfactory/CN/index.html)：良心软件，各种格式随意转换。
 	- [PDF补丁丁](https://www.cnblogs.com/pdfpatcher/)：免费开源，PDF简单编辑合并挺好用。
     - [PDF24](https://tools.pdf24.org/zh/)：PDF工具集，合并分割等好多，免费开源。
-	- [WPS](https://www.wps.cn/)：Office文件处理，PDF阅读器，对旧电脑不友好。
+	- [WPS](https://www.wps.cn/)：[地区2019版](https://www.aliyundrive.com/s/oA5mg9XwnWT)，相对于新版，我更喜欢地区定制的旧版本。
 	- [欧路词典](https://dict.eudic.net/)：手机电脑英语必备，免费版也挺干净的。
 	- [Onenote](https://www.onenote.com/?public=1&wdorigin=ondcauth2&wdorigin=ondc)：同步也已经很快了，没有之一。
 	- [语雀](https://www.yuque.com/)：仅用于展示一些东西，当笔记软件，还有点嫩。
@@ -40,7 +38,7 @@
 	- [Potplayer](https://wwzt.lanzoul.com/iGOC20if05mb)：
       - 本地视频、音频播放器。[Potplayer（官网）](https://potplayer.daum.net/)登不上，视频播放器，插件，[动态插帧Bluesky](https://bluesky-soft.com/en/BlueskyFRC.html)。
       - 右键，选项，鼠标单击改为播放暂停，鼠标双击改为全屏。皮肤不用改原装挺好。
-	- [迅雷（绿色版）](https://wwp.lanzoul.com/iBJZN06omy5c)：BT下载没一个能用的，迅雷太强大了。
+	- [迅雷（绿色版）](https://wwzt.lanzoul.com/i5HUE0k0pqgd)：BT下载没一个能用的，迅雷太强大了。
 	- [Adobe 全家桶](https://www.aliyundrive.com/s/kyRiDLhoBGW)：按需下载安装，ps、pr。
 	- [PasteEx](https://github.com/huiyadanli/PasteEx)：复制后的文字图片可以直接粘贴为文件，设置监听模式。
 	- [CopyQ](https://hluk.github.io/CopyQ/)：自动储存复制过的内容。
