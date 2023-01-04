@@ -38,7 +38,7 @@
 	- [Potplayer](https://wwzt.lanzoul.com/iGOC20if05mb)：
       - 本地视频、音频播放器。[Potplayer（官网）](https://potplayer.daum.net/)登不上，视频播放器，插件，[动态插帧Bluesky](https://bluesky-soft.com/en/BlueskyFRC.html)。
       - 右键，选项，鼠标单击改为播放暂停，鼠标双击改为全屏。皮肤不用改原装挺好。
-	- [迅雷（绿色版）](https://wwzt.lanzoul.com/i5HUE0k0pqgd)：BT下载没一个能用的，迅雷太强大了。
+	- [迅雷（绿色版）](https://www.aliyundrive.com/s/GVsDt8iEnTZ)：BT下载没一个能用的，迅雷太强大了。
 	- [Adobe 全家桶](https://www.aliyundrive.com/s/kyRiDLhoBGW)：按需下载安装，ps、pr。
 	- [PasteEx](https://github.com/huiyadanli/PasteEx)：复制后的文字图片可以直接粘贴为文件，设置监听模式。
 	- [CopyQ](https://hluk.github.io/CopyQ/)：自动储存复制过的内容。
