@@ -45,6 +45,7 @@
     - [Scratch](https://scratch.iruanhui.cn/?bd_vid=11038991590739980576)：儿童编程。
     - [OneCommander](https://onecommander.com/)：文件管理工具，免费版本就挺好用。
     - [AMD 驱动升级](https://www.amd.com/zh-hans/support)。
+    - [系统环境安装](https://www.aliyundrive.com/s/BsguUXrpTNK)。
 - 网盘同步：
 	- [坚果云](https://www.jianguoyun.com/s/downloads)：支持WebDAV，可以云存储某些网盘的文件，但有时内容可能会被吞。
 	- [Joplin](https://joplinapp.org/)：算是中规中矩的 markdown 笔记，同步用 onedrive。
