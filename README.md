@@ -74,7 +74,7 @@
 	- [光影魔术手](http://www.neoimaging.cn/)：图片处理，不需要PS时的最佳选择。
 - 装机工具：
 	- [驱动人生万能网卡](https://wwp.lanzoul.com/i0Urz06m6kvg)：没网时候用得到。
-	- [Ventoy](https://www.ventoy.net/cn/index.html)：制作装机盘，全平台通吃，开源免费，可存放多种多个盘，优先推荐。
+	- [Ventoy](https://www.ventoy.net/cn/index.html)：制作装机盘，全平台通吃，开源免费，可存放多种多个盘，优先推荐，NTFS 格式。
 	- [WinPE](http://www.wepe.com.cn/download.html)：装机盘，可以放进Ventoy。
 	- [Rufus](https://rufus.ie/zh_CN.html)：制作装机盘，轻便，一次只能做一个不推荐。
 	- [Diskgenius(DOS版)](https://wwa.lanzoui.com/ifQoPwmorxi)：硬盘操作更改工具，谨慎操作。
