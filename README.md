@@ -60,7 +60,7 @@
 	- [Office Tool Plus](https://otp.landian.la/zh-cn/)：免费安装微软office？
 	- [Office 2007](https://www.wps.cn/)：经典，目前自用wps。
 	- [数据恢复](https://pjs.lanzoux.com/ibipeud/)：没用过，希望不会用到。
-	- [ReNamer](https://advancedrenamer.com/download)：批量重命名完美，非商业可免费用。
+	- [ReNamer](http://www.den4b.com/products/renamer)：批量重命名完美，非商业可免费用。
 	- [Everything](https://www.voidtools.com/downloads/)：文件搜索神器，没有之一。
 	- [FileLocator Pro](https://wwa.lanzoui.com/ipHN6regcxc)：文档内容也能够搜索到，神器。
 	- [NewFolderWizard](https://wwp.lanzoul.com/iiabi03qrb1e)：批量创建文件夹，神器。
