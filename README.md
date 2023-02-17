@@ -15,6 +15,7 @@
 
 - 装机必备：
 	- [Chrome](https://www.google.cn/chrome/)：下载64位版本，不然有些插件会不管用。
+    - [书签同步](https://www.xbrowsersync.org/)：可以下载插件，也有 App，完美。
     - [Edge](https://www.microsoftedgeinsider.com/en-us/download/)还差点火候，也属于必装软件。
 	- [QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)：社交必备。
 	- [手心输入法](http://www.xinshuru.com/index.html?p=win)：输入法，干净整洁，没有之一。
