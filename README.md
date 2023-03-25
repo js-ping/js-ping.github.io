@@ -64,6 +64,7 @@
 	- [ReNamer](http://www.den4b.com/products/renamer)：批量重命名完美，非商业可免费用。
 	- [Everything](https://www.voidtools.com/downloads/)：文件搜索神器，没有之一。
 	- [FileLocator Pro](https://wwa.lanzoui.com/ipHN6regcxc)：文档内容也能够搜索到，神器。
+    - [Alldup](https://www.alldup.info/en_download_alldup.php)：文件查重工具。
 	- [NewFolderWizard](https://wwp.lanzoul.com/iiabi03qrb1e)：批量创建文件夹，神器。
 	- [Drop](http://www.dropitproject.com/)：文件按照自设定的协议进行分类，目前用不到。
 	- [BandiZip（6.25版本）](https://wwe.lanzoux.com/ialDVihl5sj)：免费最后一版，界面舒服无广告。
