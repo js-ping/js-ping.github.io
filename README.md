@@ -93,6 +93,7 @@
       - [清理大师](https://pjs.lanzoux.com/ibipdcj/)，
       - [美化大师（去除快捷方式箭头）](https://pjs.lanzoux.com/ibipdda/)。
 	- [win10云萌](https://cmwtat.cloudmoe.com/cn.html)：win10激活工具，没用过。
+    - [win激活工具](https://wwzt.lanzoul.com/iR6vT0r1wefa)：windows激活工具，貌似全能。
 	- [Lively](https://apps.microsoft.com/store/detail/lively-wallpaper/9NTM2QC6QWS7?hl=en-us&gl=US)：动态桌面，按理说应该不错，但自己爱不起来。
 	- [Wnr](https://getwnr.com/zh/)：桌面倒计时，小巧。
 	- [AIDA64](https://pjs.lanzoux.com/ibj85eh/)：查看电脑硬件信息。
