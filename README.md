@@ -77,8 +77,9 @@
 - 装机工具：
     - [系统、激活](https://hellowindows.cn/)：系统下载网站，配备激活，office，一应俱全。
 	- [驱动人生万能网卡](https://wwp.lanzoul.com/i0Urz06m6kvg)：没网时候用得到。
-	- [Ventoy](https://www.ventoy.net/cn/index.html)：制作装机盘，全平台通吃，开源免费，可存放多种多个盘，优先推荐，NTFS 格式。
-	- [WinPE](http://www.wepe.com.cn/download.html)：装机盘，可以放进Ventoy。
+    - [驱动注入工具](https://www.aliyundrive.com/s/nwzRYuVP9Yr)：用于win7系统没有USB3.0驱动。
+	- [Ventoy](https://www.ventoy.net/cn/index.html)：制作装机盘，默认安装后格式化为 NTFS 格式。
+	- [WinPE](http://www.wepe.com.cn/download.html)：装机盘，制作成 ISO 格式放进 ventoy。
 	- [Rufus](https://rufus.ie/zh_CN.html)：制作装机盘，轻便，一次只能做一个不推荐。
 	- [Diskgenius(DOS版)](https://wwa.lanzoui.com/ifQoPwmorxi)：硬盘操作更改工具，谨慎操作。
 	- U盘启动错误，Verification failed，开机F2，关闭Security BOOT。
