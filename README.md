@@ -24,7 +24,7 @@
 	- [格式工厂](http://www.pcfreetime.com/formatfactory/CN/index.html)：良心软件，各种格式随意转换。
 	- [PDF补丁丁](https://www.cnblogs.com/pdfpatcher/)：免费开源，PDF简单编辑合并挺好用。
     - [PDF24](https://tools.pdf24.org/zh/)：PDF工具集，合并分割等好多，免费开源。
-	- [WPS](https://www.wps.cn/)：[地区2019版](https://www.aliyundrive.com/s/oA5mg9XwnWT)，相对于新版，我更喜欢地区定制的旧版本。
+	- [WPS v11.8.2.11019](https://www.aliyundrive.com/s/W8sT57gsbJ2)：最后一版支持经典模式，皮肤→经典。
 	- [欧路词典](https://dict.eudic.net/)：手机电脑英语必备，免费版也挺干净的。
 	- [Onenote](https://www.onenote.com/?public=1&wdorigin=ondcauth2&wdorigin=ondc)：同步也已经很快了，没有之一。
 	- [语雀](https://www.yuque.com/)：仅用于展示一些东西，当笔记软件，还有点嫩。
@@ -76,6 +76,7 @@
 	- [光影魔术手](http://www.neoimaging.cn/)：图片处理，不需要PS时的最佳选择。
 - 装机工具：
     - [系统、激活](https://hellowindows.cn/)：系统下载网站，配备激活，office，一应俱全。
+    - [Diskgenius单文件](https://www.aliyundrive.com/s/7wiWbXsPSBT)：单文件版本纯净。
 	- [驱动人生万能网卡](https://wwp.lanzoul.com/i0Urz06m6kvg)：没网时候用得到。
     - [驱动注入工具](https://www.aliyundrive.com/s/nwzRYuVP9Yr)：用于win7系统没有USB3.0驱动。
 	- [Ventoy](https://www.ventoy.net/cn/index.html)：制作装机盘，默认安装后格式化为 NTFS 格式。
