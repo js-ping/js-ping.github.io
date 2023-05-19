@@ -76,6 +76,7 @@
 	- [光影魔术手](http://www.neoimaging.cn/)：图片处理，不需要PS时的最佳选择。
 - 装机工具：
     - [系统、激活](https://hellowindows.cn/)：系统下载网站，配备激活，office，一应俱全。
+    - [系统下载](https://www.xitongku.com/)：下载方式简单明了。
     - [Diskgenius单文件](https://www.aliyundrive.com/s/7wiWbXsPSBT)：单文件版本纯净。
 	- [驱动人生万能网卡](https://wwp.lanzoul.com/i0Urz06m6kvg)：没网时候用得到。
     - [驱动注入工具](https://www.aliyundrive.com/s/nwzRYuVP9Yr)：用于win7系统没有USB3.0驱动。
