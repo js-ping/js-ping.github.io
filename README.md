@@ -1,4 +1,3 @@
-[书签页（测试）](https://js-ping.github.io/书签.markdown)
 
 # 软件合集网
 
@@ -14,17 +13,16 @@
 
 
 - 装机必备：
-	- [Chrome](https://www.google.cn/chrome/)：下载64位版本，不然有些插件会不管用。
+	- [Chrome](https://www.google.cn/chrome/)：从上面应用商店下载64位版本，不然有些插件会不管用。
     - [书签同步](https://www.xbrowsersync.org/)：可以下载插件，也有 App，完美。
-    - [Edge](https://www.microsoftedgeinsider.com/en-us/download/)还差点火候，也属于必装软件。
+    - [Edge](https://www.microsoftedgeinsider.com/en-us/download/)还差点火候，也属于必装备用软件。
 	- [QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)：社交必备。
 	- [手心输入法](http://www.xinshuru.com/index.html?p=win)：输入法，干净整洁，没有之一。
-	- [NDM](http://www.neatdownloadmanager.com/index.php/en/)：配合浏览器辅助下载工具，免费神器。
+	- [NDM](http://www.neatdownloadmanager.com/index.php/en/)：配合浏览器辅助下载工具，免费神器，比 IDM 用起来简便一点。
 	- [火绒](https://www.huorong.cn/)：系统安全，某些时候用得到，可不下。
 	- [格式工厂](http://www.pcfreetime.com/formatfactory/CN/index.html)：良心软件，各种格式随意转换。
-	- [PDF补丁丁](https://www.cnblogs.com/pdfpatcher/)：免费开源，PDF简单编辑合并挺好用。
     - [PDF24](https://tools.pdf24.org/zh/)：PDF工具集，合并分割等好多，免费开源。
-	- [WPS v11.8.2.11019](https://www.aliyundrive.com/s/W8sT57gsbJ2)：最后一版支持经典模式，皮肤→经典。
+	- [WPS v11.8.2.11019](https://www.aliyundrive.com/s/W8sT57gsbJ2)：最后一版支持经典模式，皮肤→经典，带上PDF阅读器。
 	- [欧路词典](https://dict.eudic.net/)：手机电脑英语必备，免费版也挺干净的。
 	- [Onenote](https://www.onenote.com/?public=1&wdorigin=ondcauth2&wdorigin=ondc)：同步也已经很快了，没有之一。
 	- [语雀](https://www.yuque.com/)：仅用于展示一些东西，当笔记软件，还有点嫩。
@@ -39,6 +37,7 @@
 	- [Potplayer](https://wwzt.lanzoul.com/iGOC20if05mb)：
       - 本地视频、音频播放器。[Potplayer（官网）](https://potplayer.daum.net/)登不上，视频播放器，插件，[动态插帧Bluesky](https://bluesky-soft.com/en/BlueskyFRC.html)。
       - 右键，选项，鼠标单击改为播放暂停，鼠标双击改为全屏。皮肤不用改原装挺好。
+    - [多屏同时播放](https://github.com/vzhd1701/gridplayer)：GridPlayer 多屏同时播放软件，搞不懂这个可以干嘛用。
 	- [迅雷（绿色版）](https://www.aliyundrive.com/s/GVsDt8iEnTZ)：BT下载没一个能用的，迅雷太强大了。
 	- [Adobe 全家桶](https://www.aliyundrive.com/s/kyRiDLhoBGW)：按需下载安装，ps、pr。
 	- [PasteEx](https://github.com/huiyadanli/PasteEx)：复制后的文字图片可以直接粘贴为文件，设置监听模式。
@@ -59,7 +58,6 @@
 	- [oCam(v7bf)](https://pan.baidu.com/s/1kViBPslgr45O291ed9cu2g/)。
 - 文件相关：
 	- [Office Tool Plus](https://otp.landian.la/zh-cn/)：免费安装微软office？
-	- [Office 2007](https://www.wps.cn/)：经典，目前自用wps。
 	- [数据恢复](https://pjs.lanzoux.com/ibipeud/)：没用过，希望不会用到。
 	- [ReNamer](http://www.den4b.com/products/renamer)：批量重命名完美，非商业可免费用。
 	- [Everything](https://www.voidtools.com/downloads/)：文件搜索神器，没有之一。
@@ -83,7 +81,6 @@
 	- [Ventoy](https://www.ventoy.net/cn/index.html)：制作装机盘，默认安装后格式化为 NTFS 格式。
 	- [WinPE](http://www.wepe.com.cn/download.html)：装机盘，制作成 ISO 格式放进 ventoy。
 	- [Rufus](https://rufus.ie/zh_CN.html)：制作装机盘，轻便，一次只能做一个不推荐。
-	- [Diskgenius(DOS版)](https://wwa.lanzoui.com/ifQoPwmorxi)：硬盘操作更改工具，谨慎操作。
 	- U盘启动错误，Verification failed，开机F2，关闭Security BOOT。
 - 小工具：
 	- [SpaceSniffer](http://www.uderzo.it/main_products/space_sniffer/index.html)：优雅查看电脑文件大小。
@@ -110,8 +107,9 @@
 - CAD
     - [CAD字体](https://wwa.lanzoui.com/iOkizqoc77g)：之前收集的，也不全。
     - [CAD 2022](https://www.aliyundrive.com/s/RCP47zLSKpE)：CAD 2022 挺好的版本，没必要不换。
-    - [CAD 2007](https://www.aliyundrive.com/s/H1nquwbdSs2)：CAD 2007，经典。
     - [CADZXW](http://www.cadzxw.com/download.html/)：CAD 自学网，软件挺全，百度网盘 Geek 工具进行卸载，先卸载主软件，再卸载配套软件，清理其他内容时要注意甄别，因为 Revit 可能会被误删。
+    - AcmeCAD：CAD高版本转为低版本。
+    - 天正T20V9.0：目前这个版本，可以支持CAD2010以上。
 - Revit：
     - [Revit 2020](https://www.aliyundrive.com/s/vzLK6MD4V46)：内含方法。
     - [Revit 2020 许可管理器不起作用](https://www.aliyundrive.com/s/9cghFT6R4gW)：内有教程。
@@ -141,31 +139,16 @@
 
 - 要保持一个至少一年重置一次电脑的频率才行，有些难以清理的东西，只能通过这种行为才能根除。
 
-- windows照片查看器（还是用 honeyview吧，win10自己阉割了这个真是可惜）
-	- win+r regedit
-	- HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Photo Viewer\Capabilities\FileAssociations
-	- 新建-字符串值
-	- 文件名 .jpg .jpeg  .png  .gif  .bmp  .pcx  .tiff  .ico
-	- 数据值 PhotoViewer.FileAssoc.Tiff
-
-#### 假装激活
-
-1. 以win10专业版为例，鼠标右键点击开始图标，选择【windows powershell(管理员)】，或者命令提示符管理员；
-2. 打开命令窗口，复制这个命令slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX，在命令窗口鼠标右键，会自动粘贴，按回车键执行，安装win10专业版密钥；
-3. 接着执行命令slmgr /skms zh.us.to，设置kms服务器，kms服务器还可以是kms.03k.org；
-4. 最后执行命令slmgr /ato，激活win10系统，激活完成后提示成功地激活了产品；
-
 # Chrome 浏览器
 
 #### Chrome 插件
 
-- [第三方插件网站](https://crx.bysjb.cn/)。
-
+- [插件下载网](https://crxdl.com/)：第三方插件网站。
+- Adblock Plus，Dark Reader，chrome同步助手1.8，。
 - 登录插件是没法用了，重装或卸载之前，把**密码、书签、插件**进行备份，都可以导出导入。
 - [chrome 包](https://wwzt.lanzoul.com/b018bxcu)：密码1111。
 - [Chrome重装后需要添加的东西（隐私）](https://wwzt.lanzoul.com/b018bzwle)。
 
-- ~~[chrome同步助手](https://wwp.lanzoul.com/imLlR06gic3g)：已失效。~~
 - [IA图片助手](http://www.pullywood.com/ImageAssistant/)：最好用的网页图片下载工具，没有之一。
 - [DarkReader](https://darkreader.org/)：最好用的网页黑色模式工具，没有之一。
 - [Octotree](https://www.octotree.io/)：Github 网页插件。
@@ -175,15 +158,6 @@
 - [浏览器截图插件](https://getfireshot.com/)：挺好用 ，就是官网打开有点慢。
 - [哔哩哔哩下载助手](https://csser.top/)。
 - [腾讯交互翻译](https://transmart.qq.com/zh-CN/download)
-- [uBlock](https://github.com/gorhill/uBlock/releases)：广告屏蔽插件。
-- []()
-- []()
-- []()
-- []()
-- []()
-
-
-
 
 #### Chrome 设置（暂时用不到）
 
@@ -218,18 +192,18 @@
     - [惠普m126nw驱动](https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-mfp-m126-series/5396665/model/5303411?ssfFlag=true&sku=)。
 - 键盘：
 	- 薄膜键盘K380：按键太软，但价格还算良心。
-	- 机械键盘S200，双模，电池，矮红轴，没用过，但很期待。
+	- 机械键盘：声音啪啪想，真的适合平时在有孩子的家里用吗？
 
 - 鼠标：
-	- 罗技鹅卵石：喜欢这种趴着的鼠标，用不长，经常换。
+	- 罗技鹅卵石：趴着的鼠标，超级静音，按键会坏，买好配件自己更换。
 
 - 显示器：
 	- 超长2K：
 	- 4K：dell还是aoc？
 
 - 自动铅笔：
-	- 三菱M5-559，双倍速，价格实惠，比单倍速灵敏，推荐。
-	- 三菱M5-450，单倍速，价格实惠。
+	- 三菱M5-559，双倍速，价格实惠。
+	- 三菱M5-450，单倍速，价格实惠，个人更喜欢单倍速。
 - 自动铅笔笔芯：
 	- 三菱防污UL-S，0.5HB。
 	- 三菱彩铅，颜色浅，容易断，尝鲜后退坑。
@@ -245,9 +219,10 @@
 
 #### 备注
 
-- QQ音乐歌曲版权多，免费听不了全曲，网易云音乐歌少，开始摆烂，最终我选择了Foobar2000，自己搜集歌曲来听。
-- Edge很好，但最后还是用回了 chrome。
-- Office 自己激活的大部分为 KMS 180 天，需要循环激活。
+- 卸载工具
+  - Geek：尝试了很多，Geek免费版算是最好用的，没有之一。
+  - BCUninstaller：感觉很高大上，可是貌似有点太专业了，用不来。
+  - HiBitUninstaller：附带的清理注册表工具、清理空文件工具，还是可以的，卸载功能玩不转。
 
 #### 待整理
 
@@ -265,5 +240,6 @@
 	- ~~[Foobar2000 （官方）](https://www.foobar2000.org/)：免费但是没有原生中文。~~
 	- ~~[Foobar2000 （汉化）](https://wwp.lanzoul.com/inkKw06briwf)：好心人汉化过的，推荐。~~
 	- ~~[MusicPlayer2](https://github.com/zhongyang219/MusicPlayer2)：免费开源，但是觉得音质还是Foobar2000强一点，观望。~~
+- ~~[PDF补丁丁](https://www.cnblogs.com/pdfpatcher/)：免费开源，PDF简单编辑合并挺好用。~~
 
 
