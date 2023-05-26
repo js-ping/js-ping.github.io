@@ -38,14 +38,14 @@
       - 本地视频、音频播放器。[Potplayer（官网）](https://potplayer.daum.net/)登不上，视频播放器，插件，[动态插帧Bluesky](https://bluesky-soft.com/en/BlueskyFRC.html)。
       - 右键，选项，鼠标单击改为播放暂停，鼠标双击改为全屏。皮肤不用改原装挺好。
     - [多屏同时播放](https://github.com/vzhd1701/gridplayer)：GridPlayer 多屏同时播放软件，搞不懂这个可以干嘛用。
-	- [迅雷（绿色版）](https://www.aliyundrive.com/s/GVsDt8iEnTZ)：BT下载没一个能用的，迅雷太强大了。
+	- [☆ 迅雷（绿色版）](https://www.aliyundrive.com/s/GVsDt8iEnTZ)：BT下载没一个能用的，迅雷太强大了。
 	- [Adobe 全家桶](https://www.aliyundrive.com/s/kyRiDLhoBGW)：按需下载安装，ps、pr。
 	- [PasteEx](https://github.com/huiyadanli/PasteEx)：复制后的文字图片可以直接粘贴为文件，设置监听模式。
 	- [CopyQ](https://hluk.github.io/CopyQ/)：自动储存复制过的内容。
     - [Scratch](https://scratch.iruanhui.cn/?bd_vid=11038991590739980576)：儿童编程。
     - [OneCommander](https://onecommander.com/)：文件管理工具，免费版本就挺好用。
     - [AMD 驱动升级](https://www.amd.com/zh-hans/support)。
-    - [系统环境安装](https://www.aliyundrive.com/s/BsguUXrpTNK)。
+    - [系统环境安装](https://www.aliyundrive.com/s/BsguUXrpTNK)：好像新系统，不需要这样那样的系统环境了。
 - 网盘同步：
 	- [坚果云](https://www.jianguoyun.com/s/downloads)：支持WebDAV，可以云存储某些网盘的文件，但有时内容可能会被吞。
 	- [Joplin](https://joplinapp.org/)：算是中规中矩的 markdown 笔记，同步用 onedrive。
@@ -104,13 +104,12 @@
 	- [Ditto](https://ditto-cp.sourceforge.io/)：粘贴板，将复制的东西有序地进行粘贴，特定情况下有用。
 	~~- [DeskPins](https://efotinis.neocities.org/deskpins/)：强制页面图钉，简单好用，由于官方工具内置，所以舍弃。~~
     - [MIUI+](https://www.mi.com/service/notebook/drivers/A53)：小米手机和电脑连接的工具。
-- CAD
+- CAD，REVIT：如果屡次安装不成功，最好就是重置系统。
     - [CAD字体](https://wwa.lanzoui.com/iOkizqoc77g)：之前收集的，也不全。
     - [CAD 2022](https://www.aliyundrive.com/s/RCP47zLSKpE)：CAD 2022 挺好的版本，没必要不换。
     - [CADZXW](http://www.cadzxw.com/download.html/)：CAD 自学网，软件挺全，百度网盘 Geek 工具进行卸载，先卸载主软件，再卸载配套软件，清理其他内容时要注意甄别，因为 Revit 可能会被误删。
     - AcmeCAD：CAD高版本转为低版本。
     - 天正T20V9.0：目前这个版本，可以支持CAD2010以上。
-- Revit：
     - [Revit 2020](https://www.aliyundrive.com/s/vzLK6MD4V46)：内含方法。
     - [Revit 2020 许可管理器不起作用](https://www.aliyundrive.com/s/9cghFT6R4gW)：内有教程。
     - [插件-橄榄山](http://www.glsbim.com/intro/42.html)：支持到2022。
@@ -158,22 +157,6 @@
 - [浏览器截图插件](https://getfireshot.com/)：挺好用 ，就是官网打开有点慢。
 - [哔哩哔哩下载助手](https://csser.top/)。
 - [腾讯交互翻译](https://transmart.qq.com/zh-CN/download)
-
-#### Chrome 设置（暂时用不到）
-
-- 手机版
-	- chrome://flags/#force-enable-home-page-button Enabled 主页键
-	- chrome://flags/#enable-chrome-duet Enabled 底部任务栏
-	- chrome://flags/#enable-ntp-remote-suggestions Disabled 关掉资讯
-	- chrome://flags/#enable-custom-context-menu Enabled 长按出现传统菜单
-	- chrome://flags/#enable-site-exploration-ui Enabled 标签页横置
-
-- 电脑版
-	- 黑暗模式：chrome://flags/#enable-force-dark
-	- 悬停标签：chrome://flags/#tab-hover-cards
-	- 标签缩略图：chrome://flags/#tab-hover-card-images
-	- 媒体控制：chrome://flags/#global-media-controls
-	- 并行下载：chrome://flags/#enable-parallel-downloading
 
 # 其他
 
