@@ -11,7 +11,7 @@
 
 正品软件购买：[荔枝](https://store.lizhi.io/)
 
-
+**写在前面**：联想电脑下载联想软件管家，以下软件如有，从联想软件管家里下，方便快捷。
 - 装机必备：
 	- [Chrome](https://www.google.cn/chrome/)：从上面应用商店下载64位版本，不然有些插件会不管用。
     - [书签同步](https://www.xbrowsersync.org/)：可以下载插件，也有 App，完美。
@@ -22,12 +22,12 @@
 	- [火绒](https://www.huorong.cn/)：系统安全，某些时候用得到，可不下。
 	- [格式工厂](http://www.pcfreetime.com/formatfactory/CN/index.html)：良心软件，各种格式随意转换。
     - [PDF24](https://tools.pdf24.org/zh/)：PDF工具集，合并分割等好多，免费开源。
-	- [WPS v11.8.2.11019](https://www.aliyundrive.com/s/W8sT57gsbJ2)：最后一版支持经典模式，皮肤→经典，带上PDF阅读器。
+	- [☆ WPS v11.8.2.11019](https://www.aliyundrive.com/s/W8sT57gsbJ2)：最后一版支持经典模式，皮肤→经典，带上PDF阅读器。
 	- [欧路词典](https://dict.eudic.net/)：手机电脑英语必备，免费版也挺干净的。
 	- [Onenote](https://www.onenote.com/?public=1&wdorigin=ondcauth2&wdorigin=ondc)：同步也已经很快了，没有之一。
 	- [语雀](https://www.yuque.com/)：仅用于展示一些东西，当笔记软件，还有点嫩。
 	- [PowerToys](https://github.com/microsoft/PowerToys)：插件合集，悬停、分屏、快速启动等。
-	- [Handshaker](https://www.smartisan.com/apps/#/handshaker)：手机电脑最好用的文件传输工具，没有之一。
+	- [☆ Handshaker](https://www.smartisan.com/apps/#/handshaker)：手机电脑最好用的文件传输工具，没有之一。
 	- [Geek](https://geekuninstaller.com/download)：辅助卸载工具，清理功能强大。
 	- [uTools](https://u.tools/)：快速启动，没有之一，PowerToys 里自带的Wox功能少点。
 	- [win11任务栏](https://wwp.lanzoul.com/i7Bsx09zt0fe)，[win10任务栏](https://wwp.lanzoul.com/iDK3P06gbcpg)
