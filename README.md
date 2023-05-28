@@ -158,6 +158,10 @@
 - [哔哩哔哩下载助手](https://csser.top/)。
 - [腾讯交互翻译](https://transmart.qq.com/zh-CN/download)
 
+#### Chrome出现由贵公司管理，注册表regedit，删除以下两项：
+	1、删除注册表/HKEY_LOCAL_MACHINE/SOFTWARE/Policies/Google/
+	2、删除注册表/HKEY_CURRENT_USERE/SOFTWARE/Policies/Google/
+
 # 其他
 
 #### 配件推荐
