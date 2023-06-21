@@ -105,6 +105,7 @@
 	~~- [DeskPins](https://efotinis.neocities.org/deskpins/)：强制页面图钉，简单好用，由于官方工具内置，所以舍弃。~~
     - [MIUI+](https://www.mi.com/service/notebook/drivers/A53)：小米手机和电脑连接的工具。
 - CAD，REVIT：如果屡次安装不成功，最好就是重置系统。
+    - [中望CAD](https://www.zwcad.com/)：国产CAD软件集成天正，打开速度方便快捷，为什么大家还是用AUTO？？
     - [CAD字体](https://wwa.lanzoui.com/iOkizqoc77g)：之前收集的，也不全。
     - [CAD 2022](https://www.aliyundrive.com/s/RCP47zLSKpE)：CAD 2022 挺好的版本，没必要不换。
     - [CADZXW](http://www.cadzxw.com/download.html/)：CAD 自学网，软件挺全，百度网盘 Geek 工具进行卸载，先卸载主软件，再卸载配套软件，清理其他内容时要注意甄别，因为 Revit 可能会被误删。
