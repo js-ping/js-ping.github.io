@@ -5,10 +5,6 @@
 - [Win10 官网下载](https://www.microsoft.com/zh-cn/software-download/windows10)，[升级 win11](https://www.microsoft.com/zh-cn/software-download/windows11)。
 - [蓝奏云盘](https://up.woozooo.com/)：软件外链。
 
-测试
-测试
-啊啊
-
 # PC 软件
 
 正品软件购买：[荔枝](https://store.lizhi.io/)
@@ -17,6 +13,7 @@
 
 - 装机必备：
     - [Chrome](https://www.google.cn/chrome/)：从上面应用商店下载 64 位版本，不然有些插件会不管用。
+    - Edge：感觉这个浏览器更同步起来更加方便一点。
     - [书签同步xbrowsersync](https://www.xbrowsersync.org/)：可以下载插件，也有 App，完美。
     - [Edge](https://www.microsoftedgeinsider.com/en-us/download/)还差点火候，也属于必装备用软件。
     - [QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)：社交必备。
@@ -152,110 +149,76 @@
 
 备份：1. 微信聊天记录可在电脑客户端备份。2. QQ 输入法为 QQ 登录，其他都为微信登录。fh
 
-# Win11
+# 配件推荐
 
-#### win11 设置
+- 氮化镓：
+    - 小米 67W ，支持小米好。
+    - iPhone用20w慢充，Mac用65w绿脸氮化镓。
 
-- 要保持一个至少一年重置一次电脑的频率才行，有些难以清理的东西，只能通过这种行为才能根除。
-- 取消开机密码：win+R，netplwiz，添加一个账户，去掉对勾，删除那个添加的账户，在原先账户上弹窗输入和自己账户一样的账号密码。
+- 普通电池：鼠标键盘带的电池，根本不需要更换电池，电量用不完。
+    - 7#小电池：博朗耳温枪电池。
+    - 5#大电池：超霸 LR6。
 
-# Chrome 浏览器
+- 打印机：
+    - 惠普 m126nw 无线打印扫描，硒鼓 CC388A 很实惠，买粉买芯片用起来更方便吧，[惠普 m126nw 驱动](https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-mfp-m126-series/5396665/model/5303411?ssfFlag=true&sku=)。
 
-#### Chrome 插件
+- 键盘：
+    - 薄膜键盘 K380：薄膜键盘，轻薄好用，缺点是没有数字键盘。
+    - 机械键盘：都说好，我只想安静，不是自己的菜。
 
-- [插件下载网](https://crxdl.com/)：第三方插件网站。
-- Adblock Plus，Dark Reader，chrome 同步助手 1.8，。
-- 登录插件是没法用了，重装或卸载之前，把**密码、书签、插件**进行备份，都可以导出导入。
-- [chrome 包](https://wwzt.lanzoul.com/b018bxcu)：密码 1111。
-- [Chrome 重装后需要添加的东西（隐私）](https://wwzt.lanzoul.com/b018bzwle)。
-- [IA 图片助手](http://www.pullywood.com/ImageAssistant/)：最好用的网页图片下载工具，没有之一。
-- [DarkReader](https://darkreader.org/)：最好用的网页黑色模式工具，没有之一。
-- [Octotree](https://www.octotree.io/)：Github 网页插件。
-- [暴力猴](https://github.com/violentmonkey/violentmonkey/releases)。
-- [Tampermonkey](https://www.tampermonkey.net/)：脚本安装插件。[相关脚本网站](https://www.tampermonkey.net/scripts.php?ext=dhdg)。
-- [哔哩哔哩过滤器](https://s.xmcp.ltd/pakkujs/?src=wext_homepage)。
-- [浏览器截图插件](https://getfireshot.com/)：挺好用 ，就是官网打开有点慢。
-- [哔哩哔哩下载助手](https://csser.top/)。
-- [腾讯交互翻译](https://transmart.qq.com/zh-CN/download)
+- 鼠标： 
+    - 罗技鹅卵石：超级静音，按键两年左右会坏，可自己购买后更换。
 
-#### Chrome 出现由贵公司管理，注册表 regedit，删除以下两项：
+- 显示器：
+    - 超长 2K：
+    - 4K：买的泰坦，便宜。
 
-```
-1、删除注册表/HKEY_LOCAL_MACHINE/SOFTWARE/Policies/Google/
-2、删除注册表/HKEY_CURRENT_USERE/SOFTWARE/Policies/Google/
-```
+- 自动铅笔：
+    - 三菱 M5-559，双倍速，价格实惠。
+    - 三菱 M5-450，单倍速，价格实惠，个人更喜欢单倍速。
+
+- 自动铅笔笔芯：
+    - 三菱防污 UL-S，0.5HB。
+    - 三菱彩铅，颜色浅，容易断，尝鲜后退坑。
+
+- 中性笔：
+    - 百乐 P500：盗版太多，还在找笔中。
 
 # 其他
 
-#### 配件推荐
+- win11 设置
+  - 要保持一个至少一年重置一次电脑的频率才行，有些难以清理的东西，只能通过这种行为才能根除。
+  - 取消开机密码：win+R，netplwiz，添加一个账户，去掉对勾，删除那个添加的账户，在原先账户上弹窗输入和自己账户一样的账号密码。
 
-- 氮化镓：
-    
-    - 小米 67W ，不支持好多充电宝，小米的对苹果不太友好，苹果还是选慢充。
-    - 安克。
-    
-    &nbsp;
-    
-- &nbsp;
-    
-- 普通电池：鼠标键盘带的电池，根本不需要更换电池，电量用不完。
-    
-    - 7#小电池：博朗耳温枪电池。
-    - 5#大电池：超霸 LR6。
-- 打印机：
-    
-    - 惠普 m126nw 无线打印扫描，硒鼓 CC388A 很实惠，买粉买芯片用起来更方便吧，[惠普 m126nw 驱动](https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-mfp-m126-series/5396665/model/5303411?ssfFlag=true&sku=)。
-- 键盘：
-    
-    - 薄膜键盘 K380：薄膜键盘，轻薄好用，缺点是没有数字键盘。
-    - 机械键盘：都说好，我只想安静，不是自己的菜。
-- 鼠标：
-    
-    - 罗技鹅卵石：超级静音，按键两年左右会坏，可自己购买后更换。
-- 显示器：
-    
-    - 超长 2K：
-    - 4K：dell 还是 aoc？
-- 自动铅笔：
-    
-    - 三菱 M5-559，双倍速，价格实惠。
-    - 三菱 M5-450，单倍速，价格实惠，个人更喜欢单倍速。
-- 自动铅笔笔芯：
-    
-    - 三菱防污 UL-S，0.5HB。
-    - 三菱彩铅，颜色浅，容易断，尝鲜后退坑。
-- 中性笔：
-    
-    - 百乐 P500：盗版太多，还在找笔中。
+- Chrome 插件
+  - [插件下载网](https://crxdl.com/)：第三方插件网站。
+  - Adblock Plus，Dark Reader，chrome 同步助手 1.8，。
+  - 登录插件是没法用了，重装或卸载之前，把**密码、书签、插件**进行备份，都可以导出导入。
+  - [chrome 包](https://wwzt.lanzoul.com/b018bxcu)：密码 1111。
+  - [Chrome 重装后需要添加的东西（隐私）](https://wwzt.lanzoul.com/b018bzwle)。
+  - [IA 图片助手](http://www.pullywood.com/ImageAssistant/)：最好用的网页图片下载工具，没有之一。
+  - [DarkReader](https://darkreader.org/)：最好用的网页黑色模式工具，没有之一。
+  - [Octotree](https://www.octotree.io/)：Github 网页插件。
+  - [暴力猴](https://github.com/violentmonkey/violentmonkey/releases)。
+  - [Tampermonkey](https://www.tampermonkey.net/)：脚本安装插件。[相关脚本网站](https://www.tampermonkey.net/scripts.php?ext=dhdg)。
+  - [哔哩哔哩过滤器](https://s.xmcp.ltd/pakkujs/?src=wext_homepage)。
+  - [浏览器截图插件](https://getfireshot.com/)：挺好用 ，就是官网打开有点慢。
+  - [哔哩哔哩下载助手](https://csser.top/)。
+  - [腾讯交互翻译](https://transmart.qq.com/zh-CN/download)
 
-#### 小技巧
+- 小技巧
+  - 文件批量重命名：全选 →F2→ 重命名，然后就会自动批量以数字排序。
+  - ctrl+shift+t：浏览器恢复刚才关闭的网页。
+  - 批量新建文件夹有乱码，txt 右键另存编码为 ANSI。
+  - 联想的一键还原，加上 win10 可以不删文件重置，电脑问题再也不怕了。
 
-- 文件批量重命名：全选 →F2→ 重命名，然后就会自动批量以数字排序。
-- ctrl+shift+t：浏览器恢复刚才关闭的网页。
-- 批量新建文件夹有乱码，txt 右键另存编码为 ANSI。
-- 联想的一键还原，加上 win10 可以不删文件重置，电脑问题再也不怕了。
-
-#### 备注
-
-- 卸载工具
-    - Geek：尝试了很多，Geek 免费版算是最好用的，没有之一。
-    - BCUninstaller：感觉很高大上，可是貌似有点太专业了，用不来。
-    - HiBitUninstaller：附带的清理注册表工具、清理空文件工具，还是可以的，卸载功能玩不转。
-
-#### 待整理
-
-- MobaXterm，finalshell
-- f.lux
-- wireshark，pdf xviewer
-
-#### 已废除
-
-- [~~知犀~~](https://www.zhixi.com/)~~：脑图，都差不多，先试试这个。~~
-- [~~Syncthing~~](https://syncthing.net/)~~：手机电脑或电脑电脑直接同步文件。~~
-- ~~音乐播放器：~~
-    - [~~Listen1~~](https://listen1.github.io/listen1/)~~：除了不能下载，算是最好的了，有推荐歌单，可登录网易 QQ。~~
-    - [~~Foobar2000 （官方）~~](https://www.foobar2000.org/)~~：免费但是没有原生中文。~~
-    - [~~Foobar2000 （汉化）~~](https://wwp.lanzoul.com/inkKw06briwf)~~：好心人汉化过的，推荐。~~
-    - [~~MusicPlayer2~~](https://github.com/zhongyang219/MusicPlayer2)~~：免费开源，但是觉得音质还是 Foobar2000 强一点，观望。~~
-- [~~PDF 补丁丁~~](https://www.cnblogs.com/pdfpatcher/)~~：免费开源，PDF 简单编辑合并挺好用。~~
-- ~~[uTools](https://u.tools/)：快速启动，功能多，无法解决开机启动问题。~~
+- 已废除
+  - [~~知犀~~](https://www.zhixi.com/)~~：脑图，都差不多，先试试这个。~~
+  - [~~Syncthing~~](https://syncthing.net/)~~：手机电脑或电脑电脑直接同步文件。~~
+  - ~~音乐播放器：~~
+      - [~~Listen1~~](https://listen1.github.io/listen1/)~~：除了不能下载，算是最好的了，有推荐歌单，可登录网易 QQ。~~
+      - [~~Foobar2000 （官方）~~](https://www.foobar2000.org/)~~：免费但是没有原生中文。~~
+      - [~~Foobar2000 （汉化）~~](https://wwp.lanzoul.com/inkKw06briwf)~~：好心人汉化过的，推荐。~~
+      - [~~MusicPlayer2~~](https://github.com/zhongyang219/MusicPlayer2)~~：免费开源，但是觉得音质还是 Foobar2000 强一点，观望。~~
+  - [~~PDF 补丁丁~~](https://www.cnblogs.com/pdfpatcher/)~~：免费开源，PDF 简单编辑合并挺好用。~~
+  - ~~[uTools](https://u.tools/)：快速启动，功能多，无法解决开机启动问题。~~
