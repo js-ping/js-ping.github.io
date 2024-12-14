@@ -122,14 +122,10 @@
     - [插件-橄榄山](http://www.glsbim.com/intro/42.html)：支持到 2022。
     - [插件-构件坞](https://www.goujianwu.com/plugin)：原装的构件没有梁就很神奇。
 
-&nbsp;
-
 # MAC 软件
 
 输入法： [手心输入法](http://www.xinshuru.com/index.html?p=win)。
 看图：
-
-&nbsp;
 
 # Android 软件
 
@@ -153,7 +149,7 @@
 
 - 氮化镓：
     - 小米 67W ，支持小米好。
-    - iPhone用20w慢充，Mac用65w绿脸氮化镓。
+    - iPhone用20w慢充，Mac用65w绿联氮化镓。
 
 - 普通电池：鼠标键盘带的电池，根本不需要更换电池，电量用不完。
     - 7#小电池：博朗耳温枪电池。
@@ -192,7 +188,8 @@
 
 - Chrome 插件
   - [插件下载网](https://crxdl.com/)：第三方插件网站。
-  - Adblock Plus，Dark Reader，chrome 同步助手 1.8，。
+  - Adblock Plus
+  - 同步助手已经废了：chrome 同步助手 1.8。
   - 登录插件是没法用了，重装或卸载之前，把**密码、书签、插件**进行备份，都可以导出导入。
   - [chrome 包](https://wwzt.lanzoul.com/b018bxcu)：密码 1111。
   - [Chrome 重装后需要添加的东西（隐私）](https://wwzt.lanzoul.com/b018bzwle)。
