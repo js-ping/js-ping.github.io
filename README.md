@@ -50,6 +50,8 @@
     - [AMD 驱动升级](https://www.amd.com/zh-hans/support)。
     - [系统环境安装](https://www.aliyundrive.com/s/BsguUXrpTNK)：好像新系统，不需要这样那样的系统环境了。
     - [落雪](https://github.com/lyswhut/lx-music-desktop#readme)：免费开源第三方，帮助下载无版权音乐。
+    - [ShanaEncoder](https://wwzt.lanzoul.com/iLxeQ2ic27kh)：视频格式转换。
+    - [SoftCnKiller](https://wwzt.lanzoul.com/isW8B2ic2r1i)：win流氓软件删除。
 - 网盘同步：
     - [坚果云](https://www.jianguoyun.com/s/downloads)：支持 WebDAV，可以云存储某些网盘的文件，但有时内容可能会被吞。
     - [百度网盘](https://pan.baidu.com/download)：目前仍有很多分享文件。
@@ -115,7 +117,7 @@
     - [CAD 字体](https://wwa.lanzoui.com/iOkizqoc77g)：之前收集的，也不全。
     - [CAD 2022](https://www.aliyundrive.com/s/RCP47zLSKpE)：CAD 2022 挺好的版本，没必要不换。
     - [CADZXW](http://www.cadzxw.com/download.html/)：CAD 自学网，软件挺全，百度网盘 Geek 工具进行卸载，先卸载主软件，再卸载配套软件，清理其他内容时要注意甄别，因为 Revit 可能会被误删。
-    - AcmeCAD：CAD 高版本转为低版本。
+    - [AcmeCAD](https://wwzt.lanzoul.com/iNkMT2ic0ztc)：CAD 高版本转为低版本。
     - 天正 T20V9.0：目前这个版本，可以支持 CAD2010 以上。
     - [Revit 2020](https://www.aliyundrive.com/s/vzLK6MD4V46)：内含方法。
     - [Revit 2020 许可管理器不起作用](https://www.aliyundrive.com/s/9cghFT6R4gW)：内有教程。
