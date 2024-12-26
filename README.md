@@ -127,7 +127,8 @@
 # MAC 软件
 
 输入法： [手心输入法](http://www.xinshuru.com/index.html?p=win)。
-看图：
+[snippets](https://www.renfei.org/snippets-lab/)：代码片段笔记软件。
+
 
 # Android 软件
 
