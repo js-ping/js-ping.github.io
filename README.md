@@ -129,6 +129,13 @@
 输入法： [手心输入法](http://www.xinshuru.com/index.html?p=win)。
 [snippets](https://www.renfei.org/snippets-lab/)：代码片段笔记软件。
 
+工具类：
+- Folder peek。
+- Mounty。
+- Airdrop。
+- hidden bar
+- Omi
+- [Android File Transfer](https://android.p2hp.com/filetransfer/index.html)：Mac和android数据交换，但是会引起蓝牙耳机断断续续。
 
 # Android 软件
 
