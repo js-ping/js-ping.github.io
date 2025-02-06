@@ -1,15 +1,12 @@
 
-# 软件合集网
-
+## 软件合集网
 - [腾讯软件中心](https://pc.qq.com/)，[联想软件管家](https://lestore.lenovo.com/)，[Softonic](https://en.softonic.com/)。
 - [Win10 官网下载](https://www.microsoft.com/zh-cn/software-download/windows10)，[升级 win11](https://www.microsoft.com/zh-cn/software-download/windows11)。
 - [蓝奏云盘](https://up.woozooo.com/)：软件外链。
+- 正品软件购买：[荔枝](https://store.lizhi.io/)
+- 联想电脑下载联想软件管家，以下软件如有，从联想软件管家里下，方便快捷。
 
-# PC 软件
-
-正品软件购买：[荔枝](https://store.lizhi.io/)
-
-**写在前面**：联想电脑下载联想软件管家，以下软件如有，从联想软件管家里下，方便快捷。
+## PC 软件
 
 - 装机必备：
     - [Chrome](https://www.google.cn/chrome/)：从上面应用商店下载 64 位版本，不然有些插件会不管用。
@@ -124,7 +121,7 @@
     - [插件-橄榄山](http://www.glsbim.com/intro/42.html)：支持到 2022。
     - [插件-构件坞](https://www.goujianwu.com/plugin)：原装的构件没有梁就很神奇。
 
-# MAC 软件
+## MAC 软件
 
 输入法： [手心输入法](http://www.xinshuru.com/index.html?p=win)。
 [snippets](https://www.renfei.org/snippets-lab/)：代码片段笔记软件。
@@ -137,29 +134,26 @@
 - Omi
 - [Android File Transfer](https://android.p2hp.com/filetransfer/index.html)：Mac和android数据交换，但是会引起蓝牙耳机断断续续。
 
-# Android 软件
+## 手机软件
 
-- [习惯（Loop loop habit track）](https://github.com/iSoron/uhabits/)。
-- 小米手机自带：日历 米家 便签
-- 社交：QQ 微信
-- 淘宝 天猫 支付宝 京东 拼多多 云闪付
-- 哔哩哔哩 优酷 网易云音乐 酷安 全历史 wps 知乎
-- 欧路词典 onenote 习惯 屏幕时钟 NFCToolsPRO
-- 高德地图 百度地图 下厨房 最右 古文岛
-- 百度网盘 手心输入法
-- gitme 阿里云网盘 微软数学
-- Joplin 天文通 星图
-- SandVXposed（双开）
-- [MIXplorer](https://wwp.lanzoul.com/b017p1i3g)：文件管理，还要附带把那几个插件一起安装。
-- spacedesk：当作电脑的副屏，延迟太高
+- Android独享：wow时钟 NFCToolsPRO [习惯（Loop loop habit track）](https://github.com/iSoron/uhabits/) gitme 小米天气 [MIXplorer](https://wwp.lanzoul.com/b017p1i3g)：文件管理，还要附带把那几个插件一起安装。
+- IPhone独享：
+- 全体都有：
+  - QQ 微信 淘宝 天猫 支付宝 京东 拼多多 云闪付 哔哩哔哩 
+  - 优酷 网易云音乐 酷安 全历史 wps 知乎 onenote 欧路词典
+  - 星图 天气通 高德地图 百度地图 下厨房 最右 古文岛 百度网盘
+  - Joplin 微软数学 阿里云网盘 
+  - 
+- 其他情况
+  - 手心输入法在IPhone上会出现断触，我在mac和安卓上一直使用。
 
 备份：1. 微信聊天记录可在电脑客户端备份。2. QQ 输入法为 QQ 登录，其他都为微信登录。fh
 
-# 配件推荐
+## 配件硬件推荐
 
 - 氮化镓：
     - 小米手机用小米充没错。
-    - iPhone用20w慢充。
+    - iPhone用罗马仕20w/30w充电头，和罗马仕编织线款。
     - Mac用65w绿联氮化镓。
 
 - 普通电池：鼠标键盘带的电池，根本不需要更换电池，电量用不完。
@@ -191,7 +185,7 @@
 - 中性笔：
     - 百乐 P500：盗版太多，还在找笔中。
 
-# 其他
+## 其他
 
 - win11 设置
   - 要保持一个至少一年重置一次电脑的频率才行，有些难以清理的东西，只能通过这种行为才能根除。
