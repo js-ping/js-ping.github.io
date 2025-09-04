@@ -6,6 +6,24 @@
 - 正品软件购买：[荔枝](https://store.lizhi.io/)
 - 联想电脑下载联想软件管家，以下软件如有，从联想软件管家里下，方便快捷。
 
+## Mac&iphone
+
+- 装机必备：
+    - 浏览器：[Edge](https://www.microsoftedgeinsider.com/en-us/download/)手机电脑必备，书签同步也很及时。
+    - 社交软件：[QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)必备的聊天软件。
+    - 输入法：[微信输入法](https://z.weixin.qq.com/)算是最好用的了，同步起来好用。
+    - 下载工具：[NDM](http://www.neatdownloadmanager.com/index.php/en/)：配合浏览器下载神器。
+    - PDF工具：[PDF24](https://tools.pdf24.org/zh/)只能在线但是全能，[PDFgear](https://www.pdfgear.com/zh/)有客户端配合使用。
+    - 办公软件：[WPS](https://www.wps.cn/)无法替换。
+    - 截图软件：[Snipaste](https://zh.snipaste.com/)一般默认微信，然后再是这个。
+    - 音乐播放器：网易云音乐。
+    - 视频播放器：
+    - 网盘同步：夸克网盘、阿里云盘、百度网盘、蓝奏云、坚果云。
+    - 解压软件：[Keka](https://www.keka.io/zh-cn/)网页端免费，使用习惯有所不同。
+    - 图片浏览：
+    - 互传工具：[LocalSend](https://localsend.org/zh-CN)多平台互传，但是文件一多就卡。
+    - 
+
 ## PC 软件
 
 - 装机必备：
@@ -123,7 +141,6 @@
 
 ## MAC 软件
 
-输入法： [手心输入法](http://www.xinshuru.com/index.html?p=win)。
 [snippets](https://www.renfei.org/snippets-lab/)：代码片段笔记软件。
 
 工具类：
