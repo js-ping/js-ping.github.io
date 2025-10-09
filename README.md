@@ -19,26 +19,29 @@
     - 办公软件：[WPS](https://www.wps.cn/)无法替换。
     - 截图软件：[Snipaste](https://zh.snipaste.com/)最好用的截图软件没有之一。
     - 音乐播放器：网易云音乐，原生倒也不错，都用吧。[AlgerMusicPlayer音乐](https://alger.fun/download)，这个不知道怎么样。
-    - 视频播放器：
+    - 视频播放器：Omniplay，目前就这个还凑合。
     - 网盘同步：夸克网盘、阿里云盘、百度网盘、蓝奏云、坚果云。
     - 解压软件：[Keka](https://www.keka.io/zh-cn/)网页端免费，使用习惯有所不同。
     - 图片浏览：
     - 互传工具：[LocalSend](https://localsend.org/zh-CN)多平台互传，但是文件一多就卡。
     - 刘海隐藏：[隐藏流海](https://topnotch.app/)，必备软件。
     - 时间屏保：[Fliqlo锁屏时间](https://fliqlo.com/screensaver/)。
-      - 鼠标工具：[scrollreverser](https://pilotmoon.com/scrollreverser/)最好用，没有之一，MOS容易和剪映冲突[软件翻译](https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file)。
+    - 鼠标工具：[scrollreverser](https://pilotmoon.com/scrollreverser/)最好用，没有之一，MOS容易和剪映冲突[中文版本翻译](https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file)。
 - 其他工具
   - 右键助手专业版：可以右键添加一些必备的内容。
   - Aldente：必备的电池管理软件。
   - Bartender：让右上角顶部图标变小。
-  - 
+- 缺少应用
+  - 重命名软件：都不如PC上的renamer好用。
+  - 图片快速简单处理软件：也没有光影魔术手好用。
+  - 视频播放，更是没有potplayer一般的万能神奇应用。
 
 ## PC 软件
 
 - 装机必备：
     - [Chrome](https://www.google.cn/chrome/)：从上面应用商店下载 64 位版本，不然有些插件会不管用。
     - Edge：感觉这个浏览器更同步起来更加方便一点。
-    - [书签同步xbrowsersync](https://www.xbrowsersync.org/)：可以下载插件，也有 App，完美。
+    - [书签同步xbrowsersync](https://www.xbrowsersync.org/)：暂时好像被禁用了。
     - [Edge](https://www.microsoftedgeinsider.com/en-us/download/)还差点火候，也属于必装备用软件。
     - [QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)：社交必备。
     - [手心输入法](http://www.xinshuru.com/index.html?p=win)：手机版本3.0.0，PC更新至2.7。
