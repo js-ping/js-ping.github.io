@@ -14,6 +14,7 @@
       - Chrome：最完美的浏览器，可是没法登录，太膈应了。
     - 社交软件：[QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)必备的聊天软件。
     - 输入法：[微信输入法](https://z.weixin.qq.com/)算是最好用的了，同步起来好用。
+    - 文件管理：[Qspace](https://qspace.awehunt.com/zh-cn/)：替代访达。
     - 下载工具：[NDM](http://www.neatdownloadmanager.com/index.php/en/)：配合浏览器下载神器。
     - PDF工具：[PDF24](https://tools.pdf24.org/zh/)只能线上但是全能，[PDFgear](https://www.pdfgear.com/zh/)有客户端配合使用。
     - 办公软件：[WPS](https://www.wps.cn/)无法替换。
@@ -31,7 +32,8 @@
   - 右键助手专业版：可以右键添加一些必备的内容。
   - Aldente：必备的电池管理软件。
   - Bartender：让右上角顶部图标变小。
-  - iMazing：Mac 的最佳 iOS 设备管理软件。
+  - [Anytxt](https://anytxt.net/)：一款功能强大的桌面搜索工具，配备全文搜索引擎。
+  - [iMazing](https://www.imazingchina.com/)：Mac 的最佳 iOS 设备管理软件，可买永久300元左右。
 - 缺少应用
   - 重命名软件：都不如PC上的renamer好用。
   - 图片快速简单处理软件：也没有光影魔术手好用。
