@@ -34,6 +34,7 @@
   - Bartender：让右上角顶部图标变小。
   - [Anytxt](https://anytxt.net/)：一款功能强大的桌面搜索工具，配备全文搜索引擎。
   - [iMazing](https://www.imazingchina.com/)：Mac 的最佳 iOS 设备管理软件，可买永久300元左右。
+  - 
 - 缺少应用
   - 重命名软件：都不如PC上的renamer好用。
   - 图片快速简单处理软件：也没有光影魔术手好用。
