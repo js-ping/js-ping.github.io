@@ -13,27 +13,28 @@
       - [Edge](https://www.microsoftedgeinsider.com/en-us/download/)手机电脑必备，书签同步也很及时。
       - Chrome：最完美的浏览器，可是没法登录，太膈应了。
     - 社交软件：[QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)必备的聊天软件。
-    - 输入法：[微信输入法](https://z.weixin.qq.com/)算是最好用的了，同步起来好用。
-    - 文件管理：[Qspace](https://qspace.awehunt.com/zh-cn/)：替代访达。
+    - 输入法：[微信输入法](https://z.weixin.qq.com/)多平台稳定同步，推荐。
+    - 文件管理：[Qspace](https://qspace.awehunt.com/zh-cn/)：替代访达，已购入会员，自带重命名、解压。
     - 下载工具：[NDM](http://www.neatdownloadmanager.com/index.php/en/)：配合浏览器下载神器。
     - PDF工具：[PDF24](https://tools.pdf24.org/zh/)只能线上但是全能，[PDFgear](https://www.pdfgear.com/zh/)有客户端配合使用。
     - 办公软件：[WPS](https://www.wps.cn/)无法替换。
     - 截图软件：[Snipaste](https://zh.snipaste.com/)最好用的截图软件没有之一。
-    - 音乐播放器：网易云音乐，原生倒也不错，都用吧。[AlgerMusicPlayer音乐](https://alger.fun/download)，这个不知道怎么样。
-    - 视频播放器：Omniplay，目前就这个还凑合。
+    - 音乐播放器：网易云音乐+汽水音乐。~~[AlgerMusicPlayer音乐](https://alger.fun/download)，这个不知道怎么样~~。
+    - 视频播放器：[IINA](https://iina.io/)最优秀的免费播放器，但仍然找不到Potplayer替代品，Omniplay开机太慢了。
     - 网盘同步：夸克网盘、阿里云盘、百度网盘、蓝奏云、坚果云。
     - 解压软件：[Keka](https://www.keka.io/zh-cn/)网页端免费，使用习惯有所不同。
-    - 图片浏览：
+    - 图片浏览：自带浏览。
     - 互传工具：[LocalSend](https://localsend.org/zh-CN)多平台互传，但是文件一多就卡。
     - 刘海隐藏：[隐藏流海](https://topnotch.app/)，必备软件。
     - 时间屏保：[Fliqlo锁屏时间](https://fliqlo.com/screensaver/)。
     - 鼠标工具：[scrollreverser](https://pilotmoon.com/scrollreverser/)最好用，没有之一，MOS容易和剪映冲突[中文版本翻译](https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file)。
+    - 连接工具：[iMazing](https://www.imazingchina.com/)：Mac 的最佳 iOS 设备管理软件，可买永久300元左右。
 - 其他工具
   - 右键助手专业版：可以右键添加一些必备的内容。
   - Aldente：必备的电池管理软件。
   - Bartender：让右上角顶部图标变小。
   - [Anytxt](https://anytxt.net/)：一款功能强大的桌面搜索工具，配备全文搜索引擎。
-  - [iMazing](https://www.imazingchina.com/)：Mac 的最佳 iOS 设备管理软件，可买永久300元左右。
+
   - 
 - 缺少应用
   - 重命名软件：都不如PC上的renamer好用。
@@ -165,7 +166,7 @@
 - Airdrop。
 - hidden bar
 - Omi
-- [Android File Transfer](https://android.p2hp.com/filetransfer/index.html)：Mac和android数据交换，但是会引起蓝牙耳机断断续续。
+
 
 ## 手机软件
 
@@ -186,7 +187,7 @@
 
 - 氮化镓：
     - 小米手机用小米充没错。
-    - iPhone用罗马仕20w/30w充电头，和罗马仕编织线款。
+    - iPhone用安克冰点冲30w足够。
     - Mac用65w绿联氮化镓。
 
 - 普通电池：鼠标键盘带的电池，根本不需要更换电池，电量用不完。
@@ -216,6 +217,7 @@
     - 三菱彩铅，颜色浅，容易断，尝鲜后退坑。
 
 - 中性笔：
+    - 小米巨能写。 
     - 百乐 P500：盗版太多，还在找笔中。
 
 ## 其他
