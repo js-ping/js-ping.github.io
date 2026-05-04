@@ -29,11 +29,13 @@
     - 时间屏保：[Fliqlo锁屏时间](https://fliqlo.com/screensaver/)。
     - 鼠标工具：[scrollreverser](https://pilotmoon.com/scrollreverser/)最好用，没有之一，MOS容易和剪映冲突[中文版本翻译](https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file)。
     - 连接工具：[iMazing](https://www.imazingchina.com/)：Mac 的最佳 iOS 设备管理软件，可买永久300元左右。
+    - 
 - 其他工具
   - 右键助手专业版：可以右键添加一些必备的内容。
   - Aldente：必备的电池管理软件。
   - Bartender：让右上角顶部图标变小。
   - [Anytxt](https://anytxt.net/)：一款功能强大的桌面搜索工具，配备全文搜索引擎。
+  - PhotoBulk：图片批量添加水印，只有英文版。
 
   - 
 - 缺少应用
