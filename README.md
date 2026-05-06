@@ -47,7 +47,7 @@
 
 - 装机必备：
     - [Chrome](https://www.google.cn/chrome/)：从上面应用商店下载 64 位版本，不然有些插件会不管用。
-    - Edge：感觉这个浏览器更同步起来更加方便一点。
+    - Edge：感觉这个浏览器更同步起来更加方便一点，但是好像占用电脑CPU。
     - [书签同步xbrowsersync](https://www.xbrowsersync.org/)：暂时好像被禁用了。
     - [Edge](https://www.microsoftedgeinsider.com/en-us/download/)还差点火候，也属于必装备用软件。
     - [QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)：社交必备。
