@@ -72,6 +72,7 @@
     - [QucikLook](https://www.microsoft.com/zh-cn/p/quicklook/9nv4bs3l1h4s?ocid=badge&rtc=1&activetab=pivot:overviewtab/)：按空格显示文件基本信息，图片视频可以直接浏览。
     - [Potplayer](https://wwzt.lanzoul.com/iGOC20if05mb)：音视频播放器。
         - [（官网）](https://potplayer.daum.net/)登不上。
+        - [国内镜像](https://potplayer.tv/?lang=zh_CN)
         - [动态插帧 Bluesky](https://bluesky-soft.com/en/BlueskyFRC.html)。
         - [K-Lite Codec Pack](http://www.codecguide.com/configuration_tips.htm?version=1845)：视频缩略图显示，默认安装即可。
     - [多屏同时播放](https://github.com/vzhd1701/gridplayer)：GridPlayer 多屏同时播放软件，搞不懂这个可以干嘛用。
