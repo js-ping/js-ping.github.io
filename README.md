@@ -10,7 +10,6 @@
 - [腾讯软件中心](https://pc.qq.com/)
 - [联想软件管家](https://lestore.lenovo.com/)
 - [Softonic](https://en.softonic.com/)
-- [Windows 10 官方下载](https://www.microsoft.com/zh-cn/software-download/windows10)
 - [Windows 11 官方升级](https://www.microsoft.com/zh-cn/software-download/windows11)
 - [蓝奏云盘](https://up.woozooo.com/)：常见软件外链
 - [荔枝](https://store.lizhi.io/)：正版软件购买
@@ -22,13 +21,13 @@
 ### 核心推荐
 
 - 浏览器
-  - [Edge](https://www.microsoftedgeinsider.com/en-us/download/)：跨设备同步方便，书签同步比较稳定
-  - Chrome：体验依然很好，但登录问题有时比较折腾
+  - Chrome：目前唯一的浏览器，crx插件从第三方下载
 - 社交软件
   - [QQ](https://im.qq.com/download/)
   - [微信](https://weixin.qq.com/)
 - 输入法
   - [微信输入法](https://z.weixin.qq.com/)：多平台同步稳定，是我目前更偏向的选择
+  - 尝试一下苹果自带的输入法，感觉对文字的理解不是那么智能
 - 文件管理
   - [QSpace](https://qspace.awehunt.com/zh-cn/)：适合替代访达，重命名和解压都比较顺手
 - 下载工具
@@ -45,7 +44,7 @@
 - 解压软件
   - [Keka](https://www.keka.io/zh-cn/)：免费，习惯之后很好用
 - 互传工具
-  - [LocalSend](https://localsend.org/zh-CN)：跨平台互传方便，但文件多时性能一般
+  - [LocalSend](https://localsend.org/zh-CN)：跨平台互传方便，但文件多时性能一般，而且照片的信息好像传输不全
 - 鼠标工具
   - [Scroll Reverser](https://pilotmoon.com/scrollreverser/)：滚动方向调整非常顺手
   - [中文说明](https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file)
@@ -57,7 +56,6 @@
 - Aldente：电池管理
 - Bartender：整理右上角菜单栏图标
 - [AnyTXT](https://anytxt.net/)：本地全文搜索
-- PhotoBulk：图片批量加水印
 - [隐藏刘海](https://topnotch.app/)
 - [Fliqlo](https://fliqlo.com/screensaver/)：时间屏保
 
@@ -73,12 +71,12 @@
 
 - 浏览器
   - [Chrome](https://www.google.cn/chrome/)：建议安装 64 位版本
-  - [Edge](https://www.microsoftedgeinsider.com/en-us/download/)：同步体验更方便
 - 社交软件
   - [QQ](https://im.qq.com/download/)
   - [微信](https://weixin.qq.com/)
 - 输入法
   - [手心输入法](http://www.xinshuru.com/index.html?p=win)
+  - [微信输入法](https://z.weixin.qq.com/)：多平台同步稳定，是我目前更偏向的选择
 - 下载工具
   - [NDM](http://www.neatdownloadmanager.com/index.php/en/)：免费、够用、轻便
   - [迅雷绿色版](https://www.aliyundrive.com/s/GVsDt8iEnTZ)：有些场景还是绕不开
@@ -86,7 +84,6 @@
   - [火绒](https://www.huorong.cn/)
   - [Geek Uninstaller](https://geekuninstaller.com/download)
 - 文档与办公
-  - [SumatraPDF](https://www.sumatrapdfreader.org/free-pdf-reader)
   - [PDF24](https://tools.pdf24.org/zh/)
   - [WPS v11.8.2.11019](https://www.aliyundrive.com/s/W8sT57gsbJ2)：支持经典模式
 - 效率工具
@@ -103,17 +100,13 @@
   - [ShanaEncoder](https://wwzt.lanzoul.com/iLxeQ2ic27kh)
 - 笔记与词典
   - [欧路词典](https://dict.eudic.net/)
-  - [Joplin](https://joplinapp.org/)
-  - [OneNote](https://www.onenote.com/?public=1&wdorigin=ondcauth2&wdorigin=ondc)
 
 ### 我会继续保留的其他工具
 
 - [Watt Toolkit / Steam++](https://steampp.net/)：有时能帮忙处理网络访问
 - [PasteEx](https://github.com/huiyadanli/PasteEx)
-- [Handshaker](https://www.smartisan.com/apps/#/handshaker)
 - [AMD 驱动升级](https://www.amd.com/zh-hans/support)
 - [Adobe 全家桶](https://www.aliyundrive.com/s/kyRiDLhoBGW)
-- [落雪音乐](https://github.com/lyswhut/lx-music-desktop#readme)
 - [SoftCnKiller](https://wwzt.lanzoul.com/isW8B2ic2r1i)
 
 ### 网盘同步
@@ -173,7 +166,6 @@
 - [ContextMenuManager](https://github.com/BluePointLilac/ContextMenuManager/releases)
 - [Quicker](https://getquicker.net/)
 - [Spacedesk](https://spacedesk.net/)
-- [Simplenote](https://simplenote.com/)
 - [Lively Wallpaper](https://apps.microsoft.com/store/detail/lively-wallpaper/9NTM2QC6QWS7?hl=en-us&gl=US)
 - [Wnr](https://getwnr.com/zh/)
 - [AIDA64](https://pjs.lanzoul.com/ibj85eh/)
@@ -240,7 +232,6 @@
 
 - 手心输入法在 iPhone 上偶尔会断触，但在 Mac 和 Android 上我一直在用
 - 微信聊天记录可以在电脑客户端备份
-- QQ 输入法使用 QQ 登录，其他很多服务我通常用微信登录
 
 ## 配件硬件推荐
 
@@ -285,7 +276,7 @@
   - 三菱防污 UL-S，0.5 HB
   - 三菱彩铅：颜色偏浅，也比较容易断
 - 中性笔
-  - 小米巨能写
+  - 小米巨能写：很好用
   - 百乐 P500：手感不错，但盗版多，注意渠道
 
 ## 其他记录
