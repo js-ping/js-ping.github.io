@@ -7,9 +7,7 @@
 ## Mac&iPhone
 
 - 装机必备：
-    - 浏览器：
-      - [Edge](https://www.microsoftedgeinsider.com/en-us/download/)手机电脑必备，书签同步也很及时。
-      - Chrome：最完美的浏览器，可是没法登录，太膈应了。
+    - 浏览器：Chrome：最完美的浏览器，可是没法登录，太膈应了。
     - 社交软件：[QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)必备的聊天软件。
     - 输入法：[微信输入法](https://z.weixin.qq.com/)多平台稳定同步，推荐。
     - 文件管理：[Qspace](https://qspace.awehunt.com/zh-cn/)：替代访达，已购入会员，自带重命名、解压。
@@ -17,12 +15,12 @@
     - PDF工具：[PDF24](https://tools.pdf24.org/zh/)只能线上但是全能，[PDFgear](https://www.pdfgear.com/zh/)有客户端配合使用。
     - 办公软件：[WPS](https://www.wps.cn/)无法替换。
     - 截图软件：[Snipaste](https://zh.snipaste.com/)最好用的截图软件没有之一。
-    - 音乐播放器：网易云音乐+汽水音乐。~~[AlgerMusicPlayer音乐](https://alger.fun/download)，这个不知道怎么样~~。
+    - 音乐播放器：网易云音乐+汽水音乐。
     - 视频播放器：[IINA](https://iina.io/)最优秀的免费播放器，但仍然找不到Potplayer替代品，Omniplay开机太慢了。
     - 网盘同步：夸克网盘、阿里云盘、百度网盘、蓝奏云、坚果云。
     - 解压软件：[Keka](https://www.keka.io/zh-cn/)网页端免费，使用习惯有所不同。
     - 图片浏览：自带浏览。
-    - 互传工具：[LocalSend](https://localsend.org/zh-CN)多平台互传，但是文件一多就卡。
+    - 互传工具：[LocalSend](https://localsend.org/zh-CN)多平台互传，但是文件一多就卡，而且图片有些信息会丢失。
     - 刘海隐藏：[隐藏流海](https://topnotch.app/)，必备软件。
     - 时间屏保：[Fliqlo锁屏时间](https://fliqlo.com/screensaver/)。
     - 鼠标工具：[scrollreverser](https://pilotmoon.com/scrollreverser/)最好用，没有之一，MOS容易和剪映冲突[中文版本翻译](https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file)。
@@ -33,7 +31,6 @@
   - Aldente：必备的电池管理软件。
   - Bartender：让右上角顶部图标变小。
   - [Anytxt](https://anytxt.net/)：一款功能强大的桌面搜索工具，配备全文搜索引擎。
-  - PhotoBulk：图片批量添加水印，只有英文版。
 
 - 目前仍不够满意的空缺
   - 重命名软件：都不如PC上的renamer好用。
@@ -46,7 +43,6 @@
     - [Chrome](https://www.google.cn/chrome/)：从上面应用商店下载 64 位版本，不然有些插件会不管用。
     - Edge：感觉这个浏览器更同步起来更加方便一点，但是好像占用电脑CPU。
     - [书签同步xbrowsersync](https://www.xbrowsersync.org/)：暂时好像被禁用了。
-    - [Edge](https://www.microsoftedgeinsider.com/en-us/download/)还差点火候，也属于必装备用软件。
     - [QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)：社交必备。
     - [手心输入法](http://www.xinshuru.com/index.html?p=win)：手机版本3.0.0，PC更新至2.7。
     - [本地网络加速](https://steampp.net/)：用来登陆 github。
