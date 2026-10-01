@@ -1,6 +1,6 @@
 #!/bin/bash
 # 编辑内容 —— 双击运行
-# 用你电脑上最好用的编辑器打开 README.md（网站的唯一内容源）
+# 用 VSCode 打开 README.md（网站的唯一内容源）
 
 cd "$(dirname "$0")" || exit 1
 
@@ -17,18 +17,20 @@ if [ ! -f "$FILE" ]; then
   exit 1
 fi
 
-# 按优先级挑一个已安装的编辑器
-for APP in "Typora" "Visual Studio Code" "Cursor" "Sublime Text" "MacDown" "BBEdit" "TextMate"; do
+# 按优先级挑一个已安装的编辑器（VSCode 优先）
+for APP in "Visual Studio Code" "Cursor" "Typora" "Sublime Text" "MacDown" "BBEdit" "TextMate"; do
   if [ -d "/Applications/$APP.app" ] || [ -d "$HOME/Applications/$APP.app" ]; then
     open -a "$APP" "$FILE"
-    echo "已用「$APP」打开 README.md"
+    echo "✓ 已用「$APP」打开 README.md"
+    echo ""
+    echo "改完之后：保存（Cmd+S），然后双击「2-更新网站.command」上线。"
     exit 0
   fi
 done
 
 # 都没装，用系统自带的「文本编辑」
 open -e "$FILE"
-echo "已用系统「文本编辑」打开 README.md"
+echo "✓ 已用系统「文本编辑」打开 README.md"
 echo ""
-echo "提示：想要更好的 Markdown 编辑体验，可以装 Typora 或 VS Code。"
+echo "提示：装一个 VSCode 会顺手很多（免费）。"
 exit 0

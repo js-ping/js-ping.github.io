@@ -7,7 +7,7 @@
   约 1 分钟后生效，线上地址 https://uppjs.com
 
   手动等价命令：python3 build.py && git add -A && git commit -m "更新" && git push
-  完整说明见「使用说明.md」
+  完整说明见「使用说明.md」（会同步生成同内容的「使用说明.html」）
 -->
 
 ## 软件合集网

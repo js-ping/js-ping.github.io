@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>使用说明 · uppjs.com 维护手册</title>
+<style>
+:root{
+  --bg:#fbfbf9; --card:#fff; --fg:#1c1c1a; --fg2:#565650; --fg3:#8e8e86;
+  --line:#e4e4de; --accent:#a8681f; --soft:#f4f3ee; --code:#f2f1ea;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#141413; --card:#1c1c1a; --fg:#eceae4; --fg2:#b2b0a7; --fg3:#85837b;
+    --line:#302f2c; --accent:#d9a05c; --soft:#232320; --code:#25241f;
+  }
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",
+       "Microsoft YaHei",sans-serif;
+}
+article{max-width:800px; margin:0 auto; padding:40px 24px 80px}
+h1{font-size:26px; line-height:1.4; margin:0 0 6px; letter-spacing:-.01em}
+h2{font-size:19px; margin:38px 0 12px; padding-bottom:8px; border-bottom:1px solid var(--line)}
+h3{font-size:16px; margin:26px 0 8px}
+h4{font-size:15px; margin:20px 0 6px}
+p{margin:10px 0}
+a{color:var(--accent); text-decoration:none; border-bottom:1px solid var(--line)}
+a:hover{border-bottom-color:var(--accent)}
+hr{border:0; border-top:1px solid var(--line); margin:34px 0}
+ul,ol{margin:10px 0; padding-left:24px}
+li{margin:5px 0}
+code{
+  background:var(--code); border:1px solid var(--line); border-radius:4px;
+  padding:1px 5px; font-size:13.5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+pre{
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:14px 16px; overflow-x:auto; margin:14px 0;
+}
+pre code{background:none; border:0; padding:0; font-size:13.5px; line-height:1.65}
+blockquote{
+  margin:14px 0; padding:10px 16px; background:var(--soft);
+  border-left:3px solid var(--accent); border-radius:0 8px 8px 0;
+}
+blockquote p{margin:0}
+table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14px}
+th,td{border:1px solid var(--line); padding:8px 12px; text-align:left; vertical-align:top}
+th{background:var(--soft); font-weight:600}
+tbody tr:nth-child(even){background:var(--soft)}
+.back{
+  display:inline-block; margin-bottom:22px; font-size:13.5px; color:var(--fg3);
+  border-bottom:0;
+}
+.back:hover{color:var(--accent)}
+@media (max-width:640px){
+  article{padding:26px 16px 60px}
+  h1{font-size:21px}
+  h2{font-size:17px}
+  table,thead,tbody,tr,th,td{display:block; width:100%}
+  thead{display:none}
+  table{margin:14px 0}
+  tr{
+    border:1px solid var(--line); border-radius:10px; margin:0 0 10px;
+    padding:9px 13px; background:var(--card);
+  }
+  tbody tr:nth-child(even){background:var(--card)}
+  td{border:0; padding:3px 0; font-size:13.5px; color:var(--fg2)}
+  td:first-child{
+    font-weight:600; color:var(--fg); font-size:14.5px; padding-bottom:5px;
+    word-break:break-all;
+  }
+  pre{font-size:12.5px}
+  blockquote{padding:9px 13px}
+}
+@media print{
+  body{background:#fff; color:#000}
+  .back{display:none}
+  a{color:#000}
+  h2{page-break-after:avoid}
+  table,pre,blockquote{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<article>
+<a class="back" href="./">← 回到 uppjs.com</a>
+<h1>使用说明 —— 网站维护手册</h1>
+<p>线上地址：<a href="https://uppjs.com" target="_blank" rel="noopener noreferrer">https://uppjs.com</a> 这份说明写给&quot;完全不想碰命令行&quot;的你，全部操作都是<strong>双击</strong>。</p>
+<hr>
+<h2>一、这个网站由什么组成</h2>
+<p>这几个文件各司其职，日常你只会碰第一个：</p>
+<table><thead><tr><th>文件</th><th>作用</th><th>你要动它吗</th></tr></thead><tbody><tr><td><code>README.md</code></td><td><strong>唯一内容源</strong>。所有软件清单都写在这里</td><td>✅ <strong>只改这一个</strong></td></tr><tr><td><code>index.html</code></td><td>自动生成出来的网页（含搜索、导航、深浅色）</td><td>❌ <strong>绝对不要手改</strong></td></tr><tr><td><code>build.py</code></td><td>把 README 编译成 index.html 的脚本</td><td>❌ 不用动</td></tr><tr><td><code>1-编辑内容.command</code></td><td>双击 → 用 VSCode 打开 README</td><td>🔘 双击用，别打开看</td></tr><tr><td><code>2-更新网站.command</code></td><td>双击 → 生成 + 提交 + 推送上线</td><td>🔘 双击用，别打开看</td></tr><tr><td><code>使用说明.md</code> / <code>使用说明.html</code></td><td>就是本文，两个格式各一份</td><td>一般不用动</td></tr><tr><td><code>.vscode/settings.json</code></td><td>VSCode 的编辑设置（已配好）</td><td>不用动</td></tr></tbody></table>
+<blockquote><strong>唯一要记住的规则：只改 <code>README.md</code>。</strong><br><code>index.html</code> 和使用说明书都是每次自动生成的，你手动改了，下次更新就会被覆盖。</blockquote>
+<h3>关于说明书有两个版本</h3>
+<table><thead><tr><th>版本</th><th>文件</th><th>什么时候用</th></tr></thead><tbody><tr><td>Markdown</td><td><code>使用说明.md</code></td><td>在 VSCode 里读、改、走 git 版本回溯（这是内容源）</td></tr><tr><td>网页</td><td><code>使用说明.html</code></td><td><strong>双击直接在浏览器里看</strong>，排版清楚，手机上也能看</td></tr></tbody></table>
+<p><strong>两者内容完全一致，都从 <code>使用说明.md</code> 自动生成。</strong> 你只需要维护 md 这一份，双击 <code>2-更新网站.command</code> 时 html 版会跟着一起更新——永远不会不同步。</p>
+<blockquote>📱 <strong>手机上想看？</strong> 直接访问 <strong>https://uppjs.com/help.html</strong>。<br>（<code>使用说明.html</code> 和 <code>help.html</code> 是同一份内容，后者只是为了让网址好输入。）</blockquote>
+<hr>
+<h2>二、日常只有两个动作</h2>
+<h3>动作 1️⃣ 改内容</h3>
+<p>双击 <strong><code>1-编辑内容.command</code></strong> → 自动用 <strong>VSCode</strong> 打开 <code>README.md</code>。</p>
+<p><strong>具体操作（VSCode，你电脑上已经装了）：</strong></p>
+<table><thead><tr><th>步骤</th><th>做什么</th></tr></thead><tbody><tr><td>1</td><td>双击 <code>1-编辑内容.command</code>，VSCode 启动并打开 <code>README.md</code></td></tr><tr><td>2</td><td>直接在编辑器里改：加软件、改说明、调分类</td></tr><tr><td>3</td><td>想看排版效果：光标放在正文里，按 <code>Cmd + K</code> 松开，再按 <code>V</code> —— 右侧弹出实时预览</td></tr><tr><td>4</td><td>按 <code>Cmd + S</code> 保存（<strong>不保存等于没改</strong>）</td></tr><tr><td>5</td><td>关掉 VSCode，去双击 <code>2-更新网站.command</code></td></tr></tbody></table>
+<p><strong>为什么是 VSCode</strong>：改 Markdown 最顺手——有语法高亮、有实时预览、找东西有 <code>Cmd + F</code>、 还能按 <code>Cmd + Z</code> 一路撤销。项目里已经配好了 <code>.vscode/settings.json</code>： 长行自动换行、中文标点（<code>：</code>「」）不再被误报成&quot;可疑字符&quot;，打开就能用。</p>
+<p><strong>其他软件也能改，但没必要：</strong></p>
+<table><thead><tr><th>软件</th><th>评价</th></tr></thead><tbody><tr><td><strong>Obsidian</strong></td><td>你装了，但它按&quot;库&quot;组织，打开单个文件不顺手；而且这个目录是 git 仓库，混进去会乱</td></tr><tr><td><strong>IDEA</strong></td><td>能改，但它是 Java 开发用的重家伙，启动慢，改 Markdown 属于杀鸡用牛刀</td></tr><tr><td><strong>系统「文本编辑」</strong></td><td>能打开，但没高亮没预览，最后的选择</td></tr></tbody></table>
+<blockquote>说到底 <strong><code>README.md</code> 就是个纯文本文件</strong>，用哪个编辑器都行。<br>只有一条禁忌：<strong>别用 Word / Pages 这类富文本编辑器</strong>打开，它们会往里塞格式代码，把文件搞坏。</blockquote>
+<h3>动作 2️⃣ 更新上线</h3>
+<p>双击 <strong><code>2-更新网站.command</code></strong></p>
+<p>它自动完成四件事：</p>
+<table><thead><tr><th>步骤</th><th>做什么</th></tr></thead><tbody><tr><td>①</td><td>把 README 编译成网页，并告诉你共多少个分类/条目</td></tr><tr><td>②</td><td>把改动提交到 git</td></tr><tr><td>③</td><td>推送到 GitHub</td></tr><tr><td>④</td><td>打开本地预览，并弹窗告诉你结果</td></tr></tbody></table>
+<p>大约 <strong>1 分钟</strong>后，<a href="https://uppjs.com" target="_blank" rel="noopener noreferrer">https://uppjs.com</a> 就是新内容了。</p>
+<blockquote>⚠️ <strong>改完内容一定要双击第 2 个</strong>，否则线上看到的还是旧内容。</blockquote>
+<hr>
+<h2>三、README 怎么写（重要）</h2>
+<h3>规则速查</h3>
+<table><thead><tr><th>你写的内容</th><th>网页上会变成</th></tr></thead><tbody><tr><td><code>## 手机软件</code></td><td>一个新的<strong>分类</strong>（左侧导航多一项）</td></tr><tr><td><code>- <a href="https://iina.io/" target="_blank" rel="noopener noreferrer">IINA</a>：最优秀的免费播放器</code></td><td>一条<strong>可点击的条目</strong>，冒号后面是说明文字</td></tr><tr><td>在上一行下面<strong>缩进</strong>再写 <code>- xxx</code></td><td>上一行的<strong>子条目</strong>（更小更浅）</td></tr><tr><td><code>~~[旧软件](链接)：不好用了~~</code></td><td>标记成<strong>已废除</strong>，灰显并且默认折叠</td></tr><tr><td>在条目里写 <code>☆</code> 或 <code>（荐）</code></td><td>打上一个橙色的<strong>「荐」小徽章</strong></td></tr><tr><td>单独一行写 <code>工具类：</code>（中文冒号结尾）</td><td>自动变成可<strong>折叠的分组</strong>，把后面同级的条目收进去</td></tr><tr><td><code>&lt;!-- 随便写点备注 --&gt;</code></td><td><strong>完全忽略</strong>，网页上不出现</td></tr><tr><td>单独一个 <code>-</code>（空的短横线）</td><td>忽略，不会变成空条目</td></tr></tbody></table>
+<h3>加一条软件的完整例子</h3>
+<p>想加一条&quot;截图工具&quot;，就在对应分类下面写：</p>
+<pre><code>- [Snipaste](https://zh.snipaste.com/)：最好用的截图软件没有之一。</code></pre>
+<p>网页上会显示成一个叫「Snipaste」的蓝色可点链接，后面跟着说明。</p>
+<p>如果这个软件你特别想推荐，加个 <code>☆</code>：</p>
+<pre><code>- [Snipaste](https://zh.snipaste.com/)：☆ 最好用的截图软件没有之一。</code></pre>
+<p><strong>说明文字不是必须的</strong>，只写 <code>- [名字](链接)</code> 也可以。</p>
+<h3>几个容易踩的小坑</h3>
+<table><thead><tr><th>别这么写</th><th>为什么</th></tr></thead><tbody><tr><td>用 <code># 标题</code>（一个井号）</td><td>只认 <strong>两个井号</strong> <code>##</code>，一个井号会被当成普通文字</td></tr><tr><td>同一行里混用中英文冒号</td><td>说明文字只按<strong>第一个</strong>冒号切开，写一个就够</td></tr><tr><td>手动去改 <code>index.html</code></td><td>下次更新会被覆盖，白改</td></tr><tr><td>分类名重复</td><td>会产生两个同名分类，导航里看着乱</td></tr></tbody></table>
+<hr>
+<h2>四、首次使用：macOS 的安全提示</h2>
+<p>第一次双击 <code>.command</code> 文件，macOS 可能弹这个：</p>
+<blockquote>&quot;无法打开，因为它来自身份不明的开发者&quot;</blockquote>
+<p><strong>解决（只需做一次）：</strong></p>
+<ol><li>在文件上<strong>右键</strong>（或按住 Control 点一下）</li><li>选「<strong>打开</strong>」</li><li>弹出的窗口里再点一次「<strong>打开</strong>」</li></ol>
+<p>之后就能正常双击了。</p>
+<p>如果双击后终端窗口一闪就没了，说明执行出错。可以在<strong>终端</strong>里运行一次看详细信息：</p>
+<pre><code>cd ~/IdeaProjects/js-ping.github.io &amp;&amp; ./2-更新网站.command</code></pre>
+<hr>
+<h2>五、常见问题</h2>
+<p><strong>Q：我改了 README，但网页没变？</strong> A：九成是忘了双击 <code>2-更新网站.command</code>。另外 EdgeOne 部署有约 1 分钟延迟，稍等一下；浏览器缓存可以按 <code>Cmd+Shift+R</code> 强制刷新。</p>
+<p><strong>Q：双击后提示「推送失败」？</strong> A：绝大多数是网络问题。你的改动<strong>已经安全保存在本地</strong>，网络恢复后重新双击一次即可，不会丢东西。</p>
+<p><strong>Q：能直接在手机上改吗？</strong> A：可以。在 GitHub 网页上直接编辑 <code>README.md</code> 并提交，然后……<strong>需要在电脑上双击一次 <code>2-更新网站.command</code></strong>，因为 <code>index.html</code> 得在本地生成。如果不方便用电脑，见下面「进阶」。</p>
+<p><strong>Q：想改网站标题、配色、栏目结构？</strong> A：那些不在 README 里，在 <code>build.py</code> 里。用编辑器打开，找到最上面一大段 HTML 模板改。改坏了不用怕，git 里都有历史，随时能退回去。</p>
+<hr>
+<h2>六、进阶：以后想换托管商</h2>
+<p>现在挂在 <strong>GitHub Pages</strong>（<code>uppjs.com</code> 已通过 CNAME 指向它）。如果要换成腾讯云 EdgeOne Pages 加速国内访问，改动只在这三处：</p>
+<table><thead><tr><th>改哪里</th><th>改成什么</th></tr></thead><tbody><tr><td>EdgeOne 控制台</td><td>新建项目，连这个 GitHub 仓库；构建命令<strong>留空</strong>，输出目录填 <code>/</code>（因为 index.html 已经提交进仓库了）</td></tr><tr><td>阿里云 DNS</td><td>把 <code>uppjs.com</code> 和 <code>www</code> 的 CNAME 记录指向 EdgeOne 给出的地址</td></tr><tr><td>本仓库的 <code>CNAME</code> 文件</td><td>可以保留不管（EdgeOne 不读它），也可删掉</td></tr></tbody></table>
+<p><strong>这个仓库不需要任何改动</strong>，<code>build.py</code> 和两个 <code>.command</code> 照常用。</p>
+<hr>
+<h2>七、数据安全与免责</h2>
+<ul><li>所有内容只存在<strong>你自己的电脑</strong>和你自己的 GitHub 仓库里，本流程不上传任何数据到第三方。</li><li>页面是纯静态的，没有统计脚本、没有跟踪代码、不收集访客信息。</li><li>README 里的第三方下载链接仅作记录，安全性与可用性请自行判断。</li></ul>
+</article>
+</body>
+</html>

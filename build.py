@@ -927,6 +927,227 @@ __BODY__
 """
 
 
+# --------------------------------------------------------------------------
+# 4. 使用说明.md -> 使用说明.html（同一份内容，两个格式）
+# --------------------------------------------------------------------------
+
+HELP_SRC = ROOT / "使用说明.md"
+HELP_OUT = ROOT / "使用说明.html"
+
+
+def md_to_html(md: str) -> str:
+    """说明文档用的 Markdown 子集 -> HTML。
+    支持 h1-h4、段落、有序/无序列表、表格、代码块、引用、分隔线、
+    粗体、行内代码、[文字](url)、<自动链接>。"""
+    lines = md.split("\n")
+    n = len(lines)
+    out = []
+    i = 0
+
+    def inline(s: str) -> str:
+        s = esc(s)
+        s = re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
+        s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+        s = re.sub(r"&lt;(https?://[^\s&]+)&gt;",
+                   r'<a href="\1" target="_blank" rel="noopener noreferrer">\1</a>', s)
+        s = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)",
+                   r'<a href="\2" target="_blank" rel="noopener noreferrer">\1</a>', s)
+        return s
+
+    while i < n:
+        line = lines[i]
+
+        # 代码块
+        if line.strip().startswith("```"):
+            i += 1
+            buf = []
+            while i < n and not lines[i].strip().startswith("```"):
+                buf.append(lines[i])
+                i += 1
+            i += 1
+            out.append("<pre><code>" + esc("\n".join(buf)) + "</code></pre>")
+            continue
+
+        # 分隔线
+        if re.match(r"^-{3,}\s*$", line):
+            out.append("<hr>")
+            i += 1
+            continue
+
+        # 标题
+        m = re.match(r"^(#{1,4})\s+(.*)$", line)
+        if m:
+            lv = len(m.group(1))
+            out.append("<h%d>%s</h%d>" % (lv, inline(m.group(2)), lv))
+            i += 1
+            continue
+
+        # 表格
+        if line.strip().startswith("|") and i + 1 < n \
+                and re.match(r"^\s*\|[\s:|-]+\|\s*$", lines[i + 1]):
+            head = [c.strip() for c in line.strip().strip("|").split("|")]
+            i += 2
+            rows = []
+            while i < n and lines[i].strip().startswith("|"):
+                rows.append([c.strip() for c in lines[i].strip().strip("|").split("|")])
+                i += 1
+            t = ["<table><thead><tr>"]
+            t += ["<th>" + inline(c) + "</th>" for c in head]
+            t.append("</tr></thead><tbody>")
+            for r in rows:
+                t.append("<tr>" + "".join("<td>" + inline(c) + "</td>" for c in r) + "</tr>")
+            t.append("</tbody></table>")
+            out.append("".join(t))
+            continue
+
+        # 引用
+        if line.startswith("> "):
+            buf = []
+            while i < n and lines[i].startswith("> "):
+                buf.append(lines[i][2:])
+                i += 1
+            out.append("<blockquote>" + "<br>".join(inline(x) for x in buf) + "</blockquote>")
+            continue
+
+        # 有序列表
+        if re.match(r"^\d+\.\s+", line):
+            buf = []
+            while i < n and re.match(r"^\d+\.\s+", lines[i]):
+                buf.append(re.sub(r"^\d+\.\s+", "", lines[i]))
+                i += 1
+            out.append("<ol>" + "".join("<li>" + inline(x) + "</li>" for x in buf) + "</ol>")
+            continue
+
+        # 无序列表
+        if re.match(r"^[-*]\s+", line):
+            buf = []
+            while i < n and re.match(r"^[-*]\s+", lines[i]):
+                buf.append(re.sub(r"^[-*]\s+", "", lines[i]))
+                i += 1
+            out.append("<ul>" + "".join("<li>" + inline(x) + "</li>" for x in buf) + "</ul>")
+            continue
+
+        if not line.strip():
+            i += 1
+            continue
+
+        # 段落
+        buf = []
+        while i < n and lines[i].strip() \
+                and not re.match(r"^(#{1,4}\s|[-*]\s|\d+\.\s|>\s|```|-{3,}\s*$)", lines[i]):
+            buf.append(lines[i])
+            i += 1
+        if not buf:
+            buf = [lines[i]]
+            i += 1
+        out.append("<p>" + inline(" ".join(x.strip() for x in buf)) + "</p>")
+
+    return "\n".join(out)
+
+
+HELP_TEMPLATE = """<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>使用说明 · uppjs.com 维护手册</title>
+<style>
+:root{
+  --bg:#fbfbf9; --card:#fff; --fg:#1c1c1a; --fg2:#565650; --fg3:#8e8e86;
+  --line:#e4e4de; --accent:#a8681f; --soft:#f4f3ee; --code:#f2f1ea;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#141413; --card:#1c1c1a; --fg:#eceae4; --fg2:#b2b0a7; --fg3:#85837b;
+    --line:#302f2c; --accent:#d9a05c; --soft:#232320; --code:#25241f;
+  }
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",
+       "Microsoft YaHei",sans-serif;
+}
+article{max-width:800px; margin:0 auto; padding:40px 24px 80px}
+h1{font-size:26px; line-height:1.4; margin:0 0 6px; letter-spacing:-.01em}
+h2{font-size:19px; margin:38px 0 12px; padding-bottom:8px; border-bottom:1px solid var(--line)}
+h3{font-size:16px; margin:26px 0 8px}
+h4{font-size:15px; margin:20px 0 6px}
+p{margin:10px 0}
+a{color:var(--accent); text-decoration:none; border-bottom:1px solid var(--line)}
+a:hover{border-bottom-color:var(--accent)}
+hr{border:0; border-top:1px solid var(--line); margin:34px 0}
+ul,ol{margin:10px 0; padding-left:24px}
+li{margin:5px 0}
+code{
+  background:var(--code); border:1px solid var(--line); border-radius:4px;
+  padding:1px 5px; font-size:13.5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+pre{
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:14px 16px; overflow-x:auto; margin:14px 0;
+}
+pre code{background:none; border:0; padding:0; font-size:13.5px; line-height:1.65}
+blockquote{
+  margin:14px 0; padding:10px 16px; background:var(--soft);
+  border-left:3px solid var(--accent); border-radius:0 8px 8px 0;
+}
+blockquote p{margin:0}
+table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14px}
+th,td{border:1px solid var(--line); padding:8px 12px; text-align:left; vertical-align:top}
+th{background:var(--soft); font-weight:600}
+tbody tr:nth-child(even){background:var(--soft)}
+.back{
+  display:inline-block; margin-bottom:22px; font-size:13.5px; color:var(--fg3);
+  border-bottom:0;
+}
+.back:hover{color:var(--accent)}
+@media (max-width:640px){
+  article{padding:26px 16px 60px}
+  h1{font-size:21px}
+  h2{font-size:17px}
+  table,thead,tbody,tr,th,td{display:block; width:100%}
+  thead{display:none}
+  table{margin:14px 0}
+  tr{
+    border:1px solid var(--line); border-radius:10px; margin:0 0 10px;
+    padding:9px 13px; background:var(--card);
+  }
+  tbody tr:nth-child(even){background:var(--card)}
+  td{border:0; padding:3px 0; font-size:13.5px; color:var(--fg2)}
+  td:first-child{
+    font-weight:600; color:var(--fg); font-size:14.5px; padding-bottom:5px;
+    word-break:break-all;
+  }
+  pre{font-size:12.5px}
+  blockquote{padding:9px 13px}
+}
+@media print{
+  body{background:#fff; color:#000}
+  .back{display:none}
+  a{color:#000}
+  h2{page-break-after:avoid}
+  table,pre,blockquote{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<article>
+<a class="back" href="./">← 回到 uppjs.com</a>
+__BODY__
+</article>
+</body>
+</html>
+"""
+
+
+def build_help_html() -> str:
+    md = HELP_SRC.read_text(encoding="utf-8")
+    # 去掉开头的 H1，模板里已有语义（避免和 .back 挤在一起时重复感）
+    return HELP_TEMPLATE.replace("__BODY__", md_to_html(md))
+
+
 def git_date() -> str:
     import subprocess
     try:
@@ -958,6 +1179,14 @@ def main():
     groups = len(re.findall(r'<details class="group', html_out))
     print(f"已生成 {OUT.name}：{len(cats)} 个分类 / {groups} 个分组 / {n} 个条目 / "
           f"{links} 个外链 / {len(html_out)//1024} KB")
+
+    # 说明书的 HTML 版，跟着一起更新，保证 md / html 两个版本永远同步
+    # 另存一份英文名 help.html，方便在手机上直接输入网址访问
+    if HELP_SRC.exists():
+        help_out = build_help_html()
+        HELP_OUT.write_text(help_out, encoding="utf-8")
+        (ROOT / "help.html").write_text(help_out, encoding="utf-8")
+        print(f"已生成 {HELP_OUT.name} 与 help.html：{len(help_out)//1024} KB")
 
 
 if __name__ == "__main__":
