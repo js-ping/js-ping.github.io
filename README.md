@@ -1,3 +1,14 @@
+<!--
+  本文件是网站的唯一内容源，index.html 由它自动生成，请勿手改 index.html。
+
+  日常更新（全程双击，不用命令行）：
+    1-编辑内容.command   改本文件
+    2-更新网站.command   生成网页 + 提交 + 推送到 GitHub
+  约 1 分钟后生效，线上地址 https://uppjs.com
+
+  手动等价命令：python3 build.py && git add -A && git commit -m "更新" && git push
+  完整说明见「使用说明.md」
+-->
 
 ## 软件合集网
 
@@ -16,21 +27,21 @@
     - 办公软件：[WPS](https://www.wps.cn/)无法替换。
     - 截图软件：[Snipaste](https://zh.snipaste.com/)最好用的截图软件没有之一。
     - 音乐播放器：网易云音乐+汽水音乐。
-    - 视频播放器：[IINA](https://iina.io/)最优秀的免费播放器，但仍然找不到Potplayer替代品，Omniplay开机太慢了。
+    - 视频播放器：[IINA](https://iina.io/)最优秀的免费播放器，但仍然找不到Potplayer替代品，OmniPlayer 开机太慢了。
     - 网盘同步：夸克网盘、阿里云盘、百度网盘、蓝奏云、坚果云。
     - 解压软件：[Keka](https://www.keka.io/zh-cn/)网页端免费，使用习惯有所不同。
     - 图片浏览：自带浏览。
     - 互传工具：[LocalSend](https://localsend.org/zh-CN)多平台互传，但是文件一多就卡，而且图片有些信息会丢失。
-    - 刘海隐藏：[隐藏流海](https://topnotch.app/)，必备软件。
+    - 刘海隐藏：[隐藏刘海](https://topnotch.app/)，必备软件。
     - 时间屏保：[Fliqlo锁屏时间](https://fliqlo.com/screensaver/)。
-    - 鼠标工具：[scrollreverser](https://pilotmoon.com/scrollreverser/)最好用，没有之一，MOS容易和剪映冲突[中文版本翻译](https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file)。
+    - 鼠标工具：[Scroll Reverser](https://pilotmoon.com/scrollreverser/)最好用，没有之一，MOS容易和剪映冲突[中文版本翻译](https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file)。
     - 连接工具：[iMazing](https://www.imazingchina.com/)：Mac 的最佳 iOS 设备管理软件，可买永久300元左右。
     - 
 - 其他工具
   - 右键助手专业版：可以右键添加一些必备的内容。
-  - Aldente：必备的电池管理软件。
+  - AlDente：必备的电池管理软件。
   - Bartender：让右上角顶部图标变小。
-  - [Anytxt](https://anytxt.net/)：一款功能强大的桌面搜索工具，配备全文搜索引擎。
+  - [AnyTXT](https://anytxt.net/)：一款功能强大的桌面搜索工具，配备全文搜索引擎。
 
 - 目前仍不够满意的空缺
   - 重命名软件：都不如PC上的renamer好用。
@@ -62,7 +73,7 @@
     - [win11 任务栏](https://wwp.lanzoul.com/i7Bsx09zt0fe)，[win10 任务栏](https://wwp.lanzoul.com/iDK3P06gbcpg)  
         ：任务栏样式及透明设置，还是喜欢 win7 的样式。
     - [Snipaste](https://zh.snipaste.com/)：截图软件，设置开机启动，快捷键设置为`ctrl+alt+a`，安装商店版本。
-    - [QucikLook](https://www.microsoft.com/zh-cn/p/quicklook/9nv4bs3l1h4s?ocid=badge&rtc=1&activetab=pivot:overviewtab/)：按空格显示文件基本信息，图片视频可以直接浏览。
+    - [QuickLook](https://www.microsoft.com/zh-cn/p/quicklook/9nv4bs3l1h4s?ocid=badge&rtc=1&activetab=pivot:overviewtab/)：按空格显示文件基本信息，图片视频可以直接浏览。
     - [Potplayer](https://wwzt.lanzoul.com/iGOC20if05mb)：音视频播放器。
         - [（官网）](https://potplayer.daum.net/)登不上。
         - [国内镜像](https://potplayer.tv/?lang=zh_CN)
@@ -99,7 +110,7 @@
     - [Alldup](https://www.alldup.info/en_download_alldup.php)：文件查重工具。
     - [NewFolderWizard](https://wwp.lanzoul.com/iiabi03qrb1e)：批量创建文件夹，神器。
     - [Drop](http://www.dropitproject.com/)：文件按照自设定的协议进行分类，目前用不到。
-    - [BandiZip（6.25 版本）](https://wwe.lanzoux.com/ialDVihl5sj)：免费最后一版，界面舒服无广告。
+    - [Bandizip（6.25 版本）](https://wwe.lanzoux.com/ialDVihl5sj)：免费最后一版，界面舒服无广告。
     - [7z （压缩）](https://www.7-zip.org/)：经典好用，就是界面有点怀旧，有个好看点的。
 - 图片浏览：
     - [FastStone_Image_Viewer_V7.8（荐）](https://wwp.lanzoul.com/icZVF1pc62yb/)：支持 HEIC 格式，可以已文件夹形式浏览图片视频。
@@ -166,7 +177,7 @@
 
 ## 手机软件
 
-- Android独享：wow时钟 NFCToolsPRO [习惯（Loop loop habit track）](https://github.com/iSoron/uhabits/) gitme 小米天气 [MIXplorer](https://wwp.lanzoul.com/b017p1i3g)：文件管理，还要附带把那几个插件一起安装。
+- Android独享：wow时钟 NFCToolsPRO [习惯（Loop loop habit track）](https://github.com/iSoron/uhabits/) gitme 小米天气 [MiXplorer](https://wwp.lanzoul.com/b017p1i3g)：文件管理，还要附带把那几个插件一起安装。
 - IPhone独享：
 - 全体都有：
   - QQ 微信 淘宝 天猫 支付宝 京东 拼多多 云闪付 哔哩哔哩 

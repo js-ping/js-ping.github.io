@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>uppjs.com · 软件与硬件清单</title>
+<meta name="description" content="个人整理的 Mac / PC / 手机软件与硬件清单，支持即时搜索。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f6fed'/%3E%3Ctext x='16' y='23' font-size='19' font-family='sans-serif' font-weight='700' fill='%23fff' text-anchor='middle'%3Eu%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --panel2:#f0f2f5; --line:#e2e5ea;
+  --fg:#1b1f24; --fg2:#5b626b; --fg3:#8b929c;
+  --accent:#2f6fed; --accent-soft:#e8efff; --mark:#ffe9a8; --mark-fg:#3a2c00;
+  --radius:10px; --hh:57px; --tocw:206px;
+}
+html[data-theme="dark"]{
+  --bg:#14161a; --panel:#1c1f24; --panel2:#22262c; --line:#2e333a;
+  --fg:#e6e8ec; --fg2:#a8b0ba; --fg3:#7c848e;
+  --accent:#6ea0ff; --accent-soft:#22314f; --mark:#6b5a1a; --mark-fg:#ffeaa0;
+}
+@media (prefers-color-scheme: dark){
+  html[data-theme="auto"]{
+    --bg:#14161a; --panel:#1c1f24; --panel2:#22262c; --line:#2e333a;
+    --fg:#e6e8ec; --fg2:#a8b0ba; --fg3:#7c848e;
+    --accent:#6ea0ff; --accent-soft:#22314f; --mark:#6b5a1a; --mark-fg:#ffeaa0;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:14px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:var(--panel2); padding:1px 5px; border-radius:4px; font-size:12.5px;
+     font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+
+/* ---------- 顶栏 ---------- */
+header{
+  position:sticky; top:0; z-index:50;
+  background:var(--bg); border-bottom:1px solid var(--line);
+}
+@supports (backdrop-filter:blur(8px)){
+  header{background:color-mix(in srgb,var(--bg) 86%,transparent); backdrop-filter:saturate(1.6) blur(10px)}
+}
+.bar{
+  max-width:1180px; margin:0 auto; padding:9px 16px;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+}
+.brand{font-weight:700; font-size:15px; white-space:nowrap}
+.brand span{color:var(--fg3); font-weight:400; margin-left:6px; font-size:13px}
+.search{flex:1 1 240px; min-width:150px; position:relative}
+.search input{
+  width:100%; padding:8px 30px 8px 32px; border:1px solid var(--line); border-radius:var(--radius);
+  background:var(--panel); color:var(--fg); font-size:14px; outline:none;
+}
+.search input:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+.search::before{content:"⌕"; position:absolute; left:11px; top:7px; color:var(--fg3); font-size:15px}
+.search button{
+  position:absolute; right:4px; top:4px; border:0; background:transparent; color:var(--fg3);
+  font-size:16px; cursor:pointer; padding:4px 8px; border-radius:6px; display:none;
+}
+.search.has button{display:block}
+.tools{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--fg3); white-space:nowrap}
+.tools button,.tools select{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  padding:6px 9px; border-radius:8px; cursor:pointer; font-size:13px; max-width:150px;
+}
+.tools button:hover,.tools select:hover{border-color:var(--accent); color:var(--accent)}
+#count{font-variant-numeric:tabular-nums}
+
+/* ---------- 窄屏分类条 ---------- */
+nav.cats{position:sticky; top:var(--hh); z-index:40; background:var(--bg); border-bottom:1px solid var(--line)}
+nav.cats .wrap{
+  max-width:1180px; margin:0 auto; padding:8px 16px; display:flex; gap:6px;
+  overflow-x:auto; scrollbar-width:none;
+}
+nav.cats .wrap::-webkit-scrollbar{display:none}
+nav.cats a{
+  white-space:nowrap; padding:5px 11px; border-radius:20px; border:1px solid var(--line);
+  background:var(--panel); color:var(--fg2); font-size:13px;
+}
+nav.cats a:hover,nav.cats a.on{border-color:var(--accent); color:var(--accent); text-decoration:none}
+nav.cats a .n{color:var(--fg3); margin-left:5px; font-size:11px}
+
+/* ---------- 外壳 ---------- */
+.shell{
+  max-width:1180px; margin:0 auto; padding:16px 16px 0;
+  display:flex; align-items:flex-start; gap:24px;
+}
+aside.toc{display:none}
+main{flex:1; min-width:0; padding-bottom:34px}
+
+@media (min-width:1024px){
+  nav.cats{display:none}
+  aside.toc{
+    display:block; flex:0 0 var(--tocw); position:sticky; top:calc(var(--hh) + 14px);
+    max-height:calc(100vh - var(--hh) - 28px); overflow-y:auto; overscroll-behavior:contain;
+    padding-right:4px;
+  }
+  aside.toc::-webkit-scrollbar{width:6px}
+  aside.toc::-webkit-scrollbar-thumb{background:var(--line); border-radius:3px}
+}
+.toc-h{font-size:11px; letter-spacing:.09em; color:var(--fg3); text-transform:uppercase;
+       margin:0 0 7px 9px}
+.toc-cat>a{
+  display:flex; align-items:center; gap:8px; padding:5px 9px; border-radius:7px;
+  font-weight:600; font-size:13px; color:var(--fg2);
+}
+.toc-cat>a span.n{margin-left:auto}
+.toc-cat>a:hover{background:var(--panel2); color:var(--fg); text-decoration:none}
+.toc-cat>a.on{background:var(--accent-soft); color:var(--accent)}
+.toc-cat>a .n,.toc-grp a .n{font-size:11px; color:var(--fg3); font-weight:400}
+.toc-grp{margin:1px 0 7px 9px; border-left:1px solid var(--line); padding-left:7px}
+.toc-grp a{
+  display:block; padding:3px 7px; border-radius:6px; font-size:12.5px; color:var(--fg3);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.toc-grp a:hover{color:var(--accent); background:var(--panel2); text-decoration:none}
+.toc-grp a.on{color:var(--accent); background:var(--accent-soft)}
+.toc-grp a[data-d="1"]{padding-left:18px; font-size:12px}
+
+/* ---------- 主体 ---------- */
+.sec{margin-bottom:22px; scroll-margin-top:calc(var(--hh) + 14px)}
+.sec h2{
+  font-size:17px; margin:0 0 10px; padding-bottom:7px; border-bottom:2px solid var(--line);
+  display:flex; align-items:center; gap:8px;
+}
+.sec h2 .anchor{opacity:0; font-size:15px; color:var(--fg3)}
+.sec h2:hover .anchor{opacity:1}
+.sec-body{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:6px 14px}
+
+details.group{border-bottom:1px dashed var(--line); padding:4px 0; scroll-margin-top:calc(var(--hh) + 14px)}
+details.group:last-child{border-bottom:0}
+details.group.grp-dep{opacity:.78}
+details.group>summary{
+  cursor:pointer; list-style:none; padding:7px 0; display:flex; align-items:center; gap:8px;
+  font-weight:600; font-size:14px;
+}
+details.group>summary::-webkit-details-marker{display:none}
+details.group>summary::before{
+  content:"▸"; color:var(--fg3); font-size:11px; transition:transform .15s; display:inline-block;
+}
+details.group[open]>summary::before{transform:rotate(90deg)}
+.grp-n{color:var(--fg3); font-weight:400; font-size:11.5px;
+       background:var(--panel2); border-radius:10px; padding:0 7px}
+.grp-desc{margin:0 0 6px 19px; color:var(--fg2); font-size:13px}
+.grp-body{margin-left:19px; padding-bottom:6px}
+
+.item{
+  padding:5px 0 5px 12px; border-left:2px solid var(--line); margin:3px 0;
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:8px;
+}
+.item:hover{border-left-color:var(--accent); background:var(--panel2)}
+.item .nm{font-weight:600; color:var(--fg)}
+.item a.nm{color:var(--accent)}
+.item a.nm:hover{text-decoration:underline}
+.item .ds{color:var(--fg2); font-size:13px; flex:1 1 260px}
+.item .badge{
+  font-size:10.5px; color:#fff; background:#d98a1f; border-radius:4px; padding:1px 5px;
+  line-height:1.4;
+}
+.item.dep .nm{text-decoration:line-through; color:var(--fg3)}
+.item.dep .ds{color:var(--fg3); text-decoration:line-through}
+.item.cur{background:var(--accent-soft); border-left-color:var(--accent); border-radius:0 5px 5px 0}
+ul.sub{margin:4px 0 2px 0; padding-left:16px; color:var(--fg2); font-size:13px; width:100%}
+ul.sub li{margin:2px 0}
+mark{background:var(--mark); color:var(--mark-fg); border-radius:2px; padding:0 1px}
+
+@keyframes flash{from{background:var(--accent-soft)} to{background:transparent}}
+.flash{animation:flash 1.2s ease-out}
+
+.hidden{display:none !important}
+.empty{display:none; text-align:center; color:var(--fg3); padding:44px 0; font-size:13.5px}
+.empty.show{display:block}
+.empty b{color:var(--fg2)}
+
+/* ---------- 使用说明 ---------- */
+.help{margin-top:28px; background:var(--panel); border:1px solid var(--line);
+      border-radius:var(--radius); padding:6px 16px}
+.help summary{cursor:pointer; font-weight:600; padding:8px 0}
+.help h3{font-size:14px; margin:16px 0 6px}
+.help p,.help li{color:var(--fg2); font-size:13px}
+.help table{border-collapse:collapse; width:100%; margin:6px 0 4px}
+.help td,.help th{border:1px solid var(--line); padding:5px 9px; font-size:13px; text-align:left;
+                  vertical-align:top}
+.help th{background:var(--panel2); font-weight:600}
+.help kbd{background:var(--panel2); border:1px solid var(--line); border-bottom-width:2px;
+          border-radius:4px; padding:0 5px; font-size:12px; font-family:inherit}
+
+footer{
+  max-width:1180px; margin:0 auto; padding:0 16px 46px; color:var(--fg3); font-size:12.5px;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+}
+.totop{
+  position:fixed; right:18px; bottom:18px; width:38px; height:38px; border-radius:50%;
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2); cursor:pointer;
+  font-size:16px; display:none; z-index:60;
+}
+.totop.show{display:block}
+
+@media (max-width:720px){
+  .bar{padding:8px 12px; gap:8px}
+  .brand span{display:none}
+  .brand{font-size:14px}
+  .tools{gap:6px}
+  .tools button,.tools select{padding:6px 8px; font-size:12.5px}
+  .shell{padding:12px 12px 0}
+  .item .ds{flex-basis:100%; padding-left:0}
+  .sec-body{padding:4px 10px}
+  footer{padding:0 12px 34px}
+}
+@media print{
+  header,nav.cats,aside.toc,.totop,.help{display:none}
+  body{background:#fff}
+  .shell{display:block; padding:0}
+  .sec-body{border:0; padding:0}
+  details.group{page-break-inside:avoid}
+  details.group:not([open])>div,details.group:not([open])>p{display:block}
+}
+</style>
+</head>
+<body id="top">
+
+<header>
+  <div class="bar">
+    <div class="brand">uppjs.com<span>软件与硬件清单</span></div>
+    <div class="search" id="searchbox">
+      <input id="q" type="search" placeholder="搜索软件名 / 说明，按 / 聚焦、↑↓ 选择" autocomplete="off">
+      <button id="clr" title="清空">×</button>
+    </div>
+    <div class="tools">
+      <span id="count"></span>
+      <select id="filter" title="筛选">
+        <option value="all">全部</option>
+        <option value="link">有下载链接</option>
+        <option value="star">我推荐的</option>
+      </select>
+      <button id="toggleAll" title="展开 / 折叠全部分组">折叠</button>
+      <button id="theme" title="切换主题">主题</button>
+    </div>
+  </div>
+</header>
+
+<nav class="cats"><div class="wrap"><a href="#软件合集网">软件合集网<span class="n">2</span></a><a href="#mac-iphone">Mac&amp;iPhone<span class="n">25</span></a><a href="#pc-软件">PC 软件<span class="n">98</span></a><a href="#mac-软件">MAC 软件<span class="n">6</span></a><a href="#手机软件">手机软件<span class="n">8</span></a><a href="#配件硬件推荐">配件硬件推荐<span class="n">22</span></a><a href="#其他">其他<span class="n">29</span></a></div></nav>
+
+<div class="shell">
+  <aside class="toc">
+    <p class="toc-h">目录</p>
+<div class="toc-cat"><a href="#软件合集网" data-t="软件合集网">软件合集网<span class="n">2</span></a>
+</div>
+<div class="toc-cat"><a href="#mac-iphone" data-t="mac-iphone">Mac&amp;iPhone<span class="n">25</span></a>
+<div class="toc-grp">
+<a href="#g1" data-t="g1">装机必备</a>
+<a href="#g2" data-t="g2">其他工具</a>
+<a href="#g3" data-t="g3">目前仍不够满意的空缺</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#pc-软件" data-t="pc-软件">PC 软件<span class="n">98</span></a>
+<div class="toc-grp">
+<a href="#g4" data-t="g4">装机必备</a>
+<a href="#g5" data-t="g5">网盘同步</a>
+<a href="#g6" data-t="g6">录屏软件</a>
+<a href="#g7" data-t="g7">文件相关</a>
+<a href="#g8" data-t="g8">图片浏览</a>
+<a href="#g9" data-t="g9">装机工具</a>
+<a href="#g10" data-t="g10">小工具</a>
+<a href="#g11" data-t="g11" data-d="1">软媒良心产物</a>
+<a href="#g12" data-t="g12">CAD，REVIT</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#mac-软件" data-t="mac-软件">MAC 软件<span class="n">6</span></a>
+<div class="toc-grp">
+<a href="#g13" data-t="g13">工具类</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#手机软件" data-t="手机软件">手机软件<span class="n">8</span></a>
+<div class="toc-grp">
+<a href="#g14" data-t="g14">全体都有</a>
+<a href="#g15" data-t="g15">其他情况</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#配件硬件推荐" data-t="配件硬件推荐">配件硬件推荐<span class="n">22</span></a>
+<div class="toc-grp">
+<a href="#g16" data-t="g16">氮化镓</a>
+<a href="#g17" data-t="g17">普通电池</a>
+<a href="#g18" data-t="g18">打印机</a>
+<a href="#g19" data-t="g19">键盘</a>
+<a href="#g20" data-t="g20">鼠标</a>
+<a href="#g21" data-t="g21">显示器</a>
+<a href="#g22" data-t="g22" data-d="1">明基色准系列</a>
+<a href="#g23" data-t="g23">裝修</a>
+<a href="#g24" data-t="g24">自动铅笔</a>
+<a href="#g25" data-t="g25">自动铅笔笔芯</a>
+<a href="#g26" data-t="g26">中性笔</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#其他" data-t="其他">其他<span class="n">29</span></a>
+<div class="toc-grp">
+<a href="#g27" data-t="g27">win11 设置</a>
+<a href="#g28" data-t="g28">Chrome 插件</a>
+<a href="#g29" data-t="g29">小技巧</a>
+<a href="#g30" data-t="g30">已废除</a>
+<a href="#g31" data-t="g31" data-d="1">音乐播放器</a>
+</div>
+</div>
+  </aside>
+
+  <main>
+    <div class="empty" id="empty">
+      没有匹配的条目。<br><b>试试更短的关键词</b>，或把筛选切回「全部」。
+    </div>
+<section class="sec" id="软件合集网" data-spy>
+<h2>软件合集网<a class="anchor" href="#软件合集网" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<div class="item" data-s="蓝奏云盘 软件外链。" data-l="1"><a class="nm" href="https://up.woozooo.com/" target="_blank" rel="noopener noreferrer">蓝奏云盘</a><span class="ds">软件外链。</span></div>
+<div class="item" data-s="正品软件购买 荔枝"><span class="nm">正品软件购买</span><span class="ds"><a href="https://store.lizhi.io/" target="_blank" rel="noopener noreferrer">荔枝</a></span></div>
+</div></section>
+<section class="sec" id="mac-iphone" data-spy>
+<h2>Mac&amp;iPhone<a class="anchor" href="#mac-iphone" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g1" data-spy open><summary><span class="grp-title">装机必备</span><span class="grp-n">18</span></summary><div class="grp-body"><div class="item" data-s="浏览器 chrome：最完美的浏览器，可是没法登录，太膈应了。"><span class="nm">浏览器</span><span class="ds">Chrome：最完美的浏览器，可是没法登录，太膈应了。</span></div><div class="item" data-s="社交软件 qq、微信必备的聊天软件。"><span class="nm">社交软件</span><span class="ds"><a href="https://im.qq.com/download/" target="_blank" rel="noopener noreferrer">QQ</a>、<a href="https://weixin.qq.com/" target="_blank" rel="noopener noreferrer">微信</a>&#8201;必备的聊天软件。</span></div><div class="item" data-s="输入法 微信输入法多平台稳定同步，推荐。"><span class="nm">输入法</span><span class="ds"><a href="https://z.weixin.qq.com/" target="_blank" rel="noopener noreferrer">微信输入法</a>&#8201;多平台稳定同步，推荐。</span></div><div class="item" data-s="文件管理 qspace：替代访达，已购入会员，自带重命名、解压。"><span class="nm">文件管理</span><span class="ds"><a href="https://qspace.awehunt.com/zh-cn/" target="_blank" rel="noopener noreferrer">Qspace</a>：替代访达，已购入会员，自带重命名、解压。</span></div><div class="item" data-s="下载工具 ndm：配合浏览器下载神器。"><span class="nm">下载工具</span><span class="ds"><a href="http://www.neatdownloadmanager.com/index.php/en/" target="_blank" rel="noopener noreferrer">NDM</a>：配合浏览器下载神器。</span></div><div class="item" data-s="pdf工具 pdf24只能线上但是全能，pdfgear有客户端配合使用。"><span class="nm">PDF工具</span><span class="ds"><a href="https://tools.pdf24.org/zh/" target="_blank" rel="noopener noreferrer">PDF24</a>&#8201;只能线上但是全能，<a href="https://www.pdfgear.com/zh/" target="_blank" rel="noopener noreferrer">PDFgear</a>&#8201;有客户端配合使用。</span></div><div class="item" data-s="办公软件 wps无法替换。"><span class="nm">办公软件</span><span class="ds"><a href="https://www.wps.cn/" target="_blank" rel="noopener noreferrer">WPS</a>&#8201;无法替换。</span></div><div class="item" data-s="截图软件 snipaste最好用的截图软件没有之一。"><span class="nm">截图软件</span><span class="ds"><a href="https://zh.snipaste.com/" target="_blank" rel="noopener noreferrer">Snipaste</a>&#8201;最好用的截图软件没有之一。</span></div><div class="item" data-s="音乐播放器 网易云音乐+汽水音乐。"><span class="nm">音乐播放器</span><span class="ds">网易云音乐+汽水音乐。</span></div><div class="item" data-s="视频播放器 iina最优秀的免费播放器，但仍然找不到potplayer替代品，omniplayer 开机太慢了。"><span class="nm">视频播放器</span><span class="ds"><a href="https://iina.io/" target="_blank" rel="noopener noreferrer">IINA</a>&#8201;最优秀的免费播放器，但仍然找不到Potplayer替代品，OmniPlayer 开机太慢了。</span></div><div class="item" data-s="网盘同步 夸克网盘、阿里云盘、百度网盘、蓝奏云、坚果云。"><span class="nm">网盘同步</span><span class="ds">夸克网盘、阿里云盘、百度网盘、蓝奏云、坚果云。</span></div><div class="item" data-s="解压软件 keka网页端免费，使用习惯有所不同。"><span class="nm">解压软件</span><span class="ds"><a href="https://www.keka.io/zh-cn/" target="_blank" rel="noopener noreferrer">Keka</a>&#8201;网页端免费，使用习惯有所不同。</span></div><div class="item" data-s="图片浏览 自带浏览。"><span class="nm">图片浏览</span><span class="ds">自带浏览。</span></div><div class="item" data-s="互传工具 localsend多平台互传，但是文件一多就卡，而且图片有些信息会丢失。"><span class="nm">互传工具</span><span class="ds"><a href="https://localsend.org/zh-CN" target="_blank" rel="noopener noreferrer">LocalSend</a>&#8201;多平台互传，但是文件一多就卡，而且图片有些信息会丢失。</span></div><div class="item" data-s="刘海隐藏 隐藏刘海，必备软件。"><span class="nm">刘海隐藏</span><span class="ds"><a href="https://topnotch.app/" target="_blank" rel="noopener noreferrer">隐藏刘海</a>，必备软件。</span></div><div class="item" data-s="时间屏保 fliqlo锁屏时间。"><span class="nm">时间屏保</span><span class="ds"><a href="https://fliqlo.com/screensaver/" target="_blank" rel="noopener noreferrer">Fliqlo锁屏时间</a>。</span></div><div class="item" data-s="鼠标工具 scroll reverser最好用，没有之一，mos容易和剪映冲突中文版本翻译。"><span class="nm">鼠标工具</span><span class="ds"><a href="https://pilotmoon.com/scrollreverser/" target="_blank" rel="noopener noreferrer">Scroll Reverser</a>&#8201;最好用，没有之一，MOS容易和剪映冲突&#8201;<a href="https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file" target="_blank" rel="noopener noreferrer">中文版本翻译</a>。</span></div><div class="item" data-s="连接工具 imazing：mac 的最佳 ios 设备管理软件，可买永久300元左右。"><span class="nm">连接工具</span><span class="ds"><a href="https://www.imazingchina.com/" target="_blank" rel="noopener noreferrer">iMazing</a>：Mac 的最佳 iOS 设备管理软件，可买永久300元左右。</span></div></div></details>
+<details class="group grp" id="g2" data-spy open><summary><span class="grp-title">其他工具</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="右键助手专业版 可以右键添加一些必备的内容。"><span class="nm">右键助手专业版</span><span class="ds">可以右键添加一些必备的内容。</span></div><div class="item" data-s="aldente 必备的电池管理软件。"><span class="nm">AlDente</span><span class="ds">必备的电池管理软件。</span></div><div class="item" data-s="bartender 让右上角顶部图标变小。"><span class="nm">Bartender</span><span class="ds">让右上角顶部图标变小。</span></div><div class="item" data-s="anytxt 一款功能强大的桌面搜索工具，配备全文搜索引擎。" data-l="1"><a class="nm" href="https://anytxt.net/" target="_blank" rel="noopener noreferrer">AnyTXT</a><span class="ds">一款功能强大的桌面搜索工具，配备全文搜索引擎。</span></div></div></details>
+<details class="group grp" id="g3" data-spy open><summary><span class="grp-title">目前仍不够满意的空缺</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="重命名软件 都不如pc上的renamer好用。"><span class="nm">重命名软件</span><span class="ds">都不如PC上的renamer好用。</span></div><div class="item" data-s="图片快速简单处理软件 也没有光影魔术手好用。"><span class="nm">图片快速简单处理软件</span><span class="ds">也没有光影魔术手好用。</span></div><div class="item" data-s="视频播放，更是没有potplayer一般的万能神奇应用"><span class="nm">视频播放，更是没有potplayer一般的万能神奇应用</span></div></div></details>
+</div></section>
+<section class="sec" id="pc-软件" data-spy>
+<h2>PC 软件<a class="anchor" href="#pc-软件" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g4" data-spy open><summary><span class="grp-title">装机必备</span><span class="grp-n">35</span></summary><div class="grp-body"><div class="item" data-s="chrome 从上面应用商店下载 64 位版本，不然有些插件会不管用。" data-l="1"><a class="nm" href="https://www.google.cn/chrome/" target="_blank" rel="noopener noreferrer">Chrome</a><span class="ds">从上面应用商店下载 64 位版本，不然有些插件会不管用。</span></div><div class="item" data-s="edge 感觉这个浏览器更同步起来更加方便一点，但是好像占用电脑cpu。"><span class="nm">Edge</span><span class="ds">感觉这个浏览器更同步起来更加方便一点，但是好像占用电脑CPU。</span></div><div class="item" data-s="书签同步xbrowsersync 暂时好像被禁用了。" data-l="1"><a class="nm" href="https://www.xbrowsersync.org/" target="_blank" rel="noopener noreferrer">书签同步xbrowsersync</a><span class="ds">暂时好像被禁用了。</span></div><div class="item" data-s="qq 微信：社交必备。" data-l="1"><a class="nm" href="https://im.qq.com/download/" target="_blank" rel="noopener noreferrer">QQ</a><span class="ds"><a href="https://weixin.qq.com/" target="_blank" rel="noopener noreferrer">微信</a>：社交必备。</span></div><div class="item" data-s="手心输入法 手机版本3.0.0，pc更新至2.7。" data-l="1"><a class="nm" href="http://www.xinshuru.com/index.html?p=win" target="_blank" rel="noopener noreferrer">手心输入法</a><span class="ds">手机版本3.0.0，PC更新至2.7。</span></div><div class="item" data-s="本地网络加速 用来登陆 github。" data-l="1"><a class="nm" href="https://steampp.net/" target="_blank" rel="noopener noreferrer">本地网络加速</a><span class="ds">用来登陆 github。</span></div><div class="item" data-s="ndm 配合浏览器辅助下载工具，免费神器，比 idm 用起来简便一点。" data-l="1"><a class="nm" href="http://www.neatdownloadmanager.com/index.php/en/" target="_blank" rel="noopener noreferrer">NDM</a><span class="ds">配合浏览器辅助下载工具，免费神器，比 IDM 用起来简便一点。</span></div><div class="item" data-s="火绒 系统安全，某些时候用得到，可不下。" data-l="1"><a class="nm" href="https://www.huorong.cn/" target="_blank" rel="noopener noreferrer">火绒</a><span class="ds">系统安全，某些时候用得到，可不下。</span></div><div class="item" data-s="格式工厂 良心软件，各种格式随意转换。" data-l="1"><a class="nm" href="http://www.pcfreetime.com/formatfactory/CN/index.html" target="_blank" rel="noopener noreferrer">格式工厂</a><span class="ds">良心软件，各种格式随意转换。</span></div><div class="item" data-s="sumatrapdf阅读器 轻量pdf及各种电子书格式阅读器。" data-l="1"><a class="nm" href="https://www.sumatrapdfreader.org/free-pdf-reader" target="_blank" rel="noopener noreferrer">SumatraPDF阅读器</a><span class="ds">轻量PDF及各种电子书格式阅读器。</span></div><div class="item" data-s="pdf24 pdf 工具集，合并分割等好多，免费开源。" data-l="1"><a class="nm" href="https://tools.pdf24.org/zh/" target="_blank" rel="noopener noreferrer">PDF24</a><span class="ds">PDF 工具集，合并分割等好多，免费开源。</span></div><div class="item star" data-s="wps v11.8.2.11019 最后一版支持经典模式，皮肤 → 经典，带上 pdf 阅读器。" data-l="1" data-star="1"><a class="nm" href="https://www.aliyundrive.com/s/W8sT57gsbJ2" target="_blank" rel="noopener noreferrer">WPS v11.8.2.11019</a><span class="badge" title="个人推荐">荐</span><span class="ds">最后一版支持经典模式，皮肤 → 经典，带上 PDF 阅读器。</span></div><div class="item" data-s="欧路词典 手机电脑英语必备，免费版也挺干净的。" data-l="1"><a class="nm" href="https://dict.eudic.net/" target="_blank" rel="noopener noreferrer">欧路词典</a><span class="ds">手机电脑英语必备，免费版也挺干净的。</span></div><div class="item" data-s="joplin 好用的工作笔记，同步用 onedrive。" data-l="1"><a class="nm" href="https://joplinapp.org/" target="_blank" rel="noopener noreferrer">Joplin</a><span class="ds">好用的工作笔记，同步用 onedrive。</span></div><div class="item" data-s="onenote（笔记必备） 同步也已经很快了，没有之一。" data-l="1"><a class="nm" href="https://www.onenote.com/?public=1&amp;wdorigin=ondcauth2&amp;wdorigin=ondc" target="_blank" rel="noopener noreferrer">Onenote（笔记必备）</a><span class="ds">同步也已经很快了，没有之一。</span></div><div class="item" data-s="语雀 当作展示页面用，笔记不推荐。" data-l="1"><a class="nm" href="https://www.yuque.com/" target="_blank" rel="noopener noreferrer">语雀</a><span class="ds">当作展示页面用，笔记不推荐。</span></div><div class="item" data-s="powertoys（工具必备） 插件合集，悬停、分屏、快速启动等。" data-l="1"><a class="nm" href="https://github.com/microsoft/PowerToys" target="_blank" rel="noopener noreferrer">PowerToys（工具必备）</a><span class="ds">插件合集，悬停、分屏、快速启动等。</span></div><div class="item star" data-s="handshaker 手机电脑最好用的文件传输工具，没有之一。" data-l="1" data-star="1"><a class="nm" href="https://www.smartisan.com/apps/#/handshaker" target="_blank" rel="noopener noreferrer">Handshaker</a><span class="badge" title="个人推荐">荐</span><span class="ds">手机电脑最好用的文件传输工具，没有之一。</span></div><div class="item" data-s="geek 辅助卸载工具，清理功能强大。" data-l="1"><a class="nm" href="https://geekuninstaller.com/download" target="_blank" rel="noopener noreferrer">Geek</a><span class="ds">辅助卸载工具，清理功能强大。</span></div><div class="item" data-s="win11 任务栏 win10 任务栏：任务栏样式及透明设置，还是喜欢 win7 的样式。" data-l="1"><a class="nm" href="https://wwp.lanzoul.com/i7Bsx09zt0fe" target="_blank" rel="noopener noreferrer">win11 任务栏</a><span class="ds"><a href="https://wwp.lanzoul.com/iDK3P06gbcpg" target="_blank" rel="noopener noreferrer">win10 任务栏</a>：任务栏样式及透明设置，还是喜欢 win7 的样式。</span></div><div class="item" data-s="snipaste 截图软件，设置开机启动，快捷键设置为ctrl+alt+a，安装商店版本。" data-l="1"><a class="nm" href="https://zh.snipaste.com/" target="_blank" rel="noopener noreferrer">Snipaste</a><span class="ds">截图软件，设置开机启动，快捷键设置为<code>ctrl+alt+a</code>，安装商店版本。</span></div><div class="item" data-s="quicklook 按空格显示文件基本信息，图片视频可以直接浏览。" data-l="1"><a class="nm" href="https://www.microsoft.com/zh-cn/p/quicklook/9nv4bs3l1h4s?ocid=badge&amp;rtc=1&amp;activetab=pivot:overviewtab/" target="_blank" rel="noopener noreferrer">QuickLook</a><span class="ds">按空格显示文件基本信息，图片视频可以直接浏览。</span></div><div class="item" data-s="potplayer 音视频播放器。 （官网）登不上。 国内镜像 动态插帧 bluesky。 k-lite codec pack视频缩略图显示，默认安装即可。" data-l="1"><a class="nm" href="https://wwzt.lanzoul.com/iGOC20if05mb" target="_blank" rel="noopener noreferrer">Potplayer</a><span class="ds">音视频播放器。</span><ul class="sub"><li><a href="https://potplayer.daum.net/" target="_blank" rel="noopener noreferrer">（官网）</a> — <span class="ds">登不上。</span></li><li><a href="https://potplayer.tv/?lang=zh_CN" target="_blank" rel="noopener noreferrer">国内镜像</a></li><li><a href="https://bluesky-soft.com/en/BlueskyFRC.html" target="_blank" rel="noopener noreferrer">动态插帧 Bluesky</a> — <span class="ds">。</span></li><li><a href="http://www.codecguide.com/configuration_tips.htm?version=1845" target="_blank" rel="noopener noreferrer">K-Lite Codec Pack</a> — <span class="ds">视频缩略图显示，默认安装即可。</span></li></ul></div><div class="item" data-s="多屏同时播放 gridplayer 多屏同时播放软件，搞不懂这个可以干嘛用。" data-l="1"><a class="nm" href="https://github.com/vzhd1701/gridplayer" target="_blank" rel="noopener noreferrer">多屏同时播放</a><span class="ds">GridPlayer 多屏同时播放软件，搞不懂这个可以干嘛用。</span></div><div class="item star" data-s="迅雷（绿色版） bt 下载没一个能用的，迅雷太强大了。" data-l="1" data-star="1"><a class="nm" href="https://www.aliyundrive.com/s/GVsDt8iEnTZ" target="_blank" rel="noopener noreferrer">迅雷（绿色版）</a><span class="badge" title="个人推荐">荐</span><span class="ds">BT 下载没一个能用的，迅雷太强大了。</span></div><div class="item" data-s="adobe 全家桶 按需下载安装，ps、pr。" data-l="1"><a class="nm" href="https://www.aliyundrive.com/s/kyRiDLhoBGW" target="_blank" rel="noopener noreferrer">Adobe 全家桶</a><span class="ds">按需下载安装，ps、pr。</span></div><div class="item" data-s="pasteex 复制后的文字图片可以直接粘贴为文件，设置监听模式。" data-l="1"><a class="nm" href="https://github.com/huiyadanli/PasteEx" target="_blank" rel="noopener noreferrer">PasteEx</a><span class="ds">复制后的文字图片可以直接粘贴为文件，设置监听模式。</span></div><div class="item" data-s="copyq 自动储存复制过的内容。" data-l="1"><a class="nm" href="https://hluk.github.io/CopyQ/" target="_blank" rel="noopener noreferrer">CopyQ</a><span class="ds">自动储存复制过的内容。</span></div><div class="item" data-s="scratch 儿童编程。" data-l="1"><a class="nm" href="https://scratch.iruanhui.cn/?bd_vid=11038991590739980576" target="_blank" rel="noopener noreferrer">Scratch</a><span class="ds">儿童编程。</span></div><div class="item" data-s="onecommander 文件管理工具，免费版本就挺好用。" data-l="1"><a class="nm" href="https://onecommander.com/" target="_blank" rel="noopener noreferrer">OneCommander</a><span class="ds">文件管理工具，免费版本就挺好用。</span></div><div class="item" data-s="amd 驱动升级 。" data-l="1"><a class="nm" href="https://www.amd.com/zh-hans/support" target="_blank" rel="noopener noreferrer">AMD 驱动升级</a><span class="ds">。</span></div><div class="item" data-s="系统环境安装 好像新系统，不需要这样那样的系统环境了。" data-l="1"><a class="nm" href="https://www.aliyundrive.com/s/BsguUXrpTNK" target="_blank" rel="noopener noreferrer">系统环境安装</a><span class="ds">好像新系统，不需要这样那样的系统环境了。</span></div><div class="item" data-s="落雪 免费开源第三方，帮助下载无版权音乐。" data-l="1"><a class="nm" href="https://github.com/lyswhut/lx-music-desktop#readme" target="_blank" rel="noopener noreferrer">落雪</a><span class="ds">免费开源第三方，帮助下载无版权音乐。</span></div><div class="item" data-s="shanaencoder 视频格式转换。" data-l="1"><a class="nm" href="https://wwzt.lanzoul.com/iLxeQ2ic27kh" target="_blank" rel="noopener noreferrer">ShanaEncoder</a><span class="ds">视频格式转换。</span></div><div class="item" data-s="softcnkiller win流氓软件删除。" data-l="1"><a class="nm" href="https://wwzt.lanzoul.com/isW8B2ic2r1i" target="_blank" rel="noopener noreferrer">SoftCnKiller</a><span class="ds">win流氓软件删除。</span></div></div></details>
+<details class="group grp" id="g5" data-spy open><summary><span class="grp-title">网盘同步</span><span class="grp-n">5</span></summary><div class="grp-body"><div class="item" data-s="坚果云 支持 webdav，可以云存储某些网盘的文件，但有时内容可能会被吞。" data-l="1"><a class="nm" href="https://www.jianguoyun.com/s/downloads" target="_blank" rel="noopener noreferrer">坚果云</a><span class="ds">支持 WebDAV，可以云存储某些网盘的文件，但有时内容可能会被吞。</span></div><div class="item" data-s="百度网盘 目前仍有很多分享文件。" data-l="1"><a class="nm" href="https://pan.baidu.com/download" target="_blank" rel="noopener noreferrer">百度网盘</a><span class="ds">目前仍有很多分享文件。</span></div><div class="item" data-s="阿里云盘 新近崛起，存储视频照片的主要地方，已放弃一刻。" data-l="1"><a class="nm" href="https://www.aliyundrive.com/" target="_blank" rel="noopener noreferrer">阿里云盘</a><span class="ds">新近崛起，存储视频照片的主要地方，已放弃一刻。</span></div><div class="item" data-s="蓝奏云 某些特定软件的外链网盘。" data-l="1"><a class="nm" href="https://www.lanzoux.com/" target="_blank" rel="noopener noreferrer">蓝奏云</a><span class="ds">某些特定软件的外链网盘。</span></div><div class="item" data-s="夸克网盘 空间大，可以同步文件夹。" data-l="1"><a class="nm" href="https://www.quark.cn/" target="_blank" rel="noopener noreferrer">夸克网盘</a><span class="ds">空间大，可以同步文件夹。</span></div></div></details>
+<details class="group grp" id="g6" data-spy open><summary><span class="grp-title">录屏软件</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="obs 免费开源，录屏直播最好用，有点门槛。" data-l="1"><a class="nm" href="https://obsproject.com/" target="_blank" rel="noopener noreferrer">OBS</a><span class="ds">免费开源，录屏直播最好用，有点门槛。</span></div><div class="item" data-s="captura（开源）" data-l="1"><a class="nm" href="https://captura.updatestar.com/" target="_blank" rel="noopener noreferrer">Captura（开源）</a></div><div class="item" data-s="ocam(v7bf) 。" data-l="1"><a class="nm" href="https://pan.baidu.com/s/1kViBPslgr45O291ed9cu2g/" target="_blank" rel="noopener noreferrer">oCam(v7bf)</a><span class="ds">。</span></div></div></details>
+<details class="group grp" id="g7" data-spy open><summary><span class="grp-title">文件相关</span><span class="grp-n">10</span></summary><div class="grp-body"><div class="item" data-s="office tool plus 免费安装微软 office？" data-l="1"><a class="nm" href="https://otp.landian.la/zh-cn/" target="_blank" rel="noopener noreferrer">Office Tool Plus</a><span class="ds">免费安装微软 office？</span></div><div class="item" data-s="数据恢复 没用过，希望不会用到。" data-l="1"><a class="nm" href="https://pjs.lanzoux.com/ibipeud/" target="_blank" rel="noopener noreferrer">数据恢复</a><span class="ds">没用过，希望不会用到。</span></div><div class="item" data-s="renamer 批量重命名完美，非商业可免费用。" data-l="1"><a class="nm" href="http://www.den4b.com/products/renamer" target="_blank" rel="noopener noreferrer">ReNamer</a><span class="ds">批量重命名完美，非商业可免费用。</span></div><div class="item" data-s="everything 文件搜索神器，没有之一。" data-l="1"><a class="nm" href="https://www.voidtools.com/downloads/" target="_blank" rel="noopener noreferrer">Everything</a><span class="ds">文件搜索神器，没有之一。</span></div><div class="item" data-s="filelocator pro 文档内容也能够搜索到，神器。" data-l="1"><a class="nm" href="https://wwa.lanzoui.com/ipHN6regcxc" target="_blank" rel="noopener noreferrer">FileLocator Pro</a><span class="ds">文档内容也能够搜索到，神器。</span></div><div class="item" data-s="alldup 文件查重工具。" data-l="1"><a class="nm" href="https://www.alldup.info/en_download_alldup.php" target="_blank" rel="noopener noreferrer">Alldup</a><span class="ds">文件查重工具。</span></div><div class="item" data-s="newfolderwizard 批量创建文件夹，神器。" data-l="1"><a class="nm" href="https://wwp.lanzoul.com/iiabi03qrb1e" target="_blank" rel="noopener noreferrer">NewFolderWizard</a><span class="ds">批量创建文件夹，神器。</span></div><div class="item" data-s="drop 文件按照自设定的协议进行分类，目前用不到。" data-l="1"><a class="nm" href="http://www.dropitproject.com/" target="_blank" rel="noopener noreferrer">Drop</a><span class="ds">文件按照自设定的协议进行分类，目前用不到。</span></div><div class="item" data-s="bandizip（6.25 版本） 免费最后一版，界面舒服无广告。" data-l="1"><a class="nm" href="https://wwe.lanzoux.com/ialDVihl5sj" target="_blank" rel="noopener noreferrer">Bandizip（6.25 版本）</a><span class="ds">免费最后一版，界面舒服无广告。</span></div><div class="item" data-s="7z （压缩） 经典好用，就是界面有点怀旧，有个好看点的。" data-l="1"><a class="nm" href="https://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7z （压缩）</a><span class="ds">经典好用，就是界面有点怀旧，有个好看点的。</span></div></div></details>
+<details class="group grp" id="g8" data-spy open><summary><span class="grp-title">图片浏览</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item star" data-s="faststone_image_viewer_v7.8 支持 heic 格式，可以已文件夹形式浏览图片视频。" data-l="1" data-star="1"><a class="nm" href="https://wwp.lanzoul.com/icZVF1pc62yb/" target="_blank" rel="noopener noreferrer">FastStone_Image_Viewer_V7.8</a><span class="badge" title="个人推荐">荐</span><span class="ds">支持 HEIC 格式，可以已文件夹形式浏览图片视频。</span></div><div class="item star" data-s="irfanview 图片 批量转换heic格式照片。" data-l="1" data-star="1"><a class="nm" href="https://www.irfanview.com/" target="_blank" rel="noopener noreferrer">IrfanView 图片</a><span class="badge" title="个人推荐">荐</span><span class="ds">批量转换HEIC格式照片。</span></div><div class="item" data-s="honeyview 不支持 heic 格式，有新版本 bandview，还不成熟。" data-l="1"><a class="nm" href="https://www.bandisoft.com/honeyview/" target="_blank" rel="noopener noreferrer">HoneyView</a><span class="ds">不支持 HEIC 格式，有新版本 Bandview，还不成熟。</span></div><div class="item" data-s="billfish 图片管理，得新建文件夹导入，不太来电。" data-l="1"><a class="nm" href="https://www.billfish.cn/" target="_blank" rel="noopener noreferrer">Billfish</a><span class="ds">图片管理，得新建文件夹导入，不太来电。</span></div><div class="item" data-s="picasa 老牌，被谷歌丢弃，但功能依然强大。" data-l="1"><a class="nm" href="https://pjs.lanzoux.com/ibipdvi/" target="_blank" rel="noopener noreferrer">Picasa</a><span class="ds">老牌，被谷歌丢弃，但功能依然强大。</span></div><div class="item" data-s="光影魔术手 版本：4.4.1.403，新版本不好用。" data-l="1"><a class="nm" href="https://wwzt.lanzoul.com/iuDsN28asdna" target="_blank" rel="noopener noreferrer">光影魔术手</a><span class="ds">版本：4.4.1.403，新版本不好用。</span></div></div></details>
+<details class="group grp" id="g9" data-spy open><summary><span class="grp-title">装机工具</span><span class="grp-n">9</span></summary><div class="grp-body"><div class="item" data-s="系统、激活 系统下载网站，配备激活，office，一应俱全。" data-l="1"><a class="nm" href="https://hellowindows.cn/" target="_blank" rel="noopener noreferrer">系统、激活</a><span class="ds">系统下载网站，配备激活，office，一应俱全。</span></div><div class="item" data-s="系统下载 下载方式简单明了。" data-l="1"><a class="nm" href="https://www.xitongku.com/" target="_blank" rel="noopener noreferrer">系统下载</a><span class="ds">下载方式简单明了。</span></div><div class="item" data-s="diskgenius 单文件 单文件版本纯净。" data-l="1"><a class="nm" href="https://www.aliyundrive.com/s/7wiWbXsPSBT" target="_blank" rel="noopener noreferrer">Diskgenius 单文件</a><span class="ds">单文件版本纯净。</span></div><div class="item" data-s="驱动人生万能网卡 没网时候用得到。" data-l="1"><a class="nm" href="https://wwp.lanzoul.com/i0Urz06m6kvg" target="_blank" rel="noopener noreferrer">驱动人生万能网卡</a><span class="ds">没网时候用得到。</span></div><div class="item" data-s="驱动注入工具 用于 win7 系统没有 usb3.0 驱动。" data-l="1"><a class="nm" href="https://www.aliyundrive.com/s/nwzRYuVP9Yr" target="_blank" rel="noopener noreferrer">驱动注入工具</a><span class="ds">用于 win7 系统没有 USB3.0 驱动。</span></div><div class="item" data-s="ventoy 制作装机盘，默认安装后格式化为 ntfs 格式。" data-l="1"><a class="nm" href="https://www.ventoy.net/cn/index.html" target="_blank" rel="noopener noreferrer">Ventoy</a><span class="ds">制作装机盘，默认安装后格式化为 NTFS 格式。</span></div><div class="item" data-s="winpe 装机盘，制作成 iso 格式放进 ventoy。" data-l="1"><a class="nm" href="http://www.wepe.com.cn/download.html" target="_blank" rel="noopener noreferrer">WinPE</a><span class="ds">装机盘，制作成 ISO 格式放进 ventoy。</span></div><div class="item" data-s="rufus 制作装机盘，轻便，一次只能做一个不推荐。" data-l="1"><a class="nm" href="https://rufus.ie/zh_CN.html" target="_blank" rel="noopener noreferrer">Rufus</a><span class="ds">制作装机盘，轻便，一次只能做一个不推荐。</span></div><div class="item" data-s="u 盘启动错误，verification failed，开机 f2，关闭 security boot"><span class="nm">U 盘启动错误，Verification failed，开机 F2，关闭 Security BOOT</span></div></div></details>
+<details class="group grp" id="g10" data-spy open><summary><span class="grp-title">小工具</span><span class="grp-n">20</span></summary><div class="grp-body"><div class="item" data-s="spacesniffer 优雅查看电脑文件大小。" data-l="1"><a class="nm" href="http://www.uderzo.it/main_products/space_sniffer/index.html" target="_blank" rel="noopener noreferrer">SpaceSniffer</a><span class="ds">优雅查看电脑文件大小。</span></div><div class="item" data-s="cmm 鼠标右键管理工具，可以删掉右键里的多余内容。" data-l="1"><a class="nm" href="https://github.com/BluePointLilac/ContextMenuManager/releases" target="_blank" rel="noopener noreferrer">CMM</a><span class="ds">鼠标右键管理工具，可以删掉右键里的多余内容。</span></div><div class="item" data-s="quicker 是个全能神器，但好像自己需求并不大。" data-l="1"><a class="nm" href="https://getquicker.net/" target="_blank" rel="noopener noreferrer">Quicker</a><span class="ds">是个全能神器，但好像自己需求并不大。</span></div><div class="item" data-s="spacedesk 手机屏幕当电脑副屏，略微延迟 。" data-l="1"><a class="nm" href="https://spacedesk.net/" target="_blank" rel="noopener noreferrer">Spacedesk</a><span class="ds">手机屏幕当电脑副屏，略微延迟 。</span></div><div class="item" data-s="simplenote 跨平台免费笔记应用，简单，本人需求不大。" data-l="1"><a class="nm" href="https://simplenote.com/" target="_blank" rel="noopener noreferrer">Simplenote</a><span class="ds">跨平台免费笔记应用，简单，本人需求不大。</span></div><details class="group grp" id="g11" data-spy open><summary><span class="grp-title">软媒良心产物</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="设置大师" data-l="1"><a class="nm" href="https://pjs.lanzoux.com/ibipdeb/" target="_blank" rel="noopener noreferrer">设置大师</a></div><div class="item" data-s="清理大师" data-l="1"><a class="nm" href="https://pjs.lanzoux.com/ibipdcj/" target="_blank" rel="noopener noreferrer">清理大师</a></div><div class="item" data-s="美化大师（去除快捷方式箭头） 。" data-l="1"><a class="nm" href="https://pjs.lanzoux.com/ibipdda/" target="_blank" rel="noopener noreferrer">美化大师（去除快捷方式箭头）</a><span class="ds">。</span></div></div></details><div class="item" data-s="win10 云萌 win10 激活工具，没用过。" data-l="1"><a class="nm" href="https://cmwtat.cloudmoe.com/cn.html" target="_blank" rel="noopener noreferrer">win10 云萌</a><span class="ds">win10 激活工具，没用过。</span></div><div class="item" data-s="win 激活工具 windows 激活工具，貌似全能。" data-l="1"><a class="nm" href="https://wwzt.lanzoul.com/iR6vT0r1wefa" target="_blank" rel="noopener noreferrer">win 激活工具</a><span class="ds">windows 激活工具，貌似全能。</span></div><div class="item" data-s="lively 动态桌面，按理说应该不错，但自己爱不起来。" data-l="1"><a class="nm" href="https://apps.microsoft.com/store/detail/lively-wallpaper/9NTM2QC6QWS7?hl=en-us&amp;gl=US" target="_blank" rel="noopener noreferrer">Lively</a><span class="ds">动态桌面，按理说应该不错，但自己爱不起来。</span></div><div class="item" data-s="wnr 桌面倒计时，小巧。" data-l="1"><a class="nm" href="https://getwnr.com/zh/" target="_blank" rel="noopener noreferrer">Wnr</a><span class="ds">桌面倒计时，小巧。</span></div><div class="item" data-s="aida64 查看电脑硬件信息。" data-l="1"><a class="nm" href="https://pjs.lanzoux.com/ibj85eh/" target="_blank" rel="noopener noreferrer">AIDA64</a><span class="ds">查看电脑硬件信息。</span></div><div class="item" data-s="inpaintsetup 去除水印的小工具。" data-l="1"><a class="nm" href="https://www.theinpaint.com/download.html" target="_blank" rel="noopener noreferrer">InpaintSetup</a><span class="ds">去除水印的小工具。</span></div><div class="item" data-s="moo0 小工具软件的集合，但没大有用。" data-l="1"><a class="nm" href="https://zhs.moo0.com/?top=https://zhs.moo0.com/best/%23tools" target="_blank" rel="noopener noreferrer">Moo0</a><span class="ds">小工具软件的集合，但没大有用。</span></div><div class="item" data-s="fliqlo 屏保。无安装，将文件放入这两个文件夹内 ，c:\windows\system32和c:\windows\syswow64，无法取消开机登录，弃坑。" data-l="1"><a class="nm" href="https://fliqlo.com/screensaver/" target="_blank" rel="noopener noreferrer">Fliqlo</a><span class="ds">屏保。无安装，将文件放入这两个文件夹内 ，<code>C:\Windows\System32</code>和<code>C:\Windows\SysWOW64</code>，无法取消开机登录，弃坑。</span></div><div class="item" data-s="ffmpeg 视频工具，记得写入环境变量即可。" data-l="1"><a class="nm" href="https://ffmpeg.org/" target="_blank" rel="noopener noreferrer">FFmpeg</a><span class="ds">视频工具，记得写入环境变量即可。</span></div><div class="item" data-s="ditto 粘贴板，将复制的东西有序地进行粘贴，特定情况下有用。" data-l="1"><a class="nm" href="https://ditto-cp.sourceforge.io/" target="_blank" rel="noopener noreferrer">Ditto</a><span class="ds">粘贴板，将复制的东西有序地进行粘贴，特定情况下有用。</span></div><div class="item" data-s="deskpins 强制页面图钉，简单好用，由于官方工具内置，所以舍弃。" data-l="1"><a class="nm" href="https://efotinis.neocities.org/deskpins/" target="_blank" rel="noopener noreferrer">DeskPins</a><span class="ds">强制页面图钉，简单好用，由于官方工具内置，所以舍弃。</span></div><div class="item" data-s="miui+ 小米手机和电脑连接的工具。" data-l="1"><a class="nm" href="https://www.mi.com/service/notebook/drivers/A53" target="_blank" rel="noopener noreferrer">MIUI+</a><span class="ds">小米手机和电脑连接的工具。</span></div></div></details>
+<details class="group grp" id="g12" data-spy open><summary><span class="grp-title">CAD，REVIT</span><span class="grp-n">10</span></summary><p class="grp-desc">如果屡次安装不成功，最好就是重置系统。</p><div class="grp-body"><div class="item" data-s="中望 cad 国产 cad 软件集成天正，打开速度方便快捷，为什么大家还是用 auto？？" data-l="1"><a class="nm" href="https://www.zwcad.com/" target="_blank" rel="noopener noreferrer">中望 CAD</a><span class="ds">国产 CAD 软件集成天正，打开速度方便快捷，为什么大家还是用 AUTO？？</span></div><div class="item" data-s="cad 字体 之前收集的，也不全。" data-l="1"><a class="nm" href="https://wwa.lanzoui.com/iOkizqoc77g" target="_blank" rel="noopener noreferrer">CAD 字体</a><span class="ds">之前收集的，也不全。</span></div><div class="item" data-s="cad 2022 cad 2022 挺好的版本，没必要不换。" data-l="1"><a class="nm" href="https://www.aliyundrive.com/s/RCP47zLSKpE" target="_blank" rel="noopener noreferrer">CAD 2022</a><span class="ds">CAD 2022 挺好的版本，没必要不换。</span></div><div class="item" data-s="cadzxw cad 自学网，软件挺全，百度网盘 geek 工具进行卸载，先卸载主软件，再卸载配套软件，清理其他内容时要注意甄别，因为 revit 可能会被误删。" data-l="1"><a class="nm" href="http://www.cadzxw.com/download.html/" target="_blank" rel="noopener noreferrer">CADZXW</a><span class="ds">CAD 自学网，软件挺全，百度网盘 Geek 工具进行卸载，先卸载主软件，再卸载配套软件，清理其他内容时要注意甄别，因为 Revit 可能会被误删。</span></div><div class="item" data-s="acmecad cad 高版本转为低版本。" data-l="1"><a class="nm" href="https://wwzt.lanzoul.com/iNkMT2ic0ztc" target="_blank" rel="noopener noreferrer">AcmeCAD</a><span class="ds">CAD 高版本转为低版本。</span></div><div class="item" data-s="天正 t20v9.0 目前这个版本，可以支持 cad2010 以上。"><span class="nm">天正 T20V9.0</span><span class="ds">目前这个版本，可以支持 CAD2010 以上。</span></div><div class="item" data-s="revit 2020 内含方法。" data-l="1"><a class="nm" href="https://www.aliyundrive.com/s/vzLK6MD4V46" target="_blank" rel="noopener noreferrer">Revit 2020</a><span class="ds">内含方法。</span></div><div class="item" data-s="revit 2020 许可管理器不起作用 内有教程。" data-l="1"><a class="nm" href="https://www.aliyundrive.com/s/9cghFT6R4gW" target="_blank" rel="noopener noreferrer">Revit 2020 许可管理器不起作用</a><span class="ds">内有教程。</span></div><div class="item" data-s="插件-橄榄山 支持到 2022。" data-l="1"><a class="nm" href="http://www.glsbim.com/intro/42.html" target="_blank" rel="noopener noreferrer">插件-橄榄山</a><span class="ds">支持到 2022。</span></div><div class="item" data-s="插件-构件坞 原装的构件没有梁就很神奇。" data-l="1"><a class="nm" href="https://www.goujianwu.com/plugin" target="_blank" rel="noopener noreferrer">插件-构件坞</a><span class="ds">原装的构件没有梁就很神奇。</span></div></div></details>
+</div></section>
+<section class="sec" id="mac-软件" data-spy>
+<h2>MAC 软件<a class="anchor" href="#mac-软件" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<div class="item" data-s="snippets 代码片段笔记软件。" data-l="1"><a class="nm" href="https://www.renfei.org/snippets-lab/" target="_blank" rel="noopener noreferrer">snippets</a><span class="ds">代码片段笔记软件。</span></div>
+<details class="group grp" id="g13" data-spy open><summary><span class="grp-title">工具类</span><span class="grp-n">5</span></summary><div class="grp-body"><div class="item" data-s="folder peek"><span class="nm">Folder peek</span></div><div class="item" data-s="mounty"><span class="nm">Mounty</span></div><div class="item" data-s="airdrop"><span class="nm">Airdrop</span></div><div class="item" data-s="hidden bar"><span class="nm">hidden bar</span></div><div class="item" data-s="omi"><span class="nm">Omi</span></div></div></details>
+</div></section>
+<section class="sec" id="手机软件" data-spy>
+<h2>手机软件<a class="anchor" href="#手机软件" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<div class="item" data-s="android独享 wow时钟 nfctoolspro 习惯（loop loop habit track） gitme 小米天气 mixplorer：文件管理，还要附带把那几个插件一起安装。"><span class="nm">Android独享</span><span class="ds">wow时钟 NFCToolsPRO <a href="https://github.com/iSoron/uhabits/" target="_blank" rel="noopener noreferrer">习惯（Loop loop habit track）</a> gitme 小米天气 <a href="https://wwp.lanzoul.com/b017p1i3g" target="_blank" rel="noopener noreferrer">MiXplorer</a>：文件管理，还要附带把那几个插件一起安装。</span></div>
+<div class="item" data-s="iphone独享"><span class="nm">IPhone独享</span></div>
+<details class="group grp" id="g14" data-spy open><summary><span class="grp-title">全体都有</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="qq 微信 淘宝 天猫 支付宝 京东 拼多多 云闪付 哔哩哔哩"><span class="nm">QQ 微信 淘宝 天猫 支付宝 京东 拼多多 云闪付 哔哩哔哩</span></div><div class="item" data-s="优酷 网易云音乐 酷安 全历史 wps 知乎 onenote 欧路词典"><span class="nm">优酷 网易云音乐 酷安 全历史 wps 知乎 onenote 欧路词典</span></div><div class="item" data-s="星图 天气通 高德地图 百度地图 下厨房 最右 古文岛 百度网盘"><span class="nm">星图 天气通 高德地图 百度地图 下厨房 最右 古文岛 百度网盘</span></div><div class="item" data-s="joplin 微软数学 阿里云网盘"><span class="nm">Joplin 微软数学 阿里云网盘</span></div></div></details>
+<details class="group grp" id="g15" data-spy open><summary><span class="grp-title">其他情况</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="手心输入法在iphone上会出现断触，我在mac和安卓上一直使用"><span class="nm">手心输入法在IPhone上会出现断触，我在mac和安卓上一直使用</span></div></div></details>
+<div class="item" data-s="备份 1. 微信聊天记录可在电脑客户端备份。2. qq 输入法为 qq 登录，其他都为微信登录。fh"><span class="nm">备份</span><span class="ds">1. 微信聊天记录可在电脑客户端备份。2. QQ 输入法为 QQ 登录，其他都为微信登录。fh</span></div>
+</div></section>
+<section class="sec" id="配件硬件推荐" data-spy>
+<h2>配件硬件推荐<a class="anchor" href="#配件硬件推荐" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g16" data-spy open><summary><span class="grp-title">氮化镓</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="小米手机用小米充没错"><span class="nm">小米手机用小米充没错</span></div><div class="item" data-s="iphone用安克冰点冲30w足够"><span class="nm">iPhone用安克冰点冲30w足够</span></div><div class="item" data-s="mac用65w绿联氮化镓"><span class="nm">Mac用65w绿联氮化镓</span></div></div></details>
+<details class="group grp" id="g17" data-spy open><summary><span class="grp-title">普通电池</span><span class="grp-n">2</span></summary><p class="grp-desc">鼠标键盘带的电池，根本不需要更换电池，电量用不完。</p><div class="grp-body"><div class="item" data-s="7#小电池 博朗耳温枪电池。"><span class="nm">7#小电池</span><span class="ds">博朗耳温枪电池。</span></div><div class="item" data-s="5#大电池 超霸 lr6。"><span class="nm">5#大电池</span><span class="ds">超霸 LR6。</span></div></div></details>
+<details class="group grp" id="g18" data-spy open><summary><span class="grp-title">打印机</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="惠普 m126nw 无线打印扫描，硒鼓 cc388a 很实惠，买粉买芯片用起来更方便吧，惠普 m126nw 驱动"><span class="nm">惠普 m126nw 无线打印扫描，硒鼓 CC388A 很实惠，买粉买芯片用起来更方便吧，<a href="https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-mfp-m126-series/5396665/model/5303411?ssfFlag=true&amp;sku=" target="_blank" rel="noopener noreferrer">惠普 m126nw 驱动</a></span></div></div></details>
+<details class="group grp" id="g19" data-spy open><summary><span class="grp-title">键盘</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="薄膜键盘 k380 薄膜键盘，轻薄好用，缺点是没有数字键盘。"><span class="nm">薄膜键盘 K380</span><span class="ds">薄膜键盘，轻薄好用，缺点是没有数字键盘。</span></div><div class="item" data-s="机械键盘 都说好，我只想安静，不是自己的菜。"><span class="nm">机械键盘</span><span class="ds">都说好，我只想安静，不是自己的菜。</span></div></div></details>
+<details class="group grp" id="g20" data-spy open><summary><span class="grp-title">鼠标</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="罗技鹅卵石 超级静音，按键两年左右会坏，可自己购买后更换。"><span class="nm">罗技鹅卵石</span><span class="ds">超级静音，按键两年左右会坏，可自己购买后更换。</span></div></div></details>
+<details class="group grp" id="g21" data-spy open><summary><span class="grp-title">显示器</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="超长 2k"><span class="nm">超长 2K</span></div><div class="item" data-s="4k 买的泰坦，便宜。"><span class="nm">4K</span><span class="ds">买的泰坦，便宜。</span></div><details class="group grp" id="g22" data-spy open><summary><span class="grp-title">明基色准系列</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="27寸型号pd2706u价格4200元"><span class="nm">27寸型号PD2706U价格4200元</span></div><div class="item" data-s="32寸型号pv3200u价格4999元"><span class="nm">32寸型号PV3200U价格4999元</span></div></div></details></div></details>
+<details class="group grp" id="g23" data-spy open><summary><span class="grp-title">裝修</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="增高架 造木制木，全套不到1000元"><span class="nm">增高架</span><span class="ds">造木制木，全套不到1000元</span></div><div class="item" data-s="椅子 steelcase gesture，价格10017元"><span class="nm">椅子</span><span class="ds">Steelcase Gesture，价格10017元</span></div><div class="item" data-s="桌子 智芯ku3，价格2700元"><span class="nm">桌子</span><span class="ds">智芯KU3，价格2700元</span></div></div></details>
+<details class="group grp" id="g24" data-spy open><summary><span class="grp-title">自动铅笔</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="三菱 m5-559，双倍速，价格实惠"><span class="nm">三菱 M5-559，双倍速，价格实惠</span></div><div class="item" data-s="三菱 m5-450，单倍速，价格实惠，个人更喜欢单倍速"><span class="nm">三菱 M5-450，单倍速，价格实惠，个人更喜欢单倍速</span></div></div></details>
+<details class="group grp" id="g25" data-spy open><summary><span class="grp-title">自动铅笔笔芯</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="三菱防污 ul-s，0.5hb"><span class="nm">三菱防污 UL-S，0.5HB</span></div><div class="item" data-s="三菱彩铅，颜色浅，容易断，尝鲜后退坑"><span class="nm">三菱彩铅，颜色浅，容易断，尝鲜后退坑</span></div></div></details>
+<details class="group grp" id="g26" data-spy open><summary><span class="grp-title">中性笔</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="小米巨能写"><span class="nm">小米巨能写</span></div><div class="item" data-s="百乐 p500 盗版太多，还在找笔中。"><span class="nm">百乐 P500</span><span class="ds">盗版太多，还在找笔中。</span></div></div></details>
+</div></section>
+<section class="sec" id="其他" data-spy>
+<h2>其他<a class="anchor" href="#其他" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g27" data-spy open><summary><span class="grp-title">win11 设置</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="要保持一个至少一年重置一次电脑的频率才行，有些难以清理的东西，只能通过这种行为才能根除"><span class="nm">要保持一个至少一年重置一次电脑的频率才行，有些难以清理的东西，只能通过这种行为才能根除</span></div><div class="item" data-s="取消开机密码 win+r，netplwiz，添加一个账户，去掉对勾，删除那个添加的账户，在原先账户上弹窗输入和自己账户一样的账号密码。"><span class="nm">取消开机密码</span><span class="ds">win+R，netplwiz，添加一个账户，去掉对勾，删除那个添加的账户，在原先账户上弹窗输入和自己账户一样的账号密码。</span></div></div></details>
+<details class="group grp" id="g28" data-spy open><summary><span class="grp-title">Chrome 插件</span><span class="grp-n">15</span></summary><div class="grp-body"><div class="item" data-s="插件下载网 第三方插件网站。" data-l="1"><a class="nm" href="https://crxdl.com/" target="_blank" rel="noopener noreferrer">插件下载网</a><span class="ds">第三方插件网站。</span></div><div class="item" data-s="adblock plus"><span class="nm">Adblock Plus</span></div><div class="item" data-s="同步助手已经废了 chrome 同步助手 1.8。"><span class="nm">同步助手已经废了</span><span class="ds">chrome 同步助手 1.8。</span></div><div class="item" data-s="登录插件是没法用了，重装或卸载之前，把密码、书签、插件进行备份，都可以导出导入"><span class="nm">登录插件是没法用了，重装或卸载之前，把<strong>密码、书签、插件</strong>进行备份，都可以导出导入</span></div><div class="item" data-s="chrome 包 密码 1111。" data-l="1"><a class="nm" href="https://wwzt.lanzoul.com/b018bxcu" target="_blank" rel="noopener noreferrer">chrome 包</a><span class="ds">密码 1111。</span></div><div class="item" data-s="chrome 重装后需要添加的东西（隐私） 。" data-l="1"><a class="nm" href="https://wwzt.lanzoul.com/b018bzwle" target="_blank" rel="noopener noreferrer">Chrome 重装后需要添加的东西（隐私）</a><span class="ds">。</span></div><div class="item" data-s="ia 图片助手 最好用的网页图片下载工具，没有之一。" data-l="1"><a class="nm" href="http://www.pullywood.com/ImageAssistant/" target="_blank" rel="noopener noreferrer">IA 图片助手</a><span class="ds">最好用的网页图片下载工具，没有之一。</span></div><div class="item" data-s="darkreader 最好用的网页黑色模式工具，没有之一。" data-l="1"><a class="nm" href="https://darkreader.org/" target="_blank" rel="noopener noreferrer">DarkReader</a><span class="ds">最好用的网页黑色模式工具，没有之一。</span></div><div class="item" data-s="octotree github 网页插件。" data-l="1"><a class="nm" href="https://www.octotree.io/" target="_blank" rel="noopener noreferrer">Octotree</a><span class="ds">Github 网页插件。</span></div><div class="item" data-s="暴力猴 。" data-l="1"><a class="nm" href="https://github.com/violentmonkey/violentmonkey/releases" target="_blank" rel="noopener noreferrer">暴力猴</a><span class="ds">。</span></div><div class="item" data-s="tampermonkey 脚本安装插件。相关脚本网站。" data-l="1"><a class="nm" href="https://www.tampermonkey.net/" target="_blank" rel="noopener noreferrer">Tampermonkey</a><span class="ds">脚本安装插件。<a href="https://www.tampermonkey.net/scripts.php?ext=dhdg" target="_blank" rel="noopener noreferrer">相关脚本网站</a>。</span></div><div class="item" data-s="哔哩哔哩过滤器 。" data-l="1"><a class="nm" href="https://s.xmcp.ltd/pakkujs/?src=wext_homepage" target="_blank" rel="noopener noreferrer">哔哩哔哩过滤器</a><span class="ds">。</span></div><div class="item" data-s="浏览器截图插件 挺好用 ，就是官网打开有点慢。" data-l="1"><a class="nm" href="https://getfireshot.com/" target="_blank" rel="noopener noreferrer">浏览器截图插件</a><span class="ds">挺好用 ，就是官网打开有点慢。</span></div><div class="item" data-s="哔哩哔哩下载助手 。" data-l="1"><a class="nm" href="https://csser.top/" target="_blank" rel="noopener noreferrer">哔哩哔哩下载助手</a><span class="ds">。</span></div><div class="item" data-s="腾讯交互翻译" data-l="1"><a class="nm" href="https://transmart.qq.com/zh-CN/download" target="_blank" rel="noopener noreferrer">腾讯交互翻译</a></div></div></details>
+<details class="group grp" id="g29" data-spy open><summary><span class="grp-title">小技巧</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="文件批量重命名 全选 →f2→ 重命名，然后就会自动批量以数字排序。"><span class="nm">文件批量重命名</span><span class="ds">全选 →F2→ 重命名，然后就会自动批量以数字排序。</span></div><div class="item" data-s="ctrl+shift+t 浏览器恢复刚才关闭的网页。"><span class="nm">ctrl+shift+t</span><span class="ds">浏览器恢复刚才关闭的网页。</span></div><div class="item" data-s="批量新建文件夹有乱码，txt 右键另存编码为 ansi"><span class="nm">批量新建文件夹有乱码，txt 右键另存编码为 ANSI</span></div><div class="item" data-s="联想的一键还原，加上 win10 可以不删文件重置，电脑问题再也不怕了"><span class="nm">联想的一键还原，加上 win10 可以不删文件重置，电脑问题再也不怕了</span></div></div></details>
+<details class="group grp grp-dep" id="g30" data-spy><summary><span class="grp-title">已废除</span><span class="grp-n">8</span></summary><div class="grp-body"><div class="item dep" data-s="知犀 脑图，都差不多，先试试这个。" data-l="1"><a class="nm" href="https://www.zhixi.com/" target="_blank" rel="noopener noreferrer">知犀</a><span class="ds">脑图，都差不多，先试试这个。</span></div><div class="item dep" data-s="syncthing 手机电脑或电脑电脑直接同步文件。" data-l="1"><a class="nm" href="https://syncthing.net/" target="_blank" rel="noopener noreferrer">Syncthing</a><span class="ds">手机电脑或电脑电脑直接同步文件。</span></div><details class="group grp" id="g31" data-spy open><summary><span class="grp-title">音乐播放器</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item dep" data-s="listen1 除了不能下载，算是最好的了，有推荐歌单，可登录网易 qq。" data-l="1"><a class="nm" href="https://listen1.github.io/listen1/" target="_blank" rel="noopener noreferrer">Listen1</a><span class="ds">除了不能下载，算是最好的了，有推荐歌单，可登录网易 QQ。</span></div><div class="item dep" data-s="foobar2000 （官方） 免费但是没有原生中文。" data-l="1"><a class="nm" href="https://www.foobar2000.org/" target="_blank" rel="noopener noreferrer">Foobar2000 （官方）</a><span class="ds">免费但是没有原生中文。</span></div><div class="item dep" data-s="foobar2000 （汉化） 好心人汉化过的，推荐。" data-l="1"><a class="nm" href="https://wwp.lanzoul.com/inkKw06briwf" target="_blank" rel="noopener noreferrer">Foobar2000 （汉化）</a><span class="ds">好心人汉化过的，推荐。</span></div><div class="item dep" data-s="musicplayer2 免费开源，但是觉得音质还是 foobar2000 强一点，观望。" data-l="1"><a class="nm" href="https://github.com/zhongyang219/MusicPlayer2" target="_blank" rel="noopener noreferrer">MusicPlayer2</a><span class="ds">免费开源，但是觉得音质还是 Foobar2000 强一点，观望。</span></div></div></details><div class="item dep" data-s="pdf 补丁丁 免费开源，pdf 简单编辑合并挺好用。" data-l="1"><a class="nm" href="https://www.cnblogs.com/pdfpatcher/" target="_blank" rel="noopener noreferrer">PDF 补丁丁</a><span class="ds">免费开源，PDF 简单编辑合并挺好用。</span></div><div class="item dep" data-s="utools 快速启动，功能多，无法解决开机启动问题。" data-l="1"><a class="nm" href="https://u.tools/" target="_blank" rel="noopener noreferrer">uTools</a><span class="ds">快速启动，功能多，无法解决开机启动问题。</span></div></div></details>
+</div></section>
+
+    <details class="help" id="help">
+      <summary>使用说明 / 关于本站</summary>
+      <h3>这是什么</h3>
+      <p>个人整理的软件、硬件与技巧清单，长期更新。收录标准只有一条：<strong>我自己在用、用得住</strong>。
+         不接推广、不做商业排序。</p>
+      <h3>键盘与鼠标</h3>
+      <table>
+        <tr><th>操作</th><th>作用</th></tr>
+        <tr><td><kbd>/</kbd></td><td>聚焦搜索框（已聚焦时再按可清空）</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>清空搜索并退出</td></tr>
+        <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>搜索时在结果之间移动</td></tr>
+        <tr><td><kbd>Enter</kbd></td><td>打开当前选中条目的链接</td></tr>
+        <tr><td>点击目录</td><td>左侧目录跳到分类或分组；已收起的分组会自动展开</td></tr>
+        <tr><td>点击标题 #</td><td>跳转到该分类，可复制地址分享</td></tr>
+      </table>
+      <h3>搜索与筛选怎么用</h3>
+      <p>直接输入关键词，匹配范围包括<strong>软件名 + 说明文字 + 子条目</strong>，大小写不敏感。
+         搜索时所有分组会自动展开，没有命中的分组会被收起。例如输入
+         <code>截图</code>、<code>下载</code>、<code>pdf</code>、<code>heic</code>。</p>
+      <p>右上角筛选可以叠加在搜索之上：<strong>有下载链接</strong>只看能直接点开的条目，
+         <strong>我推荐的</strong>只看标了「荐」的（对应清单里的 ☆ 标记）。</p>
+      <h3>折叠与主题</h3>
+      <p>点分组标题可折叠 / 展开；「折叠」按钮一键收起所有分组，便于总览。
+         「主题」按钮在浅色 / 深色 / 跟随系统之间切换，选择记在本地浏览器里。
+         宽屏时左侧目录会跟随滚动高亮当前所在位置。</p>
+      <h3>内容怎么更新</h3>
+      <p>本页由仓库里的 <code>README.md</code> 自动生成，README 是唯一内容源：</p>
+      <p><code>编辑 README.md → 运行 python3 build.py → git push</code></p>
+      <p>改内容只需动 README，不用碰这个页面的代码。</p>
+      <h3>数据与隐私</h3>
+      <ul>
+        <li>纯静态页面，无后端、无数据库、无统计脚本、无第三方 CDN 请求。</li>
+        <li>唯一的本地存储是主题偏好，不上传任何数据。</li>
+        <li>页面上的链接都指向第三方站点，跳转后的行为不受本站控制。</li>
+      </ul>
+      <h3>免责声明</h3>
+      <p>清单是个人使用记录，链接来自公开网络，不保证长期有效，也不提供任何软件下载托管。
+         涉及系统激活、破解、绿色版等内容请自行判断合规性与安全风险，下载前建议用杀毒软件扫一遍。
+         软件版权归各自厂商所有，请通过正规渠道购买授权。</p>
+    </details>
+  </main>
+</div>
+
+<footer>
+  <span>内容源 README.md · 共 190 条 · 146 个外链 · 更新于 2026-06-05</span>
+  <span>纯静态 · 无追踪 · 无第三方请求</span>
+</footer>
+
+<button class="totop" id="totop" title="回到顶部">↑</button>
+
+<script>
+(function(){
+  var q = document.getElementById('q'),
+      box = document.getElementById('searchbox'),
+      clr = document.getElementById('clr'),
+      filter = document.getElementById('filter'),
+      count = document.getElementById('count'),
+      empty = document.getElementById('empty'),
+      toggleAll = document.getElementById('toggleAll'),
+      items = [].slice.call(document.querySelectorAll('.item')),
+      groups = [].slice.call(document.querySelectorAll('details.group')),
+      sections = [].slice.call(document.querySelectorAll('.sec')),
+      spyTargets = [].slice.call(document.querySelectorAll('[data-spy]')),
+      tocLinks = [].slice.call(document.querySelectorAll('.toc a[data-t]')),
+      orig = new Map(),
+      shown = [],
+      cursor = -1,
+      reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  items.forEach(function(el){ orig.set(el, el.innerHTML); });
+  var savedOpen = groups.map(function(g){ return g.open; });
+
+  function esc(s){
+    return s.replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function escRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function paint(el, re){
+    var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null),
+        nodes = [], n;
+    while((n = w.nextNode())){
+      if(n.parentNode.nodeName === 'MARK') continue;
+      if(re.test(n.nodeValue)) nodes.push(n);
+    }
+    nodes.forEach(function(node){
+      var frag = document.createDocumentFragment(), text = node.nodeValue, last = 0, m;
+      re.lastIndex = 0;
+      while((m = re.exec(text))){
+        if(m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        var mk = document.createElement('mark');
+        mk.textContent = m[0];
+        frag.appendChild(mk);
+        last = m.index + m[0].length;
+        if(m[0] === '') re.lastIndex++;
+      }
+      if(last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  function setCursor(i){
+    if(cursor > -1 && shown[cursor]) shown[cursor].classList.remove('cur');
+    cursor = i;
+    if(cursor > -1 && shown[cursor]){
+      shown[cursor].classList.add('cur');
+      shown[cursor].scrollIntoView({block:'center', behavior: reduced ? 'auto' : 'smooth'});
+    }
+  }
+
+  function run(){
+    var raw = q.value.trim(), term = raw.toLowerCase(), f = filter.value;
+    var re = term ? new RegExp('(' + escRe(raw) + ')', 'gi') : null;
+
+    shown = []; cursor = -1;
+
+    items.forEach(function(el){
+      el.innerHTML = orig.get(el);
+      el.classList.remove('cur');
+      var hit = (!term || (el.dataset.s || '').indexOf(term) !== -1);
+      if(hit && f === 'link' && el.dataset.l !== '1') hit = false;
+      if(hit && f === 'star' && el.dataset.star !== '1') hit = false;
+      el.classList.toggle('hidden', !hit);
+      if(hit){
+        shown.push(el);
+        if(re) paint(el, re);
+      }
+    });
+
+    var filtering = term !== '' || f !== 'all';
+    groups.forEach(function(g, i){
+      if(!filtering){ g.open = savedOpen[i]; return; }
+      g.open = true;
+    });
+
+    var visible = shown.length;
+    sections.forEach(function(s){
+      s.classList.toggle('hidden', !s.querySelector('.item:not(.hidden)'));
+    });
+    groups.forEach(function(g){
+      g.classList.toggle('hidden', filtering && !g.querySelector('.item:not(.hidden)'));
+    });
+
+    empty.classList.toggle('show', filtering && visible === 0);
+    box.classList.toggle('has', raw !== '');
+    count.textContent = filtering
+      ? visible + ' / ' + items.length
+      : items.length + ' 条';
+
+    var allOpen = groups.every(function(g){ return g.open || g.classList.contains('hidden'); });
+    toggleAll.textContent = allOpen ? '折叠' : '全部展开';
+    spy();
+  }
+
+  /* ---- 折叠 / 展开全部 ---- */
+  toggleAll.addEventListener('click', function(){
+    var anyClosed = groups.some(function(g){
+      return !g.open && !g.classList.contains('hidden');
+    });
+    groups.forEach(function(g){ if(!g.classList.contains('hidden')) g.open = anyClosed; });
+    savedOpen = groups.map(function(g){ return g.open; });
+    this.textContent = anyClosed ? '折叠' : '全部展开';
+  });
+
+  /* ---- 搜索 ---- */
+  var t;
+  q.addEventListener('input', function(){ clearTimeout(t); t = setTimeout(run, 90); });
+  clr.addEventListener('click', function(){ q.value = ''; run(); q.focus(); });
+  filter.addEventListener('change', function(){ run(); });
+
+  document.addEventListener('keydown', function(e){
+    var typing = document.activeElement === q;
+    if(e.key === '/' && !typing){ e.preventDefault(); q.focus(); q.select(); return; }
+    if(e.key === 'Escape' && typing){ q.value = ''; run(); q.blur(); return; }
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      if(!shown.length) return;
+      e.preventDefault();
+      if(!typing) q.focus();
+      var next = e.key === 'ArrowDown' ? cursor + 1 : cursor - 1;
+      if(next < 0) next = shown.length - 1;
+      if(next >= shown.length) next = 0;
+      setCursor(next);
+      return;
+    }
+    if(e.key === 'Enter' && cursor > -1 && shown[cursor]){
+      var a = shown[cursor].querySelector('a.nm') ||
+              shown[cursor].querySelector('.ds a') ||
+              shown[cursor].querySelector('ul.sub a');
+      if(a){ e.preventDefault(); window.open(a.href, '_blank', 'noopener'); }
+    }
+  });
+
+  /* ---- 主题 ---- */
+  var themeBtn = document.getElementById('theme'),
+      modes = ['auto', 'light', 'dark'],
+      label = {auto:'自动', light:'浅色', dark:'深色'};
+  var saved = null;
+  try{ saved = localStorage.getItem('uppjs-theme'); }catch(e){}
+  saved = label[saved] ? saved : 'auto';
+  document.documentElement.setAttribute('data-theme', saved);
+  themeBtn.textContent = label[saved];
+  themeBtn.addEventListener('click', function(){
+    var cur = document.documentElement.getAttribute('data-theme') || 'auto';
+    var next = modes[(modes.indexOf(cur) + 1) % modes.length];
+    document.documentElement.setAttribute('data-theme', next);
+    themeBtn.textContent = label[next];
+    try{ localStorage.setItem('uppjs-theme', next); }catch(e){}
+    spy();
+  });
+
+  /* ---- 顶栏高度 -> CSS 变量，供 sticky 定位 ---- */
+  var header = document.querySelector('header');
+  function measure(){
+    document.documentElement.style.setProperty('--hh', header.offsetHeight + 'px');
+  }
+
+  /* ---- 滚动高亮目录 ---- */
+  var ticking = false;
+  function spy(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      ticking = false;
+      var line = header.offsetHeight + 20, cur = null, i, el, top;
+      for(i = 0; i < spyTargets.length; i++){
+        el = spyTargets[i];
+        if(el.classList.contains('hidden')) continue;
+        top = el.getBoundingClientRect().top;
+        if(top <= line) cur = el; else break;
+      }
+      if(!cur) cur = spyTargets[0];
+      var id = cur ? cur.id : null;
+      tocLinks.forEach(function(a){ a.classList.toggle('on', a.dataset.t === id); });
+    });
+  }
+
+  /* ---- 目录跳转：展开目标分组 + 闪一下提示 ---- */
+  function goTo(el){
+    if(!el) return;
+    if(el.tagName === 'DETAILS' && !el.open){
+      el.open = true;
+      savedOpen = groups.map(function(g){ return g.open; });
+    }
+    el.classList.remove('flash');
+    void el.offsetWidth;
+    el.classList.add('flash');
+    setTimeout(function(){ el.classList.remove('flash'); }, 1300);
+  }
+  document.querySelectorAll('.toc a[data-t], nav.cats a').forEach(function(a){
+    a.addEventListener('click', function(){
+      var id = (a.dataset.t || a.getAttribute('href').slice(1));
+      goTo(document.getElementById(id));
+      var s = document.querySelector('nav.cats .wrap');
+      if(s) [].slice.call(s.children).forEach(function(x){
+        x.classList.toggle('on', x === a);
+      });
+    });
+  });
+  window.addEventListener('hashchange', function(){
+    if(location.hash) goTo(document.getElementById(location.hash.slice(1)));
+  });
+
+  /* ---- 回到顶部 ---- */
+  var top = document.getElementById('totop');
+  window.addEventListener('scroll', function(){
+    top.classList.toggle('show', window.scrollY > 500);
+    spy();
+  }, {passive:true});
+  top.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+  window.addEventListener('resize', function(){ measure(); spy(); });
+  measure();
+  run();
+  if(location.hash) goTo(document.getElementById(location.hash.slice(1)));
+})();
+</script>
+</body>
+</html>
