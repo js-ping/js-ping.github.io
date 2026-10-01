@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工具台 · uppjs.com</title>
+<meta name="description" content="uppjs.com 工具台：软件清单、我的收藏、导出，以及所有后续模块的总入口。">
+<link rel="canonical" href="https://uppjs.com/hub.html">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2f6fed">
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --panel2:#f0f2f5; --line:#e2e5ea;
+  --fg:#1b1f24; --fg2:#5b626b; --fg3:#767e89;
+  --accent:#2f6fed; --accent-soft:#e8efff; --mark:#ffe9a8; --mark-fg:#3a2c00;
+  --tag-attr-fg:#2c7554; --tag-attr-bg:#eef7f2; --tag-attr-bd:#cfe7dc;
+  --tag-plat-fg:#2f6fed; --tag-plat-bg:#eef3ff; --tag-plat-bd:#d3e0fb;
+  --warn:#bc5a33; --warn-fav:#c9971a;
+  --radius:10px; --hh:57px; --tocw:206px;
+}
+html[data-theme="dark"]{
+  --bg:#14161a; --panel:#1c1f24; --panel2:#22262c; --line:#2e333a;
+  --fg:#e6e8ec; --fg2:#a8b0ba; --fg3:#7c848e;
+  --accent:#6ea0ff; --accent-soft:#22314f; --mark:#6b5a1a; --mark-fg:#ffeaa0;
+  --tag-attr-fg:#7fd3ae; --tag-attr-bg:#1b2a24; --tag-attr-bd:#2c4a3d;
+  --tag-plat-fg:#8fb6ff; --tag-plat-bg:#1a2135; --tag-plat-bd:#2d3f63;
+  --warn:#e08a63; --warn-fav:#e3b53c;
+}
+@media (prefers-color-scheme: dark){
+  html[data-theme="auto"]{
+    --bg:#14161a; --panel:#1c1f24; --panel2:#22262c; --line:#2e333a;
+    --fg:#e6e8ec; --fg2:#a8b0ba; --fg3:#7c848e;
+    --accent:#6ea0ff; --accent-soft:#22314f; --mark:#6b5a1a; --mark-fg:#ffeaa0;
+    --tag-attr-fg:#7fd3ae; --tag-attr-bg:#1b2a24; --tag-attr-bd:#2c4a3d;
+    --tag-plat-fg:#8fb6ff; --tag-plat-bg:#1a2135; --tag-plat-bd:#2d3f63;
+    --warn:#e08a63; --warn-fav:#e3b53c;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:14px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+
+/* ---------- 顶栏 ---------- */
+header{position:sticky; top:0; z-index:50; background:var(--bg); border-bottom:1px solid var(--line)}
+@supports (backdrop-filter:blur(8px)){
+  header{background:color-mix(in srgb,var(--bg) 86%,transparent); backdrop-filter:saturate(1.6) blur(10px)}
+}
+.bar{max-width:940px; margin:0 auto; padding:9px 16px; display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.brand{font-weight:700; font-size:15px; white-space:nowrap}
+.brand span{color:var(--fg3); font-weight:400; margin-left:6px; font-size:13px}
+.tools{margin-left:auto; display:flex; align-items:center; gap:8px; white-space:nowrap}
+.tools>a.tool-link{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  padding:6px 9px; border-radius:8px; font-size:13px;
+}
+.tools>a.tool-link:hover{border-color:var(--accent); color:var(--accent); text-decoration:none}
+/* ---------- 外观面板（明暗 + 底色） ---------- */
+.appear{position:relative}
+.appear>button{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  border-radius:8px; padding:5px 11px; font-size:13px; cursor:pointer;
+  font-family:inherit; line-height:1.4;
+}
+.appear>button:hover{color:var(--fg); border-color:var(--fg3)}
+.ap-panel{
+  position:absolute; right:0; top:calc(100% + 9px); z-index:70; width:268px;
+  background:var(--panel); border:1px solid var(--line); border-radius:12px;
+  padding:13px 13px 11px; text-align:left; white-space:normal;
+  box-shadow:0 14px 38px rgba(0,0,0,.20);
+}
+.ap-panel[hidden]{display:none}
+.ap-lab{
+  font-size:10.5px; letter-spacing:.1em; color:var(--fg3); text-transform:uppercase;
+  margin:0 0 7px; font-weight:600;
+}
+.ap-modes{display:flex; gap:6px; margin:0 0 13px}
+.ap-modes button{
+  flex:1; border:1px solid var(--line); background:var(--panel2); color:var(--fg2);
+  border-radius:8px; padding:6px 0; font-size:12.5px; cursor:pointer;
+  font-family:inherit; white-space:nowrap;
+}
+.ap-modes button.on{border-color:var(--accent); background:var(--accent-soft); color:var(--accent); font-weight:600}
+.ap-sw{display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin:0 0 13px}
+.ap-sw button{
+  width:100%; height:32px; border-radius:9px; border:1px solid var(--line);
+  cursor:pointer; padding:0;
+}
+.ap-sw button.on{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+.ap-foot{display:flex; gap:6px; border-top:1px solid var(--line); padding-top:11px}
+.ap-foot button{
+  flex:1; border:1px solid var(--line); background:transparent; color:var(--fg2);
+  border-radius:8px; padding:6px 0; font-size:12.5px; cursor:pointer; font-family:inherit;
+}
+.ap-foot button:hover{color:var(--fg); background:var(--panel2)}
+.ap-tip{font-size:11.5px; color:var(--fg3); line-height:1.55; margin:10px 0 0}
+#apPick{position:absolute; width:0; height:0; opacity:0; pointer-events:none; border:0; padding:0}
+
+/* ---------- 主体 ---------- */
+main{max-width:940px; margin:0 auto; padding:28px 16px 56px}
+.hero h1{font-size:23px; margin:0 0 8px}
+.hero p{color:var(--fg2); margin:0 0 7px; font-size:14px; max-width:640px}
+.hero .hint{color:var(--fg3); font-size:12.5px; margin:0}
+.hero .hint b{color:var(--fg2)}
+section{margin-top:30px}
+section>h2{
+  font-size:12.5px; letter-spacing:.07em; color:var(--fg3); font-weight:600;
+  margin:0 0 12px; display:flex; align-items:center; gap:8px; white-space:nowrap;
+}
+section>h2 .sub{font-weight:400; letter-spacing:0; font-size:12px}
+section>h2::after{content:""; flex:1; height:1px; background:var(--line)}
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(228px,1fr)); gap:12px}
+.card{
+  position:relative; display:block; color:var(--fg);
+  background:var(--panel); border:1px solid var(--line); border-radius:12px;
+  padding:14px 15px 15px; transition:border-color .13s, transform .13s;
+}
+a.card:hover{border-color:var(--accent); text-decoration:none; transform:translateY(-1px)}
+.card .ico{
+  display:flex; align-items:center; justify-content:center;
+  width:27px; height:27px; border-radius:8px; margin-bottom:9px;
+  background:var(--panel2); color:var(--fg2); font-size:14px;
+}
+a.card:hover .ico{background:var(--accent-soft); color:var(--accent)}
+.card h3{margin:0 0 5px; font-size:14.5px; display:flex; align-items:center; gap:7px}
+.card p{margin:0; color:var(--fg2); font-size:12.8px; line-height:1.62}
+.card .st{
+  font-size:10.5px; font-weight:600; color:var(--fg3);
+  background:var(--panel2); border:1px solid var(--line); border-radius:4px; padding:1px 6px;
+}
+.card.plan{opacity:.6; cursor:default}
+.card .tag{
+  position:absolute; right:12px; top:14px;
+  font-size:10.5px; color:var(--accent); background:var(--accent-soft);
+  border-radius:4px; padding:1px 6px;
+}
+footer{
+  max-width:940px; margin:0 auto; padding:0 16px 50px; color:var(--fg3); font-size:12.5px;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+}
+@media (max-width:720px){
+  .bar{padding:8px 12px}
+  .brand span{display:none}
+  main{padding:20px 12px 50px}
+  .cards{grid-template-columns:1fr}
+  .card.plan{opacity:.75}
+  .ap-panel{right:-8px; width:min(268px,calc(100vw - 26px))}
+}
+</style>
+<script>
+/* 外观：明暗 + 底色。在首帧前应用，避免闪烁；设置只存在本机浏览器。 */
+(function(){
+  var VARS = ['--bg','--panel','--panel2','--line','--fg','--fg2','--fg3','--accent','--accent-soft'];
+  function rgb(h){
+    h = String(h || '').replace('#','');
+    if(h.length === 3) h = h.charAt(0)+h.charAt(0)+h.charAt(1)+h.charAt(1)+h.charAt(2)+h.charAt(2);
+    if(!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+    return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+  }
+  function hex(c){
+    var o = '#';
+    for(var i = 0; i < 3; i++) o += ('0' + Math.max(0, Math.min(255, Math.round(c[i]))).toString(16)).slice(-2);
+    return o;
+  }
+  function mix(a, b, t){
+    var A = rgb(a), B = rgb(b);
+    if(!A) return a;
+    if(!B) return b;
+    return hex([0,1,2].map(function(i){ return A[i] + (B[i] - A[i]) * t; }));
+  }
+  function lum(h){
+    var c = rgb(h);
+    if(!c) return 1;
+    return (0.2126*c[0] + 0.7152*c[1] + 0.0722*c[2]) / 255;
+  }
+  function clear(){
+    var st = document.documentElement.style;
+    for(var i = 0; i < VARS.length; i++) st.removeProperty(VARS[i]);
+  }
+  function paint(bg){
+    if(!rgb(bg)) return true;
+    var W = '#ffffff', K = '#000000', L = lum(bg), light = L >= 0.45, st = document.documentElement.style;
+    var t = light
+      ? {panel: L > 0.93 ? '#ffffff' : mix(bg, W, .72), panel2: mix(bg, K, .05),
+         line: mix(bg, K, .12), fg: mix(bg, K, .84), fg2: mix(bg, K, .57), fg3: mix(bg, K, .45),
+         accent: '#2f6fed', soft: '#e8efff'}
+      : {panel: mix(bg, W, .06), panel2: mix(bg, W, .11), line: mix(bg, W, .18),
+         fg: mix(bg, W, .88), fg2: mix(bg, W, .64), fg3: mix(bg, W, .50),
+         accent: '#6ea0ff', soft: mix(bg, '#2f6fed', .28)};
+    st.setProperty('--bg', bg);
+    st.setProperty('--panel', t.panel);
+    st.setProperty('--panel2', t.panel2);
+    st.setProperty('--line', t.line);
+    st.setProperty('--fg', t.fg);
+    st.setProperty('--fg2', t.fg2);
+    st.setProperty('--fg3', t.fg3);
+    st.setProperty('--accent', t.accent);
+    st.setProperty('--accent-soft', t.soft);
+    return light;
+  }
+  var SKIN = {
+    modes: ['auto', 'light', 'dark'],
+    label: {auto: '跟随系统', light: '浅色', dark: '深色'},
+    presets: [
+      {name: '默认', bg: ''},
+      {name: '云白', bg: '#ffffff'},
+      {name: '暖阳', bg: '#f7efd9'},
+      {name: '护眼', bg: '#e6f1e1'},
+      {name: '石青', bg: '#e5eef8'},
+      {name: '藕荷', bg: '#f8eaef'},
+      {name: '午夜蓝', bg: '#182233'},
+      {name: '纯黑', bg: '#000000'}
+    ],
+    read: function(){
+      try{ return JSON.parse(localStorage.getItem('uppjs-appearance') || 'null') || {}; }
+      catch(e){ return {}; }
+    },
+    paint: paint,
+    apply: function(s){
+      var d = document.documentElement;
+      if(s && s.bg){
+        d.setAttribute('data-theme', paint(s.bg) ? 'light' : 'dark');
+      }else{
+        clear();
+        d.setAttribute('data-theme', (s && s.mode) || 'auto');
+      }
+      return s;
+    },
+    save: function(s){
+      try{ localStorage.setItem('uppjs-appearance', JSON.stringify(s)); }catch(e){}
+    }
+  };
+  window.UPPJS_SKIN = SKIN;
+  var s = SKIN.read();
+  if(s.bg || s.mode === 'light' || s.mode === 'dark') SKIN.apply(s);
+})();
+</script>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <div class="brand">uppjs.com<span>工具台</span></div>
+    <div class="tools">
+      <a class="tool-link" href="index.html">软件清单</a>
+      <div class="appear">
+        <button id="theme" title="外观：明暗与底色" aria-haspopup="dialog" aria-expanded="false">外观</button>
+        <div class="ap-panel" id="apPanel" hidden>
+          <p class="ap-lab">明暗</p>
+          <div class="ap-modes" id="apModes"></div>
+          <p class="ap-lab">底色</p>
+          <div class="ap-sw" id="apSw"></div>
+          <div class="ap-foot">
+            <button id="apCustom" title="用取色器自选一个底色">自定义…</button>
+            <button id="apReset" title="恢复默认外观">恢复默认</button>
+          </div>
+          <p class="ap-tip">选「底色」后明暗会自动适配，文字颜色跟着变，不用担心看不清。设置只保存在你自己的浏览器里。</p>
+          <input type="color" id="apPick" value="#f6f7f9" tabindex="-1" aria-hidden="true">
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>工具台</h1>
+    <p>网站所有模块的总入口。做好的点进去就能用，没做的先在这占个位，做好一个开一个。</p>
+    <p class="hint">可用 <b>9</b> 个 · 规划中 <b>8</b> 个 · 清单共 <b>205</b> 条 · 更新于 2026-10-01</p>
+  </div>
+<section><h2>核心</h2><div class="cards"><a class="card" href="index.html"><span class="tag">主入口</span><span class="ico">▤</span><h3>软件清单</h3><p>Mac / PC / 手机软件、硬件和技巧，共 205 条，支持即时搜索。</p></a><a class="card" href="help.html"><span class="ico">✎</span><h3>使用说明</h3><p>网站怎么维护、README 怎么写、出问题怎么办。手机上也能直接打开。</p></a><a class="card" href="index.html"><span class="tag">清单页右上角</span><span class="ico">◐</span><h3>外观与配色</h3><p>明暗三档 + 8 种底色 + 自定义取色，设置记在你自己浏览器里。</p></a><a class="card" href="https://uppjs.com/"><span class="ico">⌂</span><h3>回到线上主页</h3><p>直接访问 uppjs.com 看线上版本。</p></a></div></section>
+<section><h2>我的</h2><div class="cards"><a class="card" href="index.html?view=fav"><span class="ico">★</span><h3>我的收藏</h3><p>在清单里点 ☆ 收藏的条目，只存在你这台设备的浏览器里。</p></a><a class="card" href="index.html?view=ins"><span class="ico">☑</span><h3>我已装</h3><p>点 ☐ 标记过的条目，用来记住哪些已经装到机器上。</p></a><a class="card" href="index.html?view=free"><span class="ico">○</span><h3>只看免费</h3><p>清单里标了「免费：是」的条目，不看不知道，一看省不少。</p></a><a class="card" href="index.html?view=oss"><span class="ico">◇</span><h3>只看开源</h3><p>清单里标了「开源：是」的条目，代码公开、能自己审计的那种。</p></a><a class="card" href="index.html?view=fav"><span class="tag">在「我的」里</span><span class="ico">⇩</span><h3>导出清单</h3><p>把收藏和已装导出成 CSV 或 Markdown，换设备、分享给别人都方便。</p></a></div></section>
+<section><h2>内容板块 <span class="sub">· 还没做，先占位</span></h2><div class="cards"><div class="card plan"><span class="ico">▦</span><h3>文章归档<span class="st">规划中</span></h3><p>公众号写过的长文按主题归档，比在公众号里翻历史清楚得多。</p></div><div class="card plan"><span class="ico">▥</span><h3>书单 / 影单<span class="st">规划中</span></h3><p>看过的书和片子，带一句短评。内容源就绪，生成一个新页面即可。</p></div><div class="card plan"><span class="ico">▧</span><h3>备考资料<span class="st">规划中</span></h3><p>一建相关的笔记索引、错题、资料清单。</p></div><div class="card plan"><span class="ico">⌘</span><h3>网址书签<span class="st">规划中</span></h3><p>常用网站和工具入口，自己用着顺手的那种。</p></div></div></section>
+<section><h2>功能 <span class="sub">· 还没做，先占位</span></h2><div class="cards"><div class="card plan"><span class="ico">拼</span><h3>拼音搜索<span class="st">规划中</span></h3><p>打 wyy 就能搜到「网易云」，不用来回切输入法。接口已留好。</p></div><div class="card plan"><span class="ico">⇄</span><h3>条目对比<span class="st">规划中</span></h3><p>把几条软件并排比参数，选哪个一目了然。数据接口已留好。</p></div><div class="card plan"><span class="ico">✉</span><h3>评论 / 投稿<span class="st">规划中</span></h3><p>访客留言或推荐软件。需要接一个小后端，不买服务器也能做。</p></div><div class="card plan"><span class="ico">⌁</span><h3>失效链接体检<span class="st">规划中</span></h3><p>定时跑一遍外链，把 404 的挑出来，清单最怕的不是少而是过期。</p></div></div></section>
+</main>
+
+<footer>
+  <span>uppjs.com 工具台 · 想加模块改 build.py 里的 HUB_MODULES</span>
+  <span>纯静态 · 无追踪 · 无第三方请求</span>
+</footer>
+
+<script>
+(function(){
+  /* 外观面板的绑定逻辑（与清单页共用同一份，改一次两边都变） */
+  /* ---- 外观：明暗 + 底色 ---- */
+  var SK = window.UPPJS_SKIN;
+  if(SK){
+    var themeBtn = document.getElementById('theme'),
+        apPanel = document.getElementById('apPanel'),
+        apModes = document.getElementById('apModes'),
+        apSw = document.getElementById('apSw'),
+        apReset = document.getElementById('apReset'),
+        apCustom = document.getElementById('apCustom'),
+        apPick = document.getElementById('apPick'),
+        look = SK.read();
+    if(typeof look.bg !== 'string') look.bg = '';
+    if(!look.mode) look.mode = 'auto';
+
+    function syncSkin(){
+      [].forEach.call(apModes.children, function(b){
+        b.classList.toggle('on', b.dataset.mode === look.mode);
+      });
+      [].forEach.call(apSw.children, function(b){
+        b.classList.toggle('on', (b.dataset.bg || '') === look.bg);
+      });
+    }
+    function useSkin(){
+      SK.apply(look);
+      SK.save(look);
+      syncSkin();
+      if(window.UPPJS_REMEASURE) window.UPPJS_REMEASURE();
+    }
+    function closeSkin(){
+      apPanel.hidden = true;
+      themeBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    SK.modes.forEach(function(m){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.mode = m;
+      b.textContent = SK.label[m];
+      b.addEventListener('click', function(){
+        look.mode = m;
+        look.bg = '';
+        useSkin();
+      });
+      apModes.appendChild(b);
+    });
+
+    SK.presets.forEach(function(p){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.bg = p.bg;
+      b.title = '底色：' + p.name;
+      b.setAttribute('aria-label', '底色：' + p.name);
+      b.style.background = p.bg || 'linear-gradient(135deg,#fff 0 50%,#16181c 50% 100%)';
+      b.addEventListener('click', function(){
+        look.bg = p.bg;
+        look.mode = p.bg ? (SK.paint(p.bg) ? 'light' : 'dark') : 'auto';
+        useSkin();
+      });
+      apSw.appendChild(b);
+    });
+
+    apCustom.addEventListener('click', function(e){
+      e.stopPropagation();
+      apPick.click();
+    });
+    apPick.addEventListener('input', function(){
+      look.bg = apPick.value;
+      look.mode = SK.paint(apPick.value) ? 'light' : 'dark';
+      useSkin();
+    });
+    apReset.addEventListener('click', function(){
+      look = {mode: 'auto', bg: ''};
+      useSkin();
+    });
+
+    themeBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(window.UPPJS_CLOSE_OTHERS) window.UPPJS_CLOSE_OTHERS();   // 面板互斥
+      apPanel.hidden = !apPanel.hidden;
+      themeBtn.setAttribute('aria-expanded', apPanel.hidden ? 'false' : 'true');
+    });
+    apPanel.addEventListener('click', function(e){ e.stopPropagation(); });
+    document.addEventListener('click', function(){
+      if(!apPanel.hidden) closeSkin();
+      if(window.UPPJS_CLOSE_OTHERS) window.UPPJS_CLOSE_OTHERS();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !apPanel.hidden) closeSkin();
+    });
+    syncSkin();
+  }
+
+})();
+</script>
+</body>
+</html>

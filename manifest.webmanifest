@@ -1,0 +1,29 @@
+{
+  "name": "uppjs.com · 软件与硬件清单",
+  "short_name": "uppjs",
+  "description": "个人整理的 Mac / PC / 手机软件与硬件清单，支持即时搜索。收录标准只有一条：我自己在用、用得住。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f7f9",
+  "theme_color": "#2f6fed",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

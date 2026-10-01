@@ -1,6 +1,6 @@
 {
   "installCommand": "exit 0",
-  "buildCommand": "mkdir -p public && cp *.html favicon.ico favicon.svg robots.txt sitemap.xml public/",
+  "buildCommand": "mkdir -p public && cp *.html favicon.ico favicon.svg icon-*.png manifest.webmanifest robots.txt sitemap.xml public/",
   "outputDirectory": "./public",
   "headers": [
     {

@@ -8,12 +8,71 @@
 
   手动等价命令：python3 build.py && git add -A && git commit -m "更新" && git push
   完整说明见「使用说明.md」（会同步生成同内容的「使用说明.html」）
+
+  ── 条目下面的「元数据」（可选，不写也完全正常）──
+  在任意条目下面缩进写一行，就会被识别成结构化字段，不再当普通附注：
+
+      - [Ollama](https://ollama.com/)：本地跑大模型，数据不出电脑。
+          - 免费：是
+          - 开源：是
+          - 平台：Win / macOS / Linux
+          - 替代：LM Studio
+          - 坑：模型文件很占硬盘，先看好剩余空间
+          - 验证：2026-10
+
+  可用的键只有这 8 个：免费、开源、平台、替代、坑、验证、官网、价格。
+  「免费 / 开源」写「是」或「否」，页面上会自动多出「免费的」「开源的」两个筛选。
+  没写元数据的条目一切照旧，可以只给重点软件写。
 -->
 
 ## 软件合集网
 
 - [蓝奏云盘](https://up.woozooo.com/)：软件外链。
 - 正品软件购买：[荔枝](https://store.lizhi.io/)
+
+## AI 工具
+
+- 日常对话：
+    - [ChatGPT](https://chatgpt.com/)：综合能力最均衡，订阅制，需要网络环境。
+    - [Claude](https://claude.ai/)：长文写作和读代码更稳，订阅制，需要网络环境。
+    - [豆包](https://www.doubao.com/)：国内直连，网页版和客户端都有，免费。
+    - [Kimi](https://kimi.moonshot.cn/)：长文档一次读完，网页版免费够用。
+    - [DeepSeek](https://www.deepseek.com/)：国内直连，接口便宜，适合自己折腾。
+- 本地跑模型（数据不出电脑）：
+    - [Ollama](https://ollama.com/)：命令行一行就能拉起本地模型。
+        - 免费：是
+        - 开源：是
+        - 平台：Win / macOS / Linux
+        - 替代：LM Studio
+        - 坑：模型文件很占硬盘，动手前先看剩余空间
+        - 验证：2026-10
+    - [LM Studio](https://lmstudio.ai/)：图形界面，完全不用碰命令行。
+        - 免费：是
+        - 平台：Win / macOS / Linux
+        - 替代：Ollama
+    - [Cherry Studio](https://cherry-ai.com/)：桌面客户端，能同时接好几家的接口。
+        - 免费：是
+        - 开源：是
+        - 平台：Win / macOS
+- 写代码：
+    - [Cursor](https://cursor.com/)：付费商业产品，但目前换掉整个编辑器最省事的一个。
+        - 价格：订阅制，有免费额度
+    - [Claude Code](https://claude.com/product/claude-code)：终端里的编程助手，适合已有项目里改代码。
+- 出图出视频：
+    - [ComfyUI](https://github.com/comfyanonymous/ComfyUI)：开源，节点式拼工作流，可控性最高。
+        - 免费：是
+        - 开源：是
+        - 平台：Win / macOS / Linux
+        - 坑：上手陡，要先理解节点怎么连
+    - 即梦 / 可灵：国内直接用，出短视频效果够看。
+- 顺手的小工具：
+    - [沉浸式翻译](https://immersivetranslate.com/)：双语对照翻译网页和 PDF，免费额度日常够用。
+        - 免费：是
+        - 平台：浏览器 / iOS / Android
+    - [NotebookLM](https://notebooklm.google.com/)：把一堆资料丢进去直接问，答案带出处。
+    - [Whisper](https://github.com/openai/whisper)：开源的语音转文字，本地跑，中文识别不错。
+        - 免费：是
+        - 开源：是
 
 ## Mac&iPhone
 
@@ -26,12 +85,27 @@
     - PDF工具：[PDF24](https://tools.pdf24.org/zh/)只能线上但是全能，[PDFgear](https://www.pdfgear.com/zh/)有客户端配合使用。
     - 办公软件：[WPS](https://www.wps.cn/)无法替换。
     - 截图软件：[Snipaste](https://zh.snipaste.com/)最好用的截图软件没有之一。
+        - 免费：是
+        - 平台：Win / macOS
+        - 坑：官网是 snipaste.com，搜出来带广告的下载站别点
     - 音乐播放器：网易云音乐+汽水音乐。
     - 视频播放器：[IINA](https://iina.io/)最优秀的免费播放器，但仍然找不到Potplayer替代品，OmniPlayer 开机太慢了。
+        - 免费：是
+        - 开源：是
+        - 平台：macOS
+        - 替代：暂无满意的，Potplayer 仍是 PC 上的天花板
     - 网盘同步：夸克网盘、阿里云盘、百度网盘、蓝奏云、坚果云。
     - 解压软件：[Keka](https://www.keka.io/zh-cn/)网页端免费，使用习惯有所不同。
+        - 免费：是
+        - 开源：是
+        - 平台：macOS
+        - 坑：官网下载免费，App Store 版是收费的，看清楚再装
     - 图片浏览：自带浏览。
     - 互传工具：[LocalSend](https://localsend.org/zh-CN)多平台互传，但是文件一多就卡，而且图片有些信息会丢失。
+        - 免费：是
+        - 开源：是
+        - 平台：macOS / Win / iOS / Android
+        - 坑：文件一多就卡，图片有些信息会丢
     - 刘海隐藏：[隐藏刘海](https://topnotch.app/)，必备软件。
     - 时间屏保：[Fliqlo锁屏时间](https://fliqlo.com/screensaver/)。
     - 鼠标工具：[Scroll Reverser](https://pilotmoon.com/scrollreverser/)最好用，没有之一，MOS容易和剪映冲突[中文版本翻译](https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file)。
@@ -41,6 +115,9 @@
   - AlDente：必备的电池管理软件。
   - Bartender：让右上角顶部图标变小。
   - [AnyTXT](https://anytxt.net/)：一款功能强大的桌面搜索工具，配备全文搜索引擎。
+      - 免费：是
+      - 平台：Win
+      - 替代：Mac 上没有同等好用的
 
 - 目前仍不够满意的空缺：
   - 重命名软件：都不如PC上的renamer好用。
@@ -58,6 +135,8 @@
     - [本地网络加速](https://steampp.net/)：用来登陆 github。
     - [NDM](http://www.neatdownloadmanager.com/index.php/en/)：配合浏览器辅助下载工具，免费神器，比 IDM 用起来简便一点。
     - [火绒](https://www.huorong.cn/)：系统安全，某些时候用得到，可不下。
+        - 免费：是
+        - 平台：Win
     - [格式工厂](http://www.pcfreetime.com/formatfactory/CN/index.html)：良心软件，各种格式随意转换。
     - [SumatraPDF阅读器](https://www.sumatrapdfreader.org/free-pdf-reader)：轻量PDF及各种电子书格式阅读器。
     - [PDF24](https://tools.pdf24.org/zh/)：PDF 工具集，合并分割等好多，免费开源。
