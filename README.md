@@ -36,14 +36,13 @@
     - 时间屏保：[Fliqlo锁屏时间](https://fliqlo.com/screensaver/)。
     - 鼠标工具：[Scroll Reverser](https://pilotmoon.com/scrollreverser/)最好用，没有之一，MOS容易和剪映冲突[中文版本翻译](https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file)。
     - 连接工具：[iMazing](https://www.imazingchina.com/)：Mac 的最佳 iOS 设备管理软件，可买永久300元左右。
-    - 
-- 其他工具
+- 其他工具：
   - 右键助手专业版：可以右键添加一些必备的内容。
   - AlDente：必备的电池管理软件。
   - Bartender：让右上角顶部图标变小。
   - [AnyTXT](https://anytxt.net/)：一款功能强大的桌面搜索工具，配备全文搜索引擎。
 
-- 目前仍不够满意的空缺
+- 目前仍不够满意的空缺：
   - 重命名软件：都不如PC上的renamer好用。
   - 图片快速简单处理软件：也没有光影魔术手好用。
   - 视频播放，更是没有potplayer一般的万能神奇应用。
@@ -151,7 +150,7 @@
     - [Ditto](https://ditto-cp.sourceforge.io/)：粘贴板，将复制的东西有序地进行粘贴，特定情况下有用。
     - [DeskPins](https://efotinis.neocities.org/deskpins/)：强制页面图钉，简单好用，由于官方工具内置，所以舍弃。
     - [MIUI+](https://www.mi.com/service/notebook/drivers/A53)：小米手机和电脑连接的工具。
-- CAD，REVIT：如果屡次安装不成功，最好就是重置系统。
+- CAD、REVIT：如果屡次安装不成功，最好就是重置系统。
     - [中望 CAD](https://www.zwcad.com/)：国产 CAD 软件集成天正，打开速度方便快捷，为什么大家还是用 AUTO？？
     - [CAD 字体](https://wwa.lanzoui.com/iOkizqoc77g)：之前收集的，也不全。
     - [CAD 2022](https://www.aliyundrive.com/s/RCP47zLSKpE)：CAD 2022 挺好的版本，没必要不换。
@@ -165,14 +164,14 @@
 
 ## MAC 软件
 
-[snippets](https://www.renfei.org/snippets-lab/)：代码片段笔记软件。
+- [snippets](https://www.renfei.org/snippets-lab/)：代码片段笔记软件。
 
-工具类：
-- Folder peek。
-- Mounty。
-- Airdrop。
-- hidden bar
-- Omi
+- 工具类：
+  - Folder peek。
+  - Mounty。
+  - Airdrop。
+  - hidden bar
+  - Omi
 
 
 ## 手机软件
@@ -184,11 +183,10 @@
   - 优酷 网易云音乐 酷安 全历史 wps 知乎 onenote 欧路词典
   - 星图 天气通 高德地图 百度地图 下厨房 最右 古文岛 百度网盘
   - Joplin 微软数学 阿里云网盘 
-  - 
-- 其他情况
+- 其他情况：
   - 手心输入法在IPhone上会出现断触，我在mac和安卓上一直使用。
 
-备份：1. 微信聊天记录可在电脑客户端备份。2. QQ 输入法为 QQ 登录，其他都为微信登录。fh
+备份：1. 微信聊天记录可在电脑客户端备份。2. QQ 输入法为 QQ 登录，其他都为微信登录。
 
 ## 配件硬件推荐
 
@@ -218,7 +216,7 @@
       - 27寸型号PD2706U价格4200元。
       - 32寸型号PV3200U价格4999元。
 
-- 裝修
+- 装修：
     - 增高架：造木制木，全套不到1000元
     - 椅子：Steelcase Gesture，价格10017元
     - 桌子：智芯KU3，价格2700元
@@ -237,11 +235,11 @@
 
 ## 其他
 
-- win11 设置
+- win11 设置：
   - 要保持一个至少一年重置一次电脑的频率才行，有些难以清理的东西，只能通过这种行为才能根除。
   - 取消开机密码：win+R，netplwiz，添加一个账户，去掉对勾，删除那个添加的账户，在原先账户上弹窗输入和自己账户一样的账号密码。
 
-- Chrome 插件
+- Chrome 插件：
   - [插件下载网](https://crxdl.com/)：第三方插件网站。
   - Adblock Plus
   - 同步助手已经废了：chrome 同步助手 1.8。
@@ -258,13 +256,13 @@
   - [哔哩哔哩下载助手](https://csser.top/)。
   - [腾讯交互翻译](https://transmart.qq.com/zh-CN/download)
 
-- 小技巧
+- 小技巧：
   - 文件批量重命名：全选 →F2→ 重命名，然后就会自动批量以数字排序。
   - ctrl+shift+t：浏览器恢复刚才关闭的网页。
   - 批量新建文件夹有乱码，txt 右键另存编码为 ANSI。
   - 联想的一键还原，加上 win10 可以不删文件重置，电脑问题再也不怕了。
 
-- 已废除
+- 已废除：
   - [~~知犀~~](https://www.zhixi.com/)~~：脑图，都差不多，先试试这个。~~
   - [~~Syncthing~~](https://syncthing.net/)~~：手机电脑或电脑电脑直接同步文件。~~
   - ~~音乐播放器：~~

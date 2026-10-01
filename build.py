@@ -22,6 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 SRC = ROOT / "README.md"
 OUT = ROOT / "index.html"
+SITE = "https://uppjs.com"
 
 # --------------------------------------------------------------------------
 # 1. 行内 Markdown -> HTML
@@ -136,6 +137,58 @@ def unmask(s: str, store):
     return re.sub(r"\x00(\d+)\x00", lambda m: store[int(m.group(1))], s)
 
 
+# ---- 名称里的元信息标签 ------------------------------------------------
+# 名称里 <=10 字的括号备注抽出来做成标签 chip：版本、属性、平台、评价
+# 这样不管原文写「（开源）」「(v7bf)」「（6.25 版本）」还是「☆」，页面表现都一致
+TAG_RE = re.compile(r"[（(]([^）)]{1,10})[）)]")
+STAR_WORDS = {"荐", "推荐", "力荐", "强烈推荐", "好评", "必装"}
+ATTR_WORDS = {"开源", "免费", "付费", "收费", "绿色版", "便携版", "单文件",
+              "汉化", "官方", "官网", "破解", "无广告", "内置广告", "网页版",
+              "客户端", "离线", "跨平台", "多平台", "国产", "轻量"}
+PLAT_WORDS = {"win", "windows", "mac", "macos", "iphone", "ios", "ipad",
+              "android", "安卓", "手机", "浏览器", "chrome", "edge", "firefox",
+              "pc", "电脑"}
+VER_RE = re.compile(r"^(?:[vV]?\d+(?:[.\d]*)(?:\s*版本)?|[vV][\w.\-]{1,12})$")
+
+
+def tag_kind(t: str) -> str:
+    if t in ATTR_WORDS:
+        return "attr"
+    if t.lower() in PLAT_WORDS:
+        return "plat"
+    if VER_RE.match(t):
+        return "ver"
+    return "note"
+
+
+def split_tags(title: str):
+    """抽名称里 <=10 字的括号备注，返回 (干净名称, [(标签, 类型)], 是否推荐)。
+    名称本身就是括号内容时（如「（官网）」）不抽，避免名字变空。"""
+    star = "☆" in title
+    tags = []
+
+    def rep(m):
+        nonlocal star
+        t = m.group(1).strip()
+        if t in STAR_WORDS:
+            star = True
+            return ""
+        tags.append((t, tag_kind(t)))
+        return ""
+
+    clean = TAG_RE.sub(rep, title).replace("☆", "")
+    clean = re.sub(r"\s{2,}", " ", clean).strip(" ·-—")
+    if not clean and tags:
+        clean = "（" + "）（".join(t for t, _ in tags) + "）"
+        tags = []
+    return clean, tags, star
+
+
+# 名称与简述之间：中英文冒号、逗号、顿号、句号都当分隔符，统一处理
+DESC_SEP_RE = re.compile(r"^[\s：:，,、。.；;]+")
+TAIL_PUNCT = "。.．；;，,、 "
+
+
 def make_node(text: str, is_bullet: bool = True):
     dep = "~~" in text
     bare = text.replace("~~", "").strip()
@@ -143,6 +196,8 @@ def make_node(text: str, is_bullet: bool = True):
         "title": bare,
         "url": "",
         "desc": "",
+        "note": "",
+        "tags": [],
         "children": [],
         "dep": dep,
         "star": False,
@@ -150,23 +205,13 @@ def make_node(text: str, is_bullet: bool = True):
         "bullet": is_bullet,
     }
 
-    star = False
-    if bare.startswith("[☆") or "☆" in bare[:6]:
-        star = True
-    node["star"] = star or "（荐）" in bare
-    if node["star"]:
-        bare = bare.replace("☆", "").replace("（荐）", "")
-
     m = LINK_RE.match(bare)
     if m and m.start() == 0:
-        title, url = m.group(1), m.group(2)
-        rest = bare[m.end():]
-        # 链接后面紧跟的中英文冒号才算描述分隔
-        m2 = re.match(r"^\s*[：:]\s*(.*)$", rest)
-        node["url"] = url
+        node["url"] = m.group(2)
         node["has_link"] = True
-        node["title"] = title
-        node["desc"] = (m2.group(1) if m2 else rest.lstrip("，,、 ")).strip()
+        node["title"] = m.group(1)
+        # 链接后面不管是「：」「，」还是直接接字，都当简述
+        node["desc"] = DESC_SEP_RE.sub("", bare[m.end():], count=1).strip()
     else:
         # 先把行内链接整体遮起来，免得 URL 里的 "https:" 被当成标题/描述分隔符
         masked, store = mask_links(bare)
@@ -176,11 +221,21 @@ def make_node(text: str, is_bullet: bool = True):
             node["desc"] = unmask(parts[1], store).strip()
         else:
             node["title"] = bare
-    node["title"] = node["title"].replace("☆", "").strip()
-    # 标题收尾清理：去掉句号、悬挂的冒号
-    node["title"] = re.sub(r"[。.．]+$", "", node["title"]).strip()
+
+    # 「简述 ｜ 点评」：全角竖线后面是个人使用感受，页面上单独一行
+    for sep in ("｜", "|"):
+        if sep in node["desc"]:
+            a, b = node["desc"].split(sep, 1)
+            node["desc"], node["note"] = a.strip(), b.strip()
+            break
+
+    node["title"], node["tags"], node["star"] = split_tags(node["title"])
+
+    node["title"] = re.sub(r"[。.．]+$", "", node["title"]).rstrip("：:").strip()
+    # 简述与点评去掉句尾标点，整页看起来才齐整
+    node["desc"] = node["desc"].strip().rstrip(TAIL_PUNCT).strip()
+    node["note"] = node["note"].strip().rstrip(TAIL_PUNCT).strip()
     node["header"] = bare.endswith(("：", ":")) and not node["desc"] and not node["url"]
-    node["title"] = node["title"].rstrip("：:").strip()
     node["raw"] = bare
     return node
 
@@ -261,7 +316,7 @@ def render_node(node, ctx, depth=0):
     if is_group:
         ctx["g"] += 1
         gid = f"g{ctx['g']}"
-        is_dep = any(h in node["title"] for h in DEP_GROUP_HINTS)
+        is_dep = bool(node.get("dep")) or any(h in node["title"] for h in DEP_GROUP_HINTS)
         attr = "" if is_dep else " open"
         cls = " grp" + (" grp-dep" if is_dep else "")
         desc = f'<p class="grp-desc">{md_inline(node["desc"])}</p>' if node.get("desc") else ""
@@ -293,16 +348,27 @@ def render_node(node, ctx, depth=0):
     else:
         title_html = f'<span class="nm">{title_html}</span>'
 
-    badge = '<span class="badge" title="个人推荐">荐</span>' if node["star"] else ""
+    # 推荐徽章 + 元信息标签，统一排在名称右边，不再混在名称里
+    chips = []
+    if node["star"]:
+        chips.append('<span class="badge" title="个人推荐">荐</span>')
+    for t, k in node["tags"]:
+        chips.append(f'<span class="tag {k}">{esc(t)}</span>')
+    chips_html = f'<span class="chips">{"".join(chips)}</span>' if chips else ""
+
     desc_html = f'<span class="ds">{md_inline(node["desc"])}</span>' if node["desc"] else ""
+    note_html = f'<span class="note">{md_inline(node["note"])}</span>' if node["note"] else ""
     sub = ""
     if kids:
         sub = '<ul class="sub">' + "".join(
             f"<li>{render_item_inline(k)}</li>" for k in kids
         ) + "</ul>"
 
-    search = plain(node["title"] + " " + node["desc"] + " " + " ".join(
-        plain(k["title"] + k["desc"]) for k in kids))
+    search = plain(" ".join(
+        [node["title"], node["desc"], node["note"],
+         " ".join(t for t, _ in node["tags"])]
+        + [plain(k["title"] + k["desc"]) for k in kids]
+    ))
     flags = f' data-s="{esc(search.lower())}"'
     if node["url"]:
         flags += ' data-l="1"'
@@ -310,7 +376,7 @@ def render_node(node, ctx, depth=0):
         flags += ' data-star="1"'
     return (
         f'<div class="{" ".join(cls)}"{flags}>'
-        f'{title_html}{badge}{desc_html}{sub}</div>'
+        f'{title_html}{chips_html}{desc_html}{note_html}{sub}</div>'
     ), []
 
 
@@ -390,25 +456,39 @@ TEMPLATE = r"""<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>uppjs.com · 软件与硬件清单</title>
-<meta name="description" content="个人整理的 Mac / PC / 手机软件与硬件清单，支持即时搜索。">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f6fed'/%3E%3Ctext x='16' y='23' font-size='19' font-family='sans-serif' font-weight='700' fill='%23fff' text-anchor='middle'%3Eu%3C/text%3E%3C/svg%3E">
+<meta name="description" content="个人整理的 Mac / PC / 手机软件与硬件清单，支持即时搜索。收录标准只有一条：我自己在用、用得住。">
+<meta name="theme-color" content="#2f6fed">
+<link rel="canonical" href="https://uppjs.com/">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://uppjs.com/">
+<meta property="og:title" content="uppjs.com · 软件与硬件清单">
+<meta property="og:description" content="个人整理的 Mac / PC / 手机软件与硬件清单，支持即时搜索。">
 <style>
 :root{
   --bg:#f6f7f9; --panel:#ffffff; --panel2:#f0f2f5; --line:#e2e5ea;
   --fg:#1b1f24; --fg2:#5b626b; --fg3:#8b929c;
   --accent:#2f6fed; --accent-soft:#e8efff; --mark:#ffe9a8; --mark-fg:#3a2c00;
+  --tag-attr-fg:#2c7554; --tag-attr-bg:#eef7f2; --tag-attr-bd:#cfe7dc;
+  --tag-plat-fg:#2f6fed; --tag-plat-bg:#eef3ff; --tag-plat-bd:#d3e0fb;
   --radius:10px; --hh:57px; --tocw:206px;
 }
 html[data-theme="dark"]{
   --bg:#14161a; --panel:#1c1f24; --panel2:#22262c; --line:#2e333a;
   --fg:#e6e8ec; --fg2:#a8b0ba; --fg3:#7c848e;
   --accent:#6ea0ff; --accent-soft:#22314f; --mark:#6b5a1a; --mark-fg:#ffeaa0;
+  --tag-attr-fg:#7fd3ae; --tag-attr-bg:#1b2a24; --tag-attr-bd:#2c4a3d;
+  --tag-plat-fg:#8fb6ff; --tag-plat-bg:#1a2135; --tag-plat-bd:#2d3f63;
 }
 @media (prefers-color-scheme: dark){
   html[data-theme="auto"]{
     --bg:#14161a; --panel:#1c1f24; --panel2:#22262c; --line:#2e333a;
     --fg:#e6e8ec; --fg2:#a8b0ba; --fg3:#7c848e;
     --accent:#6ea0ff; --accent-soft:#22314f; --mark:#6b5a1a; --mark-fg:#ffeaa0;
+    --tag-attr-fg:#7fd3ae; --tag-attr-bg:#1b2a24; --tag-attr-bd:#2c4a3d;
+    --tag-plat-fg:#8fb6ff; --tag-plat-bg:#1a2135; --tag-plat-bd:#2d3f63;
   }
 }
 *{box-sizing:border-box}
@@ -537,21 +617,36 @@ details.group[open]>summary::before{transform:rotate(90deg)}
 .grp-body{margin-left:19px; padding-bottom:6px}
 
 .item{
-  padding:5px 0 5px 12px; border-left:2px solid var(--line); margin:3px 0;
-  display:flex; flex-wrap:wrap; align-items:baseline; gap:8px;
+  padding:6px 8px 6px 12px; border-left:2px solid var(--line); margin:2px 0;
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 9px;
+  border-radius:0 5px 5px 0;
 }
 .item:hover{border-left-color:var(--accent); background:var(--panel2)}
-.item .nm{font-weight:600; color:var(--fg)}
+.item .nm{font-weight:600; color:var(--fg); font-size:14.5px; flex:0 0 auto}
 .item a.nm{color:var(--accent)}
 .item a.nm:hover{text-decoration:underline}
-.item .ds{color:var(--fg2); font-size:13px; flex:1 1 260px}
+.item .chips{display:inline-flex; align-items:center; gap:4px; flex:0 0 auto}
 .item .badge{
-  font-size:10.5px; color:#fff; background:#d98a1f; border-radius:4px; padding:1px 5px;
-  line-height:1.4;
+  font-size:10.5px; font-weight:600; color:#fff; background:#d98a1f;
+  border-radius:4px; padding:1px 5px; line-height:1.45;
 }
+.item .tag{
+  font-size:10.5px; line-height:1.45; padding:1px 6px; border-radius:4px;
+  background:var(--panel2); color:var(--fg3); border:1px solid var(--line);
+  white-space:nowrap;
+}
+.item .tag.attr{color:var(--tag-attr-fg); background:var(--tag-attr-bg); border-color:var(--tag-attr-bd)}
+.item .tag.plat{color:var(--tag-plat-fg); background:var(--tag-plat-bg); border-color:var(--tag-plat-bd)}
+.item .tag.ver{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.item .ds{color:var(--fg2); font-size:13px; flex:1 1 280px; min-width:0}
+.item .note{
+  flex:1 1 100%; color:var(--fg3); font-size:12.5px; line-height:1.6;
+  padding-left:9px; border-left:2px solid var(--line);
+}
+.item .note::before{content:"▸ "; color:var(--fg3)}
 .item.dep .nm{text-decoration:line-through; color:var(--fg3)}
 .item.dep .ds{color:var(--fg3); text-decoration:line-through}
-.item.cur{background:var(--accent-soft); border-left-color:var(--accent); border-radius:0 5px 5px 0}
+.item.cur{background:var(--accent-soft); border-left-color:var(--accent)}
 ul.sub{margin:4px 0 2px 0; padding-left:16px; color:var(--fg2); font-size:13px; width:100%}
 ul.sub li{margin:2px 0}
 mark{background:var(--mark); color:var(--mark-fg); border-radius:2px; padding:0 1px}
@@ -1051,6 +1146,8 @@ HELP_TEMPLATE = """<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>使用说明 · uppjs.com 维护手册</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>
 :root{
   --bg:#fbfbf9; --card:#fff; --fg:#1c1c1a; --fg2:#565650; --fg3:#8e8e86;
@@ -1163,6 +1260,22 @@ def git_date() -> str:
     return date.today().isoformat()
 
 
+def build_seo(today: str):
+    """生成 robots.txt 与 sitemap.xml，跟着每次更新一起产出，不用手动维护。"""
+    (ROOT / "robots.txt").write_text(
+        "User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % SITE,
+        encoding="utf-8")
+    pages = [("", "1.0", "weekly"), ("help.html", "0.6", "monthly")]
+    urls = "\n".join(
+        "  <url><loc>%s/%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq>"
+        "<priority>%s</priority></url>" % (SITE, p, today, cf, pr)
+        for p, pr, cf in pages)
+    (ROOT / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + urls + "\n</urlset>\n", encoding="utf-8")
+
+
 def main():
     text = SRC.read_text(encoding="utf-8")
     blocks = parse_lines(text)
@@ -1172,7 +1285,8 @@ def main():
         print(json.dumps(cats, ensure_ascii=False, indent=1))
         return
 
-    html_out = render(cats, git_date())
+    today = git_date()
+    html_out = render(cats, today)
     OUT.write_text(html_out, encoding="utf-8")
     n = len(re.findall(r'<div class="[^"]*\bitem\b[^"]*" data-s=', html_out))
     links = len(re.findall(r'href="https?://', html_out))
@@ -1187,6 +1301,10 @@ def main():
         HELP_OUT.write_text(help_out, encoding="utf-8")
         (ROOT / "help.html").write_text(help_out, encoding="utf-8")
         print(f"已生成 {HELP_OUT.name} 与 help.html：{len(help_out)//1024} KB")
+
+    # SEO：robots.txt / sitemap.xml
+    build_seo(today)
+    print("已生成 robots.txt 与 sitemap.xml")
 
 
 if __name__ == "__main__":
