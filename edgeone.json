@@ -1,0 +1,5 @@
+{
+  "installCommand": "exit 0",
+  "buildCommand": "mkdir -p public && cp *.html public/",
+  "outputDirectory": "./public"
+}
