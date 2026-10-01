@@ -756,8 +756,9 @@ __BODY__
         <tr><td>点击标题 #</td><td>跳转到该分类，可复制地址分享</td></tr>
       </table>
       <h3>搜索与筛选怎么用</h3>
-      <p>直接输入关键词，匹配范围包括<strong>软件名 + 说明文字 + 子条目</strong>，大小写不敏感。
-         搜索时所有分组会自动展开，没有命中的分组会被收起。例如输入
+      <p>直接输入关键词，匹配范围包括<strong>软件名 + 说明文字 + 标签 + 子条目</strong>，大小写不敏感。
+         搜索时所有分组会自动展开，没有命中的分组会被收起，
+         分组标题右侧的数字会变成<strong>「命中数 / 总数」</strong>。例如输入
          <code>截图</code>、<code>下载</code>、<code>pdf</code>、<code>heic</code>。</p>
       <p>右上角筛选可以叠加在搜索之上：<strong>有下载链接</strong>只看能直接点开的条目，
          <strong>我推荐的</strong>只看标了「荐」的（对应清单里的 ☆ 标记）。</p>
@@ -811,6 +812,11 @@ __BODY__
 
   items.forEach(function(el){ orig.set(el, el.innerHTML); });
   var savedOpen = groups.map(function(g){ return g.open; });
+  // 记住每个分组的原始条目数，搜索时改显示「命中 / 总数」
+  groups.forEach(function(g){
+    var n = g.querySelector('summary .grp-n');
+    if(n) n.dataset.n = n.textContent;
+  });
 
   function esc(s){
     return s.replace(/[&<>"']/g, function(c){
@@ -881,7 +887,10 @@ __BODY__
       s.classList.toggle('hidden', !s.querySelector('.item:not(.hidden)'));
     });
     groups.forEach(function(g){
-      g.classList.toggle('hidden', filtering && !g.querySelector('.item:not(.hidden)'));
+      var hit = g.querySelectorAll('.item:not(.hidden)').length;
+      var n = g.querySelector('summary .grp-n');
+      if(n) n.textContent = filtering ? hit + ' / ' + n.dataset.n : n.dataset.n;
+      g.classList.toggle('hidden', filtering && hit === 0);
     });
 
     empty.classList.toggle('show', filtering && visible === 0);
