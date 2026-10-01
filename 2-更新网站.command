@@ -33,13 +33,13 @@ xcode-select --install" buttons {"好"} default button 1 with icon stop' >/dev/n
 fi
 
 # ---------------------------------------------------------------- ② 生成网页
-echo "  ① 生成网页中..."
+echo "  ① 生成网页中（首页 + 软件清单 + 网址书签 + 使用说明）..."
 if ! "$PY" build.py; then
   echo ""
   echo -e "  ${R}✗ 生成失败${N}——多半是 README.md 里某一行格式写错了"
   osascript -e 'display dialog "生成网页失败。
 
-请看终端窗口里的红色提示，改好 README.md 再试一次。" buttons {"好"} default button 1 with icon stop' >/dev/null 2>&1
+请看终端窗口里的红色提示，改好对应的 .md 再试一次。" buttons {"好"} default button 1 with icon stop' >/dev/null 2>&1
   echo ""
   read -n 1 -s -r -p "  按任意键关闭..."
   exit 1

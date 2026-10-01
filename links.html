@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>网址书签 · uppjs.com</title>
+<meta name="description" content="网址书签：从浏览器书签里整理出来的常用网址，按用途分好类，一个搜索框全都能搜到。">
+<meta name="theme-color" content="#2f6fed">
+<link rel="canonical" href="https://uppjs.com/links.html">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://uppjs.com/links.html">
+<meta property="og:title" content="网址书签 · uppjs.com">
+<meta property="og:description" content="网址书签：从浏览器书签里整理出来的常用网址，按用途分好类，一个搜索框全都能搜到。">
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --panel2:#f0f2f5; --line:#e2e5ea;
+  --fg:#1b1f24; --fg2:#5b626b; --fg3:#767e89;
+  --accent:#2f6fed; --accent-soft:#e8efff; --mark:#ffe9a8; --mark-fg:#3a2c00;
+  --tag-attr-fg:#2c7554; --tag-attr-bg:#eef7f2; --tag-attr-bd:#cfe7dc;
+  --tag-plat-fg:#2f6fed; --tag-plat-bg:#eef3ff; --tag-plat-bd:#d3e0fb;
+  --warn:#bc5a33; --warn-fav:#c9971a;
+  --radius:10px; --hh:57px; --tocw:206px;
+}
+html[data-theme="dark"]{
+  --bg:#14161a; --panel:#1c1f24; --panel2:#22262c; --line:#2e333a;
+  --fg:#e6e8ec; --fg2:#a8b0ba; --fg3:#7c848e;
+  --accent:#6ea0ff; --accent-soft:#22314f; --mark:#6b5a1a; --mark-fg:#ffeaa0;
+  --tag-attr-fg:#7fd3ae; --tag-attr-bg:#1b2a24; --tag-attr-bd:#2c4a3d;
+  --tag-plat-fg:#8fb6ff; --tag-plat-bg:#1a2135; --tag-plat-bd:#2d3f63;
+  --warn:#e08a63; --warn-fav:#e3b53c;
+}
+@media (prefers-color-scheme: dark){
+  html[data-theme="auto"]{
+    --bg:#14161a; --panel:#1c1f24; --panel2:#22262c; --line:#2e333a;
+    --fg:#e6e8ec; --fg2:#a8b0ba; --fg3:#7c848e;
+    --accent:#6ea0ff; --accent-soft:#22314f; --mark:#6b5a1a; --mark-fg:#ffeaa0;
+    --tag-attr-fg:#7fd3ae; --tag-attr-bg:#1b2a24; --tag-attr-bd:#2c4a3d;
+    --tag-plat-fg:#8fb6ff; --tag-plat-bg:#1a2135; --tag-plat-bd:#2d3f63;
+    --warn:#e08a63; --warn-fav:#e3b53c;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:14px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:var(--panel2); padding:1px 5px; border-radius:4px; font-size:12.5px;
+     font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+
+/* ---------- 顶栏 ---------- */
+header{
+  position:sticky; top:0; z-index:50;
+  background:var(--bg); border-bottom:1px solid var(--line);
+}
+@supports (backdrop-filter:blur(8px)){
+  header{background:color-mix(in srgb,var(--bg) 86%,transparent); backdrop-filter:saturate(1.6) blur(10px)}
+}
+.bar{
+  max-width:1180px; margin:0 auto; padding:9px 16px;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+}
+.brand{font-weight:700; font-size:15px; white-space:nowrap}
+.brand span{color:var(--fg3); font-weight:400; margin-left:6px; font-size:13px}
+.search{flex:1 1 240px; min-width:150px; position:relative}
+.search input{
+  width:100%; padding:8px 30px 8px 32px; border:1px solid var(--line); border-radius:var(--radius);
+  background:var(--panel); color:var(--fg); font-size:14px; outline:none;
+}
+.search input:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+.search::before{content:"⌕"; position:absolute; left:11px; top:7px; color:var(--fg3); font-size:15px}
+.search button{
+  position:absolute; right:4px; top:4px; border:0; background:transparent; color:var(--fg3);
+  font-size:16px; cursor:pointer; padding:4px 8px; border-radius:6px; display:none;
+}
+.search.has button{display:block}
+.tools{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--fg3); white-space:nowrap}
+.tools>button,.tools>select,.tools>a.tool-link{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  padding:6px 9px; border-radius:8px; cursor:pointer; font-size:13px; max-width:150px;
+  white-space:nowrap;
+}
+.tools>button:hover,.tools>select:hover,.tools>a.tool-link:hover{
+  border-color:var(--accent); color:var(--accent); text-decoration:none;
+}
+#count{font-variant-numeric:tabular-nums}
+
+/* ---------- 窄屏分类条 ---------- */
+nav.cats{position:sticky; top:var(--hh); z-index:40; background:var(--bg); border-bottom:1px solid var(--line)}
+nav.cats .wrap{
+  max-width:1180px; margin:0 auto; padding:8px 16px; display:flex; gap:6px;
+  overflow-x:auto; scrollbar-width:none;
+}
+nav.cats .wrap::-webkit-scrollbar{display:none}
+nav.cats a{
+  white-space:nowrap; padding:5px 11px; border-radius:20px; border:1px solid var(--line);
+  background:var(--panel); color:var(--fg2); font-size:13px;
+}
+nav.cats a:hover,nav.cats a.on{border-color:var(--accent); color:var(--accent); text-decoration:none}
+nav.cats a .n{color:var(--fg3); margin-left:5px; font-size:11px}
+
+/* ---------- 外壳 ---------- */
+.shell{
+  max-width:1180px; margin:0 auto; padding:16px 16px 0;
+  display:flex; align-items:flex-start; gap:24px;
+}
+aside.toc{display:none}
+main{flex:1; min-width:0; padding-bottom:34px}
+
+@media (min-width:1024px){
+  nav.cats{display:none}
+  aside.toc{
+    display:block; flex:0 0 var(--tocw); position:sticky; top:calc(var(--hh) + 14px);
+    max-height:calc(100vh - var(--hh) - 28px); overflow-y:auto; overscroll-behavior:contain;
+    padding-right:4px;
+  }
+  aside.toc::-webkit-scrollbar{width:6px}
+  aside.toc::-webkit-scrollbar-thumb{background:var(--line); border-radius:3px}
+}
+.toc-h{font-size:11px; letter-spacing:.09em; color:var(--fg3); text-transform:uppercase;
+       margin:0 0 7px 9px}
+.toc-cat>a{
+  display:flex; align-items:center; gap:8px; padding:5px 9px; border-radius:7px;
+  font-weight:600; font-size:13px; color:var(--fg2);
+}
+.toc-cat>a span.n{margin-left:auto}
+.toc-cat>a:hover{background:var(--panel2); color:var(--fg); text-decoration:none}
+.toc-cat>a.on{background:var(--accent-soft); color:var(--accent)}
+.toc-cat>a .n,.toc-grp a .n{font-size:11px; color:var(--fg3); font-weight:400}
+.toc-grp{margin:1px 0 7px 9px; border-left:1px solid var(--line); padding-left:7px}
+.toc-grp a{
+  display:block; padding:3px 7px; border-radius:6px; font-size:12.5px; color:var(--fg3);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.toc-grp a:hover{color:var(--accent); background:var(--panel2); text-decoration:none}
+.toc-grp a.on{color:var(--accent); background:var(--accent-soft)}
+.toc-grp a[data-d="1"]{padding-left:18px; font-size:12px}
+
+/* ---------- 主体 ---------- */
+.sec{margin-bottom:22px; scroll-margin-top:calc(var(--hh) + 14px)}
+.sec h2{
+  font-size:17px; margin:0 0 10px; padding-bottom:7px; border-bottom:2px solid var(--line);
+  display:flex; align-items:center; gap:8px;
+}
+.sec h2 .anchor{opacity:0; font-size:15px; color:var(--fg3)}
+.sec h2:hover .anchor{opacity:1}
+.sec-body{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:6px 14px}
+
+details.group{border-bottom:1px dashed var(--line); padding:4px 0; scroll-margin-top:calc(var(--hh) + 14px)}
+details.group:last-child{border-bottom:0}
+details.group.grp-dep{opacity:.78}
+details.group>summary{
+  cursor:pointer; list-style:none; padding:7px 0; display:flex; align-items:center; gap:8px;
+  font-weight:600; font-size:14px;
+}
+details.group>summary::-webkit-details-marker{display:none}
+details.group>summary::before{
+  content:"▸"; color:var(--fg3); font-size:11px; transition:transform .15s; display:inline-block;
+}
+details.group[open]>summary::before{transform:rotate(90deg)}
+.grp-n{color:var(--fg3); font-weight:400; font-size:11.5px;
+       background:var(--panel2); border-radius:10px; padding:0 7px}
+.grp-desc{margin:0 0 6px 19px; color:var(--fg2); font-size:13px}
+.grp-body{margin-left:19px; padding-bottom:6px}
+
+.item{
+  padding:6px 8px 6px 12px; border-left:2px solid var(--line); margin:2px 0;
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 9px;
+  border-radius:0 5px 5px 0;
+}
+.item:hover{border-left-color:var(--accent); background:var(--panel2)}
+.item .nm{font-weight:600; color:var(--fg); font-size:14.5px; flex:0 1 auto; min-width:0}
+.item a.nm{color:var(--accent)}
+.item a.nm:hover{text-decoration:underline}
+.item .chips{display:inline-flex; align-items:center; gap:4px; flex:0 0 auto}
+.item .ds{color:var(--fg2); font-size:13px; flex:1 1 280px; min-width:0}
+.item .note{
+  flex:1 1 100%; color:var(--fg3); font-size:12.5px; line-height:1.6;
+  padding-left:9px; border-left:2px solid var(--line);
+}
+.item .note::before{content:"▸ "; color:var(--fg3)}
+.item.dep .nm{text-decoration:line-through; color:var(--fg3)}
+.item.dep .ds{color:var(--fg3); text-decoration:line-through}
+.item.cur{background:var(--accent-soft); border-left-color:var(--accent)}
+ul.sub{margin:4px 0 2px 0; padding-left:16px; color:var(--fg2); font-size:13px; width:100%}
+ul.sub li{margin:2px 0}
+mark{background:var(--mark); color:var(--mark-fg); border-radius:2px; padding:0 1px}
+
+@keyframes flash{from{background:var(--accent-soft)} to{background:transparent}}
+.flash{animation:flash 1.2s ease-out}
+
+.hidden{display:none !important}
+.empty{display:none; text-align:center; color:var(--fg3); padding:44px 0; font-size:13.5px}
+.empty.show{display:block}
+.empty b{color:var(--fg2)}
+
+/* ---------- 页头 ---------- */
+.pagehead{margin:0 0 20px}
+.pagehead .kicker{
+  font-size:11.5px; letter-spacing:.1em; color:var(--accent);
+  margin:0 0 5px; text-transform:uppercase;
+}
+.pagehead h1{font-size:23px; margin:0 0 7px; letter-spacing:-.01em}
+.pagehead .sub{color:var(--fg2); font-size:13.5px; margin:0; max-width:660px}
+a.brand{color:var(--fg)}
+a.brand:hover{color:var(--accent); text-decoration:none}
+
+/* ---------- 紧凑布局：网址书签页 ---------- */
+body[data-layout="compact"] .sec-body{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(292px,1fr));
+  gap:12px; align-items:start;
+}
+body[data-layout="compact"] details.group{
+  border:1px solid var(--line); border-radius:10px; background:var(--panel);
+  padding:11px 13px 13px;
+}
+body[data-layout="compact"] details.group>summary{
+  padding:0 0 8px; margin:0 0 6px; font-size:13px; font-weight:600;
+  border-bottom:1px solid var(--line); color:var(--fg);
+}
+body[data-layout="compact"] details.group>summary .grp-n{
+  color:var(--fg3); font-weight:400; font-size:11.5px;
+}
+body[data-layout="compact"] .grp-body{padding-left:0}
+body[data-layout="compact"] .item{
+  display:block; padding:3px 7px; margin:0 -7px; border-left:0; border-bottom:0;
+  border-radius:6px; font-size:13.5px; line-height:1.5;
+}
+body[data-layout="compact"] .item:hover{background:var(--panel2); border-left-color:transparent}
+body[data-layout="compact"] .item .nm{display:block; font-weight:400; font-size:13.5px}
+body[data-layout="compact"] .item a.nm{color:var(--fg)}
+body[data-layout="compact"] .item a.nm:hover{color:var(--accent); text-decoration:none}
+body[data-layout="compact"] .item .ds{display:block; font-size:11.8px; color:var(--fg3); flex:none}
+body[data-layout="compact"] .sec-body > .item{grid-column:1/-1}
+@media (max-width:720px){
+  body[data-layout="compact"] .sec-body{grid-template-columns:1fr}
+}
+
+/* ---------- 使用说明 ---------- */
+.help{margin-top:28px; background:var(--panel); border:1px solid var(--line);
+      border-radius:var(--radius); padding:6px 16px}
+.help summary{cursor:pointer; font-weight:600; padding:8px 0}
+.help h3{font-size:14px; margin:16px 0 6px}
+.help p,.help li{color:var(--fg2); font-size:13px}
+.help table{border-collapse:collapse; width:100%; margin:6px 0 4px}
+.help td,.help th{border:1px solid var(--line); padding:5px 9px; font-size:13px; text-align:left;
+                  vertical-align:top}
+.help th{background:var(--panel2); font-weight:600}
+.help kbd{background:var(--panel2); border:1px solid var(--line); border-bottom-width:2px;
+          border-radius:4px; padding:0 5px; font-size:12px; font-family:inherit}
+
+footer{
+  max-width:1180px; margin:0 auto; padding:0 16px 46px; color:var(--fg3); font-size:12.5px;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+}
+.totop{
+  position:fixed; right:18px; bottom:18px; width:38px; height:38px; border-radius:50%;
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2); cursor:pointer;
+  font-size:16px; display:none; z-index:60;
+}
+.totop.show{display:block}
+
+/* ---------- 外观面板（明暗 + 底色） ---------- */
+.appear{position:relative}
+.appear>button{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  border-radius:8px; padding:5px 11px; font-size:13px; cursor:pointer;
+  font-family:inherit; line-height:1.4;
+}
+.appear>button:hover{color:var(--fg); border-color:var(--fg3)}
+.ap-panel{
+  position:absolute; right:0; top:calc(100% + 9px); z-index:70; width:268px;
+  background:var(--panel); border:1px solid var(--line); border-radius:12px;
+  padding:13px 13px 11px; text-align:left; white-space:normal;
+  box-shadow:0 14px 38px rgba(0,0,0,.20);
+}
+.ap-panel[hidden]{display:none}
+.ap-lab{
+  font-size:10.5px; letter-spacing:.1em; color:var(--fg3); text-transform:uppercase;
+  margin:0 0 7px; font-weight:600;
+}
+.ap-modes{display:flex; gap:6px; margin:0 0 13px}
+.ap-modes button{
+  flex:1; border:1px solid var(--line); background:var(--panel2); color:var(--fg2);
+  border-radius:8px; padding:6px 0; font-size:12.5px; cursor:pointer;
+  font-family:inherit; white-space:nowrap;
+}
+.ap-modes button.on{border-color:var(--accent); background:var(--accent-soft); color:var(--accent); font-weight:600}
+.ap-sw{display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin:0 0 13px}
+.ap-sw button{
+  width:100%; height:32px; border-radius:9px; border:1px solid var(--line);
+  cursor:pointer; padding:0;
+}
+.ap-sw button.on{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+.ap-foot{display:flex; gap:6px; border-top:1px solid var(--line); padding-top:11px}
+.ap-foot button{
+  flex:1; border:1px solid var(--line); background:transparent; color:var(--fg2);
+  border-radius:8px; padding:6px 0; font-size:12.5px; cursor:pointer; font-family:inherit;
+}
+.ap-foot button:hover{color:var(--fg); background:var(--panel2)}
+.ap-tip{font-size:11.5px; color:var(--fg3); line-height:1.55; margin:10px 0 0}
+#apPick{position:absolute; width:0; height:0; opacity:0; pointer-events:none; border:0; padding:0}
+
+@media (max-width:720px){
+  .bar{padding:8px 12px; gap:8px}
+  .brand span{display:none}
+  .brand{font-size:14px}
+  /* 窄屏按钮多，工具区独占一行并允许换行，避免顶栏横向溢出 */
+  .tools{gap:6px; flex-wrap:wrap; white-space:normal; width:100%; justify-content:flex-start}
+  .tools>button,.tools>select,.tools>a.tool-link{padding:6px 8px; font-size:12.5px}
+  .appear>button{padding:6px 8px; font-size:12.5px}
+  .ap-panel{position:fixed; top:calc(var(--hh) + 6px); right:12px; left:auto;
+            width:min(276px,calc(100vw - 24px))}
+  .shell{padding:12px 12px 0}
+  .item .ds{flex-basis:100%; padding-left:0}
+  .sec-body{padding:4px 10px}
+  footer{padding:0 12px 34px}
+}
+@media print{
+  header,nav.cats,aside.toc,.totop,.help{display:none}
+  body{background:#fff}
+  .shell{display:block; padding:0}
+  .sec-body{border:0; padding:0}
+  details.group{page-break-inside:avoid}
+  details.group:not([open])>div,details.group:not([open])>p{display:block}
+}
+</style>
+<script>
+/* 外观：明暗 + 底色。在首帧前应用，避免闪烁；设置只存在本机浏览器。 */
+(function(){
+  var VARS = ['--bg','--panel','--panel2','--line','--fg','--fg2','--fg3','--accent','--accent-soft'];
+  function rgb(h){
+    h = String(h || '').replace('#','');
+    if(h.length === 3) h = h.charAt(0)+h.charAt(0)+h.charAt(1)+h.charAt(1)+h.charAt(2)+h.charAt(2);
+    if(!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+    return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+  }
+  function hex(c){
+    var o = '#';
+    for(var i = 0; i < 3; i++) o += ('0' + Math.max(0, Math.min(255, Math.round(c[i]))).toString(16)).slice(-2);
+    return o;
+  }
+  function mix(a, b, t){
+    var A = rgb(a), B = rgb(b);
+    if(!A) return a;
+    if(!B) return b;
+    return hex([0,1,2].map(function(i){ return A[i] + (B[i] - A[i]) * t; }));
+  }
+  function lum(h){
+    var c = rgb(h);
+    if(!c) return 1;
+    return (0.2126*c[0] + 0.7152*c[1] + 0.0722*c[2]) / 255;
+  }
+  function clear(){
+    var st = document.documentElement.style;
+    for(var i = 0; i < VARS.length; i++) st.removeProperty(VARS[i]);
+  }
+  function paint(bg){
+    if(!rgb(bg)) return true;
+    var W = '#ffffff', K = '#000000', L = lum(bg), light = L >= 0.45, st = document.documentElement.style;
+    var t = light
+      ? {panel: L > 0.93 ? '#ffffff' : mix(bg, W, .72), panel2: mix(bg, K, .05),
+         line: mix(bg, K, .12), fg: mix(bg, K, .84), fg2: mix(bg, K, .57), fg3: mix(bg, K, .45),
+         accent: '#2f6fed', soft: '#e8efff'}
+      : {panel: mix(bg, W, .06), panel2: mix(bg, W, .11), line: mix(bg, W, .18),
+         fg: mix(bg, W, .88), fg2: mix(bg, W, .64), fg3: mix(bg, W, .50),
+         accent: '#6ea0ff', soft: mix(bg, '#2f6fed', .28)};
+    st.setProperty('--bg', bg);
+    st.setProperty('--panel', t.panel);
+    st.setProperty('--panel2', t.panel2);
+    st.setProperty('--line', t.line);
+    st.setProperty('--fg', t.fg);
+    st.setProperty('--fg2', t.fg2);
+    st.setProperty('--fg3', t.fg3);
+    st.setProperty('--accent', t.accent);
+    st.setProperty('--accent-soft', t.soft);
+    return light;
+  }
+  var SKIN = {
+    modes: ['auto', 'light', 'dark'],
+    label: {auto: '跟随系统', light: '浅色', dark: '深色'},
+    presets: [
+      {name: '默认', bg: ''},
+      {name: '云白', bg: '#ffffff'},
+      {name: '暖阳', bg: '#f7efd9'},
+      {name: '护眼', bg: '#e6f1e1'},
+      {name: '石青', bg: '#e5eef8'},
+      {name: '藕荷', bg: '#f8eaef'},
+      {name: '午夜蓝', bg: '#182233'},
+      {name: '纯黑', bg: '#000000'}
+    ],
+    read: function(){
+      try{ return JSON.parse(localStorage.getItem('uppjs-appearance') || 'null') || {}; }
+      catch(e){ return {}; }
+    },
+    paint: paint,
+    apply: function(s){
+      var d = document.documentElement;
+      if(s && s.bg){
+        d.setAttribute('data-theme', paint(s.bg) ? 'light' : 'dark');
+      }else{
+        clear();
+        d.setAttribute('data-theme', (s && s.mode) || 'auto');
+      }
+      return s;
+    },
+    save: function(s){
+      try{ localStorage.setItem('uppjs-appearance', JSON.stringify(s)); }catch(e){}
+    }
+  };
+  window.UPPJS_SKIN = SKIN;
+  var s = SKIN.read();
+  if(s.bg || s.mode === 'light' || s.mode === 'dark') SKIN.apply(s);
+})();
+</script>
+</head>
+<body id="top" data-layout="compact">
+
+<header>
+  <div class="bar">
+    <a class="brand" href="index.html">uppjs.com<span>在线工具 · 资源站 · 常用站</span></a>
+    <div class="search" id="searchbox">
+      <input id="q" type="search" placeholder="搜索名称 / 说明，按 / 聚焦、↑↓ 选择" autocomplete="off">
+      <button id="clr" title="清空">×</button>
+    </div>
+    <div class="tools">
+      <span id="count"></span>
+      <select id="filter" title="筛选">
+        <option value="all">全部</option>
+        <option value="link">有下载链接</option>
+        <option value="star">我推荐的</option>
+      </select>
+      <button id="toggleAll" title="展开 / 折叠全部分组">折叠</button>
+      <a class="tool-link" href="index.html" title="回到首页">首页</a>
+      <div class="appear">
+        <button id="theme" title="外观：明暗与底色" aria-haspopup="dialog" aria-expanded="false">外观</button>
+        <div class="ap-panel" id="apPanel" hidden>
+          <p class="ap-lab">明暗</p>
+          <div class="ap-modes" id="apModes"></div>
+          <p class="ap-lab">底色</p>
+          <div class="ap-sw" id="apSw"></div>
+          <div class="ap-foot">
+            <button id="apCustom" title="用取色器自选一个底色">自定义…</button>
+            <button id="apReset" title="恢复默认外观">恢复默认</button>
+          </div>
+          <p class="ap-tip">选「底色」后明暗会自动适配，文字颜色跟着变，不用担心看不清。设置只保存在你自己的浏览器里。</p>
+          <input type="color" id="apPick" value="#f6f7f9" tabindex="-1" aria-hidden="true">
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="cats"><div class="wrap"><a href="#ai-工具">AI 工具<span class="n">30</span></a><a href="#开发与编程">开发与编程<span class="n">286</span></a><a href="#软件下载与系统">软件下载与系统<span class="n">86</span></a><a href="#在线工具">在线工具<span class="n">37</span></a><a href="#设计素材">设计素材<span class="n">21</span></a><a href="#影视资源">影视资源<span class="n">14</span></a><a href="#电子书与古籍">电子书与古籍<span class="n">23</span></a><a href="#学习与考试">学习与考试<span class="n">13</span></a><a href="#自媒体与内容">自媒体与内容<span class="n">6</span></a><a href="#导航与搜索">导航与搜索<span class="n">16</span></a><a href="#生活与家庭">生活与家庭<span class="n">18</span></a></div></nav>
+
+<div class="shell">
+  <aside class="toc">
+    <p class="toc-h">目录</p>
+<div class="toc-cat"><a href="#ai-工具" data-t="ai-工具">AI 工具<span class="n">30</span></a>
+<div class="toc-grp">
+<a href="#g1" data-t="g1">对话与助手</a>
+<a href="#g2" data-t="g2">AI 编程与语音</a>
+<a href="#g3" data-t="g3">AI 绘图与视频</a>
+<a href="#g4" data-t="g4">AI 语音与文字</a>
+<a href="#g5" data-t="g5">AI 工具与项目</a>
+<a href="#g6" data-t="g6">其它</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#开发与编程" data-t="开发与编程">开发与编程<span class="n">286</span></a>
+<div class="toc-grp">
+<a href="#g7" data-t="g7">GitHub 精选</a>
+<a href="#g8" data-t="g8">社区与博客</a>
+<a href="#g9" data-t="g9">文档与教程</a>
+<a href="#g10" data-t="g10">前端与 Web</a>
+<a href="#g11" data-t="g11">Python</a>
+<a href="#g12" data-t="g12">Java 与 Android</a>
+<a href="#g13" data-t="g13">编辑器与插件</a>
+<a href="#g14" data-t="g14">算法与面试</a>
+<a href="#g15" data-t="g15">笔记与建站</a>
+<a href="#g16" data-t="g16">编程学习与资源</a>
+<a href="#g17" data-t="g17">其它</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#软件下载与系统" data-t="软件下载与系统">软件下载与系统<span class="n">86</span></a>
+<div class="toc-grp">
+<a href="#g18" data-t="g18">iOS 快捷指令</a>
+<a href="#g19" data-t="g19">Mac 软件</a>
+<a href="#g20" data-t="g20">Windows 与装机</a>
+<a href="#g21" data-t="g21">浏览器扩展</a>
+<a href="#g22" data-t="g22">Mac 与 Windows 小工具</a>
+<a href="#g23" data-t="g23">下载工具</a>
+<a href="#g24" data-t="g24">软件下载站</a>
+<a href="#g25" data-t="g25">其它</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#在线工具" data-t="在线工具">在线工具<span class="n">37</span></a>
+<div class="toc-grp">
+<a href="#g26" data-t="g26">文件转换与 PDF</a>
+<a href="#g27" data-t="g27">图片处理</a>
+<a href="#g28" data-t="g28">在线工具箱</a>
+<a href="#g29" data-t="g29">文件处理</a>
+<a href="#g30" data-t="g30">学习辅助</a>
+<a href="#g31" data-t="g31">其它</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#设计素材" data-t="设计素材">设计素材<span class="n">21</span></a>
+<div class="toc-grp">
+<a href="#g32" data-t="g32">图片与壁纸</a>
+<a href="#g33" data-t="g33">视频与音频素材</a>
+<a href="#g34" data-t="g34">字体与配色</a>
+<a href="#g35" data-t="g35">表情与封面</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#影视资源" data-t="影视资源">影视资源<span class="n">14</span></a>
+<div class="toc-grp">
+<a href="#g36" data-t="g36">电视与直播</a>
+<a href="#g37" data-t="g37">在线影视</a>
+<a href="#g38" data-t="g38">下载与资源</a>
+<a href="#g39" data-t="g39">字幕与台词</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#电子书与古籍" data-t="电子书与古籍">电子书与古籍<span class="n">23</span></a>
+<div class="toc-grp">
+<a href="#g40" data-t="g40">古籍与国学</a>
+<a href="#g41" data-t="g41">电子书与图书馆</a>
+<a href="#g42" data-t="g42">历史与文献</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#学习与考试" data-t="学习与考试">学习与考试<span class="n">13</span></a>
+<div class="toc-grp">
+<a href="#g43" data-t="g43">英语学习</a>
+<a href="#g44" data-t="g44">考证与职业</a>
+<a href="#g45" data-t="g45">教材与学科</a>
+<a href="#g46" data-t="g46">在线课程</a>
+<a href="#g47" data-t="g47">其它</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#自媒体与内容" data-t="自媒体与内容">自媒体与内容<span class="n">6</span></a>
+<div class="toc-grp">
+<a href="#g48" data-t="g48">热点与数据</a>
+<a href="#g49" data-t="g49">运营与增长</a>
+<a href="#g50" data-t="g50">内容生产</a>
+<a href="#g51" data-t="g51">其它</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#导航与搜索" data-t="导航与搜索">导航与搜索<span class="n">16</span></a>
+<div class="toc-grp">
+<a href="#g52" data-t="g52">搜索与聚合</a>
+<a href="#g53" data-t="g53">导航站</a>
+<a href="#g54" data-t="g54">网盘与资源</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#生活与家庭" data-t="生活与家庭">生活与家庭<span class="n">18</span></a>
+<div class="toc-grp">
+<a href="#g55" data-t="g55">有趣网站</a>
+<a href="#g56" data-t="g56">孩子教育</a>
+<a href="#g57" data-t="g57">日常实用</a>
+<a href="#g58" data-t="g58">阅读与摘录</a>
+</div>
+</div>
+  </aside>
+
+  <main>
+    <div class="pagehead">
+      <p class="kicker">在线工具 · 资源站 · 常用站</p>
+      <h1>网址书签</h1>
+      <p class="sub">从浏览器书签里整理出来的常用网址，按用途分好类，一个搜索框全都能搜到。</p>
+    </div>
+    <div class="empty" id="empty">
+      没有匹配的条目。<br><b>试试更短的关键词</b>，或把筛选切回「全部」。
+    </div>
+<section class="sec" id="ai-工具" data-spy>
+<h2>AI 工具<a class="anchor" href="#ai-工具" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g1" data-spy open><summary><span class="grp-title">对话与助手</span><span class="grp-n">12</span></summary><div class="grp-body"><div class="item" data-s="30tool-可能是最好的工具网" data-l="1"><a class="nm" href="https://www.30aitool.com/" target="_blank" rel="noopener noreferrer" title="30tool-可能是最好的工具网">30tool-可能是最好的工具网</a></div><div class="item" data-s="ai工具集官网 | 1000+ ai工具集合，国内外ai工具集导航大全" data-l="1"><a class="nm" href="https://ai-bot.cn/" target="_blank" rel="noopener noreferrer" title="AI工具集官网 | 1000+ AI工具集合，国内外AI工具集导航大全">AI工具集官网 | 1000+ AI工具集合，国内外AI工具集导航大全</a></div><div class="item" data-s="cumora — where agent teams gather" data-l="1"><a class="nm" href="https://cumora.ai/" target="_blank" rel="noopener noreferrer" title="Cumora — Where agent teams gather">Cumora — Where agent teams gather</a></div><div class="item" data-s="deepseek" data-l="1"><a class="nm" href="https://chat.deepseek.com/" target="_blank" rel="noopener noreferrer" title="DeepSeek">DeepSeek</a></div><div class="item" data-s="forklift 4" data-l="1"><a class="nm" href="https://binarynights.com/?utm_source=chatgpt.com" target="_blank" rel="noopener noreferrer" title="Forklift 4">Forklift 4</a></div><div class="item" data-s="keyboard maestro 11.0.4: work faster…" data-l="1"><a class="nm" href="https://www.keyboardmaestro.com/main/?utm_source=chatgpt.com" target="_blank" rel="noopener noreferrer" title="Keyboard Maestro 11.0.4: Work Faster…">Keyboard Maestro 11.0.4: Work Faster…</a></div><div class="item" data-s="kimi.ai - 帮你看更大的世界" data-l="1"><a class="nm" href="https://kimi.moonshot.cn/chat/co1ag49hmfr31u0etko0" target="_blank" rel="noopener noreferrer" title="Kimi.ai - 帮你看更大的世界">Kimi.ai - 帮你看更大的世界</a></div><div class="item" data-s="librecad - free open source 2d cad" data-l="1"><a class="nm" href="https://librecad.org/?utm_source=chatgpt.com#download" target="_blank" rel="noopener noreferrer" title="LibreCAD - Free Open Source 2D CAD">LibreCAD - Free Open Source 2D CAD</a></div><div class="item" data-s="shottr – 截屏工具" data-l="1"><a class="nm" href="https://shottr.cc/?utm_source=chatgpt.com" target="_blank" rel="noopener noreferrer" title="Shottr – 截屏工具">Shottr – 截屏工具</a></div><div class="item" data-s="folivora.ai - great tools for your mac!" data-l="1"><a class="nm" href="https://folivora.ai/?utm_source=chatgpt.com" target="_blank" rel="noopener noreferrer" title="folivora.ai - Great Tools for your Mac!">folivora.ai - Great Tools for your Mac!</a></div><div class="item" data-s="下载 chatgpt" data-l="1"><a class="nm" href="https://chatgpt.com/zh-Hans-CN/download/?utm_source=chatgpt.com" target="_blank" rel="noopener noreferrer" title="下载 ChatGPT">下载 ChatGPT</a></div><div class="item" data-s="边界ai - 智能ai对话、写作与画图生成工具的领先方案" data-l="1"><a class="nm" href="https://yyai8.com/" target="_blank" rel="noopener noreferrer" title="边界AI - 智能AI对话、写作与画图生成工具的领先方案">边界AI - 智能AI对话、写作与画图生成工具的领先方案</a></div></div></details>
+<details class="group grp" id="g2" data-spy open><summary><span class="grp-title">AI 编程与语音</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="cc switch 官方网站 - ai 编程工具统一管理平台" data-l="1"><a class="nm" href="https://ccswitch.io/zh/" target="_blank" rel="noopener noreferrer" title="CC Switch 官方网站 - AI 编程工具统一管理平台">CC Switch 官方网站 - AI 编程工具统一管理平台</a></div><div class="item" data-s="debpalash/omnivoice-studio" data-l="1"><a class="nm" href="https://github.com/debpalash/OmniVoice-Studio" target="_blank" rel="noopener noreferrer" title="debpalash/OmniVoice-Studio">debpalash/OmniVoice-Studio</a></div><div class="item" data-s="baiyuetribe/paper2gui" data-l="1"><a class="nm" href="https://github.com/Baiyuetribe/paper2gui" target="_blank" rel="noopener noreferrer" title="Baiyuetribe/paper2gui">Baiyuetribe/paper2gui</a></div><div class="item" data-s="farion1231/cc-switch" data-l="1"><a class="nm" href="https://github.com/farion1231/cc-switch/blob/main/README_ZH.md" target="_blank" rel="noopener noreferrer" title="farion1231/cc-switch">farion1231/cc-switch</a></div></div></details>
+<details class="group grp" id="g3" data-spy open><summary><span class="grp-title">AI 绘图与视频</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="mac本地部署stable diffusion，超详细，含踩坑点（ai…" data-l="1"><a class="nm" href="https://blog.csdn.net/u011886447/article/details/131778168" target="_blank" rel="noopener noreferrer" title="Mac本地部署Stable Diffusion，超详细，含踩坑点（AI…">Mac本地部署Stable Diffusion，超详细，含踩坑点（AI…</a></div><div class="item" data-s="nanophoto.ai - ai 让视频和图片编辑变得简单高效" data-l="1"><a class="nm" href="https://nanophoto.ai/zh" target="_blank" rel="noopener noreferrer" title="NanoPhoto.AI - AI 让视频和图片编辑变得简单高效">NanoPhoto.AI - AI 让视频和图片编辑变得简单高效</a></div><div class="item" data-s="stable diffusion webui使用手冊 - stable…" data-l="1"><a class="nm" href="https://docs.stablediffusion.cn/article/1.html" target="_blank" rel="noopener noreferrer" title="Stable Diffusion WebUI使用手冊 - Stable…">Stable Diffusion WebUI使用手冊 - Stable…</a></div></div></details>
+<details class="group grp" id="g4" data-spy open><summary><span class="grp-title">AI 语音与文字</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="深言达意 – 找词找句" data-l="1"><a class="nm" href="https://www.shenyandayi.com/?from=33.agilestudio.cn" target="_blank" rel="noopener noreferrer" title="深言达意 – 找词找句">深言达意 – 找词找句</a></div><div class="item" data-s="santinic/audiblez" data-l="1"><a class="nm" href="https://github.com/santinic/audiblez" target="_blank" rel="noopener noreferrer" title="santinic/audiblez">santinic/audiblez</a></div><div class="item" data-s="配音-配音网-音频制作公司-配音公司 • 声动传媒官网sando" data-l="1"><a class="nm" href="http://www.sando.cn/" target="_blank" rel="noopener noreferrer" title="配音-配音网-音频制作公司-配音公司 • 声动传媒官网SANDO">配音-配音网-音频制作公司-配音公司 • 声动传媒官网SANDO</a></div></div></details>
+<details class="group grp" id="g5" data-spy open><summary><span class="grp-title">AI 工具与项目</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item" data-s="jnmetacode/agency-agents-zh" data-l="1"><a class="nm" href="https://github.com/jnMetaCode/agency-agents-zh" target="_blank" rel="noopener noreferrer" title="jnMetaCode/agency-agents-zh">jnMetaCode/agency-agents-zh</a></div><div class="item" data-s="leaperone/multipost-extension" data-l="1"><a class="nm" href="https://github.com/leaperone/MultiPost-Extension" target="_blank" rel="noopener noreferrer" title="leaperone/MultiPost-Extension">leaperone/MultiPost-Extension</a></div><div class="item" data-s="multipost - 分发平台" data-l="1"><a class="nm" href="https://multipost.app/" target="_blank" rel="noopener noreferrer" title="MultiPost - 分发平台">MultiPost - 分发平台</a></div><div class="item" data-s="multipost - 开源社交媒体一键分发工具 | 多平台内容发布神器" data-l="1"><a class="nm" href="https://multipost.app/install" target="_blank" rel="noopener noreferrer" title="MultiPost - 开源社交媒体一键分发工具 | 多平台内容发布神器">MultiPost - 开源社交媒体一键分发工具 | 多平台内容发布神器</a></div><div class="item" data-s="sansan0/trendradar" data-l="1"><a class="nm" href="https://github.com/sansan0/TrendRadar" target="_blank" rel="noopener noreferrer" title="sansan0/TrendRadar">sansan0/TrendRadar</a></div><div class="item" data-s="msitarzewski/agency-agents" data-l="1"><a class="nm" href="https://github.com/msitarzewski/agency-agents" target="_blank" rel="noopener noreferrer" title="msitarzewski/agency-agents">msitarzewski/agency-agents</a></div></div></details>
+<details class="group grp" id="g6" data-spy open><summary><span class="grp-title">其它</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="cherry studio 下载页面" data-l="1"><a class="nm" href="https://cherry-ai.com/download" target="_blank" rel="noopener noreferrer" title="Cherry Studio 下载页面">Cherry Studio 下载页面</a></div><div class="item" data-s="yt-dlp/yt-dlp" data-l="1"><a class="nm" href="https://github.com/yt-dlp/yt-dlp" target="_blank" rel="noopener noreferrer" title="yt-dlp/yt-dlp">yt-dlp/yt-dlp</a></div></div></details>
+</div></section>
+<section class="sec" id="开发与编程" data-spy>
+<h2>开发与编程<a class="anchor" href="#开发与编程" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g7" data-spy open><summary><span class="grp-title">GitHub 精选</span><span class="grp-n">93</span></summary><div class="grp-body"><div class="item" data-s="30-seconds/30-seconds-of-code" data-l="1"><a class="nm" href="https://github.com/30-seconds/30-seconds-of-code" target="_blank" rel="noopener noreferrer" title="30-seconds/30-seconds-of-code">30-seconds/30-seconds-of-code</a></div><div class="item" data-s="521xueweihan/github520" data-l="1"><a class="nm" href="https://github.com/521xueweihan/GitHub520?tab=readme-ov-file" target="_blank" rel="noopener noreferrer" title="521xueweihan/GitHub520">521xueweihan/GitHub520</a></div><div class="item" data-s="521xueweihan/awesome-python-cn" data-l="1"><a class="nm" href="https://github.com/521xueweihan/awesome-python-cn" target="_blank" rel="noopener noreferrer" title="521xueweihan/awesome-python-cn">521xueweihan/awesome-python-cn</a></div><div class="item" data-s="envyfan/androidreview" data-l="1"><a class="nm" href="https://github.com/envyfan/AndroidReview//" target="_blank" rel="noopener noreferrer" title="envyfan/AndroidReview">envyfan/AndroidReview</a></div><div class="item" data-s="francistao/learningnotes" data-l="1"><a class="nm" href="https://github.com/francistao/LearningNotes" target="_blank" rel="noopener noreferrer" title="francistao/LearningNotes">francistao/LearningNotes</a></div><div class="item" data-s="jeasonstudio/cn-vscode-docs" data-l="1"><a class="nm" href="https://github.com/jeasonstudio/CN-VScode-Docs/tree/master/md" target="_blank" rel="noopener noreferrer" title="jeasonstudio/CN-VScode-Docs">jeasonstudio/CN-VScode-Docs</a></div><div class="item" data-s="chiowe/chinatextbook" data-l="1"><a class="nm" href="https://github.com/Chiowe/ChinaTextbook-" target="_blank" rel="noopener noreferrer" title="Chiowe/ChinaTextbook">Chiowe/ChinaTextbook</a></div><div class="item" data-s="download github desktop | github desktop" data-l="1"><a class="nm" href="https://desktop.github.com/download/" target="_blank" rel="noopener noreferrer" title="Download GitHub Desktop | GitHub Desktop">Download GitHub Desktop | GitHub Desktop</a></div><div class="item" data-s="isoron/uhabits" data-l="1"><a class="nm" href="https://github.com/iSoron/uhabits" target="_blank" rel="noopener noreferrer" title="iSoron/uhabits">iSoron/uhabits</a></div><div class="item" data-s="gfm" data-l="1"><a class="nm" href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="noopener noreferrer" title="GFM">GFM</a></div><div class="item" data-s="gavinhwa/alibaba" data-l="1"><a class="nm" href="https://github.com/GavinHwa/alibaba" target="_blank" rel="noopener noreferrer" title="GavinHwa/alibaba">GavinHwa/alibaba</a></div><div class="item" data-s="gist" data-l="1"><a class="nm" href="https://gist.github.com/" target="_blank" rel="noopener noreferrer" title="Gist">Gist</a></div><div class="item" data-s="java-community/javaguide" data-l="1"><a class="nm" href="https://github.com/java-community/JavaGuide" target="_blank" rel="noopener noreferrer" title="java-community/JavaGuide">java-community/JavaGuide</a></div><div class="item" data-s="jbiaojerry/ebook-treasure-chest" data-l="1"><a class="nm" href="https://github.com/jbiaojerry/ebook-treasure-chest" target="_blank" rel="noopener noreferrer" title="jbiaojerry/ebook-treasure-chest">jbiaojerry/ebook-treasure-chest</a></div><div class="item" data-s="github 吉祥物" data-l="1"><a class="nm" href="https://octodex.github.com/" target="_blank" rel="noopener noreferrer" title="GitHub 吉祥物">GitHub 吉祥物</a></div><div class="item" data-s="github 官方趋势" data-l="1"><a class="nm" href="https://github.com/trending" target="_blank" rel="noopener noreferrer" title="Github 官方趋势">Github 官方趋势</a></div><div class="item" data-s="kamyu104/git-tips" data-l="1"><a class="nm" href="https://github.com/kamyu104/git-tips" target="_blank" rel="noopener noreferrer" title="kamyu104/git-tips">kamyu104/git-tips</a></div><div class="item" data-s="judasn/intellij-idea-tutorial" data-l="1"><a class="nm" href="https://github.com/judasn/IntelliJ-IDEA-Tutorial" target="_blank" rel="noopener noreferrer" title="judasn/IntelliJ-IDEA-Tutorial">judasn/IntelliJ-IDEA-Tutorial</a></div><div class="item" data-s="judasn/linux-tutorial" data-l="1"><a class="nm" href="https://github.com/judasn/Linux-Tutorial" target="_blank" rel="noopener noreferrer" title="judasn/Linux-Tutorial">judasn/Linux-Tutorial</a></div><div class="item" data-s="jobbole/awesome-javascript-cn" data-l="1"><a class="nm" href="https://github.com/jobbole/awesome-javascript-cn" target="_blank" rel="noopener noreferrer" title="jobbole/awesome-javascript-cn">jobbole/awesome-javascript-cn</a></div><div class="item" data-s="alivebao/clean-code-js" data-l="1"><a class="nm" href="https://github.com/alivebao/clean-code-js" target="_blank" rel="noopener noreferrer" title="alivebao/clean-code-js">alivebao/clean-code-js</a></div><div class="item" data-s="jobbole/awesome-java-cn" data-l="1"><a class="nm" href="https://github.com/jobbole/awesome-java-cn" target="_blank" rel="noopener noreferrer" title="jobbole/awesome-java-cn">jobbole/awesome-java-cn</a></div><div class="item" data-s="qianguyihao/mac-list" data-l="1"><a class="nm" href="https://github.com/qianguyihao/Mac-list" target="_blank" rel="noopener noreferrer" title="qianguyihao/Mac-list">qianguyihao/Mac-list</a></div><div class="item" data-s="amir1376/ab-download-manager" data-l="1"><a class="nm" href="https://github.com/amir1376/ab-download-manager/?tab=readme-ov-file" target="_blank" rel="noopener noreferrer" title="amir1376/ab-download-manager">amir1376/ab-download-manager</a></div><div class="item" data-s="alsotang/node-lessons" data-l="1"><a class="nm" href="https://github.com/alsotang/node-lessons" target="_blank" rel="noopener noreferrer" title="alsotang/node-lessons">alsotang/node-lessons</a></div><div class="item" data-s="jobbole/awesome-python-cn" data-l="1"><a class="nm" href="https://github.com/jobbole/awesome-python-cn" target="_blank" rel="noopener noreferrer" title="jobbole/awesome-python-cn">jobbole/awesome-python-cn</a></div><div class="item" data-s="marginal/qlvideo 发布页" data-l="1"><a class="nm" href="https://github.com/Marginal/QLVideo/releases" target="_blank" rel="noopener noreferrer" title="Marginal/QLVideo 发布页">Marginal/QLVideo 发布页</a></div><div class="item" data-s="guodongxiaren/readme" data-l="1"><a class="nm" href="https://github.com/guodongxiaren/README" target="_blank" rel="noopener noreferrer" title="guodongxiaren/README">guodongxiaren/README</a></div><div class="item" data-s="lyswhut/lx-music-desktop 发布页" data-l="1"><a class="nm" href="https://github.com/lyswhut/lx-music-desktop/releases" target="_blank" rel="noopener noreferrer" title="lyswhut/lx-music-desktop 发布页">lyswhut/lx-music-desktop 发布页</a></div><div class="item" data-s="syncthing/syncthing-android 发布页" data-l="1"><a class="nm" href="https://github.com/syncthing/syncthing-android/releases" target="_blank" rel="noopener noreferrer" title="syncthing/syncthing-android 发布页">syncthing/syncthing-android 发布页</a></div><div class="item" data-s="tranvuongquocdat/sidescreen" data-l="1"><a class="nm" href="https://github.com/tranvuongquocdat/SideScreen" target="_blank" rel="noopener noreferrer" title="tranvuongquocdat/SideScreen">tranvuongquocdat/SideScreen</a></div><div class="item" data-s="simbaping/leetcode" data-l="1"><a class="nm" href="https://github.com/SimbaPing/LeetCode" target="_blank" rel="noopener noreferrer" title="SimbaPing/LeetCode">SimbaPing/LeetCode</a></div><div class="item" data-s="simbaping/jstraining" data-l="1"><a class="nm" href="https://github.com/SimbaPing/jstraining" target="_blank" rel="noopener noreferrer" title="SimbaPing/jstraining">SimbaPing/jstraining</a></div><div class="item" data-s="kamyu104/the-art-of-programming-by-july" data-l="1"><a class="nm" href="https://github.com/kamyu104/The-Art-Of-Programming-By-July/blob/master/ebook/zh/Readme.md" target="_blank" rel="noopener noreferrer" title="kamyu104/The-Art-Of-Programming-By-July">kamyu104/The-Art-Of-Programming-By-July</a></div><div class="item" data-s="uniclipboard/uniclipboard" data-l="1"><a class="nm" href="https://github.com/UniClipboard/UniClipboard/" target="_blank" rel="noopener noreferrer" title="UniClipboard/UniClipboard">UniClipboard/UniClipboard</a></div><div class="item" data-s="wechat-gggithub/awesome-github-repo" data-l="1"><a class="nm" href="https://github.com/Wechat-ggGitHub/Awesome-GitHub-Repo" target="_blank" rel="noopener noreferrer" title="Wechat-ggGitHub/Awesome-GitHub-Repo">Wechat-ggGitHub/Awesome-GitHub-Repo</a></div><div class="item" data-s="freelander/android_data" data-l="1"><a class="nm" href="https://github.com/Freelander/Android_Data" target="_blank" rel="noopener noreferrer" title="Freelander/Android_Data">Freelander/Android_Data</a></div><div class="item" data-s="wasabeef/awesome-android-ui" data-l="1"><a class="nm" href="https://github.com/wasabeef/awesome-android-ui" target="_blank" rel="noopener noreferrer" title="wasabeef/awesome-android-ui">wasabeef/awesome-android-ui</a></div><div class="item" data-s="anxcye/anx-reader" data-l="1"><a class="nm" href="https://github.com/Anxcye/anx-reader/blob/develop/README_zh.md" target="_blank" rel="noopener noreferrer" title="Anxcye/anx-reader">Anxcye/anx-reader</a></div><div class="item" data-s="sindresorhus/awesome" data-l="1"><a class="nm" href="https://github.com/sindresorhus/awesome" target="_blank" rel="noopener noreferrer" title="sindresorhus/awesome">sindresorhus/awesome</a></div><div class="item" data-s="bradtraversy/50projects50days" data-l="1"><a class="nm" href="https://github.com/bradtraversy/50projects50days" target="_blank" rel="noopener noreferrer" title="bradtraversy/50projects50days">bradtraversy/50projects50days</a></div><div class="item" data-s="byoungd/english-level-up-tips" data-l="1"><a class="nm" href="https://github.com/byoungd/English-level-up-tips" target="_blank" rel="noopener noreferrer" title="byoungd/English-level-up-tips">byoungd/English-level-up-tips</a></div><div class="item" data-s="crisxuan/bestjavaer" data-l="1"><a class="nm" href="https://github.com/crisxuan/bestJavaer" target="_blank" rel="noopener noreferrer" title="crisxuan/bestJavaer">crisxuan/bestJavaer</a></div><div class="item" data-s="doocs/advanced-java" data-l="1"><a class="nm" href="https://github.com/doocs/advanced-java" target="_blank" rel="noopener noreferrer" title="doocs/advanced-java">doocs/advanced-java</a></div><div class="item" data-s="exelban/stats" data-l="1"><a class="nm" href="https://github.com/exelban/stats" target="_blank" rel="noopener noreferrer" title="exelban/stats">exelban/stats</a></div><div class="item" data-s="fengdu78/coursera-ml-andrewng-notes" data-l="1"><a class="nm" href="https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes" target="_blank" rel="noopener noreferrer" title="fengdu78/Coursera-ML-AndrewNg-Notes">fengdu78/Coursera-ML-AndrewNg-Notes</a></div><div class="item" data-s="trinea/android-open-project" data-l="1"><a class="nm" href="https://github.com/Trinea/android-open-project" target="_blank" rel="noopener noreferrer" title="Trinea/android-open-project">Trinea/android-open-project</a></div><div class="item" data-s="521xueweihan/hellogithub" data-l="1"><a class="nm" href="https://github.com/521xueweihan/HelloGitHub" target="_blank" rel="noopener noreferrer" title="521xueweihan/HelloGitHub">521xueweihan/HelloGitHub</a></div><div class="item" data-s="google/eng-practices" data-l="1"><a class="nm" href="https://github.com/google/eng-practices" target="_blank" rel="noopener noreferrer" title="google/eng-practices">google/eng-practices</a></div><div class="item" data-s="ipfs-shipyard/ipfs-desktop" data-l="1"><a class="nm" href="https://github.com/ipfs-shipyard/ipfs-desktop" target="_blank" rel="noopener noreferrer" title="ipfs-shipyard/ipfs-desktop">ipfs-shipyard/ipfs-desktop</a></div><div class="item" data-s="itheima1/android" data-l="1"><a class="nm" href="https://github.com/itheima1/Android" target="_blank" rel="noopener noreferrer" title="itheima1/Android">itheima1/Android</a></div><div class="item" data-s="ityouknow/awesome-spring-boot" data-l="1"><a class="nm" href="https://github.com/ityouknow/awesome-spring-boot" target="_blank" rel="noopener noreferrer" title="ityouknow/awesome-spring-boot">ityouknow/awesome-spring-boot</a></div><div class="item" data-s="jobbole/awesome-android-cn" data-l="1"><a class="nm" href="https://github.com/jobbole/awesome-android-cn" target="_blank" rel="noopener noreferrer" title="jobbole/awesome-android-cn">jobbole/awesome-android-cn</a></div><div class="item" data-s="jobbole/awesome-css-cn" data-l="1"><a class="nm" href="https://github.com/jobbole/awesome-css-cn" target="_blank" rel="noopener noreferrer" title="jobbole/awesome-css-cn">jobbole/awesome-css-cn</a></div><div class="item" data-s="trekhleb/javascript-algorithms" data-l="1"><a class="nm" href="https://github.com/trekhleb/javascript-algorithms/blob/master/README.zh-CN.md" target="_blank" rel="noopener noreferrer" title="trekhleb/javascript-algorithms">trekhleb/javascript-algorithms</a></div><div class="item" data-s="kamyu104/how-to-learn-node-correctly: 全文…" data-l="1"><a class="nm" href="https://github.com/kamyu104/How-to-learn-node-correctly" target="_blank" rel="noopener noreferrer" title="kamyu104/How-to-learn-node-correctly: 全文…">kamyu104/How-to-learn-node-correctly: 全文…</a></div><div class="item" data-s="ziishaned/learn-regex" data-l="1"><a class="nm" href="https://github.com/ziishaned/learn-regex/blob/master/translations/README-cn.md" target="_blank" rel="noopener noreferrer" title="ziishaned/learn-regex">ziishaned/learn-regex</a></div><div class="item" data-s="sujunming/mac-awesometools" data-l="1"><a class="nm" href="https://github.com/SuJunming/mac-awesomeTools" target="_blank" rel="noopener noreferrer" title="SuJunming/mac-awesomeTools">SuJunming/mac-awesomeTools</a></div><div class="item" data-s="offa/android-foss" data-l="1"><a class="nm" href="https://github.com/offa/android-foss" target="_blank" rel="noopener noreferrer" title="offa/android-foss">offa/android-foss</a></div><div class="item" data-s="ossu/computer-science" data-l="1"><a class="nm" href="https://github.com/ossu/computer-science" target="_blank" rel="noopener noreferrer" title="ossu/computer-science">ossu/computer-science</a></div><div class="item" data-s="kennethreitz/requests-html" data-l="1"><a class="nm" href="https://github.com/kennethreitz/requests-html" target="_blank" rel="noopener noreferrer" title="kennethreitz/requests-html">kennethreitz/requests-html</a></div><div class="item" data-s="selfteaching/the-craft-of-selfteaching" data-l="1"><a class="nm" href="https://github.com/selfteaching/the-craft-of-selfteaching" target="_blank" rel="noopener noreferrer" title="selfteaching/the-craft-of-selfteaching">selfteaching/the-craft-of-selfteaching</a></div><div class="item" data-s="snowkylin/tensorflow-handbook" data-l="1"><a class="nm" href="https://github.com/snowkylin/tensorflow-handbook" target="_blank" rel="noopener noreferrer" title="snowkylin/tensorflow-handbook">snowkylin/tensorflow-handbook</a></div><div class="item" data-s="jikeytang/sublime-text" data-l="1"><a class="nm" href="https://github.com/jikeytang/sublime-text" target="_blank" rel="noopener noreferrer" title="jikeytang/sublime-text">jikeytang/sublime-text</a></div><div class="item" data-s="wangdoc" data-l="1"><a class="nm" href="https://github.com/wangdoc" target="_blank" rel="noopener noreferrer" title="wangdoc">wangdoc</a></div><div class="item" data-s="waydabber/betterdisplay" data-l="1"><a class="nm" href="https://github.com/waydabber/BetterDisplay#readme" target="_blank" rel="noopener noreferrer" title="waydabber/BetterDisplay">waydabber/BetterDisplay</a></div><div class="item" data-s="webpack/webpack" data-l="1"><a class="nm" href="https://github.com/webpack/webpack/tree/master/examples/source-map" target="_blank" rel="noopener noreferrer" title="webpack/webpack">webpack/webpack</a></div><div class="item" data-s="xbrowsersync" data-l="1"><a class="nm" href="https://github.com/xbrowsersync/" target="_blank" rel="noopener noreferrer" title="xBrowserSync">xBrowserSync</a></div><div class="item" data-s="xiaoxiunique/tool-tips" data-l="1"><a class="nm" href="https://github.com/xiaoxiunique/tool-tips" target="_blank" rel="noopener noreferrer" title="xiaoxiunique/tool-tips">xiaoxiunique/tool-tips</a></div><div class="item" data-s="simbaping/node-lessons" data-l="1"><a class="nm" href="https://github.com/SimbaPing/node-lessons" target="_blank" rel="noopener noreferrer" title="SimbaPing/node-lessons">SimbaPing/node-lessons</a></div><div class="item" data-s="guolindev/booksource" data-l="1"><a class="nm" href="https://github.com/guolindev/booksource" target="_blank" rel="noopener noreferrer" title="guolindev/booksource">guolindev/booksource</a></div><div class="item" data-s="snailclimb/javaguide" data-l="1"><a class="nm" href="https://github.com/Snailclimb/JavaGuide" target="_blank" rel="noopener noreferrer" title="Snailclimb/JavaGuide">Snailclimb/JavaGuide</a></div><div class="item" data-s="ruanyf/document-style-guide" data-l="1"><a class="nm" href="https://github.com/ruanyf/document-style-guide" target="_blank" rel="noopener noreferrer" title="ruanyf/document-style-guide">ruanyf/document-style-guide</a></div><div class="item" data-s="stormzhang/free-programming-books" data-l="1"><a class="nm" href="https://github.com/stormzhang/free-programming-books" target="_blank" rel="noopener noreferrer" title="stormzhang/free-programming-books">stormzhang/free-programming-books</a></div><div class="item" data-s="ebookfoundation/free-programming-books · free-programming-books-zh" data-l="1"><a class="nm" href="https://github.com/EbookFoundation/free-programming-books/blob/master/free-programming-books-zh.md#%E7%A8%8B%E5%BA%8F%E5%91%98%E6%9D%82%E8%B0%88" target="_blank" rel="noopener noreferrer" title="EbookFoundation/free-programming-books · free-programming-books-zh">EbookFoundation/free-programming-books · free-programming-books-zh</a></div><div class="item" data-s="justjavac/free-programming-books-zh_cn" data-l="1"><a class="nm" href="https://github.com/justjavac/free-programming-books-zh_CN" target="_blank" rel="noopener noreferrer" title="justjavac/free-programming-books-zh_CN">justjavac/free-programming-books-zh_CN</a></div><div class="item" data-s="ruanyf/jstraining" data-l="1"><a class="nm" href="https://github.com/ruanyf/jstraining" target="_blank" rel="noopener noreferrer" title="ruanyf/jstraining">ruanyf/jstraining</a></div><div class="item" data-s="xingshaocheng/architect-awesome" data-l="1"><a class="nm" href="https://github.com/xingshaocheng/architect-awesome" target="_blank" rel="noopener noreferrer" title="xingshaocheng/architect-awesome">xingshaocheng/architect-awesome</a></div><div class="item" data-s="tiimgreen/github-cheat-sheet" data-l="1"><a class="nm" href="https://github.com/tiimgreen/github-cheat-sheet/blob/master/README.zh-cn.md" target="_blank" rel="noopener noreferrer" title="tiimgreen/github-cheat-sheet">tiimgreen/github-cheat-sheet</a></div><div class="item" data-s="tapxworld/chinatextbook" data-l="1"><a class="nm" href="https://github.com/TapXWorld/ChinaTextbook" target="_blank" rel="noopener noreferrer" title="TapXWorld/ChinaTextbook">TapXWorld/ChinaTextbook</a></div><div class="item" data-s="kamyu104/math-as-code" data-l="1"><a class="nm" href="https://github.com/kamyu104/math-as-code/blob/master/README-zh.md" target="_blank" rel="noopener noreferrer" title="kamyu104/math-as-code">kamyu104/math-as-code</a></div><div class="item" data-s="kamyu104/front-end-tutorial" data-l="1"><a class="nm" href="https://github.com/kamyu104/Front-end-tutorial" target="_blank" rel="noopener noreferrer" title="kamyu104/Front-end-tutorial">kamyu104/Front-end-tutorial</a></div><div class="item" data-s="stormzhang/android-interview-questions-cn" data-l="1"><a class="nm" href="https://github.com/stormzhang/android-interview-questions-cn" target="_blank" rel="noopener noreferrer" title="stormzhang/android-interview-questions-cn">stormzhang/android-interview-questions-cn</a></div><div class="item" data-s="avik-jain/100-days-of-ml-code" data-l="1"><a class="nm" href="https://github.com/Avik-Jain/100-Days-Of-ML-Code" target="_blank" rel="noopener noreferrer" title="Avik-Jain/100-Days-Of-ML-Code">Avik-Jain/100-Days-Of-ML-Code</a></div><div class="item" data-s="码云 gitee.com" data-l="1"><a class="nm" href="https://gitee.com/" target="_blank" rel="noopener noreferrer" title="码云 Gitee.com">码云 Gitee.com</a></div><div class="item" data-s="ebookfoundation/free-programming-books · free-programming-books-zh" data-l="1"><a class="nm" href="https://github.com/EbookFoundation/free-programming-books/blob/master/books/free-programming-books-zh.md" target="_blank" rel="noopener noreferrer" title="EbookFoundation/free-programming-books · free-programming-books-zh">EbookFoundation/free-programming-books · free-programming-books-zh</a></div><div class="item" data-s="aonez/keka 发布页" data-l="1"><a class="nm" href="https://github.com/aonez/Keka/releases/tag/v1.4.4" target="_blank" rel="noopener noreferrer" title="aonez/Keka 发布页">aonez/Keka 发布页</a></div><div class="item" data-s="阮一峰" data-l="1"><a class="nm" href="https://github.com/ruanyf?tab=overview&amp;from=2018-10-01&amp;to=2018-10-07" target="_blank" rel="noopener noreferrer" title="阮一峰">阮一峰</a></div><div class="item" data-s="r-thomson/nightfall" data-l="1"><a class="nm" href="https://github.com/r-thomson/Nightfall" target="_blank" rel="noopener noreferrer" title="r-thomson/Nightfall">r-thomson/Nightfall</a></div><div class="item" data-s="cyc2018/cs-notes" data-l="1"><a class="nm" href="https://github.com/CyC2018/CS-Notes" target="_blank" rel="noopener noreferrer" title="CyC2018/CS-Notes">CyC2018/CS-Notes</a></div><div class="item" data-s="imhuay/interview_notes-chinese" data-l="1"><a class="nm" href="https://github.com/imhuay/Interview_Notes-Chinese" target="_blank" rel="noopener noreferrer" title="imhuay/Interview_Notes-Chinese">imhuay/Interview_Notes-Chinese</a></div><div class="item" data-s="cyc2018/interview-notebook" data-l="1"><a class="nm" href="https://github.com/CyC2018/Interview-Notebook" target="_blank" rel="noopener noreferrer" title="CyC2018/Interview-Notebook">CyC2018/Interview-Notebook</a></div><div class="item" data-s="xitu/gold-miner" data-l="1"><a class="nm" href="https://github.com/xitu/gold-miner" target="_blank" rel="noopener noreferrer" title="xitu/gold-miner">xitu/gold-miner</a></div></div></details>
+<details class="group grp" id="g8" data-spy open><summary><span class="grp-title">社区与博客</span><span class="grp-n">36</span></summary><div class="grp-body"><div class="item" data-s="(1条消息) csdn - 专业开发者社区" data-l="1"><a class="nm" href="https://www.csdn.net/?spm=1000.2115.3001.5359" target="_blank" rel="noopener noreferrer" title="(1条消息) CSDN - 专业开发者社区">(1条消息) CSDN - 专业开发者社区</a></div><div class="item" data-s="87个前端必备开发网站" data-l="1"><a class="nm" href="https://zhuanlan.zhihu.com/p/86777413" target="_blank" rel="noopener noreferrer" title="87个前端必备开发网站">87个前端必备开发网站</a></div><div class="item" data-s="android 开发中，有哪些坑需要注意？" data-l="1"><a class="nm" href="https://zhuanlan.zhihu.com/p/20309921" target="_blank" rel="noopener noreferrer" title="Android 开发中，有哪些坑需要注意？">Android 开发中，有哪些坑需要注意？</a></div><div class="item" data-s="androidmanifest.xml 最全详解" data-l="1"><a class="nm" href="http://blog.csdn.net/u012486840/article/details/52468931" target="_blank" rel="noopener noreferrer" title="AndroidManifest.xml 最全详解">AndroidManifest.xml 最全详解</a></div><div class="item" data-s="android学习路线指南_singwhatiwanna" data-l="1"><a class="nm" href="https://blog.csdn.net/singwhatiwanna/article/details/49560409" target="_blank" rel="noopener noreferrer" title="Android学习路线指南_singwhatiwanna">Android学习路线指南_singwhatiwanna</a></div><div class="item" data-s="android开发视频教程（java版 | 2017年最新录制）" data-l="1"><a class="nm" href="https://www.jianshu.com/p/9618c038135f" target="_blank" rel="noopener noreferrer" title="Android开发视频教程（Java版 | 2017年最新录制）">Android开发视频教程（Java版 | 2017年最新录制）</a></div><div class="item" data-s="apple mac装机必备苹果软件推荐及安装方法" data-l="1"><a class="nm" href="https://zhuanlan.zhihu.com/p/667308119" target="_blank" rel="noopener noreferrer" title="Apple Mac装机必备苹果软件推荐及安装方法">Apple Mac装机必备苹果软件推荐及安装方法</a></div><div class="item" data-s="csdn开发助手-chrome插件 程序员助手" data-l="1"><a class="nm" href="https://plugin.csdn.net/" target="_blank" rel="noopener noreferrer" title="CSDN开发助手-Chrome插件 程序员助手">CSDN开发助手-Chrome插件 程序员助手</a></div><div class="item" data-s="excel 有哪些可能需要熟练掌握而很多人不会的技能？" data-l="1"><a class="nm" href="http://www.zhihu.com/question/21758700" target="_blank" rel="noopener noreferrer" title="Excel 有哪些可能需要熟练掌握而很多人不会的技能？">Excel 有哪些可能需要熟练掌握而很多人不会的技能？</a></div><div class="item" data-s="idea更改主题插件——material theme ui详解_一名小码农的博客" data-l="1"><a class="nm" href="https://blog.csdn.net/zyx1260168395/article/details/102928172" target="_blank" rel="noopener noreferrer" title="IDEA更改主题插件——Material Theme UI详解_一名小码农的博客">IDEA更改主题插件——Material Theme UI详解_一名小码农的博客</a></div><div class="item" data-s="idea永久激活 - 昌昌" data-l="1"><a class="nm" href="https://blog.csdn.net/u014044812/article/details/84957184" target="_blank" rel="noopener noreferrer" title="IDEA永久激活 - 昌昌">IDEA永久激活 - 昌昌</a></div><div class="item" data-s="macos蓝牙鼠标连接不稳定，频繁断开如何解决？_编程语言" data-l="1"><a class="nm" href="https://ask.csdn.net/questions/8366100" target="_blank" rel="noopener noreferrer" title="MacOS蓝牙鼠标连接不稳定，频繁断开如何解决？_编程语言">MacOS蓝牙鼠标连接不稳定，频繁断开如何解决？_编程语言</a></div><div class="item" data-s="python之路,day1 - python基础1 - 金角大王" data-l="1"><a class="nm" href="http://www.cnblogs.com/alex3714/articles/5465198.html" target="_blank" rel="noopener noreferrer" title="Python之路,Day1 - Python基础1 - 金角大王">Python之路,Day1 - Python基础1 - 金角大王</a></div><div class="item" data-s="sdk 下载_theink的博客" data-l="1"><a class="nm" href="https://blog.csdn.net/weixin_38308549/article/details/89401216" target="_blank" rel="noopener noreferrer" title="SDK 下载_TheInk的博客">SDK 下载_TheInk的博客</a></div><div class="item" data-s="segmentfault" data-l="1"><a class="nm" href="https://segmentfault.com/" target="_blank" rel="noopener noreferrer" title="SegmentFault">SegmentFault</a></div><div class="item" data-s="stack overflow" data-l="1"><a class="nm" href="https://stackoverflow.com/" target="_blank" rel="noopener noreferrer" title="Stack Overflow">Stack Overflow</a></div><div class="item" data-s="v2ex" data-l="1"><a class="nm" href="https://cn.v2ex.com/" target="_blank" rel="noopener noreferrer" title="V2EX">V2EX</a></div><div class="item" data-s="vscode插件推荐（web前端开发均适用） - 个人文章" data-l="1"><a class="nm" href="https://segmentfault.com/a/1190000013487185?utm_source=index-hottest" target="_blank" rel="noopener noreferrer" title="VSCode插件推荐（Web前端开发均适用） - 个人文章">VSCode插件推荐（Web前端开发均适用） - 个人文章</a></div><div class="item" data-s="visual studio code（vs code…" data-l="1"><a class="nm" href="https://zhuanlan.zhihu.com/p/51764279" target="_blank" rel="noopener noreferrer" title="Visual Studio Code（VS code…">Visual Studio Code（VS code…</a></div><div class="item" data-s="design\project\学习playwright…" data-l="1"><a class="nm" href="https://blog.csdn.net/u012296499/article/details/104448940?depth_1-" target="_blank" rel="noopener noreferrer" title="design\project\学习Playwright…">design\project\学习Playwright…</a></div><div class="item" data-s="githubs上免费的计算机电子书资源(持续更新)" data-l="1"><a class="nm" href="https://www.jianshu.com/p/0f122a6120e7#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener noreferrer" title="githubs上免费的计算机电子书资源(持续更新)">githubs上免费的计算机电子书资源(持续更新)</a></div><div class="item" data-s="intellij idea 2018 license server,持续更新中" data-l="1"><a class="nm" href="https://blog.csdn.net/tiantang_1986/article/details/81346558" target="_blank" rel="noopener noreferrer" title="intellij idea 2018 license server,持续更新中">intellij idea 2018 license server,持续更新中</a></div><div class="item" data-s="vscode 插件推荐 - 献给所有前端工程师（2017.8.18更新）…" data-l="1"><a class="nm" href="https://segmentfault.com/a/1190000006697219" target="_blank" rel="noopener noreferrer" title="vscode 插件推荐 - 献给所有前端工程师（2017.8.18更新）…">vscode 插件推荐 - 献给所有前端工程师（2017.8.18更新）…</a></div><div class="item" data-s="【intellij idea】project structure 讲解…" data-l="1"><a class="nm" href="https://www.cnblogs.com/zadomn0920/p/6196962.html" target="_blank" rel="noopener noreferrer" title="【intellij idea】Project Structure 讲解…">【intellij idea】Project Structure 讲解…</a></div><div class="item" data-s="使用intellij idea配置tomcat（入门） - 深海里的鱼" data-l="1"><a class="nm" href="https://www.cnblogs.com/Knowledge-has-no-limit/p/7240585.html" target="_blank" rel="noopener noreferrer" title="使用IntelliJ IDEA配置Tomcat（入门） - 深海里的鱼">使用IntelliJ IDEA配置Tomcat（入门） - 深海里的鱼</a></div><div class="item" data-s="博客园 - 开发者的网上家园" data-l="1"><a class="nm" href="https://www.cnblogs.com/" target="_blank" rel="noopener noreferrer" title="博客园 - 开发者的网上家园">博客园 - 开发者的网上家园</a></div><div class="item" data-s="在线工具" data-l="1"><a class="nm" href="http://tool.oschina.net/" target="_blank" rel="noopener noreferrer" title="在线工具">在线工具</a></div><div class="item" data-s="如何利用github打造博客专属域名 - hongyang - 博客频道" data-l="1"><a class="nm" href="http://blog.csdn.net/lmj623565791/article/details/51319147" target="_blank" rel="noopener noreferrer" title="如何利用github打造博客专属域名 - Hongyang - 博客频道">如何利用github打造博客专属域名 - Hongyang - 博客频道</a></div><div class="item" data-s="如何评价一台电脑的硬件？" data-l="1"><a class="nm" href="http://www.zhihu.com/question/24537645" target="_blank" rel="noopener noreferrer" title="如何评价一台电脑的硬件？">如何评价一台电脑的硬件？</a></div><div class="item" data-s="开源中国 - 找到您想要的开源项目，分享和交流" data-l="1"><a class="nm" href="http://www.oschina.net/" target="_blank" rel="noopener noreferrer" title="开源中国 - 找到您想要的开源项目，分享和交流">开源中国 - 找到您想要的开源项目，分享和交流</a></div><div class="item" data-s="游戏中学会写代码：这些编程学习网站不容错过" data-l="1"><a class="nm" href="https://zhuanlan.zhihu.com/p/32383497" target="_blank" rel="noopener noreferrer" title="游戏中学会写代码：这些编程学习网站不容错过">游戏中学会写代码：这些编程学习网站不容错过</a></div><div class="item" data-s="热部署工具jrebel-and-xrebel-for…" data-l="1"><a class="nm" href="https://blog.csdn.net/hou_jinxin/article/details/106295952" target="_blank" rel="noopener noreferrer" title="热部署工具jrebel-and-xrebel-for…">热部署工具jrebel-and-xrebel-for…</a></div><div class="item" data-s="精选！15个必备的vscode插件" data-l="1"><a class="nm" href="http://blog.csdn.net/qq_38906523/article/details/77278403" target="_blank" rel="noopener noreferrer" title="精选！15个必备的VSCode插件">精选！15个必备的VSCode插件</a></div><div class="item" data-s="精选！15个必备的vscode插件 - jasonlai2016" data-l="1"><a class="nm" href="https://www.cnblogs.com/jasonlai2016/p/9640135.html" target="_blank" rel="noopener noreferrer" title="精选！15个必备的VSCode插件 - jasonlai2016">精选！15个必备的VSCode插件 - jasonlai2016</a></div><div class="item" data-s="编程入门指南 v1.4 - 萧井陌的专栏 - 知乎专栏" data-l="1"><a class="nm" href="http://zhuanlan.zhihu.com/xiao-jing-mo/19959253" target="_blank" rel="noopener noreferrer" title="编程入门指南 v1.4 - 萧井陌的专栏 - 知乎专栏">编程入门指南 v1.4 - 萧井陌的专栏 - 知乎专栏</a></div><div class="item" data-s="金角大王" data-l="1"><a class="nm" href="http://www.cnblogs.com/alex3714/" target="_blank" rel="noopener noreferrer" title="金角大王">金角大王</a></div></div></details>
+<details class="group grp" id="g9" data-spy open><summary><span class="grp-title">文档与教程</span><span class="grp-n">42</span></summary><div class="grp-body"><div class="item" data-s="3，bim教程建模入门——revit导入cad图纸注意事项及技巧+revit教程…" data-l="1"><a class="nm" href="https://www.bilibili.com/video/BV1tS4y1J7fz/?spm_id_from=333.999.0.0&amp;vd_source=003c85f809d38e32a887c0ee30eb4eb3" target="_blank" rel="noopener noreferrer" title="3，BIM教程建模入门——Revit导入CAD图纸注意事项及技巧+revit教程…">3，BIM教程建模入门——Revit导入CAD图纸注意事项及技巧+revit教程…</a></div><div class="item" data-s="4. 其他流程控制工具 — python 3.9.0 文档" data-l="1"><a class="nm" href="https://docs.python.org/zh-cn/3/tutorial/controlflow.html" target="_blank" rel="noopener noreferrer" title="4. 其他流程控制工具 — Python 3.9.0 文档">4. 其他流程控制工具 — Python 3.9.0 文档</a></div><div class="item" data-s="arduino 实验室 – arduino中文站…" data-l="1"><a class="nm" href="https://arduino.nxez.com/" target="_blank" rel="noopener noreferrer" title="Arduino 实验室 – Arduino中文站…">Arduino 实验室 – Arduino中文站…</a></div><div class="item" data-s="arduino 闪烁led_w3cschool" data-l="1"><a class="nm" href="https://www.w3cschool.cn/arduino/arduino_blinking_led.html" target="_blank" rel="noopener noreferrer" title="Arduino 闪烁LED_w3cschool">Arduino 闪烁LED_w3cschool</a></div><div class="item" data-s="arduino中文论坛,arduino入门最全学习项目及教程资料 df创客社区" data-l="1"><a class="nm" href="https://mc.dfrobot.com.cn/forum-92-1.html" target="_blank" rel="noopener noreferrer" title="Arduino中文论坛,arduino入门最全学习项目及教程资料 DF创客社区">Arduino中文论坛,arduino入门最全学习项目及教程资料 DF创客社区</a></div><div class="item" data-s="bim自学网 - 免费bim自学视频教程,revit视频教程网" data-l="1"><a class="nm" href="https://www.bimbim.cn/" target="_blank" rel="noopener noreferrer" title="BIM自学网 - 免费BIM自学视频教程,Revit视频教程网">BIM自学网 - 免费BIM自学视频教程,Revit视频教程网</a></div><div class="item" data-s="css/css3 中文参考文档手册最新版 | css参考手册…" data-l="1"><a class="nm" href="http://css.cuishifeng.cn/" target="_blank" rel="noopener noreferrer" title="CSS/CSS3 中文参考文档手册最新版 | CSS参考手册…">CSS/CSS3 中文参考文档手册最新版 | CSS参考手册…</a></div><div class="item" data-s="how2j 的 java教程" data-l="1"><a class="nm" href="http://how2j.cn/" target="_blank" rel="noopener noreferrer" title="How2J 的 Java教程">How2J 的 Java教程</a></div><div class="item" data-s="javascript 教程 - 网道" data-l="1"><a class="nm" href="https://wangdoc.com/javascript/index.html" target="_blank" rel="noopener noreferrer" title="JavaScript 教程 - 网道">JavaScript 教程 - 网道</a></div><div class="item" data-s="linux命令大全(手册)" data-l="1"><a class="nm" href="http://man.linuxde.net/" target="_blank" rel="noopener noreferrer" title="Linux命令大全(手册)">Linux命令大全(手册)</a></div><div class="item" data-s="macbook使用指南：优缺点点评与macos第三方软件安装全攻略 来自…" data-l="1"><a class="nm" href="https://www.coolapk.com/feed/59184269?shareKey=NmMwODk2OGY0YzE5NjcxOGZjYzM~&amp;shareUid=1530061&amp;shareFrom=com.coolapk.market_14.5.3" target="_blank" rel="noopener noreferrer" title="MacBook使用指南：优缺点点评与macOS第三方软件安装全攻略 来自…">MacBook使用指南：优缺点点评与macOS第三方软件安装全攻略 来自…</a></div><div class="item" data-s="markdown语法 超详细教程 - 经验分享 - obsidian 中文论坛" data-l="1"><a class="nm" href="https://forum-zh.obsidian.md/t/topic/435" target="_blank" rel="noopener noreferrer" title="MarkDown语法 超详细教程 - 经验分享 - Obsidian 中文论坛">MarkDown语法 超详细教程 - 经验分享 - Obsidian 中文论坛</a></div><div class="item" data-s="pycharm 中文指南 — pycharm 中文指南(win版) 2.0…" data-l="1"><a class="nm" href="https://pycharm.iswbm.com/" target="_blank" rel="noopener noreferrer" title="PyCharm 中文指南 — PyCharm 中文指南(Win版) 2.0…">PyCharm 中文指南 — PyCharm 中文指南(Win版) 2.0…</a></div><div class="item" data-s="python教程 - 廖雪峰的官方网站" data-l="1"><a class="nm" href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000" target="_blank" rel="noopener noreferrer" title="Python教程 - 廖雪峰的官方网站">Python教程 - 廖雪峰的官方网站</a></div><div class="item" data-s="python黑魔法手册 — python黑魔法手册 2.0 文档" data-l="1"><a class="nm" href="http://magic.iswbm.com/zh/latest/index.html" target="_blank" rel="noopener noreferrer" title="Python黑魔法手册 — Python黑魔法手册 2.0 文档">Python黑魔法手册 — Python黑魔法手册 2.0 文档</a></div><div class="item" data-s="revit建筑设计教程-我要自学网" data-l="1"><a class="nm" href="https://www.51zxw.net/List.aspx?cid=612" target="_blank" rel="noopener noreferrer" title="Revit建筑设计教程-我要自学网">Revit建筑设计教程-我要自学网</a></div><div class="item" data-s="token (词元)" data-l="1"><a class="nm" href="https://www.runoob.com/ai-agent/token-intro.html" target="_blank" rel="noopener noreferrer" title="Token (词元)">Token (词元)</a></div><div class="item" data-s="zeal - offline documentation browser" data-l="1"><a class="nm" href="https://zealdocs.org/" target="_blank" rel="noopener noreferrer" title="Zeal - Offline Documentation Browser">Zeal - Offline Documentation Browser</a></div><div class="item" data-s="devtool" data-l="1"><a class="nm" href="https://webpack.docschina.org/configuration/devtool/" target="_blank" rel="noopener noreferrer" title="devtool">devtool</a></div><div class="item" data-s="html - learn anything" data-l="1"><a class="nm" href="https://learn-anything.xyz/" target="_blank" rel="noopener noreferrer" title="html - Learn Anything">html - Learn Anything</a></div><div class="item" data-s="python3-cookbook 3.0.0 文档" data-l="1"><a class="nm" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener noreferrer" title="python3-cookbook 3.0.0 文档">python3-cookbook 3.0.0 文档</a></div><div class="item" data-s="w3school 在线教程" data-l="1"><a class="nm" href="http://www.w3school.com.cn/" target="_blank" rel="noopener noreferrer" title="w3school 在线教程">w3school 在线教程</a></div><div class="item" data-s="《python 简明教程》 | python 开发者中文文档" data-l="1"><a class="nm" href="https://pythoncaff.com/docs/byte-of-python/2018" target="_blank" rel="noopener noreferrer" title="《Python 简明教程》 | Python 开发者中文文档">《Python 简明教程》 | Python 开发者中文文档</a></div><div class="item" data-s="《阿里巴巴java开发手册v1.4.0（详尽版）》更新，新增16条设计规约…" data-l="1"><a class="nm" href="https://yq.aliyun.com/articles/69327" target="_blank" rel="noopener noreferrer" title="《阿里巴巴Java开发手册v1.4.0（详尽版）》更新，新增16条设计规约…">《阿里巴巴Java开发手册v1.4.0（详尽版）》更新，新增16条设计规约…</a></div><div class="item" data-s="【 】tcl电视 部分机芯固件最全集合+刷入教程_tcl智能电视_znds" data-l="1"><a class="nm" href="https://www.znds.com/forum.php?mod=viewthread&amp;tid=1204740&amp;page=1&amp;authorid=6685295" target="_blank" rel="noopener noreferrer" title="【 】TCL电视 部分机芯固件最全集合+刷入教程_TCL智能电视_ZNDS">【 】TCL电视 部分机芯固件最全集合+刷入教程_TCL智能电视_ZNDS</a></div><div class="item" data-s="【最新+亲测+教程】office2013…" data-l="1"><a class="nm" href="http://tieba.baidu.com/p/2902424857" target="_blank" rel="noopener noreferrer" title="【最新+亲测+教程】Office2013…">【最新+亲测+教程】Office2013…</a></div><div class="item" data-s="写最好的文档：sphinx + read the docs" data-l="1"><a class="nm" href="https://avnpc.com/pages/writing-best-documentation-by-sphinx-github-readthedocs" target="_blank" rel="noopener noreferrer" title="写最好的文档：Sphinx + Read the Docs">写最好的文档：Sphinx + Read the Docs</a></div><div class="item" data-s="印记中文 - 深入挖掘国外前端新领域，为中国 web 前端开发人员提供优质文档！" data-l="1"><a class="nm" href="https://www.docschina.org/" target="_blank" rel="noopener noreferrer" title="印记中文 - 深入挖掘国外前端新领域，为中国 Web 前端开发人员提供优质文档！">印记中文 - 深入挖掘国外前端新领域，为中国 Web 前端开发人员提供优质文档！</a></div><div class="item" data-s="在线手册中心 - 最全的在线手册文档 - python手册|flask手册…" data-l="1"><a class="nm" href="http://docs.pythontab.com/" target="_blank" rel="noopener noreferrer" title="在线手册中心 - 最全的在线手册文档 - Python手册|Flask手册…">在线手册中心 - 最全的在线手册文档 - Python手册|Flask手册…</a></div><div class="item" data-s="在线版 zeal - devdocs api" data-l="1"><a class="nm" href="https://devdocs.io/" target="_blank" rel="noopener noreferrer" title="在线版 Zeal - DevDocs API">在线版 Zeal - DevDocs API</a></div><div class="item" data-s="多种语言详细内容" data-l="1"><a class="nm" href="https://overapi.com/" target="_blank" rel="noopener noreferrer" title="多种语言详细内容">多种语言详细内容</a></div><div class="item" data-s="开发入门教程大全 · 「挖互联网」" data-l="1"><a class="nm" href="https://tigdig.com/list/develop-basic#max-grid" target="_blank" rel="noopener noreferrer" title="开发入门教程大全 · 「挖互联网」">开发入门教程大全 · 「挖互联网」</a></div><div class="item" data-s="教程汇总" data-l="1"><a class="nm" href="https://www.bimbim.cn/bim-pic/1459.html" target="_blank" rel="noopener noreferrer" title="教程汇总">教程汇总</a></div><div class="item" data-s="易百教程™ - 专注于it教程和实例" data-l="1"><a class="nm" href="http://www.yiibai.com/" target="_blank" rel="noopener noreferrer" title="易百教程™ - 专注于IT教程和实例">易百教程™ - 专注于IT教程和实例</a></div><div class="item" data-s="普通电脑win7上安装杜比音效增强软件dolby home…" data-l="1"><a class="nm" href="http://blog.sina.com.cn/s/blog_6429b8de0101t1pk.html" target="_blank" rel="noopener noreferrer" title="普通电脑WIN7上安装杜比音效增强软件Dolby Home…">普通电脑WIN7上安装杜比音效增强软件Dolby Home…</a></div><div class="item" data-s="菜鸟教程 - 学的不仅是技术，更是梦想！" data-l="1"><a class="nm" href="http://www.runoob.com/" target="_blank" rel="noopener noreferrer" title="菜鸟教程 - 学的不仅是技术，更是梦想！">菜鸟教程 - 学的不仅是技术，更是梦想！</a></div><div class="item" data-s="行书指南 | 免费和开源软件列表" data-l="1"><a class="nm" href="https://xszn.org/zh/" target="_blank" rel="noopener noreferrer" title="行书指南 | 免费和开源软件列表">行书指南 | 免费和开源软件列表</a></div><div class="item" data-s="表格 编程 语言 转换" data-l="1"><a class="nm" href="https://tableconvert.com/" target="_blank" rel="noopener noreferrer" title="表格 编程 语言 转换">表格 编程 语言 转换</a></div><div class="item" data-s="装个机 - 专业电脑重装系统指南教程 | 一键重装系统…" data-l="1"><a class="nm" href="https://zhuangit.ababtools.com/" target="_blank" rel="noopener noreferrer" title="装个机 - 专业电脑重装系统指南教程 | 一键重装系统…">装个机 - 专业电脑重装系统指南教程 | 一键重装系统…</a></div><div class="item" data-s="速学堂教程 - 学的不仅是技术，更是梦想！--尚学堂旗下高端品牌" data-l="1"><a class="nm" href="http://www.sxt.cn/" target="_blank" rel="noopener noreferrer" title="速学堂教程 - 学的不仅是技术，更是梦想！--尚学堂旗下高端品牌">速学堂教程 - 学的不仅是技术，更是梦想！--尚学堂旗下高端品牌</a></div><div class="item" data-s="首页 | read the docs" data-l="1"><a class="nm" href="https://readthedocs.org/" target="_blank" rel="noopener noreferrer" title="首页 | Read the Docs">首页 | Read the Docs</a></div><div class="item" data-s="首页-图灵社区-程序员电子版图书" data-l="1"><a class="nm" href="https://www.ituring.com.cn/" target="_blank" rel="noopener noreferrer" title="首页-图灵社区-程序员电子版图书">首页-图灵社区-程序员电子版图书</a></div></div></details>
+<details class="group grp" id="g10" data-spy open><summary><span class="grp-title">前端与 Web</span><span class="grp-n">60</span></summary><div class="grp-body"><div class="item" data-s="6000集 java" data-l="1"><a class="nm" href="http://www.sxt.cn/Java_jQuery_in_action/Introduction_of_programming_language.html" target="_blank" rel="noopener noreferrer" title="6000集 java">6000集 java</a></div><div class="item" data-s="android studio 小技巧/快捷键 合集" data-l="1"><a class="nm" href="https://jaeger.itscoder.com/android/2016/02/14/android-studio-tips.html" target="_blank" rel="noopener noreferrer" title="Android Studio 小技巧/快捷键 合集">Android Studio 小技巧/快捷键 合集</a></div><div class="item" data-s="android入门基础：从这里开始 | android官方培训课程中文版(v0…" data-l="1"><a class="nm" href="http://hukai.me/android-training-course-in-chinese/basics/index.html" target="_blank" rel="noopener noreferrer" title="Android入门基础：从这里开始 | Android官方培训课程中文版(v0…">Android入门基础：从这里开始 | Android官方培训课程中文版(v0…</a></div><div class="item" data-s="ant design - a ui design language" data-l="1"><a class="nm" href="https://ant.design/" target="_blank" rel="noopener noreferrer" title="Ant Design - A UI Design Language">Ant Design - A UI Design Language</a></div><div class="item" data-s="ant design - 一个 ui 设计语言" data-l="1"><a class="nm" href="https://ant.design/index-cn" target="_blank" rel="noopener noreferrer" title="Ant Design - 一个 UI 设计语言">Ant Design - 一个 UI 设计语言</a></div><div class="item" data-s="ant design of angular - ng-zorro" data-l="1"><a class="nm" href="https://ng.ant.design/docs/introduce/zh" target="_blank" rel="noopener noreferrer" title="Ant Design of Angular - NG-ZORRO">Ant Design of Angular - NG-ZORRO</a></div><div class="item" data-s="awesome mac 应用分享推荐 - awesome mac" data-l="1"><a class="nm" href="https://wangchujiang.com/awesome-mac/README-zh.html" target="_blank" rel="noopener noreferrer" title="Awesome Mac 应用分享推荐 - Awesome Mac">Awesome Mac 应用分享推荐 - Awesome Mac</a></div><div class="item" data-s="babel · 用于编写下一代 javascript 的编译器…" data-l="1"><a class="nm" href="https://www.babeljs.cn/" target="_blank" rel="noopener noreferrer" title="Babel · 用于编写下一代 JavaScript 的编译器…">Babel · 用于编写下一代 JavaScript 的编译器…</a></div><div class="item" data-s="bootcdn - bootstrap 中文网开源项目免费 cdn 加速服务" data-l="1"><a class="nm" href="http://www.bootcdn.cn/" target="_blank" rel="noopener noreferrer" title="BootCDN - Bootstrap 中文网开源项目免费 CDN 加速服务">BootCDN - Bootstrap 中文网开源项目免费 CDN 加速服务</a></div><div class="item" data-s="css grid cheat sheet" data-l="1"><a class="nm" href="https://alialaa.github.io/css-grid-cheat-sheet/" target="_blank" rel="noopener noreferrer" title="CSS Grid Cheat Sheet">CSS Grid Cheat Sheet</a></div><div class="item" data-s="css魔法 - web标准与前端技术杂谈" data-l="1"><a class="nm" href="http://www.cssmagic.net/" target="_blank" rel="noopener noreferrer" title="CSS魔法 - Web标准与前端技术杂谈">CSS魔法 - Web标准与前端技术杂谈</a></div><div class="item" data-s="color themes" data-l="1"><a class="nm" href="http://color-themes.com/?view=index" target="_blank" rel="noopener noreferrer" title="Color Themes">Color Themes</a></div><div class="item" data-s="download peazip for windows 64 bit…" data-l="1"><a class="nm" href="https://peazip.github.io/peazip-64bit.html" target="_blank" rel="noopener noreferrer" title="Download PeaZip for Windows 64 bit…">Download PeaZip for Windows 64 bit…</a></div><div class="item" data-s="eslint - pluggable javascript linter…" data-l="1"><a class="nm" href="http://eslint.cn/" target="_blank" rel="noopener noreferrer" title="ESLint - Pluggable JavaScript linter…">ESLint - Pluggable JavaScript linter…</a></div><div class="item" data-s="font awesome, 为 bootstrap 而创造的图标字体" data-l="1"><a class="nm" href="http://www.bootcss.com/p/font-awesome/" target="_blank" rel="noopener noreferrer" title="Font Awesome, 为 Bootstrap 而创造的图标字体">Font Awesome, 为 Bootstrap 而创造的图标字体</a></div><div class="item" data-s="font awesome，一套绝佳的图标字体库和css框架" data-l="1"><a class="nm" href="http://fontawesome.dashgame.com/" target="_blank" rel="noopener noreferrer" title="Font Awesome，一套绝佳的图标字体库和CSS框架">Font Awesome，一套绝佳的图标字体库和CSS框架</a></div><div class="item" data-s="freecodecamp中文社区" data-l="1"><a class="nm" href="https://freecodecamp.cn/challenges/say-hello-to-html-element" target="_blank" rel="noopener noreferrer" title="FreeCodeCamp中文社区">FreeCodeCamp中文社区</a></div><div class="item" data-s="html code - online web developer tools" data-l="1"><a class="nm" href="https://html-css-js.com/html/" target="_blank" rel="noopener noreferrer" title="HTML Code - Online Web Developer Tools">HTML Code - Online Web Developer Tools</a></div><div class="item" data-s="how to install consolas font on mac os…" data-l="1"><a class="nm" href="https://ikato.com/blog/how-to-install-consolas-font-on-mac-os-x.html" target="_blank" rel="noopener noreferrer" title="How to install Consolas font on Mac OS…">How to install Consolas font on Mac OS…</a></div><div class="item" data-s="java学习路线图_java知识分享网-免费java资源下载" data-l="1"><a class="nm" href="http://www.java1234.com/javaxuexiluxiantu.html" target="_blank" rel="noopener noreferrer" title="Java学习路线图_Java知识分享网-免费Java资源下载">Java学习路线图_Java知识分享网-免费Java资源下载</a></div><div class="item" data-s="layui - 经典模块化前端 ui 框架" data-l="1"><a class="nm" href="https://www.layui.com/" target="_blank" rel="noopener noreferrer" title="Layui - 经典模块化前端 UI 框架">Layui - 经典模块化前端 UI 框架</a></div><div class="item" data-s="learn python the hard way" data-l="1"><a class="nm" href="http://learnpythonthehardway.org/book/ex26.html" target="_blank" rel="noopener noreferrer" title="Learn Python The Hard Way">Learn Python The Hard Way</a></div><div class="item" data-s="learn to code html &amp; css - beginner &amp;…" data-l="1"><a class="nm" href="https://learn.shayhowe.com/" target="_blank" rel="noopener noreferrer" title="Learn to Code HTML &amp; CSS - Beginner &amp;…">Learn to Code HTML &amp; CSS - Beginner &amp;…</a></div><div class="item" data-s="markdown 语法介绍 – coding 帮助中心" data-l="1"><a class="nm" href="https://coding.net/help/doc/project/markdown.html" target="_blank" rel="noopener noreferrer" title="Markdown 语法介绍 – CODING 帮助中心">Markdown 语法介绍 – CODING 帮助中心</a></div><div class="item" data-s="node.js" data-l="1"><a class="nm" href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener noreferrer" title="Node.js">Node.js</a></div><div class="item" data-s="onenote 各平台各版本下载大全 - 数字笔记珍宝 onenotegem" data-l="1"><a class="nm" href="https://cn.onenotegem.com/a/others/onenote-download.html" target="_blank" rel="noopener noreferrer" title="OneNote 各平台各版本下载大全 - 数字笔记珍宝 OneNoteGem">OneNote 各平台各版本下载大全 - 数字笔记珍宝 OneNoteGem</a></div><div class="item" data-s="onenote 插件 gem" data-l="1"><a class="nm" href="http://cn.onenotegem.com/2555420214.html" target="_blank" rel="noopener noreferrer" title="OneNote 插件 Gem">OneNote 插件 Gem</a></div><div class="item" data-s="revit安装（错误）问题解决办法详解-筑浪网校-bim精品课" data-l="1"><a class="nm" href="https://zhulangbim.com/revit-2332.html" target="_blank" rel="noopener noreferrer" title="Revit安装（错误）问题解决办法详解-筑浪网校-BIM精品课">Revit安装（错误）问题解决办法详解-筑浪网校-BIM精品课</a></div><div class="item" data-s="sass世界上最成熟、稳定和强大的css扩展语言 | sass中文网" data-l="1"><a class="nm" href="https://www.sass.hk/" target="_blank" rel="noopener noreferrer" title="Sass世界上最成熟、稳定和强大的CSS扩展语言 | Sass中文网">Sass世界上最成熟、稳定和强大的CSS扩展语言 | Sass中文网</a></div><div class="item" data-s="toast" data-l="1"><a class="nm" href="https://elemefe.github.io/mint-ui/#/" target="_blank" rel="noopener noreferrer" title="Toast">Toast</a></div><div class="item" data-s="upbz免费标准下载网" data-l="1"><a class="nm" href="http://www.upbz.net/index.html" target="_blank" rel="noopener noreferrer" title="UPBZ免费标准下载网">UPBZ免费标准下载网</a></div><div class="item" data-s="ventoy" data-l="1"><a class="nm" href="https://www.ventoy.net/cn/index.html?utm_source=iplaysoft.com" target="_blank" rel="noopener noreferrer" title="Ventoy">Ventoy</a></div><div class="item" data-s="ventoy启动盘" data-l="1"><a class="nm" href="https://www.ventoy.net/cn/doc_disk_layout.html" target="_blank" rel="noopener noreferrer" title="Ventoy启动盘">Ventoy启动盘</a></div><div class="item" data-s="visual studio code 最好的功能、插件和设置-web前端开发" data-l="1"><a class="nm" href="https://www.html.cn/archives/8144" target="_blank" rel="noopener noreferrer" title="Visual Studio Code 最好的功能、插件和设置-WEB前端开发">Visual Studio Code 最好的功能、插件和设置-WEB前端开发</a></div><div class="item" data-s="win10登录时怎么关闭锁屏界面" data-l="1"><a class="nm" href="https://zhidao.baidu.com/question/1244497868382566899.html" target="_blank" rel="noopener noreferrer" title="Win10登录时怎么关闭锁屏界面">Win10登录时怎么关闭锁屏界面</a></div><div class="item" data-s="chrome-出现”由贵单位管理”的解决方法 - 大鸟博客" data-l="1"><a class="nm" href="https://www.daniao.org/4609.html" target="_blank" rel="noopener noreferrer" title="chrome-出现”由贵单位管理”的解决方法 - 大鸟博客">chrome-出现”由贵单位管理”的解决方法 - 大鸟博客</a></div><div class="item" data-s="cube-ui document" data-l="1"><a class="nm" href="https://didi.github.io/cube-ui/#/zh-CN" target="_blank" rel="noopener noreferrer" title="cube-ui Document">cube-ui Document</a></div><div class="item" data-s="js" data-l="1"><a class="nm" href="http://js-ping.github.io/" target="_blank" rel="noopener noreferrer" title="js">js</a></div><div class="item" data-s="revit 族库" data-l="1"><a class="nm" href="https://knowledge.autodesk.com/zh-hans/support/revit/troubleshooting/caas/sfdcarticles/sfdcarticles/CHS/Where-to-find-Revit-Content-Libraries-to-download.html" target="_blank" rel="noopener noreferrer" title="revit 族库">revit 族库</a></div><div class="item" data-s="win10取消账户开机密码怎么设置 开机密码取消不了的解决办法-win7之家" data-l="1"><a class="nm" href="http://www.win7zhijia.cn/win10jc/win10_42720.html" target="_blank" rel="noopener noreferrer" title="win10取消账户开机密码怎么设置 开机密码取消不了的解决办法-win7之家">win10取消账户开机密码怎么设置 开机密码取消不了的解决办法-win7之家</a></div><div class="item" data-s="七天学会nodejs" data-l="1"><a class="nm" href="https://nqdeng.github.io/7-days-nodejs/" target="_blank" rel="noopener noreferrer" title="七天学会NodeJS">七天学会NodeJS</a></div><div class="item" data-s="中小学各年级电子课本下载" data-l="1"><a class="nm" href="http://zj.xdf.cn/kecheng/202002/248571701.html" target="_blank" rel="noopener noreferrer" title="中小学各年级电子课本下载">中小学各年级电子课本下载</a></div><div class="item" data-s="中文家用游戏博物馆" data-l="1"><a class="nm" href="http://famicn.com/index.html" target="_blank" rel="noopener noreferrer" title="中文家用游戏博物馆">中文家用游戏博物馆</a></div><div class="item" data-s="产品中心-better365_产品中心_fastzip_myzip_超级右键ir…" data-l="1"><a class="nm" href="https://www.better365.cn/apps.html" target="_blank" rel="noopener noreferrer" title="产品中心-Better365_产品中心_FastZip_MyZip_超级右键iR…">产品中心-Better365_产品中心_FastZip_MyZip_超级右键iR…</a></div><div class="item" data-s="前端代码规范 及 最佳实践 | isobar" data-l="1"><a class="nm" href="http://coderlmn.github.io/code-standards/" target="_blank" rel="noopener noreferrer" title="前端代码规范 及 最佳实践 | Isobar">前端代码规范 及 最佳实践 | Isobar</a></div><div class="item" data-s="前端网（qdfuns） - web前端开发工程师专业网站，一站式服务平台！" data-l="1"><a class="nm" href="http://www.qdfuns.com/" target="_blank" rel="noopener noreferrer" title="前端网（QDFuns） - WEB前端开发工程师专业网站，一站式服务平台！">前端网（QDFuns） - WEB前端开发工程师专业网站，一站式服务平台！</a></div><div class="item" data-s="在线 html" data-l="1"><a class="nm" href="https://codepen.io/pen" target="_blank" rel="noopener noreferrer" title="在线 HTML">在线 HTML</a></div><div class="item" data-s="学习css布局" data-l="1"><a class="nm" href="http://zh.learnlayout.com/" target="_blank" rel="noopener noreferrer" title="学习CSS布局">学习CSS布局</a></div><div class="item" data-s="山东省关于做好2021年度统计基层统计高级专业技术职称评审工作的公告" data-l="1"><a class="nm" href="https://m12333.cn/policy/yumc.html" target="_blank" rel="noopener noreferrer" title="山东省关于做好2021年度统计基层统计高级专业技术职称评审工作的公告">山东省关于做好2021年度统计基层统计高级专业技术职称评审工作的公告</a></div><div class="item" data-s="幼儿成语故事_儿童成语故事大全_幼教网" data-l="1"><a class="nm" href="http://www.youjiao.com/etly/cygs/index_19.shtml" target="_blank" rel="noopener noreferrer" title="幼儿成语故事_儿童成语故事大全_幼教网">幼儿成语故事_儿童成语故事大全_幼教网</a></div><div class="item" data-s="搞笑注释官网" data-l="1"><a class="nm" href="http://www.asciiworld.com/index.html" target="_blank" rel="noopener noreferrer" title="搞笑注释官网">搞笑注释官网</a></div><div class="item" data-s="最全前端资源汇集 - 文章 - 前端网（qdfuns）" data-l="1"><a class="nm" href="https://www.qdfuns.com/article/17755/423092d927775ae297a390f646079a64.html" target="_blank" rel="noopener noreferrer" title="最全前端资源汇集 - 文章 - 前端网（QDFuns）">最全前端资源汇集 - 文章 - 前端网（QDFuns）</a></div><div class="item" data-s="框架总网-bootstrap中文网" data-l="1"><a class="nm" href="http://www.bootcss.com/" target="_blank" rel="noopener noreferrer" title="框架总网-Bootstrap中文网">框架总网-Bootstrap中文网</a></div><div class="item" data-s="百度前端技术学院 - 零基础学院" data-l="1"><a class="nm" href="http://ife.baidu.com/college/detail/id/5" target="_blank" rel="noopener noreferrer" title="百度前端技术学院 - 零基础学院">百度前端技术学院 - 零基础学院</a></div><div class="item" data-s="纯粹网页制作" data-l="1"><a class="nm" href="https://purecss.io/" target="_blank" rel="noopener noreferrer" title="纯粹网页制作">纯粹网页制作</a></div><div class="item" data-s="连环画报 电子版 免费在线阅读 - 老画报网" data-l="1"><a class="nm" href="http://www.laohuabao.com/huabao/lhhb/index.html#" target="_blank" rel="noopener noreferrer" title="连环画报 电子版 免费在线阅读 - 老画报网">连环画报 电子版 免费在线阅读 - 老画报网</a></div><div class="item" data-s="阮一峰的个人网站 - ruan yifeng&#x27;s personal…" data-l="1"><a class="nm" href="http://www.ruanyifeng.com/home.html" target="_blank" rel="noopener noreferrer" title="阮一峰的个人网站 - Ruan YiFeng&#x27;s Personal…">阮一峰的个人网站 - Ruan YiFeng&#x27;s Personal…</a></div><div class="item" data-s="音乐资源-资源猴" data-l="1"><a class="nm" href="http://ziyuanhou.com/category-%E9%9F%B3%E4%B9%90%E8%B5%84%E6%BA%90.html" target="_blank" rel="noopener noreferrer" title="音乐资源-资源猴">音乐资源-资源猴</a></div><div class="item" data-s="飞冰 - 让前端开发简单而友好" data-l="1"><a class="nm" href="https://alibaba.github.io/ice/iceworks" target="_blank" rel="noopener noreferrer" title="飞冰 - 让前端开发简单而友好">飞冰 - 让前端开发简单而友好</a></div><div class="item" data-s="驱动列表" data-l="1"><a class="nm" href="https://newsupport.lenovo.com.cn/driveList.html?fromsource=driveList&amp;selname=PF23Y43C" target="_blank" rel="noopener noreferrer" title="驱动列表">驱动列表</a></div></div></details>
+<details class="group grp" id="g11" data-spy open><summary><span class="grp-title">Python</span><span class="grp-n">7</span></summary><div class="grp-body"><div class="item" data-s="python - 伯乐在线" data-l="1"><a class="nm" href="http://python.jobbole.com/" target="_blank" rel="noopener noreferrer" title="Python - 伯乐在线">Python - 伯乐在线</a></div><div class="item" data-s="python 中文文档" data-l="1"><a class="nm" href="https://docs.python.org/zh-cn/3/" target="_blank" rel="noopener noreferrer" title="Python 中文文档">Python 中文文档</a></div><div class="item" data-s="python 文档" data-l="1"><a class="nm" href="http://www.pythondoc.com/" target="_blank" rel="noopener noreferrer" title="Python 文档">Python 文档</a></div><div class="item" data-s="pythontab：python中文开发者社区门户" data-l="1"><a class="nm" href="http://www.pythontab.com/" target="_blank" rel="noopener noreferrer" title="PythonTab：Python中文开发者社区门户">PythonTab：Python中文开发者社区门户</a></div><div class="item" data-s="requests: 让 http 服务人类 — requests 2.18.1…" data-l="1"><a class="nm" href="http://docs.python-requests.org/zh_CN/latest/" target="_blank" rel="noopener noreferrer" title="Requests: 让 HTTP 服务人类 — Requests 2.18.1…">Requests: 让 HTTP 服务人类 — Requests 2.18.1…</a></div><div class="item" data-s="北京尚学堂官网-it培训|java培训|人工智能+python培训|大数据培训…" data-l="1"><a class="nm" href="https://www.bjsxt.com/" target="_blank" rel="noopener noreferrer" title="北京尚学堂官网-IT培训|Java培训|人工智能+Python培训|大数据培训…">北京尚学堂官网-IT培训|Java培训|人工智能+Python培训|大数据培训…</a></div><div class="item" data-s="我关注的动态 | pythoncaff - 高品质的 python 开发者社区" data-l="1"><a class="nm" href="https://pythoncaff.com/" target="_blank" rel="noopener noreferrer" title="我关注的动态 | PythonCaff - 高品质的 Python 开发者社区">我关注的动态 | PythonCaff - 高品质的 Python 开发者社区</a></div></div></details>
+<details class="group grp" id="g12" data-spy open><summary><span class="grp-title">Java 与 Android</span><span class="grp-n">13</span></summary><div class="grp-body"><div class="item" data-s="2018年新版java学习路线图（内含大纲+视频+工具+教材+面试）…" data-l="1"><a class="nm" href="http://bbs.itheima.com/forum.php?mod=viewthread&amp;tid=386464?tjlb" target="_blank" rel="noopener noreferrer" title="2018年新版Java学习路线图（内含大纲+视频+工具+教材+面试）…">2018年新版Java学习路线图（内含大纲+视频+工具+教材+面试）…</a></div><div class="item" data-s="android studio" data-l="1"><a class="nm" href="https://developer.android.com/studio" target="_blank" rel="noopener noreferrer" title="Android Studio">Android Studio</a></div><div class="item" data-s="android 官方教材" data-l="1"><a class="nm" href="https://developer.android.google.cn/guide/" target="_blank" rel="noopener noreferrer" title="Android 官方教材">Android 官方教材</a></div><div class="item" data-s="android 开发者 | android developers" data-l="1"><a class="nm" href="https://developer.android.com/" target="_blank" rel="noopener noreferrer" title="Android 开发者 | Android Developers">Android 开发者 | Android Developers</a></div><div class="item" data-s="androiddevtools - android开发工具 android…" data-l="1"><a class="nm" href="https://www.androiddevtools.cn/" target="_blank" rel="noopener noreferrer" title="AndroidDevTools - Android开发工具 Android…">AndroidDevTools - Android开发工具 Android…</a></div><div class="item" data-s="java知识分享网-免费java资源下载" data-l="1"><a class="nm" href="http://www.java1234.com/" target="_blank" rel="noopener noreferrer" title="Java知识分享网-免费Java资源下载">Java知识分享网-免费Java资源下载</a></div><div class="item" data-s="kotlin 语言中文站" data-l="1"><a class="nm" href="https://www.kotlincn.net/" target="_blank" rel="noopener noreferrer" title="Kotlin 语言中文站">Kotlin 语言中文站</a></div><div class="item" data-s="openmtp - advanced android file…" data-l="1"><a class="nm" href="https://openmtp.ganeshrvel.com/" target="_blank" rel="noopener noreferrer" title="OpenMTP - Advanced Android File…">OpenMTP - Advanced Android File…</a></div><div class="item" data-s="reference - kotlin 语言中文站" data-l="1"><a class="nm" href="https://www.kotlincn.net/docs/reference/" target="_blank" rel="noopener noreferrer" title="Reference - Kotlin 语言中文站">Reference - Kotlin 语言中文站</a></div><div class="item" data-s="sdk platform tools 版本说明 | android 开发者…" data-l="1"><a class="nm" href="https://developer.android.google.cn/studio/releases/platform-tools" target="_blank" rel="noopener noreferrer" title="SDK Platform Tools 版本说明 | Android 开发者…">SDK Platform Tools 版本说明 | Android 开发者…</a></div><div class="item" data-s="vidhub - ios/mac/tvos/android网盘视频播放器…" data-l="1"><a class="nm" href="https://zh.okaapps.com/product/1659622164?ref=newhomepagepromotion" target="_blank" rel="noopener noreferrer" title="VidHub - iOS/Mac/tvOS/Android网盘视频播放器…">VidHub - iOS/Mac/tvOS/Android网盘视频播放器…</a></div><div class="item" data-s="构建首个应用 | android basics | android…" data-l="1"><a class="nm" href="https://developer.android.com/guide" target="_blank" rel="noopener noreferrer" title="构建首个应用 | Android Basics | Android…">构建首个应用 | Android Basics | Android…</a></div><div class="item" data-s="面试题库" data-l="1"><a class="nm" href="http://www.jackywang.tech/AndroidInterview-Q-A/chinese/" target="_blank" rel="noopener noreferrer" title="面试题库">面试题库</a></div></div></details>
+<details class="group grp" id="g13" data-spy open><summary><span class="grp-title">编辑器与插件</span><span class="grp-n">14</span></summary><div class="grp-body"><div class="item" data-s="chinese (simplified) language pack /…" data-l="1"><a class="nm" href="https://plugins.jetbrains.com/plugin/13710-chinese-simplified-language-pack----/versions/stable" target="_blank" rel="noopener noreferrer" title="Chinese (Simplified) Language Pack /…">Chinese (Simplified) Language Pack /…</a></div><div class="item" data-s="crxdl - 下载谷歌浏览器(chrome)扩展插件crx" data-l="1"><a class="nm" href="https://crxdl.com/" target="_blank" rel="noopener noreferrer" title="CrxDL - 下载谷歌浏览器(Chrome)扩展插件CRX">CrxDL - 下载谷歌浏览器(Chrome)扩展插件CRX</a></div><div class="item" data-s="debugging in visual studio code" data-l="1"><a class="nm" href="https://code.visualstudio.com/docs/editor/debugging#_launch-configurations" target="_blank" rel="noopener noreferrer" title="Debugging in Visual Studio Code">Debugging in Visual Studio Code</a></div><div class="item" data-s="excel工具箱 插件-方方格子 工作室-做最专业的excel工具箱" data-l="1"><a class="nm" href="http://ffcell.com/home/products.aspx" target="_blank" rel="noopener noreferrer" title="Excel工具箱 插件-方方格子 工作室-做最专业的Excel工具箱">Excel工具箱 插件-方方格子 工作室-做最专业的Excel工具箱</a></div><div class="item" data-s="idea 2019.1 eap - intellij idea…" data-l="1"><a class="nm" href="https://confluence.jetbrains.com/display/IDEADEV/IDEA+2019.1+EAP" target="_blank" rel="noopener noreferrer" title="IDEA 2019.1 EAP - IntelliJ IDEA…">IDEA 2019.1 EAP - IntelliJ IDEA…</a></div><div class="item" data-s="intellij idea 中文网" data-l="1"><a class="nm" href="https://intellijidea.com.cn/" target="_blank" rel="noopener noreferrer" title="IntelliJ IDEA 中文网">IntelliJ IDEA 中文网</a></div><div class="item" data-s="sublime text - a sophisticated text…" data-l="1"><a class="nm" href="http://www.sublimetext.com/" target="_blank" rel="noopener noreferrer" title="Sublime Text - A sophisticated text…">Sublime Text - A sophisticated text…</a></div><div class="item" data-s="visual studio code" data-l="1"><a class="nm" href="https://code.visualstudio.com/docs" target="_blank" rel="noopener noreferrer" title="Visual Studio Code">Visual Studio Code</a></div><div class="item" data-s="adobe 插件" data-l="1"><a class="nm" href="https://mai.91kami.com/Cpd/Detail" target="_blank" rel="noopener noreferrer" title="adobe 插件">adobe 插件</a></div><div class="item" data-s="chrome插件/扩展,chrome商店,谷歌浏览器插件…" data-l="1"><a class="nm" href="https://www.extfans.com/" target="_blank" rel="noopener noreferrer" title="chrome插件/扩展,chrome商店,谷歌浏览器插件…">chrome插件/扩展,chrome商店,谷歌浏览器插件…</a></div><div class="item" data-s="iterm2 - macos terminal replacement" data-l="1"><a class="nm" href="https://iterm2.com/" target="_blank" rel="noopener noreferrer" title="iTerm2 - macOS Terminal Replacement">iTerm2 - macOS Terminal Replacement</a></div><div class="item" data-s="snippets in visual studio code" data-l="1"><a class="nm" href="https://code.visualstudio.com/docs/editor/userdefinedsnippets" target="_blank" rel="noopener noreferrer" title="snippets in Visual Studio Code">snippets in Visual Studio Code</a></div><div class="item" data-s="地图书编辑器介绍 - 地图书" data-l="1"><a class="nm" href="https://www.ditushu.com/di-map-editor/" target="_blank" rel="noopener noreferrer" title="地图书编辑器介绍 - 地图书">地图书编辑器介绍 - 地图书</a></div><div class="item" data-s="插件 - codota" data-l="1"><a class="nm" href="https://www.codota.com/" target="_blank" rel="noopener noreferrer" title="插件 - Codota">插件 - Codota</a></div></div></details>
+<details class="group grp" id="g14" data-spy open><summary><span class="grp-title">算法与面试</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="leetcode (中国) - 极客挚爱的在线技术平台" data-l="1"><a class="nm" href="https://leetcode-cn.com/" target="_blank" rel="noopener noreferrer" title="LeetCode (中国) - 极客挚爱的在线技术平台">LeetCode (中国) - 极客挚爱的在线技术平台</a></div><div class="item" data-s="lintcode 领扣" data-l="1"><a class="nm" href="https://www.lintcode.com/" target="_blank" rel="noopener noreferrer" title="LintCode 领扣">LintCode 领扣</a></div><div class="item" data-s="数据结构解析" data-l="1"><a class="nm" href="https://www.interviewcake.com/data-structures-reference" target="_blank" rel="noopener noreferrer" title="数据结构解析">数据结构解析</a></div><div class="item" data-s="面试interviewmap" data-l="1"><a class="nm" href="https://yuchengkai.cn/docs/zh/" target="_blank" rel="noopener noreferrer" title="面试InterviewMap">面试InterviewMap</a></div></div></details>
+<details class="group grp" id="g15" data-spy open><summary><span class="grp-title">笔记与建站</span><span class="grp-n">5</span></summary><div class="grp-body"><div class="item" data-s="jekyll • 简单的博客、静态网站工具" data-l="1"><a class="nm" href="https://www.jekyll.com.cn/" target="_blank" rel="noopener noreferrer" title="Jekyll • 简单的博客、静态网站工具">Jekyll • 简单的博客、静态网站工具</a></div><div class="item" data-s="markdown guide | joplin" data-l="1"><a class="nm" href="https://joplinapp.org/help/apps/markdown/#" target="_blank" rel="noopener noreferrer" title="Markdown Guide | Joplin">Markdown Guide | Joplin</a></div><div class="item" data-s="obsidian - 笔记" data-l="1"><a class="nm" href="https://obsidian.md/" target="_blank" rel="noopener noreferrer" title="Obsidian - 笔记">Obsidian - 笔记</a></div><div class="item" data-s="pkmer_pkmer" data-l="1"><a class="nm" href="https://pkmer.cn/#home" target="_blank" rel="noopener noreferrer" title="PKMer_PKMer">PKMer_PKMer</a></div><div class="item" data-s="文档 | hexo" data-l="1"><a class="nm" href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener noreferrer" title="文档 | Hexo">文档 | Hexo</a></div></div></details>
+<details class="group grp" id="g16" data-spy open><summary><span class="grp-title">编程学习与资源</span><span class="grp-n">10</span></summary><div class="grp-body"><div class="item" data-s="coding - 代码托管 项目管理 webide 企业服务" data-l="1"><a class="nm" href="https://coding.net/" target="_blank" rel="noopener noreferrer" title="Coding - 代码托管 项目管理 WebIDE 企业服务">Coding - 代码托管 项目管理 WebIDE 企业服务</a></div><div class="item" data-s="flutter中文网" data-l="1"><a class="nm" href="https://flutterchina.club/" target="_blank" rel="noopener noreferrer" title="Flutter中文网">Flutter中文网</a></div><div class="item" data-s="github开源项目汇总" data-l="1"><a class="nm" href="http://www.githubs.cn/" target="_blank" rel="noopener noreferrer" title="Github开源项目汇总">Github开源项目汇总</a></div><div class="item" data-s="mooc中国 - 慕课改变你，你改变世界" data-l="1"><a class="nm" href="http://www.mooc.cn/" target="_blank" rel="noopener noreferrer" title="MOOC中国 - 慕课改变你，你改变世界">MOOC中国 - 慕课改变你，你改变世界</a></div><div class="item" data-s="在线工具 - 程序员的工具箱" data-l="1"><a class="nm" href="http://tool.lu/" target="_blank" rel="noopener noreferrer" title="在线工具 - 程序员的工具箱">在线工具 - 程序员的工具箱</a></div><div class="item" data-s="源学习" data-l="1"><a class="nm" href="https://www.yuanstudy.com/" target="_blank" rel="noopener noreferrer" title="源学习">源学习</a></div><div class="item" data-s="百战程序员_it6000集_影响6000万学习it的中国人【官网】" data-l="1"><a class="nm" href="https://www.bz6000.cn/" target="_blank" rel="noopener noreferrer" title="百战程序员_IT6000集_影响6000万学习IT的中国人【官网】">百战程序员_IT6000集_影响6000万学习IT的中国人【官网】</a></div><div class="item" data-s="码农网-程序员编程资料和编程经验分享平台" data-l="1"><a class="nm" href="http://www.codeceo.com/" target="_blank" rel="noopener noreferrer" title="码农网-程序员编程资料和编程经验分享平台">码农网-程序员编程资料和编程经验分享平台</a></div><div class="item" data-s="编程学习网站-stepik" data-l="1"><a class="nm" href="https://stepik.org/users/63462159/courses" target="_blank" rel="noopener noreferrer" title="编程学习网站-Stepik">编程学习网站-Stepik</a></div><div class="item" data-s="道路 2 编码" data-l="1"><a class="nm" href="https://www.r2coding.com/#/" target="_blank" rel="noopener noreferrer" title="道路 2 编码">道路 2 编码</a></div></div></details>
+<details class="group grp" id="g17" data-spy open><summary><span class="grp-title">其它</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="xmac.cc - 精品mac软件下载站 优质苹果应用资源聚合…" data-l="1"><a class="nm" href="https://xmac.cc/" target="_blank" rel="noopener noreferrer" title="XMac.cc - 精品Mac软件下载站 优质苹果应用资源聚合…">XMac.cc - 精品Mac软件下载站 优质苹果应用资源聚合…</a></div><div class="item" data-s="跨设备剪贴板uniclipboard — 跨 mac / windows /…" data-l="1"><a class="nm" href="https://www.uniclipboard.app/zh" target="_blank" rel="noopener noreferrer" title="跨设备剪贴板UniClipboard — 跨 Mac / Windows /…">跨设备剪贴板UniClipboard — 跨 Mac / Windows /…</a></div></div></details>
+</div></section>
+<section class="sec" id="软件下载与系统" data-spy>
+<h2>软件下载与系统<a class="anchor" href="#软件下载与系统" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g18" data-spy open><summary><span class="grp-title">iOS 快捷指令</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item" data-s="bang!case shortcuts playbook" data-l="1"><a class="nm" href="https://sspai.com/page/playbook/zh-CN" target="_blank" rel="noopener noreferrer" title="BANG!CASE SHORTCUTS PLAYBOOK">BANG!CASE SHORTCUTS PLAYBOOK</a></div><div class="item" data-s="routinehub • 快捷指令" data-l="1"><a class="nm" href="https://routinehub.co/" target="_blank" rel="noopener noreferrer" title="RoutineHub • 快捷指令">RoutineHub • 快捷指令</a></div><div class="item" data-s="shareshortcuts.com 快捷指令" data-l="1"><a class="nm" href="https://shareshortcuts.com/" target="_blank" rel="noopener noreferrer" title="ShareShortcuts.com 快捷指令">ShareShortcuts.com 快捷指令</a></div><div class="item" data-s="快捷指令" data-l="1"><a class="nm" href="https://routinehub.co/user/r07qxo" target="_blank" rel="noopener noreferrer" title="快捷指令">快捷指令</a></div><div class="item" data-s="所有快捷指令 | 柯基捷径库" data-l="1"><a class="nm" href="https://www.kejicut.com/category/sykjzl" target="_blank" rel="noopener noreferrer" title="所有快捷指令 | 柯基捷径库">所有快捷指令 | 柯基捷径库</a></div><div class="item" data-s="苹果ios快捷指令规则大全 - 哎咆捷径" data-l="1"><a class="nm" href="http://www.ipaojj.com/home/wap" target="_blank" rel="noopener noreferrer" title="苹果iOS快捷指令规则大全 - 哎咆捷径">苹果iOS快捷指令规则大全 - 哎咆捷径</a></div></div></details>
+<details class="group grp" id="g19" data-spy open><summary><span class="grp-title">Mac 软件</span><span class="grp-n">31</span></summary><div class="grp-body"><div class="item" data-s="alfred - productivity app for macos" data-l="1"><a class="nm" href="https://www.alfredapp.com/" target="_blank" rel="noopener noreferrer" title="Alfred - Productivity App for macOS">Alfred - Productivity App for macOS</a></div><div class="item" data-s="any display — 扩展你的屏幕" data-l="1"><a class="nm" href="https://anydisplay.app/zh" target="_blank" rel="noopener noreferrer" title="Any Display — 扩展你的屏幕">Any Display — 扩展你的屏幕</a></div><div class="item" data-s="barly - 让菜单栏保持整洁" data-l="1"><a class="nm" href="https://www.barly.app/zh/" target="_blank" rel="noopener noreferrer" title="Barly - 让菜单栏保持整洁">Barly - 让菜单栏保持整洁</a></div><div class="item" data-s="better365官网_mac截图软件_mac长截图软件_mac滚动截图软件_m…" data-l="1"><a class="nm" href="https://www.better365.cn/" target="_blank" rel="noopener noreferrer" title="Better365官网_Mac截图软件_Mac长截图软件_Mac滚动截图软件_M…">Better365官网_Mac截图软件_Mac长截图软件_Mac滚动截图软件_M…</a></div><div class="item" data-s="immich" data-l="1"><a class="nm" href="https://immich.app/" target="_blank" rel="noopener noreferrer" title="Immich">Immich</a></div><div class="item" data-s="mac软件宝库,一站式苹果软件安装指导" data-l="1"><a class="nm" href="https://macbv.com/" target="_blank" rel="noopener noreferrer" title="MAC软件宝库,一站式苹果软件安装指导">MAC软件宝库,一站式苹果软件安装指导</a></div><div class="item" data-s="mwlib - mac 软件 &amp; win 游戏免费下载首选" data-l="1"><a class="nm" href="https://mwlib.com/index/" target="_blank" rel="noopener noreferrer" title="MWLib - Mac 软件 &amp; Win 游戏免费下载首选">MWLib - Mac 软件 &amp; Win 游戏免费下载首选</a></div><div class="item" data-s="mac618 - mac资源免费分享站" data-l="1"><a class="nm" href="https://www.mac618.com/" target="_blank" rel="noopener noreferrer" title="Mac618 - Mac资源免费分享站">Mac618 - Mac资源免费分享站</a></div><div class="item" data-s="macwk - 精品mac软件下载" data-l="1"><a class="nm" href="https://macwk.cn/" target="_blank" rel="noopener noreferrer" title="MacWk - 精品mac软件下载">MacWk - 精品mac软件下载</a></div><div class="item" data-s="maczip - 专为 macos 而设计的压缩软件！" data-l="1"><a class="nm" href="https://ezip.awehunt.com/?locale=zh-CN" target="_blank" rel="noopener noreferrer" title="MacZip - 专为 macOS 而设计的压缩软件！">MacZip - 专为 macOS 而设计的压缩软件！</a></div><div class="item" data-s="mac和ios最佳免费工具app集合 - oka apps" data-l="1"><a class="nm" href="https://zh.okaapps.com/?ref=guokeboke_ad" target="_blank" rel="noopener noreferrer" title="Mac和iOS最佳免费工具App集合 - Oka Apps">Mac和iOS最佳免费工具App集合 - Oka Apps</a></div><div class="item" data-s="mac软件-mac软件下载-mac软件大全-macz" data-l="1"><a class="nm" href="https://www.macz.com/" target="_blank" rel="noopener noreferrer" title="Mac软件-mac软件下载-mac软件大全-MacZ">Mac软件-mac软件下载-mac软件大全-MacZ</a></div><div class="item" data-s="mounty for ntfs" data-l="1"><a class="nm" href="https://mounty.app/#" target="_blank" rel="noopener noreferrer" title="Mounty for NTFS">Mounty for NTFS</a></div><div class="item" data-s="picsee - 看图 &amp; 照片管理" data-l="1"><a class="nm" href="https://picsee.chitaner.com/" target="_blank" rel="noopener noreferrer" title="Picsee - 看图 &amp; 照片管理">Picsee - 看图 &amp; 照片管理</a></div><div class="item" data-s="picview - 图片浏览器" data-l="1"><a class="nm" href="https://picview.chitaner.com/zh-cn/" target="_blank" rel="noopener noreferrer" title="Picview - 图片浏览器">Picview - 图片浏览器</a></div><div class="item" data-s="transmission" data-l="1"><a class="nm" href="https://transmissionbt.com/" target="_blank" rel="noopener noreferrer" title="Transmission">Transmission</a></div><div class="item" data-s="xmac.app" data-l="1"><a class="nm" href="https://xmac.app/" target="_blank" rel="noopener noreferrer" title="XMac.App">XMac.App</a></div><div class="item" data-s="官方 mac 版 wps office - 免費下載 office 套件" data-l="1"><a class="nm" href="https://zh-hant.wps.com/office/mac/" target="_blank" rel="noopener noreferrer" title="官方 Mac 版 WPS Office - 免費下載 Office 套件">官方 Mac 版 WPS Office - 免費下載 Office 套件</a></div><div class="item" data-s="appstorrent 软件下载" data-l="1"><a class="nm" href="https://appstorrent.ru/" target="_blank" rel="noopener noreferrer" title="appstorrent 软件下载">appstorrent 软件下载</a></div><div class="item" data-s="ifmac_精品mac应用软件免费下载" data-l="1"><a class="nm" href="https://www.ifmac.cn/" target="_blank" rel="noopener noreferrer" title="ifmac_精品Mac应用软件免费下载">ifmac_精品Mac应用软件免费下载</a></div><div class="item" data-s="macports-distfiles-gradle安装包下载_开源镜像站" data-l="1"><a class="nm" href="https://mirrors.aliyun.com/macports/distfiles/gradle/" target="_blank" rel="noopener noreferrer" title="macports-distfiles-gradle安装包下载_开源镜像站">macports-distfiles-gradle安装包下载_开源镜像站</a></div><div class="item" data-s="tessoa — gpu 加速文件管理器" data-l="1"><a class="nm" href="https://tessoa.com/?utm_source=iplaysoft.com&amp;hmsr=iplaysoft.com#download" target="_blank" rel="noopener noreferrer" title="tessoa — GPU 加速文件管理器">tessoa — GPU 加速文件管理器</a></div><div class="item" data-s="任务栏图标隐藏bartender 5 - take control of…" data-l="1"><a class="nm" href="https://www.macbartender.com/" target="_blank" rel="noopener noreferrer" title="任务栏图标隐藏Bartender 5 - Take control of…">任务栏图标隐藏Bartender 5 - Take control of…</a></div><div class="item" data-s="任务预览alttab - windows alt-tab on macos" data-l="1"><a class="nm" href="https://alt-tab-macos.netlify.app/" target="_blank" rel="noopener noreferrer" title="任务预览AltTab - Windows alt-tab on macOS">任务预览AltTab - Windows alt-tab on macOS</a></div><div class="item" data-s="凑合，马可菠萝 - 分享你喜欢的mac应用" data-l="1"><a class="nm" href="https://www.macbl.com/" target="_blank" rel="noopener noreferrer" title="凑合，马可菠萝 - 分享你喜欢的MAC应用">凑合，马可菠萝 - 分享你喜欢的MAC应用</a></div><div class="item" data-s="山东大学镜像站" data-l="1"><a class="nm" href="https://mirrors.sdu.edu.cn/mirror" target="_blank" rel="noopener noreferrer" title="山东大学镜像站">山东大学镜像站</a></div><div class="item" data-s="果粉gofans - apple正版软件限免优惠" data-l="1"><a class="nm" href="https://gofans.cn/" target="_blank" rel="noopener noreferrer" title="果粉GoFans - Apple正版软件限免优惠">果粉GoFans - Apple正版软件限免优惠</a></div><div class="item" data-s="海量精品mac应用免费下载" data-l="1"><a class="nm" href="https://www.digit77.com/categories/macapps?page=1" target="_blank" rel="noopener noreferrer" title="海量精品Mac应用免费下载">海量精品Mac应用免费下载</a></div><div class="item" data-s="精品mac应用分享" data-l="1"><a class="nm" href="https://xclient.info/" target="_blank" rel="noopener noreferrer" title="精品MAC应用分享">精品MAC应用分享</a></div><div class="item" data-s="视频播放器iina - the modern media player for…" data-l="1"><a class="nm" href="https://www.iina.io/" target="_blank" rel="noopener noreferrer" title="视频播放器IINA - The modern media player for…">视频播放器IINA - The modern media player for…</a></div><div class="item" data-s="隐藏刘海topnotch for macos" data-l="1"><a class="nm" href="https://topnotch.app/" target="_blank" rel="noopener noreferrer" title="隐藏刘海TopNotch for macOS">隐藏刘海TopNotch for macOS</a></div></div></details>
+<details class="group grp" id="g20" data-spy open><summary><span class="grp-title">Windows 与装机</span><span class="grp-n">15</span></summary><div class="grp-body"><div class="item" data-s="hellowindows.cn - 精校 完整 极致…" data-l="1"><a class="nm" href="https://hellowindows.cn/" target="_blank" rel="noopener noreferrer" title="HelloWindows.cn - 精校 完整 极致…">HelloWindows.cn - 精校 完整 极致…</a></div><div class="item" data-s="msdn, 我告诉你" data-l="1"><a class="nm" href="https://msdn.itellyou.cn/" target="_blank" rel="noopener noreferrer" title="MSDN, 我告诉你">MSDN, 我告诉你</a></div><div class="item" data-s="ntfs：downloads – oracle virtualbox" data-l="1"><a class="nm" href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="noopener noreferrer" title="NTFS：Downloads – Oracle VirtualBox">NTFS：Downloads – Oracle VirtualBox</a></div><div class="item" data-s="osssr.com windows" data-l="1"><a class="nm" href="https://www.osssr.com/" target="_blank" rel="noopener noreferrer" title="OSSSR.COM windows">OSSSR.COM windows</a></div><div class="item" data-s="raidrive" data-l="1"><a class="nm" href="https://www.raidrive.com/" target="_blank" rel="noopener noreferrer" title="RaiDrive">RaiDrive</a></div><div class="item" data-s="shutter encoder -视频压缩免费" data-l="1"><a class="nm" href="https://www.shutterencoder.com/" target="_blank" rel="noopener noreferrer" title="Shutter Encoder -视频压缩免费">Shutter Encoder -视频压缩免费</a></div><div class="item" data-s="win10之家 - win10系统下载官网" data-l="1"><a class="nm" href="http://www.62hx.com/" target="_blank" rel="noopener noreferrer" title="Win10之家 - Win10系统下载官网">Win10之家 - Win10系统下载官网</a></div><div class="item" data-s="winfr官网 – 免费的数据恢复软件" data-l="1"><a class="nm" href="https://www.winfr.com.cn/?utm_source=appinn.com" target="_blank" rel="noopener noreferrer" title="WinFr官网 – 免费的数据恢复软件">WinFr官网 – 免费的数据恢复软件</a></div><div class="item" data-s="potplay 视频缩略图" data-l="1"><a class="nm" href="http://www.codecguide.com/configuration_tips.htm?version=1845" target="_blank" rel="noopener noreferrer" title="potplay 视频缩略图">potplay 视频缩略图</a></div><div class="item" data-s="学历考试系统和学历试卷试题-考试酷(examcoo)" data-l="1"><a class="nm" href="https://www.examcoo.com/index/detail/mid/1" target="_blank" rel="noopener noreferrer" title="学历考试系统和学历试卷试题-考试酷(examcoo)">学历考试系统和学历试卷试题-考试酷(examcoo)</a></div><div class="item" data-s="小源地理 3d 可视模拟 - 专业地球运动模拟系统" data-l="1"><a class="nm" href="https://earth.mc665.cn/" target="_blank" rel="noopener noreferrer" title="小源地理 3D 可视模拟 - 专业地球运动模拟系统">小源地理 3D 可视模拟 - 专业地球运动模拟系统</a></div><div class="item" data-s="电脑装机必备软件下载大全 - win10、win8、win7…" data-l="1"><a class="nm" href="http://www.ithome.com/bibei/?f=pcmaster#t13" target="_blank" rel="noopener noreferrer" title="电脑装机必备软件下载大全 - Win10、Win8、Win7…">电脑装机必备软件下载大全 - Win10、Win8、Win7…</a></div><div class="item" data-s="监理员首页-建设工程监理行业信用自律与教育服务系统" data-l="1"><a class="nm" href="https://jsgcjl.net/stepIn/role_page.action" target="_blank" rel="noopener noreferrer" title="监理员首页-建设工程监理行业信用自律与教育服务系统">监理员首页-建设工程监理行业信用自律与教育服务系统</a></div><div class="item" data-s="视频软件缩略图potplay" data-l="1"><a class="nm" href="http://www.codecguide.com/" target="_blank" rel="noopener noreferrer" title="视频软件缩略图potplay">视频软件缩略图potplay</a></div><div class="item" data-s="论坛 - 无忧启动论坛 - powered by discuz!" data-l="1"><a class="nm" href="http://bbs.wuyou.net/forum.php" target="_blank" rel="noopener noreferrer" title="论坛 - 无忧启动论坛 - Powered by Discuz!">论坛 - 无忧启动论坛 - Powered by Discuz!</a></div></div></details>
+<details class="group grp" id="g21" data-spy open><summary><span class="grp-title">浏览器扩展</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="crx搜搜 - 一个牛x的扩展和应用商店" data-l="1"><a class="nm" href="https://www.crxsoso.com/" target="_blank" rel="noopener noreferrer" title="Crx搜搜 - 一个牛X的扩展和应用商店">Crx搜搜 - 一个牛X的扩展和应用商店</a></div></div></details>
+<details class="group grp" id="g22" data-spy open><summary><span class="grp-title">Mac 与 Windows 小工具</span><span class="grp-n">12</span></summary><div class="grp-body"><div class="item" data-s="aquasnap 强大的窗口管理工具软件丨中文网站特价购买…" data-l="1"><a class="nm" href="https://www.aquasnap.cn/" target="_blank" rel="noopener noreferrer" title="AquaSnap 强大的窗口管理工具软件丨中文网站特价购买…">AquaSnap 强大的窗口管理工具软件丨中文网站特价购买…</a></div><div class="item" data-s="moo0 - 免费好用" data-l="1"><a class="nm" href="https://www.moo0.com/" target="_blank" rel="noopener noreferrer" title="Moo0 - 免费好用">Moo0 - 免费好用</a></div><div class="item" data-s="simple, easy and well designed…" data-l="1"><a class="nm" href="http://www.xiles.net/" target="_blank" rel="noopener noreferrer" title="Simple, easy and well designed…">Simple, easy and well designed…</a></div><div class="item" data-s="snippetslab - keep your code at your…" data-l="1"><a class="nm" href="https://www.renfei.org/snippets-lab/" target="_blank" rel="noopener noreferrer" title="SnippetsLab - Keep Your Code At Your…">SnippetsLab - Keep Your Code At Your…</a></div><div class="item" data-s="foobar2000 for mac" data-l="1"><a class="nm" href="https://www.foobar2000.org/mac" target="_blank" rel="noopener noreferrer" title="foobar2000 for Mac">foobar2000 for Mac</a></div><div class="item" data-s="foobar2000: downloading" data-l="1"><a class="nm" href="https://www.foobar2000.org/getfile/foobar2000-v2.24.dmg" target="_blank" rel="noopener noreferrer" title="foobar2000: Downloading">foobar2000: Downloading</a></div><div class="item" data-s="任务栏文件夹folder peek — sindre sorhus" data-l="1"><a class="nm" href="https://sindresorhus.com/folder-peek" target="_blank" rel="noopener noreferrer" title="任务栏文件夹Folder Peek — Sindre Sorhus">任务栏文件夹Folder Peek — Sindre Sorhus</a></div><div class="item" data-s="桌面美化" data-l="1"><a class="nm" href="http://zhutix.com/" target="_blank" rel="noopener noreferrer" title="桌面美化">桌面美化</a></div><div class="item" data-s="视频播放器mpv.io" data-l="1"><a class="nm" href="https://mpv.io/" target="_blank" rel="noopener noreferrer" title="视频播放器mpv.io">视频播放器mpv.io</a></div><div class="item" data-s="访达替代" data-l="1"><a class="nm" href="https://totalfinder.binaryage.com/" target="_blank" rel="noopener noreferrer" title="访达替代">访达替代</a></div><div class="item" data-s="读取硬盘buhontfs, buhounlocker, buhorepair" data-l="1"><a class="nm" href="https://www.drbuho.com/christmas-sale?utm_source=appinn.com#BuhoNTFS-single" target="_blank" rel="noopener noreferrer" title="读取硬盘BuhoNTFS, BuhoUnlocker, BuhoRepair">读取硬盘BuhoNTFS, BuhoUnlocker, BuhoRepair</a></div><div class="item" data-s="音乐软件 algermusicplayer" data-l="1"><a class="nm" href="https://alger.fun/" target="_blank" rel="noopener noreferrer" title="音乐软件 AlgerMusicPlayer">音乐软件 AlgerMusicPlayer</a></div></div></details>
+<details class="group grp" id="g23" data-spy open><summary><span class="grp-title">下载工具</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="ab 下载管理器" data-l="1"><a class="nm" href="https://abdownloadmanager.com/" target="_blank" rel="noopener noreferrer" title="AB 下载管理器">AB 下载管理器</a></div><div class="item" data-s="cobaltx下载" data-l="1"><a class="nm" href="https://cobalt.tools/" target="_blank" rel="noopener noreferrer" title="cobaltx下载">cobaltx下载</a></div><div class="item" data-s="免登陆上传下载文件 你的随时云u盘 轻文档" data-l="1"><a class="nm" href="http://qingwendang.com/" target="_blank" rel="noopener noreferrer" title="免登陆上传下载文件 你的随时云U盘 轻文档">免登陆上传下载文件 你的随时云U盘 轻文档</a></div><div class="item" data-s="免费视频下载" data-l="1"><a class="nm" href="https://greenvideo.cc/" target="_blank" rel="noopener noreferrer" title="免费视频下载">免费视频下载</a></div></div></details>
+<details class="group grp" id="g24" data-spy open><summary><span class="grp-title">软件下载站</span><span class="grp-n">13</span></summary><div class="grp-body"><div class="item" data-s="pdf 阅读器" data-l="1"><a class="nm" href="https://www.sodapdf.com/products/soda-overview/" target="_blank" rel="noopener noreferrer" title="PDF 阅读器">PDF 阅读器</a></div><div class="item" data-s="pdf24 tools: 免费且易于使用的在线pdf工具" data-l="1"><a class="nm" href="https://tools.pdf24.org/zh/" target="_blank" rel="noopener noreferrer" title="PDF24 Tools: 免费且易于使用的在线PDF工具">PDF24 Tools: 免费且易于使用的在线PDF工具</a></div><div class="item" data-s="qrbtf 参数化二维码生成器" data-l="1"><a class="nm" href="https://qrbtf.com/?utm_source=iplaysoft.com&amp;hmsr=iplaysoft.com" target="_blank" rel="noopener noreferrer" title="QRBTF 参数化二维码生成器">QRBTF 参数化二维码生成器</a></div><div class="item" data-s="upscayl - ai image upscaler 图片无损变清晰" data-l="1"><a class="nm" href="https://www.upscayl.org/?utm_source=iplaysoft.com&amp;hmsr=iplaysoft.com" target="_blank" rel="noopener noreferrer" title="Upscayl - AI Image Upscaler 图片无损变清晰">Upscayl - AI Image Upscaler 图片无损变清晰</a></div><div class="item" data-s="welcome • freemediaheckyeah" data-l="1"><a class="nm" href="https://fmhy.net/" target="_blank" rel="noopener noreferrer" title="Welcome • freemediaheckyeah">Welcome • freemediaheckyeah</a></div><div class="item" data-s="th_sjy 专注软件汉化和资源分享，software…" data-l="1"><a class="nm" href="http://www.th-sjy.com/" target="_blank" rel="noopener noreferrer" title="th_sjy 专注软件汉化和资源分享，Software…">th_sjy 专注软件汉化和资源分享，Software…</a></div><div class="item" data-s="六一库 - 发掘小众实用软件，收藏值得长期留存的工具！" data-l="1"><a class="nm" href="https://www.61ku.com/" target="_blank" rel="noopener noreferrer" title="六一库 - 发掘小众实用软件，收藏值得长期留存的工具！">六一库 - 发掘小众实用软件，收藏值得长期留存的工具！</a></div><div class="item" data-s="大眼仔旭 - 爱软件 爱汉化 爱分享 博客型软件首页" data-l="1"><a class="nm" href="http://www.dayanzai.me/" target="_blank" rel="noopener noreferrer" title="大眼仔旭 - 爱软件 爱汉化 爱分享 博客型软件首页">大眼仔旭 - 爱软件 爱汉化 爱分享 博客型软件首页</a></div><div class="item" data-s="官网下" data-l="1"><a class="nm" href="https://guanwangxia.com/" target="_blank" rel="noopener noreferrer" title="官网下">官网下</a></div><div class="item" data-s="小众技术工具库 | 专注分享实用软件和精品网站" data-l="1"><a class="nm" href="https://www.xiaozhongjishu.com/" target="_blank" rel="noopener noreferrer" title="小众技术工具库 | 专注分享实用软件和精品网站">小众技术工具库 | 专注分享实用软件和精品网站</a></div><div class="item" data-s="异次元软件世界 - 软件改变生活！" data-l="1"><a class="nm" href="https://www.iplaysoft.com/" target="_blank" rel="noopener noreferrer" title="异次元软件世界 - 软件改变生活！">异次元软件世界 - 软件改变生活！</a></div><div class="item" data-s="果核剥壳 - 互联网的净土" data-l="1"><a class="nm" href="https://www.ghxi.com/" target="_blank" rel="noopener noreferrer" title="果核剥壳 - 互联网的净土">果核剥壳 - 互联网的净土</a></div><div class="item" data-s="软仓 | ruancang.net" data-l="1"><a class="nm" href="https://www.ruancang.net/" target="_blank" rel="noopener noreferrer" title="软仓 | RuanCang.Net">软仓 | RuanCang.Net</a></div></div></details>
+<details class="group grp" id="g25" data-spy open><summary><span class="grp-title">其它</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="aol - news, sports, weather…" data-l="1"><a class="nm" href="http://www.aol.com/" target="_blank" rel="noopener noreferrer" title="AOL - News, Sports, Weather…">AOL - News, Sports, Weather…</a></div><div class="item" data-s="follow" data-l="1"><a class="nm" href="https://follow.is/download" target="_blank" rel="noopener noreferrer" title="Follow">Follow</a></div><div class="item" data-s="it之家 - 数码，科技，生活" data-l="1"><a class="nm" href="http://www.ithome.com/" target="_blank" rel="noopener noreferrer" title="IT之家 - 数码，科技，生活">IT之家 - 数码，科技，生活</a></div><div class="item" data-s="kk 的博客" data-l="1"><a class="nm" href="https://ikk.me/" target="_blank" rel="noopener noreferrer" title="KK 的博客">KK 的博客</a></div></div></details>
+</div></section>
+<section class="sec" id="在线工具" data-spy>
+<h2>在线工具<a class="anchor" href="#在线工具" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g26" data-spy open><summary><span class="grp-title">文件转换与 PDF</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item" data-s="pdf edit — free online pdf editor | no…" data-l="1"><a class="nm" href="https://pdfedit.com/" target="_blank" rel="noopener noreferrer" title="PDF Edit — Free Online PDF Editor | No…">PDF Edit — Free Online PDF Editor | No…</a></div><div class="item" data-s="zamzar - 格式转换" data-l="1"><a class="nm" href="https://www.zamzar.com/" target="_blank" rel="noopener noreferrer" title="Zamzar - 格式转换">Zamzar - 格式转换</a></div><div class="item" data-s="在线格式转换" data-l="1"><a class="nm" href="http://www.alltoall.net/" target="_blank" rel="noopener noreferrer" title="在线格式转换">在线格式转换</a></div><div class="item" data-s="格式转换download complete · adapter" data-l="1"><a class="nm" href="https://macroplant.com/adapter/download/mac/complete/2.1.6" target="_blank" rel="noopener noreferrer" title="格式转换Download Complete · Adapter">格式转换Download Complete · Adapter</a></div><div class="item" data-s="视频 | 在线格式转换 all2all" data-l="1"><a class="nm" href="http://www.alltoall.net/%e8%a7%86%e9%a2%91/" target="_blank" rel="noopener noreferrer" title="视频 | 在线格式转换 All2All">视频 | 在线格式转换 All2All</a></div><div class="item" data-s="视频字幕工具，高效转换srt/lrc字幕，final cut pro…" data-l="1"><a class="nm" href="https://orzass.com/crossub" target="_blank" rel="noopener noreferrer" title="视频字幕工具，高效转换srt/lrc字幕，final cut pro…">视频字幕工具，高效转换srt/lrc字幕，final cut pro…</a></div></div></details>
+<details class="group grp" id="g27" data-spy open><summary><span class="grp-title">图片处理</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="图片无损放大" data-l="1"><a class="nm" href="http://waifu2x.udp.jp/" target="_blank" rel="noopener noreferrer" title="图片无损放大">图片无损放大</a></div><div class="item" data-s="图片转字符画,字符画生成器 - 在线工具 - 字客网" data-l="1"><a class="nm" href="https://www.fontke.com/tool/image2ascii/" target="_blank" rel="noopener noreferrer" title="图片转字符画,字符画生成器 - 在线工具 - 字客网">图片转字符画,字符画生成器 - 在线工具 - 字客网</a></div><div class="item" data-s="改变图片状态-有意思" data-l="1"><a class="nm" href="https://photomosh.com/" target="_blank" rel="noopener noreferrer" title="改变图片状态-有意思">改变图片状态-有意思</a></div></div></details>
+<details class="group grp" id="g28" data-spy open><summary><span class="grp-title">在线工具箱</span><span class="grp-n">17</span></summary><div class="grp-body"><div class="item" data-s="ababtools——发现有趣、有用的东西" data-l="1"><a class="nm" href="https://ababtools.com/" target="_blank" rel="noopener noreferrer" title="ABABTOOLS——发现有趣、有用的东西">ABABTOOLS——发现有趣、有用的东西</a></div><div class="item" data-s="generate guids online" data-l="1"><a class="nm" href="https://www.guidgen.com/" target="_blank" rel="noopener noreferrer" title="Generate GUIDs online">Generate GUIDs online</a></div><div class="item" data-s="ip 地址" data-l="1"><a class="nm" href="http://ipaddress.com/" target="_blank" rel="noopener noreferrer" title="IP 地址">IP 地址</a></div><div class="item" data-s="mikutools - 一个轻量的工具集合资源" data-l="1"><a class="nm" href="https://tools.miku.ac/" target="_blank" rel="noopener noreferrer" title="MikuTools - 一个轻量的工具集合资源">MikuTools - 一个轻量的工具集合资源</a></div><div class="item" data-s="元素周期表表pro - 高颜值化学必备小工具" data-l="1"><a class="nm" href="https://periodic-table-pro.netlify.app/" target="_blank" rel="noopener noreferrer" title="元素周期表表PRO - 高颜值化学必备小工具">元素周期表表PRO - 高颜值化学必备小工具</a></div><div class="item" data-s="内容创客的工具箱 - 33台词 - 通过台词找影片素材" data-l="1"><a class="nm" href="https://33.agilestudio.cn/tools" target="_blank" rel="noopener noreferrer" title="内容创客的工具箱 - 33台词 - 通过台词找影片素材">内容创客的工具箱 - 33台词 - 通过台词找影片素材</a></div><div class="item" data-s="在线打字测试" data-l="1"><a class="nm" href="http://dazi.kukuw.com/" target="_blank" rel="noopener noreferrer" title="在线打字测试">在线打字测试</a></div><div class="item" data-s="帮小忙，腾讯qq浏览器在线工具箱平台" data-l="1"><a class="nm" href="https://tool.browser.qq.com/" target="_blank" rel="noopener noreferrer" title="帮小忙，腾讯QQ浏览器在线工具箱平台">帮小忙，腾讯QQ浏览器在线工具箱平台</a></div><div class="item" data-s="影视" data-l="1"><a class="nm" href="http://www.cgdict.com/" target="_blank" rel="noopener noreferrer" title="影视">影视</a></div><div class="item" data-s="极客工具箱 - 站点主页" data-l="1"><a class="nm" href="https://jikecg.com/home/index" target="_blank" rel="noopener noreferrer" title="极客工具箱 - 站点主页">极客工具箱 - 站点主页</a></div><div class="item" data-s="桌面小工具" data-l="1"><a class="nm" href="http://gadgetsrevived.com/download-sidebar/" target="_blank" rel="noopener noreferrer" title="桌面小工具">桌面小工具</a></div><div class="item" data-s="模拟界面-fakeupdate.net" data-l="1"><a class="nm" href="http://fakeupdate.net/" target="_blank" rel="noopener noreferrer" title="模拟界面-FakeUpdate.net">模拟界面-FakeUpdate.net</a></div><div class="item" data-s="瓦特工具箱(steam++官网) - watt toolkit" data-l="1"><a class="nm" href="https://steampp.net/" target="_blank" rel="noopener noreferrer" title="瓦特工具箱(Steam++官网) - Watt Toolkit">瓦特工具箱(Steam++官网) - Watt Toolkit</a></div><div class="item" data-s="生成 guid" data-l="1"><a class="nm" href="https://www.guidgenerator.com/online-guid-generator.aspx" target="_blank" rel="noopener noreferrer" title="生成 GUID">生成 GUID</a></div><div class="item" data-s="站长工具 - 站长之家" data-l="1"><a class="nm" href="http://tool.chinaz.com/" target="_blank" rel="noopener noreferrer" title="站长工具 - 站长之家">站长工具 - 站长之家</a></div><div class="item" data-s="编程打字练习" data-l="1"><a class="nm" href="https://typing.io/" target="_blank" rel="noopener noreferrer" title="编程打字练习">编程打字练习</a></div><div class="item" data-s="计算器套件 - geogebra" data-l="1"><a class="nm" href="https://www.geogebra.org/calculator" target="_blank" rel="noopener noreferrer" title="计算器套件 - GeoGebra">计算器套件 - GeoGebra</a></div></div></details>
+<details class="group grp" id="g29" data-spy open><summary><span class="grp-title">文件处理</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="exiftool 工具" data-l="1"><a class="nm" href="https://exiftool.org/" target="_blank" rel="noopener noreferrer" title="ExifTool 工具">ExifTool 工具</a></div></div></details>
+<details class="group grp" id="g30" data-spy open><summary><span class="grp-title">学习辅助</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="english - ankiweb" data-l="1"><a class="nm" href="https://ankiweb.net/shared/decks/english" target="_blank" rel="noopener noreferrer" title="English - AnkiWeb">English - AnkiWeb</a></div><div class="item" data-s="shared decks - ankiweb" data-l="1"><a class="nm" href="https://ankiweb.net/shared/decks?search=english" target="_blank" rel="noopener noreferrer" title="Shared Decks - AnkiWeb">Shared Decks - AnkiWeb</a></div><div class="item" data-s="一级建造师在线考试,章节练习,每日一练,全真机考 - 233网校题库" data-l="1"><a class="nm" href="http://wx.233.com/tiku/192" target="_blank" rel="noopener noreferrer" title="一级建造师在线考试,章节练习,每日一练,全真机考 - 233网校题库">一级建造师在线考试,章节练习,每日一练,全真机考 - 233网校题库</a></div><div class="item" data-s="陪读蛙" data-l="1"><a class="nm" href="https://www.readfrog.app/zh" target="_blank" rel="noopener noreferrer" title="陪读蛙">陪读蛙</a></div></div></details>
+<details class="group grp" id="g31" data-spy open><summary><span class="grp-title">其它</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item" data-s="360网站安全检测 - 在线安全检测，网站漏洞修复，网站后门检测" data-l="1"><a class="nm" href="http://webscan.360.cn/" target="_blank" rel="noopener noreferrer" title="360网站安全检测 - 在线安全检测，网站漏洞修复，网站后门检测">360网站安全检测 - 在线安全检测，网站漏洞修复，网站后门检测</a></div><div class="item" data-s="ecmascript5.1中文版 + ecmascript3 +…" data-l="1"><a class="nm" href="http://yanhaijing.com/es5/#null" target="_blank" rel="noopener noreferrer" title="ECMAScript5.1中文版 + ECMAScript3 +…">ECMAScript5.1中文版 + ECMAScript3 +…</a></div><div class="item" data-s="homebrew" data-l="1"><a class="nm" href="https://brew.sh/zh-cn/" target="_blank" rel="noopener noreferrer" title="Homebrew">Homebrew</a></div><div class="item" data-s="photon studio ai photoshop" data-l="1"><a class="nm" href="https://tenzen.studio/photon/#get-photon" target="_blank" rel="noopener noreferrer" title="Photon Studio AI Photoshop">Photon Studio AI Photoshop</a></div><div class="item" data-s="remove paywalls from news articles…" data-l="1"><a class="nm" href="https://paywallbuster.com/" target="_blank" rel="noopener noreferrer" title="Remove Paywalls from News Articles…">Remove Paywalls from News Articles…</a></div><div class="item" data-s="via浏览器规则" data-l="1"><a class="nm" href="https://ghproxy.1888866.xyz/raw.githubusercontent.com/damengzhu/abpmerge/main/abpmerge.txt" target="_blank" rel="noopener noreferrer" title="via浏览器规则">via浏览器规则</a></div></div></details>
+</div></section>
+<section class="sec" id="设计素材" data-spy>
+<h2>设计素材<a class="anchor" href="#设计素材" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g32" data-spy open><summary><span class="grp-title">图片与壁纸</span><span class="grp-n">8</span></summary><div class="grp-body"><div class="item" data-s="shotdeck - the world’s leading…" data-l="1"><a class="nm" href="https://shotdeck.com/" target="_blank" rel="noopener noreferrer" title="SHOTDECK - The World’s Leading…">SHOTDECK - The World’s Leading…</a></div><div class="item" data-s="strawberry milk splash | pictures of…" data-l="1"><a class="nm" href="https://www.foodiesfeed.com/free-food-photo/strawberry-milk-splash/download/" target="_blank" rel="noopener noreferrer" title="Strawberry milk splash | Pictures of…">Strawberry milk splash | Pictures of…</a></div><div class="item" data-s="免费正版高清图片素材库 超过5.5百万张优质图片和视频素材可供免费使用和下载…" data-l="1"><a class="nm" href="https://pixabay.com/zh/" target="_blank" rel="noopener noreferrer" title="免费正版高清图片素材库 超过5.5百万张优质图片和视频素材可供免费使用和下载…">免费正版高清图片素材库 超过5.5百万张优质图片和视频素材可供免费使用和下载…</a></div><div class="item" data-s="免费素材照片 · pexels" data-l="1"><a class="nm" href="https://www.pexels.com/zh-cn/" target="_blank" rel="noopener noreferrer" title="免费素材照片 · Pexels">免费素材照片 · Pexels</a></div><div class="item" data-s="免费素材视频 · pexels 视频" data-l="1"><a class="nm" href="https://www.pexels.com/zh-cn/videos/" target="_blank" rel="noopener noreferrer" title="免费素材视频 · Pexels 视频">免费素材视频 · Pexels 视频</a></div><div class="item" data-s="壁纸 wallhaven.cc" data-l="1"><a class="nm" href="https://wallhaven.icu/" target="_blank" rel="noopener noreferrer" title="壁纸 wallhaven.cc">壁纸 wallhaven.cc</a></div><div class="item" data-s="壁纸free hd two-dimensional anime game…" data-l="1"><a class="nm" href="https://www.2dwallpapers.com/" target="_blank" rel="noopener noreferrer" title="壁纸Free HD two-dimensional anime game…">壁纸Free HD two-dimensional anime game…</a></div><div class="item" data-s="宣传画 chinese poster 中國宣傳畫" data-l="1"><a class="nm" href="https://www.chineseposter.com/poster/sc/index" target="_blank" rel="noopener noreferrer" title="宣传画 Chinese Poster 中國宣傳畫">宣传画 Chinese Poster 中國宣傳畫</a></div></div></details>
+<details class="group grp" id="g33" data-spy open><summary><span class="grp-title">视频与音频素材</span><span class="grp-n">10</span></summary><div class="grp-body"><div class="item" data-s="download premium 4k &amp; hd free stock…" data-l="1"><a class="nm" href="https://coverr.co/" target="_blank" rel="noopener noreferrer" title="Download Premium 4K &amp; HD Free Stock…">Download Premium 4K &amp; HD Free Stock…</a></div><div class="item" data-s="free royalty free music — fugue" data-l="1"><a class="nm" href="https://icons8.com/music/" target="_blank" rel="noopener noreferrer" title="Free Royalty Free Music — Fugue">Free Royalty Free Music — Fugue</a></div><div class="item" data-s="free stock video footage hd 4k download…" data-l="1"><a class="nm" href="https://www.videvo.net/#rs=videvo-logo" target="_blank" rel="noopener noreferrer" title="Free Stock Video Footage HD 4K Download…">Free Stock Video Footage HD 4K Download…</a></div><div class="item" data-s="mfsc123.com - 找免费商用素材从这里开始" data-l="1"><a class="nm" href="https://www.mfsc123.com//" target="_blank" rel="noopener noreferrer" title="MFSC123.COM - 找免费商用素材从这里开始">MFSC123.COM - 找免费商用素材从这里开始</a></div><div class="item" data-s="免费 视频素材 免费下载 - 爱给网" data-l="1"><a class="nm" href="https://www.aigei.com/video/index/is_vip_false" target="_blank" rel="noopener noreferrer" title="免费 视频素材 免费下载 - 爱给网">免费 视频素材 免费下载 - 爱给网</a></div><div class="item" data-s="免费商用视频 - 分享可以免费商用的视频片段、视频素材｜那些免费的砖" data-l="1"><a class="nm" href="https://www.thosefree.com/material/video" target="_blank" rel="noopener noreferrer" title="免费商用视频 - 分享可以免费商用的视频片段、视频素材｜那些免费的砖">免费商用视频 - 分享可以免费商用的视频片段、视频素材｜那些免费的砖</a></div><div class="item" data-s="库音 coolvox :: 高品质全球音乐授权平台 - 无损音乐素材一站购买" data-l="1"><a class="nm" href="https://coolvox.com/" target="_blank" rel="noopener noreferrer" title="库音 COOLVOX :: 高品质全球音乐授权平台 - 无损音乐素材一站购买">库音 COOLVOX :: 高品质全球音乐授权平台 - 无损音乐素材一站购买</a></div><div class="item" data-s="影时光 - 最新电影预告片剪辑素材免费下载 预告片世界" data-l="1"><a class="nm" href="https://www.yingshiguang.com/" target="_blank" rel="noopener noreferrer" title="影时光 - 最新电影预告片剪辑素材免费下载 预告片世界">影时光 - 最新电影预告片剪辑素材免费下载 预告片世界</a></div><div class="item" data-s="音乐播放器vox flac player for mac. best…" data-l="1"><a class="nm" href="https://vox.rocks/mac-music-player/download" target="_blank" rel="noopener noreferrer" title="音乐播放器VOX FLAC Player for Mac. Best…">音乐播放器VOX FLAC Player for Mac. Best…</a></div><div class="item" data-s="音频素材_音效素材_免费下载_新cg儿_newcger" data-l="1"><a class="nm" href="https://www.newcger.com/sounds/" target="_blank" rel="noopener noreferrer" title="音频素材_音效素材_免费下载_新CG儿_NewCGer">音频素材_音效素材_免费下载_新CG儿_NewCGer</a></div></div></details>
+<details class="group grp" id="g34" data-spy open><summary><span class="grp-title">字体与配色</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="字体下载-求字体网提供中文和英文字体库下载、识别与预览服务，找字体的好帮手" data-l="1"><a class="nm" href="http://www.qiuziti.com/" target="_blank" rel="noopener noreferrer" title="字体下载-求字体网提供中文和英文字体库下载、识别与预览服务，找字体的好帮手">字体下载-求字体网提供中文和英文字体库下载、识别与预览服务，找字体的好帮手</a></div></div></details>
+<details class="group grp" id="g35" data-spy open><summary><span class="grp-title">表情与封面</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="中国人的表情包-pp制造计划-chinesebqb - v2方圆" data-l="1"><a class="nm" href="https://www.v2fy.com/p/000readme-chinesebqb/" target="_blank" rel="noopener noreferrer" title="中国人的表情包-PP制造计划-ChineseBQB - V2方圆">中国人的表情包-PP制造计划-ChineseBQB - V2方圆</a></div><div class="item" data-s="表情包" data-l="1"><a class="nm" href="https://www.zhuangbi.info/" target="_blank" rel="noopener noreferrer" title="表情包">表情包</a></div></div></details>
+</div></section>
+<section class="sec" id="影视资源" data-spy>
+<h2>影视资源<a class="anchor" href="#影视资源" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g36" data-spy open><summary><span class="grp-title">电视与直播</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="tvbox全链路资源，接口、软件以及tvbox资源站点，这一页就够用了！…" data-l="1"><a class="nm" href="https://www.yxzhi.com/tvbox" target="_blank" rel="noopener noreferrer" title="TvBox全链路资源，接口、软件以及TvBox资源站点，这一页就够用了！…">TvBox全链路资源，接口、软件以及TvBox资源站点，这一页就够用了！…</a></div></div></details>
+<details class="group grp" id="g37" data-spy open><summary><span class="grp-title">在线影视</span><span class="grp-n">7</span></summary><div class="grp-body"><div class="item" data-s="6v电影_免费电影_高清电影__最新电视剧下载（旧版66影视）" data-l="1"><a class="nm" href="http://www.hao6v.cc/" target="_blank" rel="noopener noreferrer" title="6v电影_免费电影_高清电影__最新电视剧下载（旧版66影视）">6v电影_免费电影_高清电影__最新电视剧下载（旧版66影视）</a></div><div class="item" data-s="hdmoli - 高品质在线影视" data-l="1"><a class="nm" href="https://www.hdmoli.com/" target="_blank" rel="noopener noreferrer" title="HDmoli - 高品质在线影视">HDmoli - 高品质在线影视</a></div><div class="item" data-s="z站-全球最大数字图书馆恢复了，最新z站图书馆镜像网址入口" data-l="1"><a class="nm" href="https://z.2rdh.com/" target="_blank" rel="noopener noreferrer" title="Z站-全球最大数字图书馆恢复了，最新Z站图书馆镜像网址入口">Z站-全球最大数字图书馆恢复了，最新Z站图书馆镜像网址入口</a></div><div class="item" data-s="影视导航大全 - 免费高清电影/电视剧/海外剧集在线观看入口导航" data-l="1"><a class="nm" href="https://yingshi.xxsnav.com/" target="_blank" rel="noopener noreferrer" title="影视导航大全 - 免费高清电影/电视剧/海外剧集在线观看入口导航">影视导航大全 - 免费高清电影/电视剧/海外剧集在线观看入口导航</a></div><div class="item" data-s="最好 影视森林——观影第一站" data-l="1"><a class="nm" href="http://www.549.tv/" target="_blank" rel="noopener noreferrer" title="最好 影视森林——观影第一站">最好 影视森林——观影第一站</a></div><div class="item" data-s="美剧天堂 - 海量好看的美剧在线观看、最新美剧下载！" data-l="1"><a class="nm" href="https://www.meijutt.tv/" target="_blank" rel="noopener noreferrer" title="美剧天堂 - 海量好看的美剧在线观看、最新美剧下载！">美剧天堂 - 海量好看的美剧在线观看、最新美剧下载！</a></div><div class="item" data-s="美剧窝丨地址发布页，收藏我回家不迷路！" data-l="1"><a class="nm" href="https://1mj.cc/" target="_blank" rel="noopener noreferrer" title="美剧窝丨地址发布页，收藏我回家不迷路！">美剧窝丨地址发布页，收藏我回家不迷路！</a></div></div></details>
+<details class="group grp" id="g38" data-spy open><summary><span class="grp-title">下载与资源</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="夸克圈-优质夸克网盘资源分享圈" data-l="1"><a class="nm" href="https://www.kuakeq.com/" target="_blank" rel="noopener noreferrer" title="夸克圈-优质夸克网盘资源分享圈">夸克圈-优质夸克网盘资源分享圈</a></div><div class="item" data-s="夸克资源社-免费夸克网盘资源分享社区论坛" data-l="1"><a class="nm" href="https://kuakezy.cc/" target="_blank" rel="noopener noreferrer" title="夸克资源社-免费夸克网盘资源分享社区论坛">夸克资源社-免费夸克网盘资源分享社区论坛</a></div><div class="item" data-s="磁力熊 - 豆瓣高分电影1080p下载" data-l="1"><a class="nm" href="https://www.cilixiong.com/" target="_blank" rel="noopener noreferrer" title="磁力熊 - 豆瓣高分电影1080P下载">磁力熊 - 豆瓣高分电影1080P下载</a></div><div class="item" data-s="钛聚网 - 夸克网盘资源分享第一站" data-l="1"><a class="nm" href="https://www.taijuwang.cc/" target="_blank" rel="noopener noreferrer" title="钛聚网 - 夸克网盘资源分享第一站">钛聚网 - 夸克网盘资源分享第一站</a></div></div></details>
+<details class="group grp" id="g39" data-spy open><summary><span class="grp-title">字幕与台词</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="台词在哪个电影" data-l="1"><a class="nm" href="http://www.subzin.com/" target="_blank" rel="noopener noreferrer" title="台词在哪个电影">台词在哪个电影</a></div><div class="item" data-s="找台词" data-l="1"><a class="nm" href="https://zhaotaici.cn/" target="_blank" rel="noopener noreferrer" title="找台词">找台词</a></div></div></details>
+</div></section>
+<section class="sec" id="电子书与古籍" data-spy>
+<h2>电子书与古籍<a class="anchor" href="#电子书与古籍" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g40" data-spy open><summary><span class="grp-title">古籍与国学</span><span class="grp-n">14</span></summary><div class="grp-body"><div class="item" data-s="chinese etymology 字源" data-l="1"><a class="nm" href="http://hanziyuan.net/#home" target="_blank" rel="noopener noreferrer" title="Chinese Etymology 字源">Chinese Etymology 字源</a></div><div class="item" data-s="中国古籍保护网" data-l="1"><a class="nm" href="http://www.nlc.cn/pcab/zy/zhgj_zyk/" target="_blank" rel="noopener noreferrer" title="中国古籍保护网">中国古籍保护网</a></div><div class="item" data-s="中国诗人资料馆-诗歌资料|现代诗歌|当代诗歌|古典诗歌|诗词|唐诗|宋词…" data-l="1"><a class="nm" href="http://www.shiren.org/" target="_blank" rel="noopener noreferrer" title="中国诗人资料馆-诗歌资料|现代诗歌|当代诗歌|古典诗歌|诗词|唐诗|宋词…">中国诗人资料馆-诗歌资料|现代诗歌|当代诗歌|古典诗歌|诗词|唐诗|宋词…</a></div><div class="item" data-s="书格-古书古籍" data-l="1"><a class="nm" href="https://new.shuge.org/" target="_blank" rel="noopener noreferrer" title="书格-古书古籍">书格-古书古籍</a></div><div class="item" data-s="书格-数字古籍图书馆" data-l="1"><a class="nm" href="https://shuge.org/" target="_blank" rel="noopener noreferrer" title="书格-数字古籍图书馆">书格-数字古籍图书馆</a></div><div class="item" data-s="劝学网|南怀瑾|易经|周易|佛经|鬼谷子|孙子兵法|诗经|道德经|金刚经…" data-l="1"><a class="nm" href="http://www.quanxue.cn/index.htm" target="_blank" rel="noopener noreferrer" title="劝学网|南怀瑾|易经|周易|佛经|鬼谷子|孙子兵法|诗经|道德经|金刚经…">劝学网|南怀瑾|易经|周易|佛经|鬼谷子|孙子兵法|诗经|道德经|金刚经…</a></div><div class="item" data-s="古诗文网-古诗文经典传承" data-l="1"><a class="nm" href="https://www.gushiwen.org/" target="_blank" rel="noopener noreferrer" title="古诗文网-古诗文经典传承">古诗文网-古诗文经典传承</a></div><div class="item" data-s="搜韵-诗词门户网站" data-l="1"><a class="nm" href="https://sou-yun.cn/index.aspx" target="_blank" rel="noopener noreferrer" title="搜韵-诗词门户网站">搜韵-诗词门户网站</a></div><div class="item" data-s="汉程国学网_国学经典诵读_国学知识_国学典籍_汉程国学大师" data-l="1"><a class="nm" href="http://guoxue.httpcn.com/" target="_blank" rel="noopener noreferrer" title="汉程国学网_国学经典诵读_国学知识_国学典籍_汉程国学大师">汉程国学网_国学经典诵读_国学知识_国学典籍_汉程国学大师</a></div><div class="item" data-s="漢典" data-l="1"><a class="nm" href="https://www.zdic.net/" target="_blank" rel="noopener noreferrer" title="漢典">漢典</a></div><div class="item" data-s="识典古籍" data-l="1"><a class="nm" href="https://www.shidianguji.com/?source=PC&amp;page_from=reading_page&amp;book_id=SBCK109&amp;version=" target="_blank" rel="noopener noreferrer" title="识典古籍">识典古籍</a></div><div class="item" data-s="诗人目录 - 汉语现诗语料库" data-l="1"><a class="nm" href="https://www.chinese-poetry.org/" target="_blank" rel="noopener noreferrer" title="诗人目录 - 汉语现诗语料库">诗人目录 - 汉语现诗语料库</a></div><div class="item" data-s="读典籍 - 探索中华经典，体验文白对照、交互式注释及导读工具" data-l="1"><a class="nm" href="https://dudianji.com/" target="_blank" rel="noopener noreferrer" title="读典籍 - 探索中华经典，体验文白对照、交互式注释及导读工具">读典籍 - 探索中华经典，体验文白对照、交互式注释及导读工具</a></div><div class="item" data-s="道藏 中华道藏 道家经典 在线阅读 下载 -道人家" data-l="1"><a class="nm" href="http://m.daorenjia.com/" target="_blank" rel="noopener noreferrer" title="道藏 中华道藏 道家经典 在线阅读 下载 -道人家">道藏 中华道藏 道家经典 在线阅读 下载 -道人家</a></div></div></details>
+<details class="group grp" id="g41" data-spy open><summary><span class="grp-title">电子书与图书馆</span><span class="grp-n">5</span></summary><div class="grp-body"><div class="item" data-s="z-lib图书馆：官方入口及最新镜像网址 | 客户端下载" data-l="1"><a class="nm" href="https://znew.pages.dev/" target="_blank" rel="noopener noreferrer" title="Z-Lib图书馆：官方入口及最新镜像网址 | 客户端下载">Z-Lib图书馆：官方入口及最新镜像网址 | 客户端下载</a></div><div class="item" data-s="世界数字图书馆主页" data-l="1"><a class="nm" href="https://www.wdl.org/zh/" target="_blank" rel="noopener noreferrer" title="世界数字图书馆主页">世界数字图书馆主页</a></div><div class="item" data-s="书栈网 · bookstack_程序员it互联网开源编程书籍免费阅读与下载…" data-l="1"><a class="nm" href="https://www.bookstack.cn/" target="_blank" rel="noopener noreferrer" title="书栈网 · BookStack_程序员IT互联网开源编程书籍免费阅读与下载…">书栈网 · BookStack_程序员IT互联网开源编程书籍免费阅读与下载…</a></div><div class="item" data-s="在线电子书转换, 免费电子书转换器" data-l="1"><a class="nm" href="http://cn.epubee.com/" target="_blank" rel="noopener noreferrer" title="在线电子书转换, 免费电子书转换器">在线电子书转换, 免费电子书转换器</a></div><div class="item" data-s="电子书下载宝库 - ebook treasure chest" data-l="1"><a class="nm" href="https://jbiaojerry.github.io/ebook-treasure-chest/" target="_blank" rel="noopener noreferrer" title="电子书下载宝库 - Ebook Treasure Chest">电子书下载宝库 - Ebook Treasure Chest</a></div></div></details>
+<details class="group grp" id="g42" data-spy open><summary><span class="grp-title">历史与文献</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="全历史" data-l="1"><a class="nm" href="https://www.allhistory.com/" target="_blank" rel="noopener noreferrer" title="全历史">全历史</a></div><div class="item" data-s="发现中国 - 地图分享知识" data-l="1"><a class="nm" href="https://www.ageeye.cn/" target="_blank" rel="noopener noreferrer" title="发现中国 - 地图分享知识">发现中国 - 地图分享知识</a></div><div class="item" data-s="国家哲学社会科学文献中心" data-l="1"><a class="nm" href="http://www.ncpssd.org/" target="_blank" rel="noopener noreferrer" title="国家哲学社会科学文献中心">国家哲学社会科学文献中心</a></div><div class="item" data-s="科技文献 - 上海研发公共服务平台" data-l="1"><a class="nm" href="http://lib.sstir.cn/" target="_blank" rel="noopener noreferrer" title="科技文献 - 上海研发公共服务平台">科技文献 - 上海研发公共服务平台</a></div></div></details>
+</div></section>
+<section class="sec" id="学习与考试" data-spy>
+<h2>学习与考试<a class="anchor" href="#学习与考试" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g43" data-spy open><summary><span class="grp-title">英语学习</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="两小无猜网-最有爱少儿英语网,看儿童英语动画片,快乐启蒙英语" data-l="1"><a class="nm" href="http://www.lxwc.com.cn/" target="_blank" rel="noopener noreferrer" title="两小无猜网-最有爱少儿英语网,看儿童英语动画片,快乐启蒙英语">两小无猜网-最有爱少儿英语网,看儿童英语动画片,快乐启蒙英语</a></div><div class="item" data-s="学英语" data-l="1"><a class="nm" href="https://byoungd.gitbook.io/english-level-up-tips/" target="_blank" rel="noopener noreferrer" title="学英语">学英语</a></div><div class="item" data-s="极速英语提供【英语零基础自学教材】详细的、完全免费的英语学习笔记_夸克英语笔记" data-l="1"><a class="nm" href="https://www.ncego.com/" target="_blank" rel="noopener noreferrer" title="极速英语提供【英语零基础自学教材】详细的、完全免费的英语学习笔记_夸克英语笔记">极速英语提供【英语零基础自学教材】详细的、完全免费的英语学习笔记_夸克英语笔记</a></div><div class="item" data-s="英语自然拼读树" data-l="1"><a class="nm" href="https://pindushu.com/" target="_blank" rel="noopener noreferrer" title="英语自然拼读树">英语自然拼读树</a></div></div></details>
+<details class="group grp" id="g44" data-spy open><summary><span class="grp-title">考证与职业</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="vipexam 考试学习资源数据库" data-l="1"><a class="nm" href="http://sdwu.vipexam.org/Frames.aspx?np=2" target="_blank" rel="noopener noreferrer" title="VIPExam 考试学习资源数据库">VIPExam 考试学习资源数据库</a></div><div class="item" data-s="帮助 | autodesk" data-l="1"><a class="nm" href="https://help.autodesk.com/view/RVT/2022/CHS/" target="_blank" rel="noopener noreferrer" title="帮助 | Autodesk">帮助 | Autodesk</a></div><div class="item" data-s="考试视频" data-l="1"><a class="nm" href="http://yjksxs.ysepan.com/" target="_blank" rel="noopener noreferrer" title="考试视频">考试视频</a></div></div></details>
+<details class="group grp" id="g45" data-spy open><summary><span class="grp-title">教材与学科</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="the deep sea 海洋动物" data-l="1"><a class="nm" href="https://neal.fun/deep-sea/" target="_blank" rel="noopener noreferrer" title="The Deep Sea 海洋动物">The Deep Sea 海洋动物</a></div></div></details>
+<details class="group grp" id="g46" data-spy open><summary><span class="grp-title">在线课程</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="java简介（java发展概述） - 【名师课堂】java零基础入门" data-l="1"><a class="nm" href="https://edu.aliyun.com/course/34/learn#lesson/232" target="_blank" rel="noopener noreferrer" title="Java简介（Java发展概述） - 【名师课堂】Java零基础入门">Java简介（Java发展概述） - 【名师课堂】Java零基础入门</a></div><div class="item" data-s="开启你的软件工程师生涯" data-l="1"><a class="nm" href="https://www.freecodecamp.cn/" target="_blank" rel="noopener noreferrer" title="开启你的软件工程师生涯">开启你的软件工程师生涯</a></div><div class="item" data-s="阿里云大学" data-l="1"><a class="nm" href="https://edu.aliyun.com/developer?spm=5176.8719805.740944.2.9pVqCZ" target="_blank" rel="noopener noreferrer" title="阿里云大学">阿里云大学</a></div></div></details>
+<details class="group grp" id="g47" data-spy open><summary><span class="grp-title">其它</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="5外墙绘制" data-l="1"><a class="nm" href="https://www.bilibili.com/video/BV1bB4y117CF?p=5&amp;spm_id_from=pageDriver&amp;vd_source=003c85f809d38e32a887c0ee30eb4eb3" target="_blank" rel="noopener noreferrer" title="5外墙绘制">5外墙绘制</a></div><div class="item" data-s="慧办公官网" data-l="1"><a class="nm" href="http://www.hbg666.com/index.php?id=11" target="_blank" rel="noopener noreferrer" title="慧办公官网">慧办公官网</a></div></div></details>
+</div></section>
+<section class="sec" id="自媒体与内容" data-spy>
+<h2>自媒体与内容<a class="anchor" href="#自媒体与内容" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g48" data-spy open><summary><span class="grp-title">热点与数据</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="今日热榜官网" data-l="1"><a class="nm" href="https://tophub.today/" target="_blank" rel="noopener noreferrer" title="今日热榜官网">今日热榜官网</a></div><div class="item" data-s="今日热点 - 聚合每日热门、有趣资讯" data-l="1"><a class="nm" href="https://www.redian.me/" target="_blank" rel="noopener noreferrer" title="今日热点 - 聚合每日热门、有趣资讯">今日热点 - 聚合每日热门、有趣资讯</a></div></div></details>
+<details class="group grp" id="g49" data-spy open><summary><span class="grp-title">运营与增长</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="嘉木说|自媒体干货分享 - 易学魔方联合创始人，5年互联网私域经验…" data-l="1"><a class="nm" href="http://jiamushuo.com/" target="_blank" rel="noopener noreferrer" title="嘉木说|自媒体干货分享 - 易学魔方联合创始人，5年互联网私域经验…">嘉木说|自媒体干货分享 - 易学魔方联合创始人，5年互联网私域经验…</a></div><div class="item" data-s="自媒体流量标签：抖音、小红书活动与参与条件｜betteropc" data-l="1"><a class="nm" href="https://betteropc.com/self-media/traffic-tags" target="_blank" rel="noopener noreferrer" title="自媒体流量标签：抖音、小红书活动与参与条件｜BetterOPC">自媒体流量标签：抖音、小红书活动与参与条件｜BetterOPC</a></div></div></details>
+<details class="group grp" id="g50" data-spy open><summary><span class="grp-title">内容生产</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="晓秋" data-l="1"><a class="nm" href="https://app.clipchamp.com/editor/3128a861-3aaa-4059-a25e-0649189c1bc8" target="_blank" rel="noopener noreferrer" title="晓秋">晓秋</a></div></div></details>
+<details class="group grp" id="g51" data-spy open><summary><span class="grp-title">其它</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="图片模仿滤镜colormatch.polarr.com" data-l="1"><a class="nm" href="https://colormatch.polarr.com/" target="_blank" rel="noopener noreferrer" title="图片模仿滤镜colormatch.polarr.com">图片模仿滤镜colormatch.polarr.com</a></div></div></details>
+</div></section>
+<section class="sec" id="导航与搜索" data-spy>
+<h2>导航与搜索<a class="anchor" href="#导航与搜索" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g52" data-spy open><summary><span class="grp-title">搜索与聚合</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="up云搜 - 最全阿里云盘资源搜索神器" data-l="1"><a class="nm" href="https://www.upyunso.com/" target="_blank" rel="noopener noreferrer" title="UP云搜 - 最全阿里云盘资源搜索神器">UP云搜 - 最全阿里云盘资源搜索神器</a></div><div class="item" data-s="皮卡搜索" data-l="1"><a class="nm" href="https://www.pikasoo.top/" target="_blank" rel="noopener noreferrer" title="皮卡搜索">皮卡搜索</a></div><div class="item" data-s="老司机导航 - 来不及了！" data-l="1"><a class="nm" href="http://www.giffox.com/" target="_blank" rel="noopener noreferrer" title="老司机导航 - 来不及了！">老司机导航 - 来不及了！</a></div><div class="item" data-s="虫部落快搜 - 搜索快人一步 - google" data-l="1"><a class="nm" href="https://search.chongbuluo.com/" target="_blank" rel="noopener noreferrer" title="虫部落快搜 - 搜索快人一步 - Google">虫部落快搜 - 搜索快人一步 - Google</a></div></div></details>
+<details class="group grp" id="g53" data-spy open><summary><span class="grp-title">导航站</span><span class="grp-n">10</span></summary><div class="grp-body"><div class="item" data-s="googax | 最全上网导航，汇集优质办公工具和热门网站，一键直达，省时省力" data-l="1"><a class="nm" href="https://googax.com/" target="_blank" rel="noopener noreferrer" title="GOOGAX | 最全上网导航，汇集优质办公工具和热门网站，一键直达，省时省力">GOOGAX | 最全上网导航，汇集优质办公工具和热门网站，一键直达，省时省力</a></div><div class="item" data-s="gitnavi - 你的专属生活网址导航 - sharing all the…" data-l="1"><a class="nm" href="http://www.gitnavi.com/" target="_blank" rel="noopener noreferrer" title="GitNavi - 你的专属生活网址导航 - Sharing All The…">GitNavi - 你的专属生活网址导航 - Sharing All The…</a></div><div class="item" data-s="monknow 新标签页 - 个性化面板" data-l="1"><a class="nm" href="https://www.monknow.com/zh-CN" target="_blank" rel="noopener noreferrer" title="MONKNOW 新标签页 - 个性化面板">MONKNOW 新标签页 - 个性化面板</a></div><div class="item" data-s="下次一定 - 专门为白嫖怪开发的宝藏网站" data-l="1"><a class="nm" href="https://www.iiice.cn/#/" target="_blank" rel="noopener noreferrer" title="下次一定 - 专门为白嫖怪开发的宝藏网站">下次一定 - 专门为白嫖怪开发的宝藏网站</a></div><div class="item" data-s="二次元导航-精选二次元网址和qq技术资源网址导航,学技术,找资源,从这里开始" data-l="1"><a class="nm" href="http://www.wxxdh.com/" target="_blank" rel="noopener noreferrer" title="二次元导航-精选二次元网址和QQ技术资源网址导航,学技术,找资源,从这里开始">二次元导航-精选二次元网址和QQ技术资源网址导航,学技术,找资源,从这里开始</a></div><div class="item" data-s="导航栏" data-l="1"><a class="nm" href="http://lackar.com/aa/" target="_blank" rel="noopener noreferrer" title="导航栏">导航栏</a></div><div class="item" data-s="极客导航-程序员自己的导航" data-l="1"><a class="nm" href="http://www.jikedaohang.com/" target="_blank" rel="noopener noreferrer" title="极客导航-程序员自己的导航">极客导航-程序员自己的导航</a></div><div class="item" data-s="柒夜导航 - 黑科技网站资源集" data-l="1"><a class="nm" href="https://nav.qinight.com/" target="_blank" rel="noopener noreferrer" title="柒夜导航 - 黑科技网站资源集">柒夜导航 - 黑科技网站资源集</a></div><div class="item" data-s="福利吧-分享你的福利吧" data-l="1"><a class="nm" href="https://fuliba2025.net/" target="_blank" rel="noopener noreferrer" title="福利吧-分享你的福利吧">福利吧-分享你的福利吧</a></div><div class="item" data-s="福利吧导航 | 发现更大的世界" data-l="1"><a class="nm" href="https://fuliba123.com/" target="_blank" rel="noopener noreferrer" title="福利吧导航 | 发现更大的世界">福利吧导航 | 发现更大的世界</a></div></div></details>
+<details class="group grp" id="g54" data-spy open><summary><span class="grp-title">网盘与资源</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="flysheep资源避难所" data-l="1"><a class="nm" href="http://flysheep.ysepan.com/" target="_blank" rel="noopener noreferrer" title="flysheep资源避难所">flysheep资源避难所</a></div><div class="item" data-s="知识船仓·公益知识库·致终身学习者zscc" data-l="1"><a class="nm" href="http://zscc.ysepan.com/" target="_blank" rel="noopener noreferrer" title="知识船仓·公益知识库·致终身学习者zscc">知识船仓·公益知识库·致终身学习者zscc</a></div></div></details>
+</div></section>
+<section class="sec" id="生活与家庭" data-spy>
+<h2>生活与家庭<a class="anchor" href="#生活与家庭" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g55" data-spy open><summary><span class="grp-title">有趣网站</span><span class="grp-n">9</span></summary><div class="grp-body"><div class="item" data-s="4chan" data-l="1"><a class="nm" href="https://www.4chan.org/" target="_blank" rel="noopener noreferrer" title="4chan">4chan</a></div><div class="item" data-s="enjoy" data-l="1"><a class="nm" href="https://enjoy.bot/" target="_blank" rel="noopener noreferrer" title="Enjoy">Enjoy</a></div><div class="item" data-s="ffffound!" data-l="1"><a class="nm" href="http://ffffound.com/" target="_blank" rel="noopener noreferrer" title="FFFFOUND!">FFFFOUND!</a></div><div class="item" data-s="fuun.fun" data-l="1"><a class="nm" href="https://fuun.fun/top/shadiao" target="_blank" rel="noopener noreferrer" title="FUUN.FUN">FUUN.FUN</a></div><div class="item" data-s="fuun.fun - 奇趣网站收藏家" data-l="1"><a class="nm" href="https://fuun.fun/" target="_blank" rel="noopener noreferrer" title="FUUN.FUN - 奇趣网站收藏家">FUUN.FUN - 奇趣网站收藏家</a></div><div class="item" data-s="projects" data-l="1"><a class="nm" href="https://bwasti.com/projects" target="_blank" rel="noopener noreferrer" title="Projects">Projects</a></div><div class="item" data-s="多场景效率搭子" data-l="1"><a class="nm" href="https://dicomp.net/" target="_blank" rel="noopener noreferrer" title="多场景效率搭子">多场景效率搭子</a></div><div class="item" data-s="最右-我的快乐源泉" data-l="1"><a class="nm" href="https://www.izuiyou.com/" target="_blank" rel="noopener noreferrer" title="最右-我的快乐源泉">最右-我的快乐源泉</a></div><div class="item" data-s="煎蛋 - 地球上没有新鲜事" data-l="1"><a class="nm" href="https://jandan.net/" target="_blank" rel="noopener noreferrer" title="煎蛋 - 地球上没有新鲜事">煎蛋 - 地球上没有新鲜事</a></div></div></details>
+<details class="group grp" id="g56" data-spy open><summary><span class="grp-title">孩子教育</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="下载 – 太极创客" data-l="1"><a class="nm" href="http://www.taichi-maker.com/homepage/download/" target="_blank" rel="noopener noreferrer" title="下载 – 太极创客">下载 – 太极创客</a></div><div class="item" data-s="太极创客 – arduino, esp8266物联网的应用、开发和学习资料" data-l="1"><a class="nm" href="http://www.taichi-maker.com/" target="_blank" rel="noopener noreferrer" title="太极创客 – Arduino, ESP8266物联网的应用、开发和学习资料">太极创客 – Arduino, ESP8266物联网的应用、开发和学习资料</a></div><div class="item" data-s="田字格字帖生成器_字帖打印_带笔顺的田字格、米字格…" data-l="1"><a class="nm" href="https://www.an2.net/zi/" target="_blank" rel="noopener noreferrer" title="田字格字帖生成器_字帖打印_带笔顺的田字格、米字格…">田字格字帖生成器_字帖打印_带笔顺的田字格、米字格…</a></div></div></details>
+<details class="group grp" id="g57" data-spy open><summary><span class="grp-title">日常实用</span><span class="grp-n">5</span></summary><div class="grp-body"><div class="item" data-s="2022年日历全年表 - 2022年日历全年表新版、表格、图片可下载打印…" data-l="1"><a class="nm" href="http://www.5adanci.com/" target="_blank" rel="noopener noreferrer" title="2022年日历全年表 - 2022年日历全年表新版、表格、图片可下载打印…">2022年日历全年表 - 2022年日历全年表新版、表格、图片可下载打印…</a></div><div class="item" data-s="2023年日历全年表 2023年日历高清可打印 免费下载 - 日历精灵" data-l="1"><a class="nm" href="http://www.rilijingling.com/" target="_blank" rel="noopener noreferrer" title="2023年日历全年表 2023年日历高清可打印 免费下载 - 日历精灵">2023年日历全年表 2023年日历高清可打印 免费下载 - 日历精灵</a></div><div class="item" data-s="国家地理信息公共服务平台 在线地图" data-l="1"><a class="nm" href="https://map.tianditu.gov.cn/" target="_blank" rel="noopener noreferrer" title="国家地理信息公共服务平台 在线地图">国家地理信息公共服务平台 在线地图</a></div><div class="item" data-s="自定义打印纸生成器" data-l="1"><a class="nm" href="https://paperme.toolooz.com/" target="_blank" rel="noopener noreferrer" title="自定义打印纸生成器">自定义打印纸生成器</a></div><div class="item" data-s="计算机软件著作权登记-申请软件著作权-软件著作权办理" data-l="1"><a class="nm" href="https://tm.aliyun.com/channel/copyright/new?spm=5176.100251.111252.1.31f64f15s2vJ9G" target="_blank" rel="noopener noreferrer" title="计算机软件著作权登记-申请软件著作权-软件著作权办理">计算机软件著作权登记-申请软件著作权-软件著作权办理</a></div></div></details>
+<details class="group grp" id="g58" data-spy open><summary><span class="grp-title">阅读与摘录</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="米沃什《被禁锢的头脑》- 摘录" data-l="1"><a class="nm" href="https://www.douban.com/note/751562724/?_i=7012145hTZ9Hke" target="_blank" rel="noopener noreferrer" title="米沃什《被禁锢的头脑》- 摘录">米沃什《被禁锢的头脑》- 摘录</a></div></div></details>
+</div></section>
+
+    <details class="help" id="help">
+      <summary>这一页怎么用 / 关于本站</summary>
+      <h3>这是什么</h3>
+      <p>我自己在用的东西整理成的一份清单，长期更新。收录标准只有一条：
+         <strong>我真的在用、而且用得住</strong>。不接推广、不做商业排序。</p>
+      <h3>最常用的三个动作</h3>
+      <table>
+        <tr><th>动作</th><th>怎么做</th></tr>
+        <tr><td>找东西</td><td>顶栏搜索框直接打字，名称、说明、子条目全文都能搜到，
+            <strong>大小写无所谓，中文英文都行</strong></td></tr>
+        <tr><td>只看某一类</td><td>点左侧目录（手机上点顶部分类条）跳到分类；点分组标题可以折叠/展开</td></tr>
+        <tr><td>换配色</td><td>右上角「外观」——明暗三档 + 8 种底色 + 自定义取色</td></tr>
+      </table>
+      <h3>键盘快捷键</h3>
+      <table>
+        <tr><td><kbd>/</kbd></td><td>跳到搜索框</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>清空搜索</td></tr>
+        <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>在搜索结果之间移动</td></tr>
+        <tr><td><kbd>Enter</kbd></td><td>打开选中的那一条</td></tr>
+      </table>
+      <h3>搜索的小细节</h3>
+      <p>搜索时所有分组会自动展开，没命中的分组会收起来，
+         分组标题右边的数字会变成<strong>「命中数 / 总数」</strong>。
+         试试搜 <code>截图</code>、<code>下载</code>、<code>pdf</code>、<code>heic</code>。</p>
+      <p>右上角的筛选可以和搜索叠加用：<strong>有下载链接</strong>只看能直接点开的，
+         <strong>我推荐的</strong>只看我标了 ☆ 的。</p>
+      <h3>内容怎么更新</h3>
+      <p>本页由仓库里的 <code>links.md</code> 自动生成，改内容只改那一个文件，不用碰这个页面的代码。
+         具体步骤见<a href="help.html">使用说明</a>。</p>
+      <h3>数据与隐私</h3>
+      <ul>
+        <li>纯静态页面：没有后端、没有数据库、没有统计脚本、不请求任何第三方 CDN。</li>
+        <li>本地存储只有一项——你的外观偏好，不上传任何数据。</li>
+        <li>页面上的链接都指向第三方站点，跳转之后的行为不受本站控制。</li>
+      </ul>
+      <h3>免责声明</h3>
+      <p>清单是个人使用记录，链接来自公开网络，不保证长期有效，
+         也不提供任何软件下载托管。软件版权归各自厂商所有，请通过正规渠道购买授权。</p>
+    </details>
+  </main>
+</div>
+
+<footer>
+  <span>内容源 links.md · 共 550 条 · 551 个外链 · 更新于 2026-10-01</span>
+  <span>纯静态 · 无追踪 · 无第三方请求</span>
+</footer>
+
+<button class="totop" id="totop" title="回到顶部">↑</button>
+
+<script>
+(function(){
+  var q = document.getElementById('q'),
+      box = document.getElementById('searchbox'),
+      clr = document.getElementById('clr'),
+      filter = document.getElementById('filter'),
+      count = document.getElementById('count'),
+      empty = document.getElementById('empty'),
+      toggleAll = document.getElementById('toggleAll'),
+      items = [].slice.call(document.querySelectorAll('.item')),
+      groups = [].slice.call(document.querySelectorAll('details.group')),
+      sections = [].slice.call(document.querySelectorAll('.sec')),
+      spyTargets = [].slice.call(document.querySelectorAll('[data-spy]')),
+      tocLinks = [].slice.call(document.querySelectorAll('.toc a[data-t]')),
+      orig = new Map(),
+      shown = [],
+      cursor = -1,
+      reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  items.forEach(function(el){ orig.set(el, el.innerHTML); });
+  var savedOpen = groups.map(function(g){ return g.open; });
+  // 记住每个分组的原始条目数，搜索时改显示「命中 / 总数」
+  groups.forEach(function(g){
+    var n = g.querySelector('summary .grp-n');
+    if(n) n.dataset.n = n.textContent;
+  });
+
+  // 筛选：函数式，想加新筛选往这里加一行就行
+  var FILTERS = {
+    link: function(el){ return el.dataset.l === '1'; },
+    star: function(el){ return el.dataset.star === '1'; }
+  };
+
+  function esc(s){
+    return s.replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function escRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function paint(el, re){
+    var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null),
+        nodes = [], n;
+    while((n = w.nextNode())){
+      if(n.parentNode.nodeName === 'MARK') continue;
+      if(re.test(n.nodeValue)) nodes.push(n);
+    }
+    nodes.forEach(function(node){
+      var frag = document.createDocumentFragment(), text = node.nodeValue, last = 0, m;
+      re.lastIndex = 0;
+      while((m = re.exec(text))){
+        if(m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        var mk = document.createElement('mark');
+        mk.textContent = m[0];
+        frag.appendChild(mk);
+        last = m.index + m[0].length;
+        if(m[0] === '') re.lastIndex++;
+      }
+      if(last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  function setCursor(i){
+    if(cursor > -1 && shown[cursor]) shown[cursor].classList.remove('cur');
+    cursor = i;
+    if(cursor > -1 && shown[cursor]){
+      shown[cursor].classList.add('cur');
+      shown[cursor].scrollIntoView({block:'center', behavior: reduced ? 'auto' : 'smooth'});
+    }
+  }
+
+  function run(){
+    var raw = q.value.trim(), term = raw.toLowerCase(), f = filter.value;
+    var re = term ? new RegExp('(' + escRe(raw) + ')', 'gi') : null;
+
+    shown = []; cursor = -1;
+
+    items.forEach(function(el){
+      el.innerHTML = orig.get(el);
+      el.classList.remove('cur');
+      var hit = (!term || (el.dataset.s || '').indexOf(term) !== -1);
+      if(hit && FILTERS[f] && !FILTERS[f](el)) hit = false;
+      el.classList.toggle('hidden', !hit);
+      if(hit){
+        shown.push(el);
+        if(re) paint(el, re);
+      }
+    });
+
+    var filtering = term !== '' || f !== 'all';
+    groups.forEach(function(g, i){
+      if(!filtering){ g.open = savedOpen[i]; return; }
+      g.open = true;
+    });
+
+    var visible = shown.length;
+    sections.forEach(function(s){
+      s.classList.toggle('hidden', !s.querySelector('.item:not(.hidden)'));
+    });
+    groups.forEach(function(g){
+      var hit = g.querySelectorAll('.item:not(.hidden)').length;
+      var n = g.querySelector('summary .grp-n');
+      if(n) n.textContent = filtering ? hit + ' / ' + n.dataset.n : n.dataset.n;
+      g.classList.toggle('hidden', filtering && hit === 0);
+    });
+
+    empty.classList.toggle('show', filtering && visible === 0);
+    box.classList.toggle('has', raw !== '');
+    count.textContent = filtering
+      ? visible + ' / ' + items.length
+      : items.length + ' 条';
+
+    var allOpen = groups.every(function(g){ return g.open || g.classList.contains('hidden'); });
+    toggleAll.textContent = allOpen ? '折叠' : '全部展开';
+    spy();
+  }
+
+  /* ---- 折叠 / 展开全部 ---- */
+  toggleAll.addEventListener('click', function(){
+    var anyClosed = groups.some(function(g){
+      return !g.open && !g.classList.contains('hidden');
+    });
+    groups.forEach(function(g){ if(!g.classList.contains('hidden')) g.open = anyClosed; });
+    savedOpen = groups.map(function(g){ return g.open; });
+    this.textContent = anyClosed ? '折叠' : '全部展开';
+  });
+
+  /* ---- 搜索 ---- */
+  var t;
+  q.addEventListener('input', function(){ clearTimeout(t); t = setTimeout(run, 90); });
+  clr.addEventListener('click', function(){ q.value = ''; run(); q.focus(); });
+  filter.addEventListener('change', function(){ run(); });
+
+  document.addEventListener('keydown', function(e){
+    var typing = document.activeElement === q;
+    if(e.key === '/' && !typing){ e.preventDefault(); q.focus(); q.select(); return; }
+    if(e.key === 'Escape' && typing){ q.value = ''; run(); q.blur(); return; }
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      if(!shown.length) return;
+      e.preventDefault();
+      if(!typing) q.focus();
+      var next = e.key === 'ArrowDown' ? cursor + 1 : cursor - 1;
+      if(next < 0) next = shown.length - 1;
+      if(next >= shown.length) next = 0;
+      setCursor(next);
+      return;
+    }
+    if(e.key === 'Enter' && cursor > -1 && shown[cursor]){
+      var a = shown[cursor].querySelector('a.nm') ||
+              shown[cursor].querySelector('.ds a') ||
+              shown[cursor].querySelector('ul.sub a');
+      if(a){ e.preventDefault(); window.open(a.href, '_blank', 'noopener'); }
+    }
+  });
+
+  // 供共用组件（外观面板）回调，避免组件之间硬耦合
+  window.UPPJS_REMEASURE = function(){ measure(); };
+
+  /* ---- 外观：明暗 + 底色 ---- */
+  var SK = window.UPPJS_SKIN;
+  if(SK){
+    var themeBtn = document.getElementById('theme'),
+        apPanel = document.getElementById('apPanel'),
+        apModes = document.getElementById('apModes'),
+        apSw = document.getElementById('apSw'),
+        apReset = document.getElementById('apReset'),
+        apCustom = document.getElementById('apCustom'),
+        apPick = document.getElementById('apPick'),
+        look = SK.read();
+    if(typeof look.bg !== 'string') look.bg = '';
+    if(!look.mode) look.mode = 'auto';
+
+    function syncSkin(){
+      [].forEach.call(apModes.children, function(b){
+        b.classList.toggle('on', b.dataset.mode === look.mode);
+      });
+      [].forEach.call(apSw.children, function(b){
+        b.classList.toggle('on', (b.dataset.bg || '') === look.bg);
+      });
+    }
+    function useSkin(){
+      SK.apply(look);
+      SK.save(look);
+      syncSkin();
+      if(window.UPPJS_REMEASURE) window.UPPJS_REMEASURE();
+    }
+    function closeSkin(){
+      apPanel.hidden = true;
+      themeBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    SK.modes.forEach(function(m){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.mode = m;
+      b.textContent = SK.label[m];
+      b.addEventListener('click', function(){
+        look.mode = m;
+        look.bg = '';
+        useSkin();
+      });
+      apModes.appendChild(b);
+    });
+
+    SK.presets.forEach(function(p){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.bg = p.bg;
+      b.title = '底色：' + p.name;
+      b.setAttribute('aria-label', '底色：' + p.name);
+      b.style.background = p.bg || 'linear-gradient(135deg,#fff 0 50%,#16181c 50% 100%)';
+      b.addEventListener('click', function(){
+        look.bg = p.bg;
+        look.mode = p.bg ? (SK.paint(p.bg) ? 'light' : 'dark') : 'auto';
+        useSkin();
+      });
+      apSw.appendChild(b);
+    });
+
+    apCustom.addEventListener('click', function(e){
+      e.stopPropagation();
+      apPick.click();
+    });
+    apPick.addEventListener('input', function(){
+      look.bg = apPick.value;
+      look.mode = SK.paint(apPick.value) ? 'light' : 'dark';
+      useSkin();
+    });
+    apReset.addEventListener('click', function(){
+      look = {mode: 'auto', bg: ''};
+      useSkin();
+    });
+
+    themeBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(window.UPPJS_CLOSE_OTHERS) window.UPPJS_CLOSE_OTHERS();   // 面板互斥
+      apPanel.hidden = !apPanel.hidden;
+      themeBtn.setAttribute('aria-expanded', apPanel.hidden ? 'false' : 'true');
+    });
+    apPanel.addEventListener('click', function(e){ e.stopPropagation(); });
+    document.addEventListener('click', function(){
+      if(!apPanel.hidden) closeSkin();
+      if(window.UPPJS_CLOSE_OTHERS) window.UPPJS_CLOSE_OTHERS();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !apPanel.hidden) closeSkin();
+    });
+    syncSkin();
+  }
+
+
+
+  /* ---- 顶栏高度 -> CSS 变量，供 sticky 定位 ---- */
+  var header = document.querySelector('header');
+  function measure(){
+    document.documentElement.style.setProperty('--hh', header.offsetHeight + 'px');
+  }
+
+  /* ---- 滚动高亮目录 ---- */
+  var ticking = false;
+  function spy(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      ticking = false;
+      var line = header.offsetHeight + 20, cur = null, i, el, top;
+      for(i = 0; i < spyTargets.length; i++){
+        el = spyTargets[i];
+        if(el.classList.contains('hidden')) continue;
+        top = el.getBoundingClientRect().top;
+        if(top <= line) cur = el; else break;
+      }
+      if(!cur) cur = spyTargets[0];
+      var id = cur ? cur.id : null;
+      tocLinks.forEach(function(a){ a.classList.toggle('on', a.dataset.t === id); });
+    });
+  }
+
+  /* ---- 目录跳转：展开目标分组 + 闪一下提示 ---- */
+  function goTo(el){
+    if(!el) return;
+    if(el.tagName === 'DETAILS' && !el.open){
+      el.open = true;
+      savedOpen = groups.map(function(g){ return g.open; });
+    }
+    el.classList.remove('flash');
+    void el.offsetWidth;
+    el.classList.add('flash');
+    setTimeout(function(){ el.classList.remove('flash'); }, 1300);
+  }
+  document.querySelectorAll('.toc a[data-t], nav.cats a').forEach(function(a){
+    a.addEventListener('click', function(){
+      var id = (a.dataset.t || a.getAttribute('href').slice(1));
+      goTo(document.getElementById(id));
+      var s = document.querySelector('nav.cats .wrap');
+      if(s) [].slice.call(s.children).forEach(function(x){
+        x.classList.toggle('on', x === a);
+      });
+    });
+  });
+  window.addEventListener('hashchange', function(){
+    if(location.hash) goTo(document.getElementById(location.hash.slice(1)));
+  });
+
+  /* ---- 回到顶部 ---- */
+  var top = document.getElementById('totop');
+  window.addEventListener('scroll', function(){
+    top.classList.toggle('show', window.scrollY > 500);
+    spy();
+  }, {passive:true});
+  top.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+  window.addEventListener('resize', function(){ measure(); spy(); });
+  measure();
+  run();
+  if(location.hash) goTo(document.getElementById(location.hash.slice(1)));
+  // 从首页带 ?view=link / ?view=star 过来时，直接切到对应筛选
+  var want = (location.search.match(/[?&]view=(link|star)\b/) || [])[1];
+  if(want && filter.querySelector('[value="' + want + '"]')){
+    filter.value = want;
+    run();
+  }
+})();
+</script>
+</body>
+</html>

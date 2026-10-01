@@ -1,28 +1,23 @@
 <!--
-  本文件是网站的唯一内容源，index.html 由它自动生成，请勿手改 index.html。
+  本文件是网站「软件清单」的唯一内容源，apps.html 由它自动生成，请勿手改 apps.html。
+  首页 index.html 和「网址书签」links.html 由 build.py 一起生成，同样不要手改。
 
   日常更新（全程双击，不用命令行）：
-    1-编辑内容.command   改本文件
+    1-编辑内容.command   改本文件（书签改 links.md）
     2-更新网站.command   生成网页 + 提交 + 推送到 GitHub
   约 1 分钟后生效，线上地址 https://uppjs.com
 
   手动等价命令：python3 build.py && git add -A && git commit -m "更新" && git push
   完整说明见「使用说明.md」（会同步生成同内容的「使用说明.html」）
 
-  ── 条目下面的「元数据」（可选，不写也完全正常）──
-  在任意条目下面缩进写一行，就会被识别成结构化字段，不再当普通附注：
+  ── 怎么写内容：只有四种写法 ──
+  ## 大分类                  → 页面上的一级分类，左侧目录里能看到
+  - 小分组：                  → 分类下的分组，点标题可以折叠
+      - [名称](网址)：一句话说明     → 单个条目
+          - 补充说明                  → 条目下面再挂一行小字
 
-      - [Ollama](https://ollama.com/)：本地跑大模型，数据不出电脑。
-          - 免费：是
-          - 开源：是
-          - 平台：Win / macOS / Linux
-          - 替代：LM Studio
-          - 坑：模型文件很占硬盘，先看好剩余空间
-          - 验证：2026-10
-
-  可用的键只有这 8 个：免费、开源、平台、替代、坑、验证、官网、价格。
-  「免费 / 开源」写「是」或「否」，页面上会自动多出「免费的」「开源的」两个筛选。
-  没写元数据的条目一切照旧，可以只给重点软件写。
+  想加一条：复制一行「- [名字](网址)：说明」，改掉内容就行。
+  不想写网址也没关系，直接写名字，一样能搜到。
 -->
 
 ## 软件合集网
@@ -82,7 +77,8 @@
     - 输入法：[微信输入法](https://z.weixin.qq.com/)多平台稳定同步，推荐。
     - 文件管理：[Qspace](https://qspace.awehunt.com/zh-cn/)：替代访达，已购入会员，自带重命名、解压。
     - 下载工具：[NDM](http://www.neatdownloadmanager.com/index.php/en/)：配合浏览器下载神器。
-    - PDF工具：[PDF24](https://tools.pdf24.org/zh/)只能线上但是全能，[PDFgear](https://www.pdfgear.com/zh/)有客户端配合使用。
+    - [PDF24](https://tools.pdf24.org/zh/)：在线版全能选手，不用装东西。
+    - [PDFgear](https://www.pdfgear.com/zh/)：有客户端，配合 PDF24 一起用。
     - 办公软件：[WPS](https://www.wps.cn/)无法替换。
     - 截图软件：[Snipaste](https://zh.snipaste.com/)最好用的截图软件没有之一。
         - 免费：是
@@ -108,7 +104,9 @@
         - 坑：文件一多就卡，图片有些信息会丢
     - 刘海隐藏：[隐藏刘海](https://topnotch.app/)，必备软件。
     - 时间屏保：[Fliqlo锁屏时间](https://fliqlo.com/screensaver/)。
-    - 鼠标工具：[Scroll Reverser](https://pilotmoon.com/scrollreverser/)最好用，没有之一，MOS容易和剪映冲突[中文版本翻译](https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file)。
+    - [Scroll Reverser](https://pilotmoon.com/scrollreverser/)：鼠标滚轮方向反转，最好用的，没有之一。
+    - [MOS](https://github.com/Caldis/Mos)：也不错，缺点是容易和剪映冲突。
+        - [中文说明](https://github.com/TomIsion/iScroll-Chinese-README?tab=readme-ov-file)
     - 连接工具：[iMazing](https://www.imazingchina.com/)：Mac 的最佳 iOS 设备管理软件，可买永久300元左右。
 - 其他工具：
   - 右键助手专业版：可以右键添加一些必备的内容。
@@ -122,7 +120,7 @@
 - 目前仍不够满意的空缺：
   - 重命名软件：都不如PC上的renamer好用。
   - 图片快速简单处理软件：也没有光影魔术手好用。
-  - 视频播放，更是没有potplayer一般的万能神奇应用。
+  - 视频播放器：一直没找到 Windows 上 PotPlayer 那种万能的，暂时没替代。
 
 ## PC 软件
 
@@ -206,7 +204,7 @@
     - [Ventoy](https://www.ventoy.net/cn/index.html)：制作装机盘，默认安装后格式化为 NTFS 格式。
     - [WinPE](http://www.wepe.com.cn/download.html)：装机盘，制作成 ISO 格式放进 ventoy。
     - [Rufus](https://rufus.ie/zh_CN.html)：制作装机盘，轻便，一次只能做一个不推荐。
-    - U 盘启动错误，Verification failed，开机 F2，关闭 Security BOOT。
+    - U 盘启动报错 Verification failed：开机按 F2 进 BIOS，把 Secure Boot 关掉再试。
 - 小工具：
     - [SpaceSniffer](http://www.uderzo.it/main_products/space_sniffer/index.html)：优雅查看电脑文件大小。
     - [CMM](https://github.com/BluePointLilac/ContextMenuManager/releases)：鼠标右键管理工具，可以删掉右键里的多余内容。
@@ -224,7 +222,8 @@
     - [AIDA64](https://pjs.lanzoux.com/ibj85eh/)：查看电脑硬件信息。
     - [InpaintSetup](https://www.theinpaint.com/download.html)：去除水印的小工具。
     - [Moo0](https://zhs.moo0.com/?top=https://zhs.moo0.com/best/%23tools)：小工具软件的集合，但没大有用。
-    - [Fliqlo](https://fliqlo.com/screensaver/)：屏保。无安装，将文件放入这两个文件夹内 ，`C:\Windows\System32`和`C:\Windows\SysWOW64`，无法取消开机登录，弃坑。
+    - [Fliqlo](https://fliqlo.com/screensaver/)：翻页时钟屏保，免安装，但没法取消开机登录，已弃坑。
+        - 放文件的位置：`C:\Windows\System32` 和 `C:\Windows\SysWOW64`
     - [FFmpeg](https://ffmpeg.org/)：视频工具，记得写入环境变量即可。
     - [Ditto](https://ditto-cp.sourceforge.io/)：粘贴板，将复制的东西有序地进行粘贴，特定情况下有用。
     - [DeskPins](https://efotinis.neocities.org/deskpins/)：强制页面图钉，简单好用，由于官方工具内置，所以舍弃。
@@ -233,7 +232,8 @@
     - [中望 CAD](https://www.zwcad.com/)：国产 CAD 软件集成天正，打开速度方便快捷，为什么大家还是用 AUTO？？
     - [CAD 字体](https://wwa.lanzoui.com/iOkizqoc77g)：之前收集的，也不全。
     - [CAD 2022](https://www.aliyundrive.com/s/RCP47zLSKpE)：CAD 2022 挺好的版本，没必要不换。
-    - [CADZXW](http://www.cadzxw.com/download.html/)：CAD 自学网，软件挺全，百度网盘 Geek 工具进行卸载，先卸载主软件，再卸载配套软件，清理其他内容时要注意甄别，因为 Revit 可能会被误删。
+    - [CADZXW](http://www.cadzxw.com/download.html/)：CAD 自学网，软件挺全。
+    - 卸载 CAD 的正确顺序：先用 Geek 卸主软件，再卸配套软件，清残留时留神别把 Revit 一起删了。
     - [AcmeCAD](https://wwzt.lanzoul.com/iNkMT2ic0ztc)：CAD 高版本转为低版本。
     - 天正 T20V9.0：目前这个版本，可以支持 CAD2010 以上。
     - [Revit 2020](https://www.aliyundrive.com/s/vzLK6MD4V46)：内含方法。
@@ -255,31 +255,45 @@
 
 ## 手机软件
 
-- Android独享：wow时钟 NFCToolsPRO [习惯（Loop loop habit track）](https://github.com/iSoron/uhabits/) gitme 小米天气 [MiXplorer](https://wwp.lanzoul.com/b017p1i3g)：文件管理，还要附带把那几个插件一起安装。
-- IPhone独享：
-- 全体都有：
-  - QQ 微信 淘宝 天猫 支付宝 京东 拼多多 云闪付 哔哩哔哩 
-  - 优酷 网易云音乐 酷安 全历史 wps 知乎 onenote 欧路词典
-  - 星图 天气通 高德地图 百度地图 下厨房 最右 古文岛 百度网盘
-  - Joplin 微软数学 阿里云网盘 
-- 其他情况：
-  - 手心输入法在IPhone上会出现断触，我在mac和安卓上一直使用。
+- 只有安卓有：
+  - wow 时钟：桌面时钟小组件，样式多，能自己调。
+  - NFCToolsPRO：读卡、写卡、模拟门禁卡。
+  - [习惯（Loop Habit Tracker）](https://github.com/iSoron/uhabits/)：开源打卡器，只记数字，不搞花活。
+  - Gitme：在手机上看 GitHub 的仓库和通知。
+  - 小米天气：小米自家天气，广告比第三方少。
+  - [MiXplorer](https://wwp.lanzoul.com/b017p1i3g)：文件管理器。装完记得把那几个插件一起补上。
 
-备份：1. 微信聊天记录可在电脑客户端备份。2. QQ 输入法为 QQ 登录，其他都为微信登录。
+- 双端都装：
+  - 社交沟通：QQ、微信
+  - 购物支付：淘宝、天猫、京东、拼多多、支付宝、云闪付
+  - 影音娱乐：哔哩哔哩、优酷、网易云音乐、酷安
+  - 阅读与历史：知乎、最右、全历史、古文岛
+  - 效率办公：WPS、OneNote、Joplin（笔记）
+  - 地图出行：高德地图、百度地图
+  - 天气：星图、天气通
+  - 学习：欧路词典、微软数学
+  - 生活：下厨房
+  - 网盘：百度网盘、阿里云盘
+
+- 使用提醒：
+  - 手心输入法：在 iPhone 上会断触，我在 Mac 和安卓上一直用，iPhone 上换成了别家。
+  - 登录方式：QQ 输入法走 QQ 登录，其余都是微信登录。
+  - 微信聊天记录：电脑客户端可以备份，换手机之前记得先备一次。
 
 ## 配件硬件推荐
 
 - 氮化镓：
-    - 小米手机用小米充没错。
-    - iPhone用安克冰点冲30w足够。
-    - Mac用65w绿联氮化镓。
+    - 小米手机：用小米自家的充电器就行，没错。
+    - iPhone：安克冰点 30W 足够。
+    - Mac：绿联 65W 氮化镓。
 
 - 普通电池：鼠标键盘带的电池，根本不需要更换电池，电量用不完。
     - 7#小电池：博朗耳温枪电池。
     - 5#大电池：超霸 LR6。
 
 - 打印机：
-    - 惠普 m126nw 无线打印扫描，硒鼓 CC388A 很实惠，买粉买芯片用起来更方便吧，[惠普 m126nw 驱动](https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-mfp-m126-series/5396665/model/5303411?ssfFlag=true&sku=)。
+    - 惠普 m126nw：无线打印 + 扫描一体机。硒鼓 CC388A 很实惠，自己买粉买芯片装更省。
+        - [驱动下载](https://support.hp.com/cn-zh/drivers/selfservice/hp-laserjet-pro-mfp-m126-series/5396665/model/5303411?ssfFlag=true&sku=)
 
 - 键盘：
     - 薄膜键盘 K380：薄膜键盘，轻薄好用，缺点是没有数字键盘。
@@ -289,24 +303,24 @@
     - 罗技鹅卵石：超级静音，按键两年左右会坏，可自己购买后更换。
 
 - 显示器：
-    - 超长 2K：
-    - 4K：买的泰坦，便宜。
+    - 超长 2K 显示器
+    - 4K 显示器：买的泰坦，便宜。
     - 明基色准系列。
-      - 27寸型号PD2706U价格4200元。
-      - 32寸型号PV3200U价格4999元。
+      - 27 寸 PD2706U：4200 元。
+      - 32 寸 PV3200U：4999 元。
 
 - 装修：
-    - 增高架：造木制木，全套不到1000元
-    - 椅子：Steelcase Gesture，价格10017元
-    - 桌子：智芯KU3，价格2700元
+    - 增高架：造木制木，全套不到 1000 元。
+    - 椅子：Steelcase Gesture，10017 元。
+    - 桌子：智芯 KU3，2700 元。
 
 - 自动铅笔：
-    - 三菱 M5-559，双倍速，价格实惠。
-    - 三菱 M5-450，单倍速，价格实惠，个人更喜欢单倍速。
+    - 三菱 M5-559：双倍速，价格实惠。
+    - 三菱 M5-450：单倍速，价格实惠，我个人更喜欢单倍速。
 
 - 自动铅笔笔芯：
-    - 三菱防污 UL-S，0.5HB。
-    - 三菱彩铅，颜色浅，容易断，尝鲜后退坑。
+    - 三菱防污 UL-S：0.5HB。
+    - 三菱彩铅：颜色浅、容易断，尝鲜之后就退坑了。
 
 - 中性笔：
     - 小米巨能写。 
@@ -315,14 +329,14 @@
 ## 其他
 
 - win11 设置：
-  - 要保持一个至少一年重置一次电脑的频率才行，有些难以清理的东西，只能通过这种行为才能根除。
+  - 建议至少一年重置一次电脑：有些东西清不干净，只有重装才能根除。
   - 取消开机密码：win+R，netplwiz，添加一个账户，去掉对勾，删除那个添加的账户，在原先账户上弹窗输入和自己账户一样的账号密码。
 
 - Chrome 插件：
   - [插件下载网](https://crxdl.com/)：第三方插件网站。
   - Adblock Plus
   - 同步助手已经废了：chrome 同步助手 1.8。
-  - 登录插件是没法用了，重装或卸载之前，把**密码、书签、插件**进行备份，都可以导出导入。
+  - 重装 / 卸载之前先备份：把**密码、书签、插件**都导出来，出问题随时能恢复。
   - [chrome 包](https://wwzt.lanzoul.com/b018bxcu)：密码 1111。
   - [Chrome 重装后需要添加的东西（隐私）](https://wwzt.lanzoul.com/b018bzwle)。
   - [IA 图片助手](http://www.pullywood.com/ImageAssistant/)：最好用的网页图片下载工具，没有之一。
@@ -338,8 +352,8 @@
 - 小技巧：
   - 文件批量重命名：全选 →F2→ 重命名，然后就会自动批量以数字排序。
   - ctrl+shift+t：浏览器恢复刚才关闭的网页。
-  - 批量新建文件夹有乱码，txt 右键另存编码为 ANSI。
-  - 联想的一键还原，加上 win10 可以不删文件重置，电脑问题再也不怕了。
+  - 批量新建文件夹出现乱码：txt 文件右键「另存为」，编码选 ANSI。
+  - 联想一键还原 + Win10 保留文件重置：电脑出问题基本都能救回来。
 
 - 已废除：
   - [~~知犀~~](https://www.zhixi.com/)~~：脑图，都差不多，先试试这个。~~

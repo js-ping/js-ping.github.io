@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>使用说明 · uppjs.com 维护手册</title>
+<title>使用说明 · uppjs.com</title>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>
@@ -58,6 +58,13 @@ tbody tr:nth-child(even){background:var(--soft)}
   border-bottom:0;
 }
 .back:hover{color:var(--accent)}
+.topnav{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 22px}
+.topnav a{
+  font-size:13px; color:var(--fg2); border:1px solid var(--line);
+  border-radius:8px; padding:5px 11px; border-bottom:1px solid var(--line);
+}
+.topnav a:hover{color:var(--accent); border-color:var(--accent); text-decoration:none}
+.topnav a.on{color:var(--accent); border-color:var(--accent); background:var(--soft)}
 @media (max-width:640px){
   article{padding:26px 16px 60px}
   h1{font-size:21px}
@@ -81,6 +88,7 @@ tbody tr:nth-child(even){background:var(--soft)}
 @media print{
   body{background:#fff; color:#000}
   .back{display:none}
+  .topnav{display:none}
   a{color:#000}
   h2{page-break-after:avoid}
   table,pre,blockquote{page-break-inside:avoid}
@@ -89,225 +97,129 @@ tbody tr:nth-child(even){background:var(--soft)}
 </head>
 <body>
 <article>
-<a class="back" href="./">← 回到 uppjs.com</a>
-<h1>使用说明 —— 网站维护手册</h1>
-<p>线上地址：<a href="https://uppjs.com" target="_blank" rel="noopener noreferrer">https://uppjs.com</a> 这份说明写给&quot;完全不想碰命令行&quot;的你，全部操作都是<strong>双击</strong>。</p>
+<a class="back" href="./">← 回到 uppjs.com 首页</a>
+<nav class="topnav">
+  <a href="./">首页</a>
+  <a href="apps.html">软件清单</a>
+  <a href="links.html">网址书签</a>
+  <a class="on" href="help.html">使用说明</a>
+</nav>
+<h1>使用说明</h1>
+<p>线上地址：<a href="https://uppjs.com" target="_blank" rel="noopener noreferrer">https://uppjs.com</a></p>
+<p>这份说明写给<strong>完全不想碰命令行</strong>的人。从头到尾，你只需要会两件事：<strong>改文件</strong>、<strong>双击一个图标</strong>。</p>
 <hr>
-<h2>一、这个网站由什么组成</h2>
-<p>这几个文件各司其职，日常你只会碰第一个：</p>
-<table><thead><tr><th>文件</th><th>作用</th><th>你要动它吗</th></tr></thead><tbody><tr><td><code>README.md</code></td><td><strong>唯一内容源</strong>。所有软件清单都写在这里</td><td>✅ <strong>一般只改这一个</strong></td></tr><tr><td><code>index.html</code></td><td>自动生成的清单主页（搜索、目录、收藏、外观配色）</td><td>❌ <strong>绝对不要手改</strong></td></tr><tr><td><code>hub.html</code></td><td>自动生成的工具台 / 导航页，所有模块的总入口</td><td>❌ 不要手改</td></tr><tr><td><code>build.py</code></td><td>把 README 编译成上面那些页面的脚本</td><td>🔘 加模块、改配色才动</td></tr><tr><td><code>icon-*.png</code></td><td>手机加到主屏时用的图标</td><td>不用动</td></tr><tr><td><code>manifest.webmanifest</code></td><td>让手机能&quot;添加到主屏幕&quot;的配置，自动生成</td><td>不用动</td></tr><tr><td><code>1-编辑内容.command</code></td><td>双击 → 用 VSCode 打开 README</td><td>🔘 双击用，别打开看</td></tr><tr><td><code>2-更新网站.command</code></td><td>双击 → 生成 + 提交 + 推送上线</td><td>🔘 双击用，别打开看</td></tr><tr><td><code>使用说明.md</code> / <code>使用说明.html</code></td><td>就是本文，两个格式各一份</td><td>一般不用动</td></tr><tr><td><code>favicon.ico</code> / <code>favicon.svg</code></td><td>浏览器标签页上的小图标</td><td>不用动</td></tr><tr><td><code>robots.txt</code> / <code>sitemap.xml</code></td><td>给搜索引擎看的，每次更新自动生成</td><td>不用动</td></tr><tr><td><code>.vscode/settings.json</code></td><td>VSCode 的编辑设置（已配好）</td><td>不用动</td></tr><tr><td><code>edgeone.json</code></td><td>给 EdgeOne 看的构建配置（详见第七节）</td><td>❌ 不要删</td></tr></tbody></table>
-<blockquote><strong>唯一要记住的规则：只改 <code>README.md</code>。</strong><br><code>index.html</code>、<code>hub.html</code>、说明书、<code>robots.txt</code>、<code>sitemap.xml</code>、<code>manifest.webmanifest</code> 都是每次自动生成的，手动改了下次会被覆盖。</blockquote>
-<h3>关于说明书有两个版本</h3>
-<table><thead><tr><th>版本</th><th>文件</th><th>什么时候用</th></tr></thead><tbody><tr><td>Markdown</td><td><code>使用说明.md</code></td><td>在 VSCode 里读、改、走 git 版本回溯（这是内容源）</td></tr><tr><td>网页</td><td><code>使用说明.html</code></td><td><strong>双击直接在浏览器里看</strong>，排版清楚，手机上也能看</td></tr></tbody></table>
-<p><strong>两者内容完全一致，都从 <code>使用说明.md</code> 自动生成。</strong> 你只需要维护 md 这一份，双击 <code>2-更新网站.command</code> 时 html 版会跟着一起更新——永远不会不同步。</p>
-<blockquote>📱 <strong>手机上想看？</strong> 直接访问 <strong>https://uppjs.com/help.html</strong>。<br>（<code>使用说明.html</code> 和 <code>help.html</code> 是同一份内容，后者只是为了让网址好输入。）</blockquote>
+<h2>一、30 秒了解这个网站</h2>
+<p>这是一个纯静态的个人清单站，一共四个页面：</p>
+<table><thead><tr><th>页面</th><th>网址</th><th>内容是什么</th><th>改哪个文件</th></tr></thead><tbody><tr><td><strong>首页</strong></td><td>uppjs.com</td><td>导航：软件清单入口 + 各页面入口</td><td>不用改，自动生成</td></tr><tr><td><strong>软件清单</strong></td><td>uppjs.com/apps.html</td><td>软件、硬件、外设</td><td><code>README.md</code></td></tr><tr><td><strong>网址书签</strong></td><td>uppjs.com/links.html</td><td>常用网站和在线工具</td><td><code>links.md</code></td></tr><tr><td><strong>使用说明</strong></td><td>uppjs.com/help.html</td><td>就是本文</td><td><code>使用说明.md</code></td></tr></tbody></table>
+<p>四个页面长一个样：顶上是搜索框，左边是目录，右上角能换配色。搜索是<strong>全站通用</strong>的——打几个字，四个页面里的内容都能立刻查出来。</p>
+<blockquote><strong>一句话原理</strong>：你写 markdown 文件 → 双击一个图标 → 脚本把 markdown 编译成网页 → 自动传到网上。<br>网页文件（<code>.html</code>）永远不要手改，每次都会被覆盖。</blockquote>
 <hr>
 <h2>二、日常只有两个动作</h2>
-<h3>动作 1️⃣ 改内容</h3>
-<p>双击 <strong><code>1-编辑内容.command</code></strong> → 自动用 <strong>VSCode</strong> 打开 <code>README.md</code>。</p>
-<p><strong>具体操作（VSCode，你电脑上已经装了）：</strong></p>
-<table><thead><tr><th>步骤</th><th>做什么</th></tr></thead><tbody><tr><td>1</td><td>双击 <code>1-编辑内容.command</code>，VSCode 启动并打开 <code>README.md</code></td></tr><tr><td>2</td><td>直接在编辑器里改：加软件、改说明、调分类</td></tr><tr><td>3</td><td>想看排版效果：光标放在正文里，按 <code>Cmd + K</code> 松开，再按 <code>V</code> —— 右侧弹出实时预览</td></tr><tr><td>4</td><td>按 <code>Cmd + S</code> 保存（<strong>不保存等于没改</strong>）</td></tr><tr><td>5</td><td>关掉 VSCode，去双击 <code>2-更新网站.command</code></td></tr></tbody></table>
-<p><strong>为什么是 VSCode</strong>：改 Markdown 最顺手——有语法高亮、有实时预览、找东西有 <code>Cmd + F</code>、 还能按 <code>Cmd + Z</code> 一路撤销。项目里已经配好了 <code>.vscode/settings.json</code>： 长行自动换行、中文标点（<code>：</code>「」）不再被误报成&quot;可疑字符&quot;，打开就能用。</p>
-<p><strong>其他软件也能改，但没必要：</strong></p>
-<table><thead><tr><th>软件</th><th>评价</th></tr></thead><tbody><tr><td><strong>Obsidian</strong></td><td>你装了，但它按&quot;库&quot;组织，打开单个文件不顺手；而且这个目录是 git 仓库，混进去会乱</td></tr><tr><td><strong>IDEA</strong></td><td>能改，但它是 Java 开发用的重家伙，启动慢，改 Markdown 属于杀鸡用牛刀</td></tr><tr><td><strong>系统「文本编辑」</strong></td><td>能打开，但没高亮没预览，最后的选择</td></tr></tbody></table>
-<blockquote>说到底 <strong><code>README.md</code> 就是个纯文本文件</strong>，用哪个编辑器都行。<br>只有一条禁忌：<strong>别用 Word / Pages 这类富文本编辑器</strong>打开，它们会往里塞格式代码，把文件搞坏。</blockquote>
-<h3>动作 2️⃣ 更新上线</h3>
-<p>双击 <strong><code>2-更新网站.command</code></strong></p>
-<p>它自动完成四件事：</p>
-<table><thead><tr><th>步骤</th><th>做什么</th></tr></thead><tbody><tr><td>①</td><td>把 README 编译成网页 + 工具台 + 说明书 + 站点地图，并告诉你共多少个分类/条目</td></tr><tr><td>②</td><td>把改动提交到 git</td></tr><tr><td>③</td><td>推送到 GitHub</td></tr><tr><td>④</td><td>打开本地预览，并弹窗告诉你结果</td></tr></tbody></table>
-<p>大约 <strong>1 分钟</strong>后，<a href="https://uppjs.com" target="_blank" rel="noopener noreferrer">https://uppjs.com</a> 就是新内容了。</p>
-<blockquote>⚠️ <strong>改完内容一定要双击第 2 个</strong>，否则线上看到的还是旧内容。</blockquote>
+<h3>动作 1：改内容</h3>
+<p>双击 <strong><code>1-编辑内容.command</code></strong> → 自动用 VSCode 打开 <code>README.md</code>。</p>
+<table><thead><tr><th>步骤</th><th>做什么</th></tr></thead><tbody><tr><td>1</td><td>双击 <code>1-编辑内容.command</code></td></tr><tr><td>2</td><td>在编辑器里改内容：加一条、改说明、调分类</td></tr><tr><td>3</td><td>想看效果：光标放正文里，按 <code>Cmd + K</code> 松开，再按 <code>V</code>，右侧弹出实时预览</td></tr><tr><td>4</td><td>按 <code>Cmd + S</code> 保存。<strong>不保存等于没改</strong></td></tr><tr><td>5</td><td>关掉 VSCode，去双击 <code>2-更新网站.command</code></td></tr></tbody></table>
+<p>想改「网址书签」页，用同一个图标打开，把文件从 <code>README.md</code> 换成 <code>links.md</code> 就行（在 VSCode 左侧文件列表里点一下即可）。</p>
+<p><strong>为什么是 VSCode：</strong> 改 Markdown 最顺手——有语法高亮、有实时预览、<code>Cmd + F</code> 找东西、<code>Cmd + Z</code> 一路撤销。项目里还配好了设置：长行自动换行、中文标点不会被误报成&quot;可疑字符&quot;，打开就能用。</p>
+<blockquote>说到底，内容源就是个<strong>纯文本文件</strong>，用哪个编辑器都行。<br>只有一条禁忌：<strong>别用 Word / Pages 这类富文本编辑器</strong>打开，它们会往里塞格式代码，把文件搞坏。</blockquote>
+<h3>动作 2：更新上线</h3>
+<p>双击 <strong><code>2-更新网站.command</code></strong>，剩下的全自动：</p>
+<table><thead><tr><th>步骤</th><th>自动做什么</th></tr></thead><tbody><tr><td>①</td><td>编译四个页面，并告诉你共多少个分类、多少条</td></tr><tr><td>②</td><td>把改动提交到 git</td></tr><tr><td>③</td><td>推送到 GitHub</td></tr><tr><td>④</td><td>打开本地预览，弹窗告诉你结果</td></tr></tbody></table>
+<p>看到「✓ 完成」就成了，<strong>大约 1 分钟后</strong>线上更新。</p>
+<blockquote><strong>网络不通怎么办？</strong> 推送可能失败，但改动已经安全存在本地，<strong>一个字都不会丢</strong>。等网络好了重新双击 <code>2-更新网站.command</code> 即可。</blockquote>
 <hr>
-<h2>三、README 怎么写（重要）</h2>
-<h3>一句话记住</h3>
-<blockquote><strong><code>- [软件名](链接)：这是干什么用的 ｜ 我的实际感受</code></strong></blockquote>
-<p>冒号<strong>只用中文 <code>：</code></strong>；句尾<strong>不加句号</strong>；<strong>一行一条</strong>。</p>
-<p>写错也不要紧——<code>build.py</code> 会自动纠正下面这些：中英文冒号、逗号、句号当分隔符都能认；句尾的 <code>。</code> 会自动去掉；名称里的括号备注会自动变成标签。<strong>你只要记住上面这一行</strong>。</p>
-<h3>一条条目由三部分构成</h3>
-<table><thead><tr><th>部分</th><th>写什么</th><th>例子</th></tr></thead><tbody><tr><td><strong>① 名称</strong></td><td>软件<strong>官方写法</strong>，大小写照抄，不塞任何别的东西</td><td><code>[Snipaste]</code></td></tr><tr><td><strong>② 链接</strong></td><td>官网或官方下载页</td><td><code>(https://zh.snipaste.com/)</code></td></tr><tr><td><strong>③ 简述</strong></td><td><strong>这东西是干什么的</strong>，一句话，20 字上下</td><td><code>截图贴图工具，按 F1 就能截</code></td></tr><tr><td><strong>④ 点评</strong>（可选）</td><td><strong>你实际用下来的感受 / 坑在哪</strong></td><td><code>用了三年，重装系统必装</code></td></tr></tbody></table>
-<p>③ 和 ④ 之间用<strong>全角竖线 <code>｜</code></strong> 隔开。网页上 ③ 跟在名称后面，④ 会另起一行、带一条竖线，视觉上分开。</p>
-<pre><code>- [Snipaste](https://zh.snipaste.com/)：截图贴图工具，按 F1 就能截｜用了三年，重装系统必装</code></pre>
-<h3>这就是&quot;完美&quot;的答案：把三件事分开写</h3>
-<p>现在很多条目把 <strong>是什么、好不好用、什么版本</strong> 三件事挤在一句里，所以看起来乱。分开就清爽了：</p>
-<table><thead><tr><th>❌ 挤在一起</th><th>✅ 分开写</th></tr></thead><tbody><tr><td><code>[Snipaste](链接)：最好用的截图软件没有之一，比微信截图强多了</code></td><td><code>[Snipaste](链接)：截图贴图工具 ｜ 比微信截图强多了</code></td></tr><tr><td><code>[Bandizip（6.25 版本）](链接)：免费最后一版，界面舒服无广告</code></td><td><code>[Bandizip](链接)：解压工具（6.25 版本）｜ 免费最后一版，界面舒服无广告</code></td></tr></tbody></table>
-<p><strong>判断标准</strong>：读名称能知道&quot;这是啥软件&quot;，读简述能知道&quot;它是干这个的&quot;，读点评能知道&quot;你用下来的真实评价&quot;。</p>
-<blockquote>💡 <strong>点评是这个清单最值钱的部分</strong>。网上的软件介绍到处都是，但&quot;文件一多就卡&quot;&quot;盗版太多，还在找笔中&quot;这种话只有你能写。<strong>这是你区别于软件测评号的地方</strong>，值得每条都补一句。</blockquote>
-<h3>标签：让名称保持干净</h3>
-<p><strong>不要把版本号、属性、评价写进名称里</strong>。用括号写在名称后面，网页会自动变成彩色小标签：</p>
-<table><thead><tr><th>你写</th><th>网页上变成</th></tr></thead><tbody><tr><td><code>[☆ WPS v11.8.2]</code> 或 <code>[WPS（荐）]</code></td><td>橙色 <strong>荐</strong> 徽章</td></tr><tr><td><code>[Bandizip（开源）]</code></td><td>绿色「开源」标签</td></tr><tr><td><code>[oCam(v7bf)]</code></td><td>灰色 <code>v7bf</code> 版本标签</td></tr><tr><td><code>[Potplayer（Win）]</code></td><td>蓝色「Win」平台标签</td></tr></tbody></table>
-<p><strong>自动识别规则</strong>：名称里 <strong>10 个字以内的括号内容</strong>会被抽成标签；超过 10 字（比如 <code>（Loop loop habit track）</code>）会原样留在名称里。</p>
-<p><strong>推荐标记两种写法都行</strong>：<code>☆</code> 放名称最前面，或 <code>（荐）</code> 放名称最后面——效果一样。</p>
-<p><strong>能识别的属性词</strong>：开源、免费、付费、绿色版、便携版、单文件、汉化、官方、破解、无广告、网页版、客户端、跨平台 <strong>能识别的平台词</strong>：Win、Windows、Mac、macOS、iPhone、iOS、iPad、Android、安卓、手机、浏览器、Chrome、Edge、Firefox、PC</p>
-<h3>结构：分类 / 分组 / 条目</h3>
-<table><thead><tr><th>你写的内容</th><th>网页上会变成</th></tr></thead><tbody><tr><td><code>## 手机软件</code></td><td>一个<strong>分类</strong>（两个井号，左侧导航多一项）</td></tr><tr><td><code>- 装机必备：</code> 单独一行</td><td>一个可<strong>折叠的分组</strong>（结尾带中文冒号）</td></tr><tr><td>分组下面<strong>缩进 2 空格</strong>再写条目</td><td>收进该分组的<strong>条目</strong></td></tr><tr><td>再缩进 2 空格（共 4 空格）</td><td>更深一层（子条目）</td></tr><tr><td><code>~~[旧软件](链接)：不好用了~~</code></td><td>标成<strong>已废除</strong>，灰显 + 默认折叠</td></tr><tr><td><code>&lt;!-- 备注 --&gt;</code></td><td><strong>完全忽略</strong>，网页上不出现</td></tr></tbody></table>
-<pre><code>## PC 软件
+<h2>三、内容怎么写（这一节最要紧）</h2>
+<p>打开 <code>README.md</code>，满屏 markdown。别怕，<strong>真正会用到的写法只有四种</strong>：</p>
+<table><thead><tr><th>写法</th><th>长什么样</th><th>页面上是什么</th></tr></thead><tbody><tr><td>大分类</td><td><code>## Mac 软件</code></td><td>一级分类，出现在左侧目录里</td></tr><tr><td>小分组</td><td><code>- 装机必备：</code>（冒号结尾）</td><td>可折叠的分组标题</td></tr><tr><td>一条条目</td><td><code>- [名称](网址)：一句话说明</code></td><td>一个条目，能点开链接</td></tr><tr><td>补充一行</td><td>再缩进一级的 <code>- 小字说明</code></td><td>挂在条目下面的小字</td></tr></tbody></table>
+<p>就这四种，<strong>没有别的规则</strong>。</p>
+<h3>一条条目怎么拆</h3>
+<pre><code>- [IINA](https://iina.io/)：Mac 上最好用的免费播放器｜就是启动稍慢
+  └─ 名称 ─┘ └── 网址 ──┘ └──── 说明 ────┘ └─ 个人点评 ─┘</code></pre>
+<table><thead><tr><th>部分</th><th>必须吗</th><th>说明</th></tr></thead><tbody><tr><td>名称</td><td><strong>必须</strong></td><td>中括号里的字，页面上显示的名字</td></tr><tr><td>网址</td><td>不必须</td><td>圆括号里。<strong>不写也行</strong>，只显示名字，一样能搜到</td></tr><tr><td>说明</td><td>不必须</td><td>冒号后面第一段，跟名字同一行显示</td></tr><tr><td>个人点评</td><td>不必须</td><td>用全角竖线 <code>｜</code> 隔开的第二段，单独一行、灰色小字</td></tr><tr><td>补充小字</td><td>不必须</td><td>再缩进一级写，挂在条目下面</td></tr></tbody></table>
+<p>页面上所有数字（目录里的条数、页脚的总数）都是脚本自己数出来的，你不用管。</p>
+<blockquote>💡 <strong>点评是这个清单最值钱的部分。</strong> 网上软件介绍到处都是，但&quot;文件一多就卡&quot;&quot;盗版太多，还在找笔中&quot;这种话只有你能写。这是区别于软件测评号的地方，值得每条都补一句。</blockquote>
+<h3>想干什么，就怎么写</h3>
+<table><thead><tr><th>想干什么</th><th>怎么写</th></tr></thead><tbody><tr><td>加一条软件</td><td>复制一整行 <code>- [名字](网址)：说明</code>，改掉内容</td></tr><tr><td>加一个分组</td><td>写 <code>- 分组名：</code>，下面缩进写条目</td></tr><tr><td>只记个名字，没有网址</td><td><code>- 小米巨能写。</code> 直接写，不加括号</td></tr><tr><td>一条挂好几行小字</td><td>再缩进一级继续写 <code>- 小字</code></td></tr><tr><td>标一个&quot;推荐&quot;</td><td>名称前加 <code>☆</code>，页面上会出现一个「荐」徽章</td></tr><tr><td>标记一个已弃用</td><td>用 <code>~~删除线~~</code> 包起来，页面上变灰并加删除线</td></tr><tr><td>想写给自己看的备注</td><td>用 <code>&lt;!-- 备注 --&gt;</code>，网页上完全不出现</td></tr></tbody></table>
+<h3>换个说法也能认，但建议统一</h3>
+<p>脚本对下面这些写法<strong>全都认</strong>，但混着用页面会看起来不齐整，建议统一成一种：</p>
+<table><thead><tr><th>你可能会写</th><th>推荐写成</th></tr></thead><tbody><tr><td><code>- 名字，一句话说明</code></td><td><code>- 名字：一句话说明</code></td></tr><tr><td><code>- [名字](网址),说明</code></td><td><code>- [名字](网址)：说明</code></td></tr><tr><td><code>- 名字 。 说明</code></td><td><code>- 名字：说明</code></td></tr><tr><td>名称里塞 <code>（6.25 版本）</code> <code>（开源）</code></td><td>照写没问题，会原样留在名称里</td></tr></tbody></table>
+<p><strong>记住一句话：名称和说明之间，用中文冒号 <code>：</code> 隔开。</strong></p>
+<p>顺带一提，说明末尾要不要加句号都行——加了脚本会自动去掉，页面上更齐整。</p>
+<h3>四个最容易踩的坑</h3>
+<table><thead><tr><th>坑</th><th>会怎样</th><th>怎么避免</th></tr></thead><tbody><tr><td>用 Tab 键缩进</td><td>层级会乱</td><td><strong>只用空格</strong>，一层 2 个或 4 个都行，但要一致</td></tr><tr><td>只写 <code>- 分组名：</code>，下面没有缩进内容</td><td>页面上就是一行孤零零的字</td><td>分组下面至少放一条缩进的条目</td></tr><tr><td>一个井号 <code># 标题</code></td><td>只认<strong>两个井号</strong> <code>##</code>，一个井号会被当普通文字</td><td>分类一律用 <code>## </code></td></tr><tr><td>一条里塞两个链接</td><td>第二个会跑进说明里</td><td>拆成两条最清楚</td></tr></tbody></table>
+<h3>加一条软件的完整例子</h3>
+<pre><code>## Mac 软件
 
-- 截图工具：
-  - [Snipaste](https://zh.snipaste.com/)：截图贴图工具｜重装必装
-  - [ShareX](https://getsharex.com/)：功能最多，但设置项太多</code></pre>
-<blockquote>⚠️ <strong>缩进统一用 2 个空格</strong>。现在 README 里有 2 格、4 格混用的情况，虽然脚本能正确解析，但自己看着容易乱。</blockquote>
-<h3>已经统一掉的写法（你以前写得不一致的地方）</h3>
-<table><thead><tr><th>以前混杂的写法</th><th>现在的统一标准</th></tr></thead><tbody><tr><td><code>：</code> / <code>:</code> / <code>，</code> / 直接接字</td><td><strong>一律用中文冒号 <code>：</code></strong>（脚本也认其他，但建议统一）</td></tr><tr><td>句尾有时 <code>。</code> 有时没</td><td><strong>一律不加句号</strong>（加了脚本也会去掉）</td></tr><tr><td><code>☆ WPS</code> 和 <code>FastStone（荐）</code></td><td><strong>两种都行</strong>，都渲染成「荐」徽章</td></tr><tr><td>名称里塞 <code>（6.25 版本）</code><code>（开源）</code></td><td><strong>可以继续写</strong>，网页自动抽成标签</td></tr><tr><td>缩进 2 格 / 4 格混用</td><td><strong>统一 2 格</strong></td></tr><tr><td>空的 <code>-</code> 行</td><td>已清理，脚本也会忽略</td></tr></tbody></table>
-<h3>几个容易踩的小坑</h3>
-<table><thead><tr><th>别这么写</th><th>为什么</th></tr></thead><tbody><tr><td>用 <code># 标题</code>（一个井号）</td><td>只认 <strong>两个井号</strong> <code>##</code>，一个井号会被当成普通文字</td></tr><tr><td>一条里塞两个链接（<code>[A](x)，[B](y)：说明</code>）</td><td>网页上 B 会跑到说明文字里去。<strong>拆成两条</strong>最清楚</td></tr><tr><td>手动去改 <code>index.html</code></td><td>下次更新会被覆盖，白改</td></tr><tr><td>分类名重复</td><td>会产生两个同名分类，导航里看着乱</td></tr><tr><td>分组标题不带冒号（<code>- 其他工具</code>）</td><td>仍能识别成组，但<strong>建议补上 <code>：</code></strong>，更规范</td></tr></tbody></table>
-<h3>元数据：给重点软件多写几行（可选）</h3>
-<p>普通的子条目是「附注」。但如果你用下面这 8 个词开头，网页会把它认成<strong>结构化字段</strong>，单独显示成一行小字，还能参与筛选和搜索。</p>
-<table><thead><tr><th>键</th><th>值写什么</th><th>页面上的效果</th></tr></thead><tbody><tr><td><code>免费</code></td><td><code>是</code> / <code>否</code></td><td>多出 <code>data-free</code> 标记，右上角筛选「免费的」能过滤到</td></tr><tr><td><code>开源</code></td><td><code>是</code> / <code>否</code></td><td>同上，「开源的」</td></tr><tr><td><code>平台</code></td><td><code>Win / macOS / Linux</code>（斜杠、顿号都行）</td><td>单独显示一行平台</td></tr><tr><td><code>替代</code></td><td><code>VLC / MPV</code></td><td>A 不行时换什么，也会进搜索索引</td></tr><tr><td><code>坑</code></td><td>一句话</td><td>用警示色显示，<strong>最有用的一栏</strong></td></tr><tr><td><code>验证</code></td><td><code>2026-10</code></td><td>最后一次确认它还能用（清单最大的敌人是过期）</td></tr><tr><td><code>官网</code></td><td>网址</td><td>需要单独给出网址时用</td></tr><tr><td><code>价格</code></td><td><code>订阅制，有免费额度</code></td><td>付费软件写清楚，免得误导</td></tr></tbody></table>
-<p>写法就是普通子条目，<strong>缩进比父条目多 2 格</strong>：</p>
-<pre><code>- 本地跑模型：
-    - [Ollama](https://ollama.com/)：命令行一行就能拉起本地模型。
-        - 免费：是
-        - 开源：是
-        - 平台：Win / macOS / Linux
-        - 坑：模型文件很占硬盘，动手前先看剩余空间
-        - 验证：2026-10</code></pre>
-<p>三条注意：</p>
-<ol><li><strong>不写完全没问题。</strong> 没写元数据的条目一切照旧，可以只给重点软件写。</li><li><strong>键名必须是上面 8 个之一</strong>，换成别的词就会被当成普通附注。</li><li><strong>键和值之间要用冒号</strong>（<code>免费：是</code>），全角半角都认。</li></ol>
+- 装机必备：
+    - [IINA](https://iina.io/)：万能的视频播放器，免费开源。
+        - 支持几乎所有格式，不用额外装解码器。
+    - ☆ [Rectangle](https://rectangleapp.com/)：免费的窗口管理，快捷键顺手。
+- 工具类：
+    - [Mounty](https://mounty.app/)：让 Mac 能写入 NTFS 格式的 U 盘。</code></pre>
+<p>保存后双击 <code>2-更新网站.command</code>，一分钟后就出现在网上。</p>
+<h3>「网址书签」页怎么写</h3>
+<p><code>links.md</code> 的写法<strong>和 README 一模一样</strong>，只是分类和条目换成了网站。想加一个常用网站，找到对应分类（比如 <code>## 在线工具</code>），在下面加一行：</p>
+<pre><code>- [PDF24](https://tools.pdf24.org/zh/)：在线处理 PDF，免费全能，不用装软件。</code></pre>
+<p>书签页排版更紧凑，所以<strong>说明写得越短越好</strong>，一句话说清是干什么用的就行。写完同一个脚本一起编译，不用额外操作。</p>
 <hr>
-<h2>四、首次使用：macOS 的安全提示</h2>
-<p>第一次双击 <code>.command</code> 文件，macOS 可能弹这个：</p>
-<blockquote>&quot;无法打开，因为它来自身份不明的开发者&quot;</blockquote>
-<p><strong>解决（只需做一次）：</strong></p>
-<ol><li>在文件上<strong>右键</strong>（或按住 Control 点一下）</li><li>选「<strong>打开</strong>」</li><li>弹出的窗口里再点一次「<strong>打开</strong>」</li></ol>
-<p>之后就能正常双击了。</p>
-<p>如果双击后终端窗口一闪就没了，说明执行出错。可以在<strong>终端</strong>里运行一次看详细信息：</p>
+<h2>四、文件都是干什么的</h2>
+<p>日常你只会碰最上面两行，其余全是自动生成的，<strong>不要手动改</strong>：</p>
+<table><thead><tr><th>文件</th><th>作用</th><th>你要动它吗</th></tr></thead><tbody><tr><td><code>README.md</code></td><td>软件清单的内容源</td><td>✅ 常改</td></tr><tr><td><code>links.md</code></td><td>网址书签的内容源</td><td>✅ 常改</td></tr><tr><td><code>使用说明.md</code></td><td>本文的内容源</td><td>🔘 偶尔改</td></tr><tr><td><code>index.html</code> / <code>apps.html</code> / <code>links.html</code></td><td>三个网页，自动生成</td><td>❌ 手改会被覆盖</td></tr><tr><td><code>使用说明.html</code> / <code>help.html</code></td><td>说明书的网页版，同一份内容两个名字</td><td>❌ 自动生成</td></tr><tr><td><code>build.py</code></td><td>编译脚本</td><td>🔘 加新页面、改配色才动</td></tr><tr><td><code>1-编辑内容.command</code></td><td>双击 → 打开内容源</td><td>🔘 双击用</td></tr><tr><td><code>2-更新网站.command</code></td><td>双击 → 编译 + 上线</td><td>🔘 双击用</td></tr><tr><td><code>favicon.*</code> / <code>icon-*.png</code></td><td>网站图标</td><td>不用动</td></tr><tr><td><code>manifest.webmanifest</code></td><td>手机加到主屏的配置，自动生成</td><td>不用动</td></tr><tr><td><code>robots.txt</code> / <code>sitemap.xml</code></td><td>给搜索引擎看的，自动生成</td><td>不用动</td></tr><tr><td><code>edgeone.json</code></td><td>托管平台的构建配置</td><td>❌ 不要删</td></tr><tr><td><code>docs/</code></td><td>两份进阶文档（备案、升级路线）</td><td>想看时再看</td></tr></tbody></table>
+<blockquote><strong>唯一要记住的规则：只改那三个 <code>.md</code> 文件。</strong><br>手改 <code>.html</code> 下次更新会被覆盖，白改。</blockquote>
+<h3>说明书为什么有三个名字</h3>
+<table><thead><tr><th>文件</th><th>什么时候用</th></tr></thead><tbody><tr><td><code>使用说明.md</code></td><td>在 VSCode 里读和改（这是内容源）</td></tr><tr><td><code>使用说明.html</code></td><td>双击直接在浏览器看，排版好</td></tr><tr><td><code>help.html</code></td><td>和上面那份内容完全一样，只是名字短，<strong>方便在手机上输网址</strong>（uppjs.com/help.html）</td></tr></tbody></table>
+<p>你<strong>只维护 md 那一份</strong>，两份 html 在每次更新时自动生成，永远不会不同步。</p>
+<hr>
+<h2>五、页面上的按钮都是干什么的</h2>
+<h3>右上角「外观」</h3>
+<p>点开是一个小面板，四个选项：</p>
+<table><thead><tr><th>选项</th><th>作用</th></tr></thead><tbody><tr><td><strong>明暗</strong></td><td>自动 / 浅色 / 深色。选「自动」就跟系统走</td></tr><tr><td><strong>底色</strong></td><td>8 种预设底色，点一下就换</td></tr><tr><td><strong>自定义…</strong></td><td>弹系统取色器，自己挑任意颜色</td></tr><tr><td><strong>恢复默认</strong></td><td>一键回到出厂配色</td></tr></tbody></table>
+<p>选完底色后，文字颜色会<strong>自动适配</strong>（浅底自动用深字，深底自动用浅字），不用担心看不清。实测标题对比度 ≥12:1、正文 ≥4.9:1，都在无障碍标准线以上。</p>
+<blockquote>设置只存在<strong>你自己这台浏览器</strong>里。换设备、换浏览器都是默认配色，也不影响别人，更不上传任何东西。</blockquote>
+<p><strong>想加一种底色或改预设色：</strong> 打开 <code>build.py</code> 搜 <code>presets</code>，会看到一个数组，一行一个颜色：</p>
+<pre><code>{name: &#x27;暖阳&#x27;, bg: &#x27;#f7efd9&#x27;},</code></pre>
+<p><code>name</code> 是鼠标悬停时显示的名字，<code>bg</code> 是底色。<strong>加一行多一个色块，删一行少一个</strong>（面板一行排 4 个，建议保持 4 的倍数最整齐）。</p>
+<h3>顶栏的其他东西</h3>
+<table><thead><tr><th>元素</th><th>作用</th></tr></thead><tbody><tr><td><strong>搜索框</strong></td><td>全站内容都能搜。<code>/</code> 聚焦、<code>↑↓</code> 选、<code>Enter</code> 打开、<code>Esc</code> 清空</td></tr><tr><td><strong>筛选项</strong></td><td>「有下载链接的」只看能直接点开的；「我推荐的」只看标了 <code>☆</code> 的</td></tr><tr><td><strong>折叠 / 全部展开</strong></td><td>一键收起或展开所有分组</td></tr><tr><td><strong>首页</strong></td><td>回到导航首页</td></tr></tbody></table>
+<h3>搜索的几个小细节</h3>
+<ul><li>搜索时所有分组自动展开，命中的留下，没命中的自动收起。</li><li>分组标题右边的数字变成 <strong>「命中数 / 总数」</strong>，一眼看出这一类里命中几条。</li><li><strong>大小写无所谓</strong>，中文英文都能搜。</li><li>试试搜这几个词感受一下：<code>截图</code>、<code>下载</code>、<code>pdf</code>、<code>heic</code>。</li></ul>
+<h3>从首页或网址直接跳到某个筛选</h3>
+<p>首页软件清单卡片上有两个按钮，点进去就是筛好的结果。这两个网址可以直接收藏，以后一键直达：</p>
+<table><thead><tr><th>按钮</th><th>网址</th><th>效果</th></tr></thead><tbody><tr><td>★ 我推荐的</td><td><code>uppjs.com/apps.html?view=star</code></td><td>只显示标了 <code>☆</code> 的</td></tr><tr><td>有下载链接的</td><td><code>uppjs.com/apps.html?view=link</code></td><td>只显示能直接点开的</td></tr></tbody></table>
+<hr>
+<h2>六、想在手机上看 / 加到主屏</h2>
+<table><thead><tr><th>方式</th><th>怎么做</th></tr></thead><tbody><tr><td>手机浏览器看</td><td>直接输 <strong>uppjs.com</strong>，四个页面都能点</td></tr><tr><td>加到主屏（像 App 一样打开）</td><td>iPhone：Safari 打开 → 分享 → 「添加到主屏幕」；安卓：Chrome → 右上角菜单 → 「添加到主屏幕」</td></tr></tbody></table>
+<p>加到主屏后是全屏打开，没有地址栏，看着就像个 App。<strong>故意没做离线缓存</strong>——否则你改完内容，手机上迟迟看不到新的。</p>
+<hr>
+<h2>七、常见问题</h2>
+<table><thead><tr><th>问题</th><th>原因 / 怎么办</th></tr></thead><tbody><tr><td>双击 <code>.command</code> 弹出安全警告</td><td>首次运行 macOS 会拦。右键点文件 →「打开」→ 再点「打开」，只需一次。详见第八节</td></tr><tr><td>双击了，网页没变</td><td>① 检查有没有按 <code>Cmd + S</code> 保存；② 线上更新要等 1 分钟，多刷几次；③ 用无痕窗口排除缓存</td></tr><tr><td>某个条目没显示</td><td>九成是缩进错了。<strong>改用空格</strong>，同级条目的缩进必须一模一样</td></tr><tr><td>页面上某行只剩一个名字，后面空着</td><td>那是只写了 <code>- 名字：</code> 没写说明，把冒号后面的内容补上</td></tr><tr><td>想撤回改动</td><td>VSCode 里按 <code>Cmd + Z</code>。已经更新过，就去 GitHub 网站找历史版本复制回来</td></tr><tr><td>推送失败</td><td>网络问题。改动已存本地，网络好了重新双击 <code>2-更新网站.command</code>，不会丢</td></tr><tr><td>编译报错（终端红色字）</td><td>大概率是 <code>README.md</code> 某一行格式写坏了。终端会指出行号，去看那一行</td></tr><tr><td>页脚或目录的数字看着不对</td><td>数字都是自动数出来的。八成是有条目被解析成了分组，检查那个位置的缩进和冒号</td></tr><tr><td>换了台电脑怎么办</td><td>把整个文件夹拷过去，装好 Python 3（终端运行 <code>xcode-select --install</code>），双击就能用</td></tr></tbody></table>
+<hr>
+<h2>八、首次在 macOS 上运行的安全提示</h2>
+<p><code>.command</code> 文件本质是可执行脚本，macOS 第一次会拦下来：</p>
+<table><thead><tr><th>现象</th><th>处理</th></tr></thead><tbody><tr><td>提示「无法打开，因为来自身份不明的开发者」</td><td><strong>右键点文件 → 打开 → 在弹窗里再点「打开」</strong>。只需做一次</td></tr><tr><td>提示「已损坏，无法打开」</td><td>打开「终端」，输入 <code>xattr -cr </code> （末尾有个空格），把整个文件夹拖进去，回车</td></tr></tbody></table>
+<p><strong>为什么会有这个提示？</strong> 因为这两个脚本没有苹果签名。它们做的事很简单：一个调 VSCode 打开文件，一个跑 <code>build.py</code> 然后 <code>git push</code>。你可以右键 →「显示包内容」，用文本编辑器打开检查，不用担心。</p>
+<p>如果双击后终端窗口一闪就没了，说明执行出错。可以在<strong>终端</strong>里手动跑一次，看详细信息：</p>
 <pre><code>cd ~/IdeaProjects/js-ping.github.io &amp;&amp; ./2-更新网站.command</code></pre>
 <hr>
-<h2>五、访客能用到的功能（外观 / 收藏 / 导出 / 工具台）</h2>
-<p>右上角的「外观」按钮，<strong>每个访客都能自己调</strong>。设置只存在他自己的浏览器里，不影响别人，也不上传任何东西。</p>
-<h3>明暗三档</h3>
-<table><thead><tr><th>选项</th><th>效果</th></tr></thead><tbody><tr><td>跟随系统</td><td>系统深色就深色，否则浅色（默认）</td></tr><tr><td>浅色</td><td>强制浅色</td></tr><tr><td>深色</td><td>强制深色</td></tr></tbody></table>
-<h3>背景色</h3>
-<p>面板下半部分是色块，点一下整站换色。目前 8 个预设：</p>
-<table><thead><tr><th>色块</th><th>底色</th><th>适合</th></tr></thead><tbody><tr><td>默认（斜切双色）</td><td>跟明暗走</td><td>什么都不折腾</td></tr><tr><td>云白</td><td><code>#ffffff</code></td><td>最干净的纯白</td></tr><tr><td>暖阳</td><td><code>#f7efd9</code></td><td>米黄，长时间看不累</td></tr><tr><td>护眼</td><td><code>#e6f1e1</code></td><td>淡绿</td></tr><tr><td>石青</td><td><code>#e5eef8</code></td><td>冷调浅蓝</td></tr><tr><td>藕荷</td><td><code>#f8eaef</code></td><td>淡粉灰</td></tr><tr><td>午夜蓝</td><td><code>#182233</code></td><td>深色，比纯黑柔和</td></tr><tr><td>纯黑</td><td><code>#000000</code></td><td>OLED 屏省电</td></tr></tbody></table>
-<p>点「自定义…」还能用系统取色器挑任意颜色；「恢复默认」一键回到跟随系统 + 默认色。</p>
-<blockquote><strong>不用担心看不清。</strong> 选定底色后，面板色、边框色、正文色、次要文字色都是<strong>从这个底色按对比度算出来的</strong>：深色底自动配浅字，浅色底自动配深字。实测标题对比度 ≥12:1，正文 ≥4.9:1，辅助文字 ≥3.2:1，都在无障碍标准线以上。</blockquote>
-<h3>想加颜色 / 改颜色</h3>
-<p>打开 <code>build.py</code>，搜索 <code>presets</code>，找到一个数组，一行一个颜色：</p>
-<pre><code>{name: &#x27;暖阳&#x27;, bg: &#x27;#f7efd9&#x27;},</code></pre>
-<ul><li><code>name</code>：鼠标悬停时显示的名字</li><li><code>bg</code>：底色，十六进制颜色码</li></ul>
-<p><strong>加一行就多一个色块，删一行就少一个</strong>（面板一行排 4 个，建议保持 4 的倍数，排版最整齐）。</p>
-<p>想改「浅色 / 深色」这两个默认基准色，改 <code>build.py</code> 里的 <code>THEME_CSS</code>（这个常量被清单页和工具台共用，改一次两边都变）。</p>
-<h3>收藏、已装与导出</h3>
-<p>访客把鼠标移到任意条目上，名称右边会冒出 <strong>☆ 收藏</strong> 和 <strong>☐ 标记为已装</strong> 两个小按钮（手机上直接显示）。点一下变实心，再点取消。</p>
-<p>右上角 <strong>「我的」</strong> 按钮里能看到这两个列表：</p>
-<table><thead><tr><th>按钮</th><th>作用</th></tr></thead><tbody><tr><td>收藏 / 已装</td><td>切换看哪个列表；点列表里的条目会直接跳到正文对应位置</td></tr><tr><td>导出 CSV</td><td>Excel、Numbers 能直接打开</td></tr><tr><td>导出 Markdown</td><td>能贴回 README，或者发给别人</td></tr><tr><td>清空</td><td>一键清掉全部标记（会二次确认）</td></tr></tbody></table>
-<blockquote><strong>记录只存在访客自己的浏览器里</strong>（localStorage），换设备或清缓存就没了。这是刻意设计：不需要账号、不上传任何数据、不用买服务器。</blockquote>
-<h3>工具台（导航页）</h3>
-<p>顶栏右边的 <strong>「工具台」</strong> 打开 <code>hub.html</code>，是一张总入口页，把所有模块列在一起：</p>
-<table><thead><tr><th>分区</th><th>内容</th></tr></thead><tbody><tr><td>核心</td><td>软件清单、使用说明、外观配色、线上主页</td></tr><tr><td>我的</td><td>收藏、已装、只看免费、只看开源、导出</td></tr><tr><td>内容板块</td><td>文章归档、书单影单、备考资料、网址书签（规划中占位）</td></tr><tr><td>功能</td><td>拼音搜索、条目对比、评论投稿、失效链接体检（规划中占位）</td></tr></tbody></table>
-<p><strong>想加新模块？</strong> 打开 <code>build.py</code>，搜索 <code>HUB_MODULES</code>，往数组里加一行就行：</p>
-<pre><code>dict(t=&quot;文章归档&quot;, ico=&quot;▦&quot;, href=&quot;posts.html&quot;, st=&quot;live&quot;,
-     d=&quot;公众号写过的长文按主题归档。&quot;),</code></pre>
-<ul><li><code>t</code> 标题 / <code>ico</code> 图标字 / <code>href</code> 链接 / <code>d</code> 一句话说明</li><li><code>st=&quot;live&quot;</code> 可点击；<code>st=&quot;plan&quot;</code> 显示灰色「规划中」占位，不可点</li><li>加一行就多一张卡片，删一行就少一张</li></ul>
-<h3>直接跳到某个筛选</h3>
-<p>收藏、已装这些入口支持用网址参数直达，方便做外链或加书签：</p>
-<table><thead><tr><th>网址</th><th>效果</th></tr></thead><tbody><tr><td><code>uppjs.com/?view=fav</code></td><td>打开并只看收藏</td></tr><tr><td><code>uppjs.com/?view=ins</code></td><td>只看已装</td></tr><tr><td><code>uppjs.com/?view=free</code></td><td>只看免费的</td></tr><tr><td><code>uppjs.com/?view=oss</code></td><td>只看开源的</td></tr></tbody></table>
-<h3>装到手机主屏</h3>
-<p>本站有 PWA 配置（<code>manifest.webmanifest</code> + 图标）。手机上打开 <code>uppjs.com</code>，Safari 里点「分享 → 添加到主屏幕」，就能像 App 一样全屏打开。</p>
-<blockquote>故意<strong>没做</strong> Service Worker 离线缓存：那会让改完的内容迟迟不更新，对「改 README 就该立刻生效」的站来说得不偿失。</blockquote>
+<h2>九、备份与恢复</h2>
+<table><thead><tr><th>情况</th><th>怎么办</th></tr></thead><tbody><tr><td>想找回旧版本内容</td><td>每次更新都在 git 里有记录。GitHub 仓库 → 点文件 →「History」</td></tr><tr><td>想手动备份</td><td>把整个文件夹复制一份到别处。<strong>真正要紧的只有三个 <code>.md</code> 文件</strong></td></tr><tr><td>电脑坏了</td><td>内容都在 GitHub 上，换台电脑 <code>git clone</code> 下来就能继续</td></tr><tr><td>想恢复到某个历史版本</td><td>在 GitHub 上找到那一版，复制内容粘回 <code>README.md</code>，重新更新一次</td></tr></tbody></table>
 <hr>
-<h2>六、常见问题</h2>
-<p><strong>Q：我改了 README，但网页没变？</strong> A：九成是忘了双击 <code>2-更新网站.command</code>。另外 EdgeOne 部署有约 1 分钟延迟，稍等一下；浏览器缓存可以按 <code>Cmd+Shift+R</code> 强制刷新。</p>
-<p><strong>Q：双击后提示「推送失败」？</strong> A：绝大多数是网络问题。你的改动<strong>已经安全保存在本地</strong>，网络恢复后重新双击一次即可，不会丢东西。</p>
-<p><strong>Q：能直接在手机上改吗？</strong> A：可以。在 GitHub 网页上直接编辑 <code>README.md</code> 并提交，然后……<strong>需要在电脑上双击一次 <code>2-更新网站.command</code></strong>，因为 <code>index.html</code> 得在本地生成。如果不方便用电脑，见下面「进阶」。</p>
-<p><strong>Q：想改网站标题、栏目结构？</strong> A：那些不在 README 里，在 <code>build.py</code> 里。用编辑器打开，找到最上面一大段 HTML 模板改。改坏了不用怕，git 里都有历史，随时能退回去。</p>
-<p><strong>Q：想调背景色，或者加一个新的预设配色？</strong> A：访客自己就能调——右上角「外观」按钮，明暗 + 8 个底色 + 自定义取色器。要增删预设色块，改 <code>build.py</code> 里的 <code>presets</code> 数组，见<strong>第五节</strong>。</p>
-<p><strong>Q：我在自己电脑上点了收藏，换台电脑怎么没了？</strong> A：正常。收藏和已装只存在那台设备的浏览器里（localStorage），不联网、不上传。换设备请用「我的 → 导出 Markdown」，把清单带走。</p>
-<p><strong>Q：想给某个软件加「坑」和「替代」这类信息？</strong> A：在它下面缩进 2 格写一行 <code>- 坑：xxx</code> 就行，8 个可用键见<strong>第三节</strong>的「元数据」。不写也完全没问题。</p>
-<p><strong>Q：工具台里那些灰色的「规划中」卡片，怎么变成能点的？</strong> A：两种做法。<strong>已有页面</strong>的（比如文章归档做出来后）→ 改 <code>build.py</code> 里 <code>HUB_MODULES</code> 那一行，把 <code>st=&quot;plan&quot;</code> 改成 <code>st=&quot;live&quot;</code>、补上 <code>href</code>，它就变亮了。<strong>还没做的功能</strong>（拼音搜索、条目对比）代码里已经留了接口位置，做的时候再填。</p>
-<p><strong>Q：手机上怎么用最方便？</strong> A：Safari 打开 <code>uppjs.com</code> → 分享 → 添加到主屏幕。之后点图标就能全屏打开，像个 App。清单页右上角「工具台」也能当入口。</p>
+<h2>十、数据安全与免责</h2>
+<p><strong>关于隐私，这个网站的做法：</strong></p>
+<ul><li>纯静态页面：<strong>没有后端、没有数据库、没有统计脚本、不请求任何第三方 CDN</strong>。</li><li>不收集任何访问数据，不埋点，不上报。</li><li>本地存储只有一项：<strong>你的外观偏好</strong>，存在你自己的浏览器里，不会上传。</li><li>页面上的链接指向第三方站点，点过去之后的行为不受本站控制。</li></ul>
+<p><strong>免责声明：</strong></p>
+<ul><li>清单是个人使用记录，链接来自公开网络，<strong>不保证长期有效</strong>，也不提供任何软件下载托管。</li><li>软件版权归各自厂商所有。清单里出现&quot;破解&quot;&quot;激活&quot;等字样只代表记录，不代表推荐，<strong>请通过正规渠道购买授权</strong>。</li><li>按本说明操作造成的任何后果，由操作者自行承担。</li></ul>
 <hr>
-<h2>七、进阶：换托管商 / 双托管</h2>
-<p>站点同时支持挂在 <strong>GitHub Pages</strong> 和 <strong>腾讯云 EdgeOne Pages</strong> 上，两套互不干扰：</p>
-<table><thead><tr><th>托管商</th><th>域名</th><th>说明</th></tr></thead><tbody><tr><td>GitHub Pages</td><td>uppjs.com（当前）</td><td>免费，国内访问偏慢，改动自动生效</td></tr><tr><td>EdgeOne Pages</td><td>uppjs.com（切换后）</td><td>免费，国内更稳，改动自动生效</td></tr></tbody></table>
-<h3>关键文件：<code>edgeone.json</code></h3>
-<p>仓库根目录的 <code>edgeone.json</code> 是给 EdgeOne 看的构建配置，<strong>它会覆盖控制台里填的构建命令和输出目录</strong>。</p>
-<pre><code>{
-  &quot;installCommand&quot;: &quot;exit 0&quot;,
-  &quot;buildCommand&quot;: &quot;mkdir -p public &amp;&amp; cp *.html favicon.ico favicon.svg robots.txt sitemap.xml public/&quot;,
-  &quot;outputDirectory&quot;: &quot;./public&quot;,
-  &quot;headers&quot;: [
-    {
-      &quot;source&quot;: &quot;/*&quot;,
-      &quot;headers&quot;: [
-        { &quot;key&quot;: &quot;Strict-Transport-Security&quot;, &quot;value&quot;: &quot;max-age=604800&quot; },
-        { &quot;key&quot;: &quot;X-Content-Type-Options&quot;, &quot;value&quot;: &quot;nosniff&quot; },
-        { &quot;key&quot;: &quot;Referrer-Policy&quot;, &quot;value&quot;: &quot;strict-origin-when-cross-origin&quot; },
-        { &quot;key&quot;: &quot;X-Frame-Options&quot;, &quot;value&quot;: &quot;SAMEORIGIN&quot; },
-        { &quot;key&quot;: &quot;Permissions-Policy&quot;, &quot;value&quot;: &quot;geolocation=(), microphone=(), camera=()&quot; }
-      ]
-    }
-  ]
-}</code></pre>
-<p>意思就是：不装依赖、把 html 和图标/SEO 文件复制进 <code>public/</code>、发布这个目录，并给所有响应加一组安全头。</p>
-<blockquote>✅ <strong>好处</strong>：你在控制台那几个容易填错的框（构建命令 / 输出目录）填什么都不影响结果，平台以这个文件为准。<br>❌ <strong>不要删这个文件</strong>，删了就得靠控制台手填，容易出错。</blockquote>
-<h4>安全响应头都加了什么</h4>
-<table><thead><tr><th>响应头</th><th>值</th><th>作用</th></tr></thead><tbody><tr><td><code>Strict-Transport-Security</code></td><td><code>max-age=604800</code></td><td><strong>HSTS</strong>：告诉浏览器以后只准走 HTTPS（7 天）</td></tr><tr><td><code>X-Content-Type-Options</code></td><td><code>nosniff</code></td><td>禁止浏览器猜文件类型，防 MIME 嗅探攻击</td></tr><tr><td><code>Referrer-Policy</code></td><td><code>strict-origin-when-cross-origin</code></td><td>跳转到外站时不泄露完整来源地址</td></tr><tr><td><code>X-Frame-Options</code></td><td><code>SAMEORIGIN</code></td><td>禁止别人用 iframe 套你的站（防点击劫持）</td></tr><tr><td><code>Permissions-Policy</code></td><td>关掉定位/麦克风/摄像头</td><td>页面本来就不需要这些权限</td></tr></tbody></table>
-<p><strong>关于 HSTS 的实话</strong>：它是<strong>单向门</strong>——开启后浏览器在有效期内会<strong>强制</strong>所有访客走 HTTPS，用户端清不掉。</p>
-<ul><li>这里只设了 <strong>7 天</strong>（<code>max-age=604800</code>），没加 <code>includeSubDomains</code>、没加 <code>preload</code>，就是为了<strong>万一出问题能自动过期退回来</strong>。</li><li>加它的前提是<strong>两个域名的证书都已正常签发</strong>（现在已满足）。</li><li><strong>想改或去掉</strong>：编辑 <code>edgeone.json</code> 把这一行删掉，或把 <code>604800</code> 改成别的秒数（0 = 关闭），然后双击 <code>2-更新网站.command</code> 推送即可生效。</li><li>⚠️ <strong>以后如果再新增子域名</strong>（比如 <code>img.uppjs.com</code>），要先把它的证书配好——不然 HSTS 期间浏览器会拒绝访问。</li></ul>
-<h3>新建项目时怎么填（容易填错的几栏）</h3>
-<table><thead><tr><th>配置项</th><th>填什么</th><th>为什么</th></tr></thead><tbody><tr><td>项目名称</td><td><code>uppjs</code></td><td><strong>不能带点号</strong>。只允许小写字母、数字、连字符，5–50 字符，不能以连字符开头结尾。填仓库名 <code>js-ping.github.io</code> 会直接报错</td></tr><tr><td>加速区域</td><td><strong>全球可用区（不含中国大陆）</strong></td><td>域名没备案就<strong>只能选这个</strong>。选了含中国大陆，后面绑不了 <code>uppjs.com</code></td></tr><tr><td>生产分支</td><td><code>main</code></td><td>每次推送自动部署</td></tr><tr><td>构建设置</td><td>不用改</td><td>仓库里的 <code>edgeone.json</code> 会覆盖它</td></tr><tr><td>环境变量</td><td>不填</td><td>本项目不需要</td></tr></tbody></table>
-<blockquote>⚠️ <strong>加速区域是关键</strong>。选「含中国大陆」的话，添加自定义域名时会要求 ICP 备案号，域名还没备案就会卡死。<br>等以后备案下来了，再到项目设置把区域改成「全球可用区（含中国大陆）」——国内响应能从几百毫秒降到 <strong>50–90ms</strong>。</blockquote>
-<h3>一个反直觉的现象（提前知道，别慌）</h3>
-<p>选了「不含中国大陆」之后，EdgeOne 给的 <code>xxx.edgeone.app</code> 临时地址<strong>在国内打不开，返回 401</strong>。 这是平台行为，<strong>不是部署失败</strong>——那个地址只对海外网络开放。</p>
-<p>所以部署完不要用临时地址验证，直接跳到绑域名，用 <code>https://uppjs.com</code> 验证。 判断部署成没成功，看<strong>控制台的部署记录和构建日志</strong>：状态显示成功、日志里能搜到 <code>cp *.html public/</code> 就对了。</p>
-<h3>绑定域名</h3>
-<table><thead><tr><th>步骤</th><th>做什么</th></tr></thead><tbody><tr><td>1</td><td>项目 → 域名管理 → 添加自定义域名：<code>uppjs.com</code> 和 <code>www.uppjs.com</code></td></tr><tr><td>2</td><td>按弹窗提示，去<strong>阿里云 DNS</strong> 把这两条 CNAME 的值改成 EdgeOne 给的地址</td></tr><tr><td>3</td><td>回控制台点「验证」，等 DNS 生效（通常几分钟，最长 48 小时）</td></tr><tr><td>4</td><td>验证通过后自动签发 SSL 证书，访问 <code>https://uppjs.com</code> 确认</td></tr></tbody></table>
-<blockquote>刚改完 DNS 就点验证失败是正常的，等几分钟再点。</blockquote>
-<h4>CNAME 记录值从哪来（★ 这一栏只能从控制台拿）</h4>
-<p><code>记录值</code> 是 EdgeOne 分配给你的专属地址，<strong>没有固定值，别人拿到的不一样，控制台外拿不到</strong>。长这样：</p>
-<pre><code>a4285573.uppjs.com.dns.edgeone.site</code></pre>
-<p>注意结尾是 <code>dns.edgeone.site</code>，<strong>不是</strong> <code>edgeone.app</code>（那是临时预览域名，不能当 CNAME 用）。</p>
-<p><strong>去哪看</strong>：EdgeOne Pages 控制台 → 进入 <code>uppjs</code> 项目 → <strong>域名管理 / 自定义域名</strong> → 点「添加自定义域名」→ 输入 <code>uppjs.com</code> → 页面会直接显示「请到 DNS 服务商添加以下记录」，那行 CNAME 的值就是它。</p>
-<p>根域名 <code>uppjs.com</code> 和 <code>www.uppjs.com</code> <strong>要分别添加</strong>，平台可能给出两个不同的值。</p>
-<h4>阿里云 DNS 怎么改（别删记录）</h4>
-<table><thead><tr><th>阿里云栏位</th><th>填什么</th></tr></thead><tbody><tr><td>记录类型</td><td><code>CNAME</code>（不变）</td></tr><tr><td>主机记录</td><td><code>@</code>（根域名）或 <code>www</code>（不变，一条一条改）</td></tr><tr><td>解析线路</td><td>默认（不变）</td></tr><tr><td><strong>记录值</strong></td><td><strong>改成 EdgeOne 给的地址</strong> ← 只改这一栏</td></tr><tr><td>TTL</td><td>默认 10 分钟</td></tr></tbody></table>
-<blockquote>⚠️ 点记录右侧的「<strong>修改</strong>」，不要「删除」再「添加」。<br>删掉会立刻让网站 404（现在 <code>uppjs.com</code> 全靠这条 CNAME 指向 GitHub Pages 活着）。</blockquote>
-<blockquote>✅ 那条 <code>edgeonereclaim</code> 的 TXT 验证记录，<strong>留着别动</strong>，以后重新绑域名还能复用。</blockquote>
-<h4>判断改成功了没</h4>
-<p>Mac 终端跑 <code>dig uppjs.com</code>，看 CNAME 是不是等于 EdgeOne 给的值。</p>
-<blockquote>实测：EdgeOne 给的 CNAME 目标是 <strong><code>uppjs.com.pages.dnsoe5.com</code></strong> 这种格式（结尾是平台分配的域名），根域名和 <code>www</code> <strong>共用同一个目标值</strong>。</blockquote>
-<h4>证书（HTTPS）怎么来</h4>
-<p><strong>EdgeOne 免费证书不是瞬间生效的，申请期间该域名的 HTTPS 访问本来就是不可用的</strong>——这是官方明确说明的正常中间态，不是配置错误。</p>
-<p>申请路径（手动触发时用）：</p>
-<table><thead><tr><th>步骤</th><th>做什么</th></tr></thead><tbody><tr><td>1</td><td>项目 → <strong>域名管理</strong> → 找到该域名 → <strong>HTTPS 列</strong>点「配置」</td></tr><tr><td>2</td><td>边缘 HTTPS 证书 → 点「配置」</td></tr><tr><td>3</td><td>配置方式选「<strong>申请免费证书</strong>」，验证方式选「<strong>自动验证</strong>」</td></tr><tr><td>4</td><td>保存，等 CA 签发（几分钟到几十分钟）</td></tr></tbody></table>
-<p>证书由 TrustAsia / Let&#x27;s Encrypt 签发，<strong>90 天有效</strong>，到期前 15 天平台自动续期，不用管。</p>
-<blockquote>⚠️ <strong>官方原话：「Makers 不会自动为您的域名分配 HTTPS 证书。」</strong><br>也就是说，证书<strong>必须手动申请一次</strong>，干等是等不来的。<br>判断依据：域名管理页的 <strong>HTTPS 列</strong>。显示「未配置」= 从没申请过。</blockquote>
-<h4>⚠️ 最容易走错的坑：两个「配置」页不是一回事</h4>
-<p>控制台里有两个长得很像的页面，点错就找不到证书在哪：</p>
-<table><thead><tr><th>页面</th><th>页面标题</th><th>里面有</th><th>有证书吗</th></tr></thead><tbody><tr><td><strong>域名配置</strong></td><td>`域名配置 \</td><td>uppjs.com`</td><td>HTTP/2、IPv6 访问、关联环境</td><td>❌ <strong>没有</strong></td></tr><tr><td><strong>HTTPS 配置</strong></td><td>从 <strong>HTTPS 列</strong>的「配置」进入</td><td><strong>边缘 HTTPS 证书</strong>、强制 HTTPS 访问、启用 HSTS、OCSP 装订</td><td>✅ 有</td></tr></tbody></table>
-<p><strong>一句话判断</strong>：页面上<strong>能看到「边缘 HTTPS 证书」这张卡片</strong>，才是走对了。</p>
-<p>只看到 HTTP/2 / IPv6 / 关联环境 → 走错了。退回<strong>域名管理</strong>列表页，点该域名那一行<strong>最右侧 HTTPS 列</strong>里的蓝色「配置」（<strong>不是</strong>点域名名字）。</p>
-<h4>故障速查表（按现象定位）</h4>
-<table><thead><tr><th>现象</th><th>说明</th><th>怎么办</th></tr></thead><tbody><tr><td>访问返回 <strong>HTTP 418</strong>（<code>server: TencentEdgeOne</code>，内容为空）</td><td><strong>EdgeOne 不认识这个域名</strong> —— 控制台里没添加它</td><td>去域名管理添加该域名（<code>www</code> 要单独添加一次）</td></tr><tr><td>HTTPS 证书是 <code>CN=*.cdn.myqcloud.com</code></td><td>用的是腾讯云兜底证书，<strong>证书根本没申请过</strong>，浏览器会报错</td><td>域名管理 → 该行 <strong>HTTPS 列</strong>「配置」→ 申请免费证书（见上）</td></tr><tr><td>点进「域名配置」页却找不到证书</td><td><strong>页面走错了</strong> —— 那是 HTTP/2/IPv6/关联环境的页面</td><td>退回域名管理列表，点<strong>最右侧 HTTPS 列</strong>的「配置」</td></tr><tr><td>HTTPS 证书是 <code>CN=uppjs.com</code> 或含 <code>uppjs.com</code></td><td>✅ 正常</td><td>不用管</td></tr><tr><td><code>https://uppjs.com</code> 报「证书名称不匹配」</td><td>同第 2 行，证书没生效</td><td>同上</td></tr><tr><td>页面 404</td><td>部署失败或路径不对</td><td>看控制台部署日志，确认有 <code>cp *.html public/</code></td></tr></tbody></table>
-<h4>两个容易误判的点</h4>
-<ul><li><strong>中文文件名要 URL 编码</strong>：<code>使用说明.html</code> 在地址栏里会自动变成 <code>%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html</code>，这是正常的。用工具直接测时如果不编码会误报 404。手机上想看说明书，直接用 <strong><code>uppjs.com/help.html</code></strong> 更省事。</li><li><strong>DNS 生效比想象中快</strong>：实测改完 10 分钟内，阿里云/腾讯/Google 三大公共 DNS 就都返回新值了。真正慢的是<strong>证书签发</strong>。</li></ul>
-<p><code>CNAME</code> 文件是给 GitHub Pages 用的，EdgeOne 不读它，保留不管即可。</p>
-<p><strong>日常更新流程完全不变</strong>：双击 <code>2-更新网站.command</code> → 推送 → 两边都会自动重新部署。</p>
-<h3>当前状态（2026-10-01 实测）</h3>
-<table><thead><tr><th>检查项</th><th><code>uppjs.com</code></th><th><code>www.uppjs.com</code></th></tr></thead><tbody><tr><td>证书</td><td>✅ <code>CN=uppjs.com</code></td><td>✅ <code>CN=www.uppjs.com</code></td></tr><tr><td>签发者</td><td>TrustAsia DV TLS RSA CA</td><td>同左</td></tr><tr><td>有效期</td><td>至 2026-12-29</td><td>同左</td></tr><tr><td>HTTP → HTTPS</td><td>✅ 302 自动跳转</td><td>✅ 302 自动跳转</td></tr><tr><td>浏览器证书警告</td><td>✅ 无</td><td>✅ 无</td></tr><tr><td>内容</td><td>190 条 / 7 分类</td><td>与根域名一致</td></tr></tbody></table>
-<p><strong>EdgeOne 迁移已全部完成</strong>，不用再做任何控制台操作。</p>
-<h3>备案：想真正提速时再做</h3>
-<blockquote><strong>当前决定（2026-10-01）：暂不备案。</strong> 原因是要花钱——备案本身免费，但必须先在国内某家云厂商买一项云资源当&quot;接入凭证&quot;（最低约 ¥68–300/年的轻量服务器），而它除了让网站变快之外没有任何别的用处，还得记着到期续费，否则备案会失效。</blockquote>
-<p>&gt;</p>
-<blockquote>触发条件：有人反馈打不开、或者有了明确要引流的场景，再动手。下面全部内容保留，到时候照着做即可。</blockquote>
-<p><strong>先说结论：现在不做也完全能用。</strong> 不备案的天花板是 600~1400ms（走海外节点回来）；备案后大陆节点直连，能到 <strong>50–90ms</strong>。这是&quot;更快&quot;，不是&quot;能用/不能用&quot;。</p>
-<h4>备案是什么</h4>
-<p>向工信部登记你的网站信息，必须<strong>通过一家接入服务商</strong>（云厂商）提交。所以要备案，你需要<strong>在国内某家云厂商有一项云资源</strong>当&quot;接入&quot;——买一台最低配的轻量应用服务器就行，不用一直开着，费用以控制台为准。</p>
-<p>你的域名 <code>uppjs.com</code> 注册在<strong>阿里云</strong>、实名已通过，所以走阿里云备案最顺（不用迁域名）。走腾讯云也可以（EdgeOne 是腾讯云的），但同样需要腾讯云那边的云资源。</p>
-<h4>材料清单</h4>
-<table><thead><tr><th>材料</th><th>说明</th></tr></thead><tbody><tr><td>身份证</td><td>个人备案就是你自己，正反面照片</td></tr><tr><td>域名证书</td><td>阿里云控制台可直接下载</td></tr><tr><td>网站名称</td><td>建议用「个人软件使用记录」这类中性描述，<strong>避免&quot;下载&quot;&quot;资源站&quot;等字眼</strong></td></tr><tr><td>网站简介</td><td>一句话，比如&quot;个人整理的软件与硬件使用清单&quot;</td></tr><tr><td>手机号 / 邮箱</td><td>接收验证码</td></tr><tr><td>真实性核验</td><td>用<strong>阿里云 App</strong> 刷脸 + 拍身份证，不用去现场</td></tr></tbody></table>
-<h4>流程与耗时</h4>
-<table><thead><tr><th>阶段</th><th>大概时间</th></tr></thead><tbody><tr><td>在云厂商提交资料</td><td>30 分钟</td></tr><tr><td>云厂商初审（会打电话核实）</td><td>1–2 个工作日</td></tr><tr><td>短信核验（工信部发验证码）</td><td>即时</td></tr><tr><td><strong>管理局审核</strong></td><td><strong>7–20 个工作日</strong></td></tr></tbody></table>
-<blockquote>⚠️ 一个真实的注意点：备案会核查网站性质，个人备案对内容有要求。你清单里有激活工具、绿色版之类的条目，<strong>备案时不要把这些作为网站定位去描述</strong>，按&quot;个人软件使用记录&quot;说明即可。各地管局口径略有差异，提交前可以先看云厂商备案页面的最新要求。</blockquote>
-<h4>备案通过后要做什么</h4>
-<table><thead><tr><th>步骤</th><th>做什么</th></tr></thead><tbody><tr><td>1</td><td><strong>网站页脚挂 ICP 备案号</strong>——法规硬要求，且必须链接到 <a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer">https://beian.miit.gov.cn</a>。告诉我备案号，我加进 <code>build.py</code> 的页脚</td></tr><tr><td>2</td><td>EdgeOne 控制台 → 项目设置 → <strong>加速区域改成「全球可用区（含中国大陆）」</strong></td></tr><tr><td>3</td><td>重新部署一次（触发新构建）</td></tr><tr><td>4</td><td>域名管理里确认两个域名都还是「已生效 + 已配置」</td></tr><tr><td>5</td><td>部分地区要求再做一次<strong>公安联网备案</strong>（备案通过后 30 天内）</td></tr></tbody></table>
-<p>做完这些，国内访问就从几百毫秒降到几十毫秒。<strong>日常更新流程依旧不变。</strong></p>
-<blockquote>📄 <strong>完整版见仓库 <code>docs/备案操作手册.md</code></strong>，或在电脑上双击 <code>备案操作手册.html</code>。<br>那份手册写清了：怎么买最便宜的那台&quot;备案用&quot;服务器、控制台每一屏点什么、以及最容易被打回的五个坑。</blockquote>
+<h2>十一、想再往深处折腾</h2>
+<p>这些已经写在单独的文档里，不用现在看：</p>
+<table><thead><tr><th>想干什么</th><th>看哪份</th></tr></thead><tbody><tr><td>加一个新页面（比如书单、影单）</td><td><code>docs/网站升级路线图.md</code></td></tr><tr><td>换托管商 / 绑域名 / 排查 HTTPS 问题</td><td><code>docs/网站升级路线图.md</code></td></tr><tr><td>想给国内访问提速（ICP 备案）</td><td><code>docs/备案操作手册.md</code></td></tr><tr><td>改站名、改主题色</td><td>打开 <code>build.py</code>，最上面「站点配置」那一小段</td></tr><tr><td>改书签页的分类顺序</td><td>打开 <code>links.md</code>，把 <code>## 分类</code> 整段上下移动即可</td></tr></tbody></table>
+<p><strong>加一个新页面的完整步骤</strong>（想试的时候再看）：</p>
+<ol><li>新建一个内容源，比如 <code>books.md</code>，写法跟 <code>README.md</code> 一样。</li><li>打开 <code>build.py</code>，在 <code>LIST_PAGES</code> 里加一条：</li></ol>
+<pre><code>dict(src=&quot;books.md&quot;, out=&quot;books.html&quot;, kicker=&quot;看过的书&quot;,
+     title=&quot;书单&quot;, sub=&quot;带一句短评。&quot;, layout=&quot;list&quot;),</code></pre>
+<ol><li>双击 <code>2-更新网站.command</code>。页面、搜索、目录、配色、导航<strong>全都自动有</strong>，不用再写一行代码。</li><li>想让它出现在首页，再去 <code>OTHER_PAGES</code> 里加一行。</li></ol>
+<p><code>layout</code> 有两个值：<code>&quot;list&quot;</code> 是普通清单（软件页那种），<code>&quot;compact&quot;</code> 是紧凑排布（书签页那种）。</p>
 <hr>
-<h2>八、数据安全与免责</h2>
-<ul><li>所有内容只存在<strong>你自己的电脑</strong>和你自己的 GitHub 仓库里，本流程不上传任何数据到第三方。</li><li>页面是纯静态的，没有统计脚本、没有跟踪代码、不收集访客信息。</li><li>README 里的第三方下载链接仅作记录，安全性与可用性请自行判断。</li></ul>
+<p>*这份说明随网站一起更新。改完 <code>使用说明.md</code> 后双击 <code>2-更新网站.command</code>，网页版会自动同步。*</p>
 </article>
 </body>
 </html>

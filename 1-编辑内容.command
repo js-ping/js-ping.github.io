@@ -1,6 +1,6 @@
 #!/bin/bash
 # 编辑内容 —— 双击运行
-# 用 VSCode 打开 README.md（网站的唯一内容源）
+# 用 VSCode 打开整个项目文件夹，左侧文件列表里点一下就能切换内容源
 
 cd "$(dirname "$0")" || exit 1
 
@@ -17,20 +17,31 @@ if [ ! -f "$FILE" ]; then
   exit 1
 fi
 
-# 按优先级挑一个已安装的编辑器（VSCode 优先）
-for APP in "Visual Studio Code" "Cursor" "Typora" "Sublime Text" "MacDown" "BBEdit" "TextMate"; do
+HINT="
+可改的文件（左侧列表里点一下就能切换）：
+  README.md      软件清单      ← 最常改
+  links.md       网址书签
+  使用说明.md     本说明书
+
+改完之后：Cmd + S 保存，然后双击「2-更新网站.command」上线。"
+
+# 优先打开「整个文件夹」——现在有三个内容源，文件列表里切换比单独开一个文件方便
+for APP in "Visual Studio Code" "Cursor" "VSCodium" "Sublime Text" "BBEdit" "TextMate" "Typora" "MacDown"; do
   if [ -d "/Applications/$APP.app" ] || [ -d "$HOME/Applications/$APP.app" ]; then
-    open -a "$APP" "$FILE"
-    echo "✓ 已用「$APP」打开 README.md"
+    open -a "$APP" "$PWD"
+    echo "✓ 已用「$APP」打开项目文件夹"
+    echo "$HINT"
     echo ""
-    echo "改完之后：保存（Cmd+S），然后双击「2-更新网站.command」上线。"
+    read -n 1 -s -r -p "按任意键关闭这个窗口..."
     exit 0
   fi
 done
 
-# 都没装，用系统自带的「文本编辑」
+# 都没装，用系统自带的「文本编辑」单独打开主文件
 open -e "$FILE"
 echo "✓ 已用系统「文本编辑」打开 README.md"
 echo ""
-echo "提示：装一个 VSCode 会顺手很多（免费）。"
+echo "提示：装一个 VSCode 会顺手很多（免费），而且能一次看到全部文件。"
+echo ""
+read -n 1 -s -r -p "按任意键关闭这个窗口..."
 exit 0
