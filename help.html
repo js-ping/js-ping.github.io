@@ -95,7 +95,7 @@ tbody tr:nth-child(even){background:var(--soft)}
 <hr>
 <h2>一、这个网站由什么组成</h2>
 <p>这几个文件各司其职，日常你只会碰第一个：</p>
-<table><thead><tr><th>文件</th><th>作用</th><th>你要动它吗</th></tr></thead><tbody><tr><td><code>README.md</code></td><td><strong>唯一内容源</strong>。所有软件清单都写在这里</td><td>✅ <strong>只改这一个</strong></td></tr><tr><td><code>index.html</code></td><td>自动生成出来的网页（含搜索、导航、深浅色）</td><td>❌ <strong>绝对不要手改</strong></td></tr><tr><td><code>build.py</code></td><td>把 README 编译成 index.html 的脚本</td><td>❌ 不用动</td></tr><tr><td><code>1-编辑内容.command</code></td><td>双击 → 用 VSCode 打开 README</td><td>🔘 双击用，别打开看</td></tr><tr><td><code>2-更新网站.command</code></td><td>双击 → 生成 + 提交 + 推送上线</td><td>🔘 双击用，别打开看</td></tr><tr><td><code>使用说明.md</code> / <code>使用说明.html</code></td><td>就是本文，两个格式各一份</td><td>一般不用动</td></tr><tr><td><code>favicon.ico</code> / <code>favicon.svg</code></td><td>浏览器标签页上的小图标</td><td>不用动</td></tr><tr><td><code>robots.txt</code> / <code>sitemap.xml</code></td><td>给搜索引擎看的，每次更新自动生成</td><td>不用动</td></tr><tr><td><code>.vscode/settings.json</code></td><td>VSCode 的编辑设置（已配好）</td><td>不用动</td></tr><tr><td><code>edgeone.json</code></td><td>给 EdgeOne 看的构建配置（详见第六节）</td><td>❌ 不要删</td></tr></tbody></table>
+<table><thead><tr><th>文件</th><th>作用</th><th>你要动它吗</th></tr></thead><tbody><tr><td><code>README.md</code></td><td><strong>唯一内容源</strong>。所有软件清单都写在这里</td><td>✅ <strong>只改这一个</strong></td></tr><tr><td><code>index.html</code></td><td>自动生成出来的网页（含搜索、导航、外观配色）</td><td>❌ <strong>绝对不要手改</strong></td></tr><tr><td><code>build.py</code></td><td>把 README 编译成 index.html 的脚本</td><td>❌ 不用动</td></tr><tr><td><code>1-编辑内容.command</code></td><td>双击 → 用 VSCode 打开 README</td><td>🔘 双击用，别打开看</td></tr><tr><td><code>2-更新网站.command</code></td><td>双击 → 生成 + 提交 + 推送上线</td><td>🔘 双击用，别打开看</td></tr><tr><td><code>使用说明.md</code> / <code>使用说明.html</code></td><td>就是本文，两个格式各一份</td><td>一般不用动</td></tr><tr><td><code>favicon.ico</code> / <code>favicon.svg</code></td><td>浏览器标签页上的小图标</td><td>不用动</td></tr><tr><td><code>robots.txt</code> / <code>sitemap.xml</code></td><td>给搜索引擎看的，每次更新自动生成</td><td>不用动</td></tr><tr><td><code>.vscode/settings.json</code></td><td>VSCode 的编辑设置（已配好）</td><td>不用动</td></tr><tr><td><code>edgeone.json</code></td><td>给 EdgeOne 看的构建配置（详见第七节）</td><td>❌ 不要删</td></tr></tbody></table>
 <blockquote><strong>唯一要记住的规则：只改 <code>README.md</code>。</strong><br><code>index.html</code> 和使用说明书都是每次自动生成的，你手动改了，下次更新就会被覆盖。</blockquote>
 <h3>关于说明书有两个版本</h3>
 <table><thead><tr><th>版本</th><th>文件</th><th>什么时候用</th></tr></thead><tbody><tr><td>Markdown</td><td><code>使用说明.md</code></td><td>在 VSCode 里读、改、走 git 版本回溯（这是内容源）</td></tr><tr><td>网页</td><td><code>使用说明.html</code></td><td><strong>双击直接在浏览器里看</strong>，排版清楚，手机上也能看</td></tr></tbody></table>
@@ -160,13 +160,30 @@ tbody tr:nth-child(even){background:var(--soft)}
 <p>如果双击后终端窗口一闪就没了，说明执行出错。可以在<strong>终端</strong>里运行一次看详细信息：</p>
 <pre><code>cd ~/IdeaProjects/js-ping.github.io &amp;&amp; ./2-更新网站.command</code></pre>
 <hr>
-<h2>五、常见问题</h2>
+<h2>五、给访客的外观开关（明暗 + 背景色）</h2>
+<p>右上角的「外观」按钮，<strong>每个访客都能自己调</strong>。设置只存在他自己的浏览器里，不影响别人，也不上传任何东西。</p>
+<h3>明暗三档</h3>
+<table><thead><tr><th>选项</th><th>效果</th></tr></thead><tbody><tr><td>跟随系统</td><td>系统深色就深色，否则浅色（默认）</td></tr><tr><td>浅色</td><td>强制浅色</td></tr><tr><td>深色</td><td>强制深色</td></tr></tbody></table>
+<h3>背景色</h3>
+<p>面板下半部分是色块，点一下整站换色。目前 8 个预设：</p>
+<table><thead><tr><th>色块</th><th>底色</th><th>适合</th></tr></thead><tbody><tr><td>默认（斜切双色）</td><td>跟明暗走</td><td>什么都不折腾</td></tr><tr><td>云白</td><td><code>#ffffff</code></td><td>最干净的纯白</td></tr><tr><td>暖阳</td><td><code>#f7efd9</code></td><td>米黄，长时间看不累</td></tr><tr><td>护眼</td><td><code>#e6f1e1</code></td><td>淡绿</td></tr><tr><td>石青</td><td><code>#e5eef8</code></td><td>冷调浅蓝</td></tr><tr><td>藕荷</td><td><code>#f8eaef</code></td><td>淡粉灰</td></tr><tr><td>午夜蓝</td><td><code>#182233</code></td><td>深色，比纯黑柔和</td></tr><tr><td>纯黑</td><td><code>#000000</code></td><td>OLED 屏省电</td></tr></tbody></table>
+<p>点「自定义…」还能用系统取色器挑任意颜色；「恢复默认」一键回到跟随系统 + 默认色。</p>
+<blockquote><strong>不用担心看不清。</strong> 选定底色后，面板色、边框色、正文色、次要文字色都是<strong>从这个底色按对比度算出来的</strong>：深色底自动配浅字，浅色底自动配深字。实测标题对比度 ≥12:1，正文 ≥4.9:1，辅助文字 ≥3.2:1，都在无障碍标准线以上。</blockquote>
+<h3>想加颜色 / 改颜色</h3>
+<p>打开 <code>build.py</code>，搜索 <code>presets</code>，找到一个数组，一行一个颜色：</p>
+<pre><code>{name: &#x27;暖阳&#x27;, bg: &#x27;#f7efd9&#x27;},</code></pre>
+<ul><li><code>name</code>：鼠标悬停时显示的名字</li><li><code>bg</code>：底色，十六进制颜色码</li></ul>
+<p><strong>加一行就多一个色块，删一行就少一个</strong>（面板一行排 4 个，建议保持 4 的倍数，排版最整齐）。</p>
+<p>想改「浅色 / 深色」这两个默认基准色，改 <code>build.py</code> 里 CSS 的 <code>:root{...}</code> 和 <code>html[data-theme=&quot;dark&quot;]{...}</code> 两段即可。</p>
+<hr>
+<h2>六、常见问题</h2>
 <p><strong>Q：我改了 README，但网页没变？</strong> A：九成是忘了双击 <code>2-更新网站.command</code>。另外 EdgeOne 部署有约 1 分钟延迟，稍等一下；浏览器缓存可以按 <code>Cmd+Shift+R</code> 强制刷新。</p>
 <p><strong>Q：双击后提示「推送失败」？</strong> A：绝大多数是网络问题。你的改动<strong>已经安全保存在本地</strong>，网络恢复后重新双击一次即可，不会丢东西。</p>
 <p><strong>Q：能直接在手机上改吗？</strong> A：可以。在 GitHub 网页上直接编辑 <code>README.md</code> 并提交，然后……<strong>需要在电脑上双击一次 <code>2-更新网站.command</code></strong>，因为 <code>index.html</code> 得在本地生成。如果不方便用电脑，见下面「进阶」。</p>
-<p><strong>Q：想改网站标题、配色、栏目结构？</strong> A：那些不在 README 里，在 <code>build.py</code> 里。用编辑器打开，找到最上面一大段 HTML 模板改。改坏了不用怕，git 里都有历史，随时能退回去。</p>
+<p><strong>Q：想改网站标题、栏目结构？</strong> A：那些不在 README 里，在 <code>build.py</code> 里。用编辑器打开，找到最上面一大段 HTML 模板改。改坏了不用怕，git 里都有历史，随时能退回去。</p>
+<p><strong>Q：想调背景色，或者加一个新的预设配色？</strong> A：访客自己就能调——右上角「外观」按钮，明暗 + 8 个底色 + 自定义取色器。要增删预设色块，改 <code>build.py</code> 里的 <code>presets</code> 数组，见<strong>第五节</strong>。</p>
 <hr>
-<h2>六、进阶：换托管商 / 双托管</h2>
+<h2>七、进阶：换托管商 / 双托管</h2>
 <p>站点同时支持挂在 <strong>GitHub Pages</strong> 和 <strong>腾讯云 EdgeOne Pages</strong> 上，两套互不干扰：</p>
 <table><thead><tr><th>托管商</th><th>域名</th><th>说明</th></tr></thead><tbody><tr><td>GitHub Pages</td><td>uppjs.com（当前）</td><td>免费，国内访问偏慢，改动自动生效</td></tr><tr><td>EdgeOne Pages</td><td>uppjs.com（切换后）</td><td>免费，国内更稳，改动自动生效</td></tr></tbody></table>
 <h3>关键文件：<code>edgeone.json</code></h3>
@@ -247,10 +264,11 @@ tbody tr:nth-child(even){background:var(--soft)}
 <table><thead><tr><th>阶段</th><th>大概时间</th></tr></thead><tbody><tr><td>在云厂商提交资料</td><td>30 分钟</td></tr><tr><td>云厂商初审（会打电话核实）</td><td>1–2 个工作日</td></tr><tr><td>短信核验（工信部发验证码）</td><td>即时</td></tr><tr><td><strong>管理局审核</strong></td><td><strong>7–20 个工作日</strong></td></tr></tbody></table>
 <blockquote>⚠️ 一个真实的注意点：备案会核查网站性质，个人备案对内容有要求。你清单里有激活工具、绿色版之类的条目，<strong>备案时不要把这些作为网站定位去描述</strong>，按&quot;个人软件使用记录&quot;说明即可。各地管局口径略有差异，提交前可以先看云厂商备案页面的最新要求。</blockquote>
 <h4>备案通过后要做什么</h4>
-<table><thead><tr><th>步骤</th><th>做什么</th></tr></thead><tbody><tr><td>1</td><td>EdgeOne 控制台 → 项目设置 → <strong>加速区域改成「全球可用区（含中国大陆）」</strong></td></tr><tr><td>2</td><td>重新部署一次（触发新构建）</td></tr><tr><td>3</td><td>域名管理里确认两个域名都还是「已生效 + 已配置」</td></tr></tbody></table>
-<p>做完这三步，国内访问就从几百毫秒降到几十毫秒。<strong>日常更新流程依旧不变。</strong></p>
+<table><thead><tr><th>步骤</th><th>做什么</th></tr></thead><tbody><tr><td>1</td><td><strong>网站页脚挂 ICP 备案号</strong>——法规硬要求，且必须链接到 <a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer">https://beian.miit.gov.cn</a>。告诉我备案号，我加进 <code>build.py</code> 的页脚</td></tr><tr><td>2</td><td>EdgeOne 控制台 → 项目设置 → <strong>加速区域改成「全球可用区（含中国大陆）」</strong></td></tr><tr><td>3</td><td>重新部署一次（触发新构建）</td></tr><tr><td>4</td><td>域名管理里确认两个域名都还是「已生效 + 已配置」</td></tr><tr><td>5</td><td>部分地区要求再做一次<strong>公安联网备案</strong>（备案通过后 30 天内）</td></tr></tbody></table>
+<p>做完这些，国内访问就从几百毫秒降到几十毫秒。<strong>日常更新流程依旧不变。</strong></p>
+<blockquote>📄 <strong>完整版见仓库 <code>docs/备案操作手册.md</code></strong>，或在电脑上双击 <code>备案操作手册.html</code>。<br>那份手册写清了：怎么买最便宜的那台&quot;备案用&quot;服务器、控制台每一屏点什么、以及最容易被打回的五个坑。</blockquote>
 <hr>
-<h2>七、数据安全与免责</h2>
+<h2>八、数据安全与免责</h2>
 <ul><li>所有内容只存在<strong>你自己的电脑</strong>和你自己的 GitHub 仓库里，本流程不上传任何数据到第三方。</li><li>页面是纯静态的，没有统计脚本、没有跟踪代码、不收集访客信息。</li><li>README 里的第三方下载链接仅作记录，安全性与可用性请自行判断。</li></ul>
 </article>
 </body>

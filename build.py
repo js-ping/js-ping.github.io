@@ -469,7 +469,7 @@ TEMPLATE = r"""<!DOCTYPE html>
 <style>
 :root{
   --bg:#f6f7f9; --panel:#ffffff; --panel2:#f0f2f5; --line:#e2e5ea;
-  --fg:#1b1f24; --fg2:#5b626b; --fg3:#8b929c;
+  --fg:#1b1f24; --fg2:#5b626b; --fg3:#767e89;
   --accent:#2f6fed; --accent-soft:#e8efff; --mark:#ffe9a8; --mark-fg:#3a2c00;
   --tag-attr-fg:#2c7554; --tag-attr-bg:#eef7f2; --tag-attr-bd:#cfe7dc;
   --tag-plat-fg:#2f6fed; --tag-plat-bg:#eef3ff; --tag-plat-bd:#d3e0fb;
@@ -531,11 +531,11 @@ header{
 }
 .search.has button{display:block}
 .tools{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--fg3); white-space:nowrap}
-.tools button,.tools select{
+.tools>button,.tools>select{
   border:1px solid var(--line); background:var(--panel); color:var(--fg2);
   padding:6px 9px; border-radius:8px; cursor:pointer; font-size:13px; max-width:150px;
 }
-.tools button:hover,.tools select:hover{border-color:var(--accent); color:var(--accent)}
+.tools>button:hover,.tools>select:hover{border-color:var(--accent); color:var(--accent)}
 #count{font-variant-numeric:tabular-nums}
 
 /* ---------- 窄屏分类条 ---------- */
@@ -622,7 +622,7 @@ details.group[open]>summary::before{transform:rotate(90deg)}
   border-radius:0 5px 5px 0;
 }
 .item:hover{border-left-color:var(--accent); background:var(--panel2)}
-.item .nm{font-weight:600; color:var(--fg); font-size:14.5px; flex:0 0 auto}
+.item .nm{font-weight:600; color:var(--fg); font-size:14.5px; flex:0 1 auto; min-width:0}
 .item a.nm{color:var(--accent)}
 .item a.nm:hover{text-decoration:underline}
 .item .chips{display:inline-flex; align-items:center; gap:4px; flex:0 0 auto}
@@ -683,12 +683,56 @@ footer{
 }
 .totop.show{display:block}
 
+/* ---------- 外观面板（明暗 + 底色） ---------- */
+.appear{position:relative}
+.appear>button{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  border-radius:8px; padding:5px 11px; font-size:13px; cursor:pointer;
+  font-family:inherit; line-height:1.4;
+}
+.appear>button:hover{color:var(--fg); border-color:var(--fg3)}
+.ap-panel{
+  position:absolute; right:0; top:calc(100% + 9px); z-index:70; width:268px;
+  background:var(--panel); border:1px solid var(--line); border-radius:12px;
+  padding:13px 13px 11px; text-align:left; white-space:normal;
+  box-shadow:0 14px 38px rgba(0,0,0,.20);
+}
+.ap-panel[hidden]{display:none}
+.ap-lab{
+  font-size:10.5px; letter-spacing:.1em; color:var(--fg3); text-transform:uppercase;
+  margin:0 0 7px; font-weight:600;
+}
+.ap-modes{display:flex; gap:6px; margin:0 0 13px}
+.ap-modes button{
+  flex:1; border:1px solid var(--line); background:var(--panel2); color:var(--fg2);
+  border-radius:8px; padding:6px 0; font-size:12.5px; cursor:pointer;
+  font-family:inherit; white-space:nowrap;
+}
+.ap-modes button.on{border-color:var(--accent); background:var(--accent-soft); color:var(--accent); font-weight:600}
+.ap-sw{display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin:0 0 13px}
+.ap-sw button{
+  width:100%; height:32px; border-radius:9px; border:1px solid var(--line);
+  cursor:pointer; padding:0;
+}
+.ap-sw button.on{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+.ap-foot{display:flex; gap:6px; border-top:1px solid var(--line); padding-top:11px}
+.ap-foot button{
+  flex:1; border:1px solid var(--line); background:transparent; color:var(--fg2);
+  border-radius:8px; padding:6px 0; font-size:12.5px; cursor:pointer; font-family:inherit;
+}
+.ap-foot button:hover{color:var(--fg); background:var(--panel2)}
+.ap-tip{font-size:11.5px; color:var(--fg3); line-height:1.55; margin:10px 0 0}
+#apPick{position:absolute; width:0; height:0; opacity:0; pointer-events:none; border:0; padding:0}
+
 @media (max-width:720px){
   .bar{padding:8px 12px; gap:8px}
   .brand span{display:none}
   .brand{font-size:14px}
   .tools{gap:6px}
-  .tools button,.tools select{padding:6px 8px; font-size:12.5px}
+  .tools>button,.tools>select{padding:6px 8px; font-size:12.5px}
+  .appear>button{padding:6px 8px; font-size:12.5px}
+  .ap-panel{position:fixed; top:calc(var(--hh) + 6px); right:12px; left:auto;
+            width:min(276px,calc(100vw - 24px))}
   .shell{padding:12px 12px 0}
   .item .ds{flex-basis:100%; padding-left:0}
   .sec-body{padding:4px 10px}
@@ -703,6 +747,94 @@ footer{
   details.group:not([open])>div,details.group:not([open])>p{display:block}
 }
 </style>
+<script>
+/* 外观：明暗 + 底色。在首帧前应用，避免闪烁；设置只存在本机浏览器。 */
+(function(){
+  var VARS = ['--bg','--panel','--panel2','--line','--fg','--fg2','--fg3','--accent','--accent-soft'];
+  function rgb(h){
+    h = String(h || '').replace('#','');
+    if(h.length === 3) h = h.charAt(0)+h.charAt(0)+h.charAt(1)+h.charAt(1)+h.charAt(2)+h.charAt(2);
+    if(!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+    return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+  }
+  function hex(c){
+    var o = '#';
+    for(var i = 0; i < 3; i++) o += ('0' + Math.max(0, Math.min(255, Math.round(c[i]))).toString(16)).slice(-2);
+    return o;
+  }
+  function mix(a, b, t){
+    var A = rgb(a), B = rgb(b);
+    if(!A) return a;
+    if(!B) return b;
+    return hex([0,1,2].map(function(i){ return A[i] + (B[i] - A[i]) * t; }));
+  }
+  function lum(h){
+    var c = rgb(h);
+    if(!c) return 1;
+    return (0.2126*c[0] + 0.7152*c[1] + 0.0722*c[2]) / 255;
+  }
+  function clear(){
+    var st = document.documentElement.style;
+    for(var i = 0; i < VARS.length; i++) st.removeProperty(VARS[i]);
+  }
+  function paint(bg){
+    if(!rgb(bg)) return true;
+    var W = '#ffffff', K = '#000000', L = lum(bg), light = L >= 0.45, st = document.documentElement.style;
+    var t = light
+      ? {panel: L > 0.93 ? '#ffffff' : mix(bg, W, .72), panel2: mix(bg, K, .05),
+         line: mix(bg, K, .12), fg: mix(bg, K, .84), fg2: mix(bg, K, .57), fg3: mix(bg, K, .45),
+         accent: '#2f6fed', soft: '#e8efff'}
+      : {panel: mix(bg, W, .06), panel2: mix(bg, W, .11), line: mix(bg, W, .18),
+         fg: mix(bg, W, .88), fg2: mix(bg, W, .64), fg3: mix(bg, W, .50),
+         accent: '#6ea0ff', soft: mix(bg, '#2f6fed', .28)};
+    st.setProperty('--bg', bg);
+    st.setProperty('--panel', t.panel);
+    st.setProperty('--panel2', t.panel2);
+    st.setProperty('--line', t.line);
+    st.setProperty('--fg', t.fg);
+    st.setProperty('--fg2', t.fg2);
+    st.setProperty('--fg3', t.fg3);
+    st.setProperty('--accent', t.accent);
+    st.setProperty('--accent-soft', t.soft);
+    return light;
+  }
+  var SKIN = {
+    modes: ['auto', 'light', 'dark'],
+    label: {auto: '跟随系统', light: '浅色', dark: '深色'},
+    presets: [
+      {name: '默认', bg: ''},
+      {name: '云白', bg: '#ffffff'},
+      {name: '暖阳', bg: '#f7efd9'},
+      {name: '护眼', bg: '#e6f1e1'},
+      {name: '石青', bg: '#e5eef8'},
+      {name: '藕荷', bg: '#f8eaef'},
+      {name: '午夜蓝', bg: '#182233'},
+      {name: '纯黑', bg: '#000000'}
+    ],
+    read: function(){
+      try{ return JSON.parse(localStorage.getItem('uppjs-appearance') || 'null') || {}; }
+      catch(e){ return {}; }
+    },
+    paint: paint,
+    apply: function(s){
+      var d = document.documentElement;
+      if(s && s.bg){
+        d.setAttribute('data-theme', paint(s.bg) ? 'light' : 'dark');
+      }else{
+        clear();
+        d.setAttribute('data-theme', (s && s.mode) || 'auto');
+      }
+      return s;
+    },
+    save: function(s){
+      try{ localStorage.setItem('uppjs-appearance', JSON.stringify(s)); }catch(e){}
+    }
+  };
+  window.UPPJS_SKIN = SKIN;
+  var s = SKIN.read();
+  if(s.bg || s.mode === 'light' || s.mode === 'dark') SKIN.apply(s);
+})();
+</script>
 </head>
 <body id="top">
 
@@ -721,7 +853,21 @@ footer{
         <option value="star">我推荐的</option>
       </select>
       <button id="toggleAll" title="展开 / 折叠全部分组">折叠</button>
-      <button id="theme" title="切换主题">主题</button>
+      <div class="appear">
+        <button id="theme" title="外观：明暗与底色" aria-haspopup="dialog" aria-expanded="false">外观</button>
+        <div class="ap-panel" id="apPanel" hidden>
+          <p class="ap-lab">明暗</p>
+          <div class="ap-modes" id="apModes"></div>
+          <p class="ap-lab">底色</p>
+          <div class="ap-sw" id="apSw"></div>
+          <div class="ap-foot">
+            <button id="apCustom" title="用取色器自选一个底色">自定义…</button>
+            <button id="apReset" title="恢复默认外观">恢复默认</button>
+          </div>
+          <p class="ap-tip">选「底色」后明暗会自动适配，文字颜色跟着变，不用担心看不清。设置只保存在你自己的浏览器里。</p>
+          <input type="color" id="apPick" value="#f6f7f9" tabindex="-1" aria-hidden="true">
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -762,10 +908,14 @@ __BODY__
          <code>截图</code>、<code>下载</code>、<code>pdf</code>、<code>heic</code>。</p>
       <p>右上角筛选可以叠加在搜索之上：<strong>有下载链接</strong>只看能直接点开的条目，
          <strong>我推荐的</strong>只看标了「荐」的（对应清单里的 ☆ 标记）。</p>
-      <h3>折叠与主题</h3>
+      <h3>折叠与外观</h3>
       <p>点分组标题可折叠 / 展开；「折叠」按钮一键收起所有分组，便于总览。
-         「主题」按钮在浅色 / 深色 / 跟随系统之间切换，选择记在本地浏览器里。
          宽屏时左侧目录会跟随滚动高亮当前所在位置。</p>
+      <p>右上角<strong>「外观」</strong>按钮可以调明暗和背景色。明暗三档：跟随系统 / 浅色 / 深色。
+         背景色提供 8 个预设色块——默认、云白、暖阳、护眼、石青、藕荷、墨灰、纯黑，
+         点一下整站换色；也可以点「自定义…」用系统取色器随便挑一个颜色。
+         选定底色后，面板色、边框色、文字颜色都会自动按对比度推导，不会出现看不清的情况。
+         设置只存在你自己的浏览器里。</p>
       <h3>内容怎么更新</h3>
       <p>本页由仓库里的 <code>README.md</code> 自动生成，README 是唯一内容源：</p>
       <p><code>编辑 README.md → 运行 python3 build.py → git push</code></p>
@@ -773,7 +923,7 @@ __BODY__
       <h3>数据与隐私</h3>
       <ul>
         <li>纯静态页面，无后端、无数据库、无统计脚本、无第三方 CDN 请求。</li>
-        <li>唯一的本地存储是主题偏好，不上传任何数据。</li>
+        <li>唯一的本地存储是外观偏好（明暗 + 底色），不上传任何数据。</li>
         <li>页面上的链接都指向第三方站点，跳转后的行为不受本站控制。</li>
       </ul>
       <h3>免责声明</h3>
@@ -942,23 +1092,93 @@ __BODY__
     }
   });
 
-  /* ---- 主题 ---- */
-  var themeBtn = document.getElementById('theme'),
-      modes = ['auto', 'light', 'dark'],
-      label = {auto:'自动', light:'浅色', dark:'深色'};
-  var saved = null;
-  try{ saved = localStorage.getItem('uppjs-theme'); }catch(e){}
-  saved = label[saved] ? saved : 'auto';
-  document.documentElement.setAttribute('data-theme', saved);
-  themeBtn.textContent = label[saved];
-  themeBtn.addEventListener('click', function(){
-    var cur = document.documentElement.getAttribute('data-theme') || 'auto';
-    var next = modes[(modes.indexOf(cur) + 1) % modes.length];
-    document.documentElement.setAttribute('data-theme', next);
-    themeBtn.textContent = label[next];
-    try{ localStorage.setItem('uppjs-theme', next); }catch(e){}
-    spy();
-  });
+  /* ---- 外观：明暗 + 底色 ---- */
+  var SK = window.UPPJS_SKIN;
+  if(SK){
+    var themeBtn = document.getElementById('theme'),
+        apPanel = document.getElementById('apPanel'),
+        apModes = document.getElementById('apModes'),
+        apSw = document.getElementById('apSw'),
+        apReset = document.getElementById('apReset'),
+        apCustom = document.getElementById('apCustom'),
+        apPick = document.getElementById('apPick'),
+        look = SK.read();
+    if(typeof look.bg !== 'string') look.bg = '';
+    if(!look.mode) look.mode = 'auto';
+
+    function syncSkin(){
+      [].forEach.call(apModes.children, function(b){
+        b.classList.toggle('on', b.dataset.mode === look.mode);
+      });
+      [].forEach.call(apSw.children, function(b){
+        b.classList.toggle('on', (b.dataset.bg || '') === look.bg);
+      });
+    }
+    function useSkin(){
+      SK.apply(look);
+      SK.save(look);
+      syncSkin();
+      measure();
+    }
+    function closeSkin(){
+      apPanel.hidden = true;
+      themeBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    SK.modes.forEach(function(m){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.mode = m;
+      b.textContent = SK.label[m];
+      b.addEventListener('click', function(){
+        look.mode = m;
+        look.bg = '';
+        useSkin();
+      });
+      apModes.appendChild(b);
+    });
+
+    SK.presets.forEach(function(p){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.bg = p.bg;
+      b.title = '底色：' + p.name;
+      b.setAttribute('aria-label', '底色：' + p.name);
+      b.style.background = p.bg || 'linear-gradient(135deg,#fff 0 50%,#16181c 50% 100%)';
+      b.addEventListener('click', function(){
+        look.bg = p.bg;
+        look.mode = p.bg ? (SK.paint(p.bg) ? 'light' : 'dark') : 'auto';
+        useSkin();
+      });
+      apSw.appendChild(b);
+    });
+
+    apCustom.addEventListener('click', function(e){
+      e.stopPropagation();
+      apPick.click();
+    });
+    apPick.addEventListener('input', function(){
+      look.bg = apPick.value;
+      look.mode = SK.paint(apPick.value) ? 'light' : 'dark';
+      useSkin();
+    });
+    apReset.addEventListener('click', function(){
+      look = {mode: 'auto', bg: ''};
+      useSkin();
+    });
+
+    themeBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      apPanel.hidden = !apPanel.hidden;
+      themeBtn.setAttribute('aria-expanded', apPanel.hidden ? 'false' : 'true');
+    });
+    apPanel.addEventListener('click', function(e){ e.stopPropagation(); });
+    document.addEventListener('click', function(){ if(!apPanel.hidden) closeSkin(); });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !apPanel.hidden) closeSkin();
+    });
+    syncSkin();
+  }
 
   /* ---- 顶栏高度 -> CSS 变量，供 sticky 定位 ---- */
   var header = document.querySelector('header');
