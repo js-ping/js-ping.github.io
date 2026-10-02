@@ -168,6 +168,44 @@ def unmask(s: str, store):
     return re.sub(r"\x00(\d+)\x00", lambda m: store[int(m.group(1))], s)
 
 
+SLD2 = {"com.cn", "net.cn", "org.cn", "gov.cn", "edu.cn", "co.uk",
+        "com.hk", "com.tw", "co.jp", "com.au", "co.kr", "com.sg"}
+
+# 这些字段以前是条目下面的「规格行」，现在一律不显示
+META_DROP = {"免费", "开源", "平台", "价格", "验证", "官网", "替代", "坑"}
+
+
+def host_of(url: str) -> str:
+    """从链接里取主机名：https://chat.deepseek.com/x -> chat.deepseek.com"""
+    m = re.match(r"https?://([^/?#]+)", url or "", re.I)
+    if not m:
+        return ""
+    h = m.group(1).lower().split("@")[-1].split(":")[0]
+    return h[4:] if h.startswith("www.") else h
+
+
+def reg_domain(h: str) -> str:
+    """取可注册域名：chat.deepseek.com -> deepseek.com；a.com.cn -> a.com.cn"""
+    p = [x for x in (h or "").split(".") if x]
+    if len(p) <= 2:
+        return ".".join(p)
+    if ".".join(p[-2:]) in SLD2:
+        return ".".join(p[-3:])
+    return ".".join(p[-2:])
+
+
+def drop_meta(nodes):
+    """删掉残留的规格行（免费：是 / 平台：Win ...），老内容里可能还留着。"""
+    kept = []
+    for x in nodes:
+        drop_meta(x["children"])
+        if (not x["has_link"] and not x["children"]
+                and x["title"].strip() in META_DROP):
+            continue
+        kept.append(x)
+    return kept
+
+
 def extract_star(title: str):
     """只认「☆ 名字」这一种标记：☆ 抽出来做成「荐」徽章，名字保持原样。
     括号里的备注（如「（开源）」「(6.25 版本)」）不再拆成小色块，原样留在名字里，
@@ -221,6 +259,7 @@ def make_node(text: str, is_bullet: bool = True):
             break
 
     node["star"], node["title"] = extract_star(node["title"])
+    node["host"] = host_of(node["url"])
 
     node["title"] = re.sub(r"[。.．]+$", "", node["title"]).rstrip("：:").strip()
     # 简述与点评去掉句尾标点，整页看起来才齐整
@@ -288,6 +327,7 @@ def build_tree(blocks):
         cats.append(root)
     for c in cats:
         promote_headers(c["children"])
+        c["children"] = drop_meta(c["children"])
     return cats
 
 
@@ -345,6 +385,13 @@ def render_node(node, ctx, depth=0):
                   '<span class="badge" title="个人推荐">荐</span></span>') \
         if node["star"] else ""
 
+    host_html = ""
+    if ctx.get("host") and node.get("host"):
+        rd = reg_domain(node["host"])
+        if rd not in ctx.get("host_hide", ()):
+            host_html = (f'<span class="dm" title="{esc(node["host"])}">'
+                         f'{esc(rd)}</span>')
+
     desc_html = f'<span class="ds">{md_inline(node["desc"])}</span>' if node["desc"] else ""
     note_html = f'<span class="note">{md_inline(node["note"])}</span>' if node["note"] else ""
 
@@ -355,7 +402,7 @@ def render_node(node, ctx, depth=0):
         ) + "</ul>"
 
     search = plain(" ".join(
-        [node["title"], node["desc"], node["note"]]
+        [node["title"], node["desc"], node["note"], node.get("host", "")]
         + [plain(k["title"] + k["desc"]) for k in kids]
     ))
     flags = f' data-s="{esc(search.lower())}"'
@@ -365,7 +412,7 @@ def render_node(node, ctx, depth=0):
         flags += ' data-star="1"'
     return (
         f'<div class="{" ".join(cls)}"{flags}>'
-        f'{title_html}{chips_html}{desc_html}{note_html}{sub}</div>'
+        f'{title_html}{chips_html}{host_html}{desc_html}{note_html}{sub}</div>'
     ), []
 
 
@@ -390,7 +437,25 @@ def leaf_count(nodes) -> int:
 
 def render(cats, cfg: dict, updated: str) -> str:
     """把解析好的分类树渲染成一整页 HTML。cfg 的字段见 LIST_PAGES。"""
-    ctx = {"g": 0}
+    show_host = cfg.get("layout") == "compact"
+    ctx = {"g": 0, "host": show_host, "host_hide": ()}
+
+    # 先数一遍域名：满页都是的（github / csdn / 知乎…）不显示，免得刷屏
+    if show_host:
+        freq = {}
+
+        def _count(ns):
+            for x in ns:
+                if x["children"] and not x["has_link"]:
+                    _count(x["children"])
+                elif x.get("host"):
+                    rd = reg_domain(x["host"])
+                    freq[rd] = freq.get(rd, 0) + 1
+
+        for c in cats:
+            _count(c["children"])
+        ctx["host_hide"] = set(k for k, v in freq.items() if v >= 5)
+
     body, toc_cats = [], []
 
     for c in cats:
@@ -925,33 +990,48 @@ a.brand:hover{color:var(--accent); text-decoration:none}
 
 /* ---------- 紧凑布局：网址书签页 ---------- */
 body[data-layout="compact"] .sec-body{
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(292px,1fr));
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(296px,1fr));
   gap:12px; align-items:start;
 }
 body[data-layout="compact"] details.group{
   border:1px solid var(--line); border-radius:10px; background:var(--panel);
-  padding:11px 13px 13px;
+  padding:11px 13px 12px;
 }
 body[data-layout="compact"] details.group>summary{
-  padding:0 0 8px; margin:0 0 6px; font-size:13px; font-weight:600;
+  padding:0 0 8px; margin:0 0 5px; font-size:13px; font-weight:600;
   border-bottom:1px solid var(--line); color:var(--fg);
 }
 body[data-layout="compact"] details.group>summary .grp-n{
   color:var(--fg3); font-weight:400; font-size:11.5px;
 }
-body[data-layout="compact"] .grp-body{padding-left:0}
+body[data-layout="compact"] .grp-body{padding-left:0; margin-left:0}
 body[data-layout="compact"] .item{
-  display:block; padding:3px 7px; margin:0 -7px; border-left:0; border-bottom:0;
-  border-radius:6px; font-size:13.5px; line-height:1.5;
+  padding:3px 7px; margin:0 -7px; border-left:0; border-radius:6px;
+  gap:0 9px; font-size:13.5px; line-height:1.55;
 }
 body[data-layout="compact"] .item:hover{background:var(--panel2); border-left-color:transparent}
-body[data-layout="compact"] .item .nm{display:block; font-weight:400; font-size:13.5px}
+body[data-layout="compact"] .item .nm{
+  flex:1 1 auto; min-width:0; font-weight:400; font-size:13.5px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
 body[data-layout="compact"] .item a.nm{color:var(--fg)}
 body[data-layout="compact"] .item a.nm:hover{color:var(--accent); text-decoration:none}
-body[data-layout="compact"] .item .ds{display:block; font-size:11.8px; color:var(--fg3); flex:none}
+/* 右侧的来源域名：不抢眼，但一眼能看出是哪个站 */
+body[data-layout="compact"] .item .dm{
+  flex:0 0 auto; max-width:40%; font-size:10.5px; color:var(--fg3); opacity:.7;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+body[data-layout="compact"] .item:hover .dm{opacity:1}
+body[data-layout="compact"] .item .ds{flex:1 1 100%; font-size:11.8px; color:var(--fg3)}
+body[data-layout="compact"] .item ul.sub{flex:1 1 100%; font-size:12.5px}
 body[data-layout="compact"] .sec-body > .item{grid-column:1/-1}
+/* 窄屏：单列，别让卡片被内容撑出去 */
+body[data-layout="compact"] details.group,
+body[data-layout="compact"] .sec-body > .item{min-width:0}
 @media (max-width:720px){
-  body[data-layout="compact"] .sec-body{grid-template-columns:1fr}
+  body[data-layout="compact"] .sec-body{grid-template-columns:minmax(0,1fr)}
+  body[data-layout="compact"] .item .nm{white-space:normal}
 }
 
 /* ---------- 使用说明 ---------- */

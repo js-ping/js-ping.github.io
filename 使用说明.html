@@ -141,8 +141,16 @@ tbody tr:nth-child(even){background:var(--soft)}
 <table><thead><tr><th>想干什么</th><th>怎么写</th></tr></thead><tbody><tr><td>加一条软件</td><td>复制一整行 <code>- [名字](网址)：说明</code>，改掉内容</td></tr><tr><td>加一个分组</td><td>写 <code>- 分组名：</code>，下面缩进写条目</td></tr><tr><td>只记个名字，没有网址</td><td><code>- 小米巨能写。</code> 直接写，不加括号</td></tr><tr><td>一条挂好几行小字</td><td>再缩进一级继续写 <code>- 小字</code></td></tr><tr><td>标一个&quot;推荐&quot;</td><td>名称前加 <code>☆</code>，页面上会出现一个「荐」徽章</td></tr><tr><td>标记一个已弃用</td><td>用 <code>~~删除线~~</code> 包起来，页面上变灰并加删除线</td></tr><tr><td>想写给自己看的备注</td><td>用 <code>&lt;!-- 备注 --&gt;</code>，网页上完全不出现</td></tr></tbody></table>
 <h3>换个说法也能认，但建议统一</h3>
 <p>脚本对下面这些写法<strong>全都认</strong>，但混着用页面会看起来不齐整，建议统一成一种：</p>
-<table><thead><tr><th>你可能会写</th><th>推荐写成</th></tr></thead><tbody><tr><td><code>- 名字，一句话说明</code></td><td><code>- 名字：一句话说明</code></td></tr><tr><td><code>- [名字](网址),说明</code></td><td><code>- [名字](网址)：说明</code></td></tr><tr><td><code>- 名字 。 说明</code></td><td><code>- 名字：说明</code></td></tr><tr><td>名称里塞 <code>（6.25 版本）</code> <code>（开源）</code></td><td>照写没问题，会原样留在名称里</td></tr></tbody></table>
+<table><thead><tr><th>你可能会写</th><th>推荐写成</th></tr></thead><tbody><tr><td><code>- 名字，一句话说明</code></td><td><code>- 名字：一句话说明</code></td></tr><tr><td><code>- [名字](网址),说明</code></td><td><code>- [名字](网址)：说明</code></td></tr><tr><td><code>- 名字 。 说明</code></td><td><code>- 名字：说明</code></td></tr><tr><td>名称里塞 <code>（6.25 版本）</code> <code>（专业版）</code></td><td>照写没问题，会原样留在名称里</td></tr></tbody></table>
 <p><strong>记住一句话：名称和说明之间，用中文冒号 <code>：</code> 隔开。</strong></p>
+<h3>下面这种写法已经不用了</h3>
+<p>以前给每条软件底下挂过几行「规格」：</p>
+<pre><code>- [Ollama](https://ollama.com/)：命令行拉起本地模型。
+    - 免费：是
+    - 开源：是
+    - 平台：Win / macOS / Linux</code></pre>
+<p><strong>现在页面上不显示这几行了</strong>，写了也不会出现。想说的信息直接写进那一句话里：</p>
+<pre><code>- [Ollama](https://ollama.com/)：命令行拉起本地模型，模型文件很占硬盘，动手前先看剩余空间。</code></pre>
 <p>顺带一提，说明末尾要不要加句号都行——加了脚本会自动去掉，页面上更齐整。</p>
 <h3>四个最容易踩的坑</h3>
 <table><thead><tr><th>坑</th><th>会怎样</th><th>怎么避免</th></tr></thead><tbody><tr><td>用 Tab 键缩进</td><td>层级会乱</td><td><strong>只用空格</strong>，一层 2 个或 4 个都行，但要一致</td></tr><tr><td>只写 <code>- 分组名：</code>，下面没有缩进内容</td><td>页面上就是一行孤零零的字</td><td>分组下面至少放一条缩进的条目</td></tr><tr><td>一个井号 <code># 标题</code></td><td>只认<strong>两个井号</strong> <code>##</code>，一个井号会被当普通文字</td><td>分类一律用 <code>## </code></td></tr><tr><td>一条里塞两个链接</td><td>第二个会跑进说明里</td><td>拆成两条最清楚</td></tr></tbody></table>
@@ -150,9 +158,9 @@ tbody tr:nth-child(even){background:var(--soft)}
 <pre><code>## Mac 软件
 
 - 装机必备：
-    - [IINA](https://iina.io/)：万能的视频播放器，免费开源。
-        - 支持几乎所有格式，不用额外装解码器。
-    - ☆ [Rectangle](https://rectangleapp.com/)：免费的窗口管理，快捷键顺手。
+    - [IINA](https://iina.io/)：Mac 上最顺手的视频播放器，几乎什么格式都能放。
+        - 免安装解码器，双击就能用。
+    - ☆ [Rectangle](https://rectangleapp.com/)：窗口管理，快捷键顺手，用久了离不开。
 - 工具类：
     - [Mounty](https://mounty.app/)：让 Mac 能写入 NTFS 格式的 U 盘。</code></pre>
 <p>保存后双击 <code>2-更新网站.command</code>，一分钟后就出现在网上。</p>
@@ -160,10 +168,18 @@ tbody tr:nth-child(even){background:var(--soft)}
 <p><code>links.md</code> 的写法<strong>和 README 一模一样</strong>，只是分类和条目换成了网站。想加一个常用网站，找到对应分类（比如 <code>## 在线工具</code>），在下面加一行：</p>
 <pre><code>- [PDF24](https://tools.pdf24.org/zh/)：在线处理 PDF，免费全能，不用装软件。</code></pre>
 <p>书签页排版更紧凑，所以<strong>说明写得越短越好</strong>，一句话说清是干什么用的就行。写完同一个脚本一起编译，不用额外操作。</p>
+<p><strong>书签页会自动显示网址域名</strong>（条目右边那个灰色小字）。同一个站点出现 5 次以上的（GitHub、CSDN、知乎这类）会自动隐藏，免得一屏全是同一个域名。</p>
+<h3>重新导出浏览器书签怎么办</h3>
+<p>浏览器导出的书签名通常是一长串 SEO 垃圾，比如：</p>
+<pre><code>- [AI工具集官网 | 1000+ AI工具集合，国内外AI工具集导航大全](https://ai-bot.cn/?utm_source=chatgpt.com)</code></pre>
+<p>仓库里放了一个 <code>整理书签.py</code>，把导出的书签整理好之后跑一下：</p>
+<pre><code>python3 整理书签.py</code></pre>
+<p>它会自动做这几件事：清掉标题里的站点名后缀、宣传语、表情符号和版本号；GitHub 链接统一成 <code>作者/仓库</code>；去掉链接里的跟踪参数；按网址去重。跑完再双击 <code>2-更新网站.command</code> 就行。</p>
+<p><strong>跑完记得翻一遍</strong>——它认不出来的名字会退回成域名，看着别扭的手动改一下就好。</p>
 <hr>
 <h2>四、文件都是干什么的</h2>
 <p>日常你只会碰最上面两行，其余全是自动生成的，<strong>不要手动改</strong>：</p>
-<table><thead><tr><th>文件</th><th>作用</th><th>你要动它吗</th></tr></thead><tbody><tr><td><code>README.md</code></td><td>软件清单的内容源</td><td>✅ 常改</td></tr><tr><td><code>links.md</code></td><td>网址书签的内容源</td><td>✅ 常改</td></tr><tr><td><code>使用说明.md</code></td><td>本文的内容源</td><td>🔘 偶尔改</td></tr><tr><td><code>index.html</code> / <code>apps.html</code> / <code>links.html</code></td><td>三个网页，自动生成</td><td>❌ 手改会被覆盖</td></tr><tr><td><code>使用说明.html</code> / <code>help.html</code></td><td>说明书的网页版，同一份内容两个名字</td><td>❌ 自动生成</td></tr><tr><td><code>build.py</code></td><td>编译脚本</td><td>🔘 加新页面、改配色才动</td></tr><tr><td><code>1-编辑内容.command</code></td><td>双击 → 打开内容源</td><td>🔘 双击用</td></tr><tr><td><code>2-更新网站.command</code></td><td>双击 → 编译 + 上线</td><td>🔘 双击用</td></tr><tr><td><code>favicon.*</code> / <code>icon-*.png</code></td><td>网站图标</td><td>不用动</td></tr><tr><td><code>manifest.webmanifest</code></td><td>手机加到主屏的配置，自动生成</td><td>不用动</td></tr><tr><td><code>robots.txt</code> / <code>sitemap.xml</code></td><td>给搜索引擎看的，自动生成</td><td>不用动</td></tr><tr><td><code>edgeone.json</code></td><td>托管平台的构建配置</td><td>❌ 不要删</td></tr><tr><td><code>docs/</code></td><td>两份进阶文档（备案、升级路线）</td><td>想看时再看</td></tr></tbody></table>
+<table><thead><tr><th>文件</th><th>作用</th><th>你要动它吗</th></tr></thead><tbody><tr><td><code>README.md</code></td><td>软件清单的内容源</td><td>✅ 常改</td></tr><tr><td><code>links.md</code></td><td>网址书签的内容源</td><td>✅ 常改</td></tr><tr><td><code>使用说明.md</code></td><td>本文的内容源</td><td>🔘 偶尔改</td></tr><tr><td><code>index.html</code> / <code>apps.html</code> / <code>links.html</code></td><td>三个网页，自动生成</td><td>❌ 手改会被覆盖</td></tr><tr><td><code>使用说明.html</code> / <code>help.html</code></td><td>说明书的网页版，同一份内容两个名字</td><td>❌ 自动生成</td></tr><tr><td><code>整理书签.py</code></td><td>重新导出书签时用来清洗标题</td><td>🔘 导书签时才用</td></tr><tr><td><code>build.py</code></td><td>编译脚本</td><td>🔘 加新页面、改配色才动</td></tr><tr><td><code>1-编辑内容.command</code></td><td>双击 → 打开内容源</td><td>🔘 双击用</td></tr><tr><td><code>2-更新网站.command</code></td><td>双击 → 编译 + 上线</td><td>🔘 双击用</td></tr><tr><td><code>favicon.*</code> / <code>icon-*.png</code></td><td>网站图标</td><td>不用动</td></tr><tr><td><code>manifest.webmanifest</code></td><td>手机加到主屏的配置，自动生成</td><td>不用动</td></tr><tr><td><code>robots.txt</code> / <code>sitemap.xml</code></td><td>给搜索引擎看的，自动生成</td><td>不用动</td></tr><tr><td><code>edgeone.json</code></td><td>托管平台的构建配置</td><td>❌ 不要删</td></tr><tr><td><code>docs/</code></td><td>两份进阶文档（备案、升级路线）</td><td>想看时再看</td></tr></tbody></table>
 <blockquote><strong>唯一要记住的规则：只改那三个 <code>.md</code> 文件。</strong><br>手改 <code>.html</code> 下次更新会被覆盖，白改。</blockquote>
 <h3>说明书为什么有三个名字</h3>
 <table><thead><tr><th>文件</th><th>什么时候用</th></tr></thead><tbody><tr><td><code>使用说明.md</code></td><td>在 VSCode 里读和改（这是内容源）</td></tr><tr><td><code>使用说明.html</code></td><td>双击直接在浏览器看，排版好</td></tr><tr><td><code>help.html</code></td><td>和上面那份内容完全一样，只是名字短，<strong>方便在手机上输网址</strong>（uppjs.com/help.html）</td></tr></tbody></table>

@@ -30,44 +30,23 @@
 - 日常对话：
     - [ChatGPT](https://chatgpt.com/)：综合能力最均衡，订阅制，需要网络环境。
     - [Claude](https://claude.ai/)：长文写作和读代码更稳，订阅制，需要网络环境。
-    - [豆包](https://www.doubao.com/)：国内直连，网页版和客户端都有，免费。
+    - [豆包](https://www.doubao.com/)：国内直连，网页版和客户端都有。
     - [Kimi](https://kimi.moonshot.cn/)：长文档一次读完，网页版免费够用。
     - [DeepSeek](https://www.deepseek.com/)：国内直连，接口便宜，适合自己折腾。
 - 本地跑模型（数据不出电脑）：
-    - [Ollama](https://ollama.com/)：命令行一行就能拉起本地模型。
-        - 免费：是
-        - 开源：是
-        - 平台：Win / macOS / Linux
-        - 替代：LM Studio
-        - 坑：模型文件很占硬盘，动手前先看剩余空间
-        - 验证：2026-10
-    - [LM Studio](https://lmstudio.ai/)：图形界面，完全不用碰命令行。
-        - 免费：是
-        - 平台：Win / macOS / Linux
-        - 替代：Ollama
+    - [Ollama](https://ollama.com/)：命令行一行就能拉起本地模型。模型文件很占硬盘，动手前先看剩余空间。同类可看 LM Studio。
+    - [LM Studio](https://lmstudio.ai/)：图形界面，完全不用碰命令行，和 Ollama 二选一就够。
     - [Cherry Studio](https://cherry-ai.com/)：桌面客户端，能同时接好几家的接口。
-        - 免费：是
-        - 开源：是
-        - 平台：Win / macOS
 - 写代码：
-    - [Cursor](https://cursor.com/)：付费商业产品，但目前换掉整个编辑器最省事的一个。
-        - 价格：订阅制，有免费额度
+    - [Cursor](https://cursor.com/)：付费商业产品，订阅制带一点免费额度，但目前是换掉整个编辑器最省事的一个。
     - [Claude Code](https://claude.com/product/claude-code)：终端里的编程助手，适合已有项目里改代码。
 - 出图出视频：
-    - [ComfyUI](https://github.com/comfyanonymous/ComfyUI)：开源，节点式拼工作流，可控性最高。
-        - 免费：是
-        - 开源：是
-        - 平台：Win / macOS / Linux
-        - 坑：上手陡，要先理解节点怎么连
+    - [ComfyUI](https://github.com/comfyanonymous/ComfyUI)：节点式拼工作流，可控性最高，就是上手陡，得先搞懂节点怎么连。
     - 即梦 / 可灵：国内直接用，出短视频效果够看。
 - 顺手的小工具：
-    - [沉浸式翻译](https://immersivetranslate.com/)：双语对照翻译网页和 PDF，免费额度日常够用。
-        - 免费：是
-        - 平台：浏览器 / iOS / Android
+    - [沉浸式翻译](https://immersivetranslate.com/)：双语对照翻译网页和 PDF，浏览器、iOS、安卓都能装。
     - [NotebookLM](https://notebooklm.google.com/)：把一堆资料丢进去直接问，答案带出处。
-    - [Whisper](https://github.com/openai/whisper)：开源的语音转文字，本地跑，中文识别不错。
-        - 免费：是
-        - 开源：是
+    - [Whisper](https://github.com/openai/whisper)：语音转文字，本地跑，中文识别不错。
 
 ## Mac&iPhone
 
@@ -80,28 +59,13 @@
     - [PDF24](https://tools.pdf24.org/zh/)：在线版全能选手，不用装东西。
     - [PDFgear](https://www.pdfgear.com/zh/)：有客户端，配合 PDF24 一起用。
     - 办公软件：[WPS](https://www.wps.cn/)无法替换。
-    - 截图软件：[Snipaste](https://zh.snipaste.com/)最好用的截图软件没有之一。
-        - 免费：是
-        - 平台：Win / macOS
-        - 坑：官网是 snipaste.com，搜出来带广告的下载站别点
+    - 截图软件：[Snipaste](https://zh.snipaste.com/)最好用的截图软件没有之一。注意官网是 snipaste.com，搜出来带广告的下载站别点。
     - 音乐播放器：网易云音乐+汽水音乐。
-    - 视频播放器：[IINA](https://iina.io/)最优秀的免费播放器，但仍然找不到Potplayer替代品，OmniPlayer 开机太慢了。
-        - 免费：是
-        - 开源：是
-        - 平台：macOS
-        - 替代：暂无满意的，Potplayer 仍是 PC 上的天花板
+    - 视频播放器：[IINA](https://iina.io/)最优秀的播放器，但 Mac 上还是找不到 Potplayer 那种万能的，OmniPlayer 开机又太慢。
     - 网盘同步：夸克网盘、阿里云盘、百度网盘、蓝奏云、坚果云。
-    - 解压软件：[Keka](https://www.keka.io/zh-cn/)网页端免费，使用习惯有所不同。
-        - 免费：是
-        - 开源：是
-        - 平台：macOS
-        - 坑：官网下载免费，App Store 版是收费的，看清楚再装
+    - 解压软件：[Keka](https://www.keka.io/zh-cn/)官网下载免费，App Store 版收费，看清楚再装。解压习惯和同类略有不同。
     - 图片浏览：自带浏览。
     - 互传工具：[LocalSend](https://localsend.org/zh-CN)多平台互传，但是文件一多就卡，而且图片有些信息会丢失。
-        - 免费：是
-        - 开源：是
-        - 平台：macOS / Win / iOS / Android
-        - 坑：文件一多就卡，图片有些信息会丢
     - 刘海隐藏：[隐藏刘海](https://topnotch.app/)，必备软件。
     - 时间屏保：[Fliqlo锁屏时间](https://fliqlo.com/screensaver/)。
     - [Scroll Reverser](https://pilotmoon.com/scrollreverser/)：鼠标滚轮方向反转，最好用的，没有之一。
@@ -112,10 +76,7 @@
   - 右键助手专业版：可以右键添加一些必备的内容。
   - AlDente：必备的电池管理软件。
   - Bartender：让右上角顶部图标变小。
-  - [AnyTXT](https://anytxt.net/)：一款功能强大的桌面搜索工具，配备全文搜索引擎。
-      - 免费：是
-      - 平台：Win
-      - 替代：Mac 上没有同等好用的
+  - [AnyTXT](https://anytxt.net/)：桌面全文搜索工具。Mac 上暂时没有同等好用的。
 
 - 目前仍不够满意的空缺：
   - 重命名软件：都不如PC上的renamer好用。
@@ -131,13 +92,11 @@
     - [QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)：社交必备。
     - [手心输入法](http://www.xinshuru.com/index.html?p=win)：手机版本3.0.0，PC更新至2.7。
     - [本地网络加速](https://steampp.net/)：用来登陆 github。
-    - [NDM](http://www.neatdownloadmanager.com/index.php/en/)：配合浏览器辅助下载工具，免费神器，比 IDM 用起来简便一点。
+    - [NDM](http://www.neatdownloadmanager.com/index.php/en/)：配合浏览器的下载工具，比 IDM 简便一点。
     - [火绒](https://www.huorong.cn/)：系统安全，某些时候用得到，可不下。
-        - 免费：是
-        - 平台：Win
     - [格式工厂](http://www.pcfreetime.com/formatfactory/CN/index.html)：良心软件，各种格式随意转换。
     - [SumatraPDF阅读器](https://www.sumatrapdfreader.org/free-pdf-reader)：轻量PDF及各种电子书格式阅读器。
-    - [PDF24](https://tools.pdf24.org/zh/)：PDF 工具集，合并分割等好多，免费开源。
+    - [PDF24](https://tools.pdf24.org/zh/)：PDF 工具集，合并、分割等功能齐全。
     - [☆ WPS v11.8.2.11019](https://www.aliyundrive.com/s/W8sT57gsbJ2)：最后一版支持经典模式，皮肤 → 经典，带上 PDF 阅读器。
     - [欧路词典](https://dict.eudic.net/)：手机电脑英语必备，免费版也挺干净的。
     - [Joplin](https://joplinapp.org/)：好用的工作笔记，同步用 onedrive。
@@ -164,7 +123,7 @@
     - [OneCommander](https://onecommander.com/)：文件管理工具，免费版本就挺好用。
     - [AMD 驱动升级](https://www.amd.com/zh-hans/support)。
     - [系统环境安装](https://www.aliyundrive.com/s/BsguUXrpTNK)：好像新系统，不需要这样那样的系统环境了。
-    - [落雪](https://github.com/lyswhut/lx-music-desktop#readme)：免费开源第三方，帮助下载无版权音乐。
+    - [落雪](https://github.com/lyswhut/lx-music-desktop#readme)：第三方工具，能下载无版权音乐。
     - [ShanaEncoder](https://wwzt.lanzoul.com/iLxeQ2ic27kh)：视频格式转换。
     - [SoftCnKiller](https://wwzt.lanzoul.com/isW8B2ic2r1i)：win流氓软件删除。
 - 网盘同步：
@@ -174,8 +133,8 @@
     - [蓝奏云](https://www.lanzoux.com/)：某些特定软件的外链网盘。
     - [夸克网盘](https://www.quark.cn/)：空间大，可以同步文件夹。
 - 录屏软件：
-    - [OBS](https://obsproject.com/)：免费开源，录屏直播最好用，有点门槛。
-    - [Captura（开源）](https://captura.updatestar.com/)
+    - [OBS](https://obsproject.com/)：录屏直播最好用，配置有点门槛。
+    - [Captura](https://captura.updatestar.com/)
     - [oCam(v7bf)](https://pan.baidu.com/s/1kViBPslgr45O291ed9cu2g/)。
 - 文件相关：
     - [Office Tool Plus](https://otp.landian.la/zh-cn/)：免费安装微软 office？
@@ -210,7 +169,7 @@
     - [CMM](https://github.com/BluePointLilac/ContextMenuManager/releases)：鼠标右键管理工具，可以删掉右键里的多余内容。
     - [Quicker](https://getquicker.net/)：是个全能神器，但好像自己需求并不大。
     - [Spacedesk](https://spacedesk.net/)：手机屏幕当电脑副屏，略微延迟 。
-    - [Simplenote](https://simplenote.com/)：跨平台免费笔记应用，简单，本人需求不大。
+    - [Simplenote](https://simplenote.com/)：轻量笔记应用，各平台都能用，我个人需求不大。
     - 软媒良心产物：
         - [设置大师](https://pjs.lanzoux.com/ibipdeb/)，
         - [清理大师](https://pjs.lanzoux.com/ibipdcj/)，
@@ -258,7 +217,7 @@
 - 只有安卓有：
   - wow 时钟：桌面时钟小组件，样式多，能自己调。
   - NFCToolsPRO：读卡、写卡、模拟门禁卡。
-  - [习惯（Loop Habit Tracker）](https://github.com/iSoron/uhabits/)：开源打卡器，只记数字，不搞花活。
+  - [习惯（Loop Habit Tracker）](https://github.com/iSoron/uhabits/)：打卡器，只记数字，不搞花活。
   - Gitme：在手机上看 GitHub 的仓库和通知。
   - 小米天气：小米自家天气，广告比第三方少。
   - [MiXplorer](https://wwp.lanzoul.com/b017p1i3g)：文件管理器。装完记得把那几个插件一起补上。
