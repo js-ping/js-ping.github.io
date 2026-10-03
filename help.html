@@ -186,6 +186,19 @@ tbody tr:nth-child(even){background:var(--soft)}
 <p>三类内容不会出现在网页上：</p>
 <table><thead><tr><th>类别</th><th>怎么界定</th></tr></thead><tbody><tr><td><strong>你手动排除的</strong></td><td>放在 Chrome 里名为 <strong><code>不上网站</code></strong> 的文件夹里的（含它下面的子文件夹），一个都不发布</td></tr><tr><td><strong>安全兜底自动挡的</strong></td><td>个人后台（抖音/微博/公众号后台、支付、云控制台）、政务网站（<code>*.gov.cn</code>）、破解激活站、成人内容、VPN 与机场、购物与网盘分享链接、彩票相关</td></tr><tr><td><strong>重复的</strong></td><td>同一个网址收藏了多次，只留一条</td></tr></tbody></table>
 <p><strong>想排除一个书签，最省事的做法</strong>：在 Chrome 书签栏新建一个文件夹，名字就叫「不上网站」，把不想公开的拖进去。以后想放回来，拖出来就行。</p>
+<p><strong>被自动兜底挡下的那批，可以一键收拢进来。</strong> 双击 <code>4-整理不上网站.command</code>，它会把命中的书签<strong>按原因分好类</strong>，搬进「不上网站」文件夹：</p>
+<pre><code>不上网站/
+├── 个人后台            28 条
+├── 政务与单位内部系统     25 条
+├── 破解与激活码站        13 条
+├── 成人内容             1 条
+├── 机场与代理           19 条
+├── 彩票相关             4 条
+└── 购物与网盘分享        5 条</code></pre>
+<p>这样你在 Chrome 里一眼就能看清「到底哪些没上网、因为什么没上网」。想放行其中某一条，<strong>直接从文件夹里拖出来</strong>，十几秒后它就出现在网页上了（前提是它不再命中自动规则；命中了就得改规则，见下一小节）。</p>
+<blockquote>⚠️ 这一步会先退出 Chrome——Chrome 只在启动时读一次书签文件，边开边改会被它覆盖。脚本退出前会跟你确认一次，改完自动帮你重开，标签页会恢复。改之前还会把书签文件备份到 <code>Chrome/_uppjs备份/</code>。</blockquote>
+<p>&gt;</p>
+<blockquote>网页内容不会因为这一步变化——这些书签本来就没被发布。</blockquote>
 <p>每次同步，终端里都会把「剔除了什么、每条因为什么被剔」印出来，<strong>不会偷偷丢东西</strong>。</p>
 <h4>想放行被自动挡掉的内容</h4>
 <p>打开 <code>同步书签.py</code>，往上找到 <code>AUTO_BLOCK_RULES</code>，里面按类别列着关键词：</p>
@@ -197,7 +210,7 @@ tbody tr:nth-child(even){background:var(--soft)}
 <hr>
 <h2>四、文件都是干什么的</h2>
 <p>日常你只会碰最上面两行，其余全是自动生成的，<strong>不要手动改</strong>：</p>
-<table><thead><tr><th>文件</th><th>作用</th><th>你要动它吗</th></tr></thead><tbody><tr><td><code>README.md</code></td><td>软件清单的内容源</td><td>✅ 常改</td></tr><tr><td><code>使用说明.md</code></td><td>本文的内容源</td><td>🔘 偶尔改</td></tr><tr><td><code>同步书签.py</code></td><td>读 Chrome 书签 → 生成书签页，顺带做安全过滤</td><td>🔘 想调过滤规则才动</td></tr><tr><td><code>links.md</code></td><td>书签页的中间产物，<strong>由脚本生成</strong></td><td>❌ 手改会被覆盖</td></tr><tr><td><code>lottery.html</code></td><td>彩票选号工具，独立单文件</td><td>🔘 想换版本才动</td></tr><tr><td><code>index.html</code> / <code>apps.html</code> / <code>links.html</code></td><td>三个网页，自动生成</td><td>❌ 手改会被覆盖</td></tr><tr><td><code>使用说明.html</code> / <code>help.html</code></td><td>说明书的网页版，同一份内容两个名字</td><td>❌ 自动生成</td></tr><tr><td><code>build.py</code></td><td>编译脚本</td><td>🔘 加新页面、改配色才动</td></tr><tr><td><code>1-编辑内容.command</code></td><td>双击 → 打开内容源</td><td>🔘 双击用</td></tr><tr><td><code>2-更新网站.command</code></td><td>双击 → 编译 + 上线</td><td>🔘 双击用</td></tr><tr><td><code>3-同步书签.command</code></td><td>双击 → 挂起监听 Chrome 书签，自动同步上线</td><td>🔘 双击用</td></tr><tr><td><code>favicon.*</code> / <code>icon-*.png</code></td><td>网站图标</td><td>不用动</td></tr><tr><td><code>manifest.webmanifest</code></td><td>手机加到主屏的配置，自动生成</td><td>不用动</td></tr><tr><td><code>robots.txt</code> / <code>sitemap.xml</code></td><td>给搜索引擎看的，自动生成</td><td>不用动</td></tr><tr><td><code>edgeone.json</code></td><td>托管平台的构建配置</td><td>❌ 不要删</td></tr><tr><td><code>docs/</code></td><td>两份进阶文档（备案、升级路线）</td><td>想看时再看</td></tr></tbody></table>
+<table><thead><tr><th>文件</th><th>作用</th><th>你要动它吗</th></tr></thead><tbody><tr><td><code>README.md</code></td><td>软件清单的内容源</td><td>✅ 常改</td></tr><tr><td><code>使用说明.md</code></td><td>本文的内容源</td><td>🔘 偶尔改</td></tr><tr><td><code>同步书签.py</code></td><td>读 Chrome 书签 → 生成书签页，顺带做安全过滤</td><td>🔘 想调过滤规则才动</td></tr><tr><td><code>迁移书签.py</code></td><td>把被安全兜底挡下的书签，按原因搬进「不上网站」</td><td>🔘 被 <code>4-</code> 调用</td></tr><tr><td><code>links.md</code></td><td>书签页的中间产物，<strong>由脚本生成</strong></td><td>❌ 手改会被覆盖</td></tr><tr><td><code>lottery.html</code></td><td>彩票选号工具，独立单文件</td><td>🔘 想换版本才动</td></tr><tr><td><code>index.html</code> / <code>apps.html</code> / <code>links.html</code></td><td>三个网页，自动生成</td><td>❌ 手改会被覆盖</td></tr><tr><td><code>使用说明.html</code> / <code>help.html</code></td><td>说明书的网页版，同一份内容两个名字</td><td>❌ 自动生成</td></tr><tr><td><code>build.py</code></td><td>编译脚本</td><td>🔘 加新页面、改配色才动</td></tr><tr><td><code>1-编辑内容.command</code></td><td>双击 → 打开内容源</td><td>🔘 双击用</td></tr><tr><td><code>2-更新网站.command</code></td><td>双击 → 编译 + 上线</td><td>🔘 双击用</td></tr><tr><td><code>3-同步书签.command</code></td><td>双击 → 挂起监听 Chrome 书签，自动同步上线</td><td>🔘 双击用</td></tr><tr><td><code>4-整理不上网站.command</code></td><td>双击 → 把被自动挡下的书签收拢进「不上网站」</td><td>🔘 需要时双击</td></tr><tr><td><code>favicon.*</code> / <code>icon-*.png</code></td><td>网站图标</td><td>不用动</td></tr><tr><td><code>manifest.webmanifest</code></td><td>手机加到主屏的配置，自动生成</td><td>不用动</td></tr><tr><td><code>robots.txt</code> / <code>sitemap.xml</code></td><td>给搜索引擎看的，自动生成</td><td>不用动</td></tr><tr><td><code>edgeone.json</code></td><td>托管平台的构建配置</td><td>❌ 不要删</td></tr><tr><td><code>docs/</code></td><td>两份进阶文档（备案、升级路线）</td><td>想看时再看</td></tr></tbody></table>
 <blockquote><strong>唯一要记住的规则：手写的只有 README.md 和 使用说明.md 这两个内容源。</strong><br>手改 <code>.html</code> 或 <code>links.md</code> 下次更新会被覆盖，白改。<br>书签页要改，请去 Chrome 里改书签。</blockquote>
 <h3>彩票选号工具</h3>
 <p><code>lottery.html</code> 是个独立的单文件小工具，和本站其他部分不共用代码，共四个模块：</p>
