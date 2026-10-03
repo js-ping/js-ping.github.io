@@ -5,13 +5,17 @@
 #  挂起来之后，你在 Chrome 里加/删/改书签，网页会自动跟着更新。
 #  关掉这个终端窗口（或者按 Ctrl+C）就停止监听，不会留任何后台进程。
 #
+#  默认「攒着推送」：本地随时更新，但不上线，
+#  攒够了你双击「2-更新网站.command」一次性提交并发布。
+#  想恢复成改一次上一次，把下面的 AUTO_PUSH 改成 1。
+#
 #  线上地址：https://uppjs.com/links.html
 # ============================================================
 
 cd "$(dirname "$0")" || exit 1
 
 # ----------------- 想改行为，改这两行 -----------------
-AUTO_PUSH=1        # 1 = 自动推送到线上；0 = 只更新本地，等你自己双击「2-更新网站」
+AUTO_PUSH=0        # 0 = 攒着，等你自己双击「2-更新网站」；1 = 每次改动都自动提交并推送
 CHECK_SECONDS=20   # 多久检查一次 Chrome 书签有没有变
 
 # Chrome 常常连着写好几次书签文件，发现变化后等它安静下来再同步
@@ -78,6 +82,7 @@ fi
 
 # ---------------------------------------------------------------- 同步 + 发布
 PUSH_PENDING=0
+PENDING=0
 
 do_sync() {
   local label="$1" verbose="$2" out status
@@ -110,7 +115,17 @@ do_sync() {
     tail -6 /tmp/uppjs_build.log | sed 's/^/     /'
     return 1
   fi
-  echo -e "  ${G}✓${N} 网页已重新生成"
+  echo -e "  ${G}✓${N} 本地网页已重新生成"
+
+  # ---------------------------------------------------------- 攒着推送模式
+  # 只更新本地文件，不 git add、不 commit、不 push。
+  # 攒下的改动交给「2-更新网站.command」一次性提交并发布。
+  if [ "$AUTO_PUSH" != "1" ]; then
+    PENDING=$((PENDING + 1))
+    echo -e "  ${G}✓${N} 改动已攒在本地  ${D}（已攒 ${PENDING} 处，还没上线）${N}"
+    echo -e "  ${D}   想上线：双击「2-更新网站.command」，会一次性提交并推送${N}"
+    return 0
+  fi
 
   git add -A
   if git diff --cached --quiet; then
@@ -121,11 +136,6 @@ do_sync() {
   git commit -q -m "同步 Chrome 书签 $(date '+%Y-%m-%d %H:%M')" || {
     echo -e "  ${R}✗ 提交失败${N}"; return 1; }
   echo -e "  ${G}✓${N} 已提交到本地"
-
-  if [ "$AUTO_PUSH" != "1" ]; then
-    echo -e "  ${Y}·${N} 当前是「不自动推送」，等你双击「2-更新网站.command」"
-    return 0
-  fi
 
   if git push -q origin main 2>/dev/null; then
     PUSH_PENDING=0
@@ -149,7 +159,8 @@ echo -e "  ${D}· 不想公开的书签，在 Chrome 里丢进「不上网站」
 if [ "$AUTO_PUSH" = "1" ]; then
   echo -e "  ${D}· 每次同步都会自动提交并推送到线上${N}"
 else
-  echo -e "  ${D}· 只更新本地，推送要你自己双击「2-更新网站」${N}"
+  echo -e "  ${D}· 本地网页随时更新，但不会自动上线${N}"
+  echo -e "  ${D}  （攒够了双击「2-更新网站」一次性提交并发布）${N}"
 fi
 echo "  =================================================="
 
@@ -159,6 +170,9 @@ do_sync "启动，先同步一次" 1
 echo ""
 echo -e "  ${G}✓ 已挂起，正在监听${N}"
 echo -e "  ${D}  每 ${CHECK_SECONDS} 秒检查一次。现在可以直接去 Chrome 收藏东西了。${N}"
+if [ "$PENDING" -gt 0 ] 2>/dev/null; then
+  echo -e "  ${Y}·${N} 本地有改动还没上线，双击「2-更新网站.command」即可发布"
+fi
 echo -e "  ${D}  想停下来：关掉这个窗口，或按 Ctrl+C。${N}"
 echo ""
 
