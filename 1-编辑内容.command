@@ -20,12 +20,14 @@ fi
 HINT="
 可改的文件（左侧列表里点一下就能切换）：
   README.md      软件清单      ← 最常改
-  links.md       网址书签
   使用说明.md     本说明书
+
+注意：links.md（网址书签）现在是自动生成的，手改会被下次同步覆盖。
+      想改书签，去 Chrome 里收藏 / 删除，或者双击「3-同步书签.command」。
 
 改完之后：Cmd + S 保存，然后双击「2-更新网站.command」上线。"
 
-# 优先打开「整个文件夹」——现在有三个内容源，文件列表里切换比单独开一个文件方便
+# 优先打开「整个文件夹」——文件列表里切换比单独开一个文件方便
 for APP in "Visual Studio Code" "Cursor" "VSCodium" "Sublime Text" "BBEdit" "TextMate" "Typora" "MacDown"; do
   if [ -d "/Applications/$APP.app" ] || [ -d "$HOME/Applications/$APP.app" ]; then
     open -a "$APP" "$PWD"

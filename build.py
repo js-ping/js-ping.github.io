@@ -8,10 +8,11 @@ build.py —— 把 markdown 内容源编译成一套零依赖的静态站点
     python3 build.py --dump     # 只打印解析后的结构（JSON），用于校对内容有无丢失
 
 产出：
-    index.html   首页（导航，软件清单放最显眼的位置）
-    apps.html    软件清单      <- README.md
-    links.html   网址书签      <- links.md
-    help.html    使用说明      <- 使用说明.md（同时产出「使用说明.html」）
+    index.html    首页（导航，软件清单放最显眼的位置）
+    apps.html     软件清单      <- README.md
+    links.html    网址书签      <- links.md（由「同步书签.py」从 Chrome 书签自动生成）
+    help.html     使用说明      <- 使用说明.md（同时产出「使用说明.html」）
+    lottery.html  彩票选号工具   <- 独立单文件，不参与本脚本编译
 
 设计原则：
     1. 内容源是 markdown，改内容只改源文件，然后重跑本脚本。
@@ -1430,6 +1431,8 @@ __SKIN_PANEL_JS__
 OTHER_PAGES = [
     ("网址书签", "链", "links.html",
      "我自己常开的网站和在线工具，按用途分好类。一个搜索框全都能搜到。"),
+    ("彩票选号", "彩", "lottery.html",
+     "双色球、大乐透随机选号与购票核对，附历史开奖走势图。纯离线单文件，不联网。"),
     ("使用说明", "问", "help.html",
      "网站怎么用、内容怎么写、出问题怎么办。零技术基础也能看懂，手机上直接打开。"),
 ]
@@ -1675,6 +1678,7 @@ __SKIN_SCRIPT__
     <nav class="nav-links">
       <a href="apps.html">软件清单</a>
       <a href="links.html">网址书签</a>
+      <a href="lottery.html">彩票选号</a>
       <a href="help.html">使用说明</a>
     </nav>
     <div class="tools">
@@ -2008,7 +2012,8 @@ def build_seo(today: str):
         "User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % SITE,
         encoding="utf-8")
     pages = [("", "1.0", "weekly"), ("apps.html", "0.9", "weekly"),
-             ("links.html", "0.8", "weekly"), ("help.html", "0.5", "monthly")]
+             ("links.html", "0.8", "weekly"), ("lottery.html", "0.6", "monthly"),
+             ("help.html", "0.5", "monthly")]
     urls = "\n".join(
         "  <url><loc>%s/%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq>"
         "<priority>%s</priority></url>" % (SITE, p, today, cf, pr)
