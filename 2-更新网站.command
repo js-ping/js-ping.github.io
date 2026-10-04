@@ -33,7 +33,7 @@ xcode-select --install" buttons {"好"} default button 1 with icon stop' >/dev/n
 fi
 
 # ---------------------------------------------------------------- ② 生成网页
-echo "  ① 生成网页中（首页 + 软件清单 + 网址书签 + 使用说明）..."
+echo "  ① 生成网页中（首页 + 软件清单 + 彩票选号；说明书只写本地不上线）..."
 if ! "$PY" build.py; then
   echo ""
   echo -e "  ${R}✗ 生成失败${N}——多半是 README.md 里某一行格式写错了"

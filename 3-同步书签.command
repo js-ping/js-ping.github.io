@@ -9,7 +9,9 @@
 #  攒够了你双击「2-更新网站.command」一次性提交并发布。
 #  想恢复成改一次上一次，把下面的 AUTO_PUSH 改成 1。
 #
-#  线上地址：https://uppjs.com/links.html
+#  注意：网址书签页目前是「下线」状态（build.py 里那条 enabled=False）。
+#        本脚本照常更新 links.md，一条内容都不会丢；
+#        想重新上线：把 build.py 里 links 那条的 enabled 改成 True。
 # ============================================================
 
 cd "$(dirname "$0")" || exit 1
@@ -139,7 +141,8 @@ do_sync() {
 
   if git push -q origin main 2>/dev/null; then
     PUSH_PENDING=0
-    echo -e "  ${G}✓${N} 已推送  ${D}https://uppjs.com/links.html 约 1 分钟后生效${N}"
+    echo -e "  ${G}✓${N} 已推送  ${D}约 1 分钟后生效${N}"
+    echo -e "  ${D}  （网址书签页目前下线，改动不会出现在网站上）${N}"
   else
     PUSH_PENDING=1
     echo -e "  ${Y}·${N} 推送失败（多半是网络不通）"

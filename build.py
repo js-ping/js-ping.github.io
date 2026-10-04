@@ -7,17 +7,24 @@ build.py —— 把 markdown 内容源编译成一套零依赖的静态站点
     python3 build.py            # 生成首页 + 所有清单页 + 说明书
     python3 build.py --dump     # 只打印解析后的结构（JSON），用于校对内容有无丢失
 
-产出：
+产出（会自动上线）：
     index.html    首页（导航，软件清单放最显眼的位置）
     apps.html     软件清单      <- README.md
-    links.html    网址书签      <- links.md（由「同步书签.py」从 Chrome 书签自动生成）
-    help.html     使用说明      <- 使用说明.md（同时产出「使用说明.html」）
     lottery.html  彩票选号工具   <- 独立单文件，不参与本脚本编译
+
+产出（上线开关关着，随时可开）：
+    links.html    网址书签      <- links.md（由「同步书签.py」从 Chrome 书签自动生成）
+                  → LIST_PAGES 里那一条的 enabled 改成 True 即恢复
+
+产出（只在本机，不上线）：
+    本地资料/使用说明.html     <- 本地资料/使用说明.md
+    「本地资料/」整个目录在 .gitignore 里，既不提交也不发布。
 
 设计原则：
     1. 内容源是 markdown，改内容只改源文件，然后重跑本脚本。
     2. 每个页面都是单文件、零依赖、离线可用，数据全部内联。
     3. 想加一个新清单页：往下面的 LIST_PAGES 里加一条即可，其余全自动。
+    4. 想临时撤下一个页面：把那条的 enabled 改成 False，代码和内容都留着。
 """
 
 import html
@@ -36,24 +43,28 @@ OUT = ROOT / "index.html"
 
 SITE = "https://uppjs.com"
 SITE_NAME = "uppjs.com"
-SITE_SUB = "软件与网址清单"
-SITE_DESC = ("自己在用的 Mac / PC / 手机软件、硬件和常用网址，整理成清单长期更新，支持即时搜索。"
+SITE_SUB = "软件与工具清单"
+SITE_DESC = ("自己在用的 Mac / PC / 手机软件、硬件与外设，整理成清单长期更新，支持即时搜索。"
              "不接推广、不做商业排序，收录标准只有一条：用得住。")
 THEME_COLOR = "#2f6fed"
 
 # 页面清单：想加一个新页面，往这里加一条就行。
-#   src    —— 内容源（markdown 文件）
-#   out    —— 生成的 html
-#   layout —— "list" 普通清单 / "compact" 紧凑链接（书签页用）
+#   src     —— 内容源（markdown 文件）
+#   out     —— 生成的 html
+#   layout  —— "list" 普通清单 / "compact" 紧凑链接（书签页用）
+#   enabled —— 省略或 True 就生成；False 表示暂时下线（内容源与代码都留着）
 LIST_PAGES = [
     dict(src="README.md", out="apps.html", kicker="Mac · Windows · 手机 · 外设",
          title="软件清单",
          sub="我自己在用的软件、硬件和外设，长期更新。收录标准只有一条：用得住。",
          layout="list"),
+    # —— 网址书签：目前下线（2026-10-04 起），页面撤下、接口留着 ——
+    #    想恢复：把 enabled 改成 True，重跑 build.py，再双击「2-更新网站.command」。
+    #    下线期间 links.md 仍由「同步书签.py」照常更新，内容一条都不会丢。
     dict(src="links.md", out="links.html", kicker="在线工具 · 资源站 · 常用站",
          title="网址书签",
          sub="从浏览器书签里整理出来的常用网址，按用途分好类，一个搜索框全都能搜到。",
-         layout="compact"),
+         layout="compact", enabled=False),
 ]
 
 # --------------------------------------------------------------------------
@@ -1156,8 +1167,7 @@ __BODY__
       <p>右上角的筛选可以和搜索叠加用：<strong>有下载链接</strong>只看能直接点开的，
          <strong>我推荐的</strong>只看我标了 ☆ 的。</p>
       <h3>内容怎么更新</h3>
-      <p>本页由仓库里的 <code>__SRC__</code> 自动生成，改内容只改那一个文件，不用碰这个页面的代码。
-         具体步骤见<a href="help.html">使用说明</a>。</p>
+      <p>本页由仓库里的 <code>__SRC__</code> 自动生成，改内容只改那一个文件，不用碰这个页面的代码。</p>
       <h3>数据与隐私</h3>
       <ul>
         <li>纯静态页面：没有后端、没有数据库、没有统计脚本、不请求任何第三方 CDN。</li>
@@ -1429,18 +1439,15 @@ __SKIN_PANEL_JS__
 # --------------------------------------------------------------------------
 
 OTHER_PAGES = [
-    ("网址书签", "链", "links.html",
-     "我自己常开的网站和在线工具，按用途分好类。一个搜索框全都能搜到。"),
     ("彩票选号", "彩", "lottery.html",
      "双色球、大乐透随机选号与购票核对，附历史开奖走势图。纯离线单文件，不联网。"),
-    ("使用说明", "问", "help.html",
-     "网站怎么用、内容怎么写、出问题怎么办。零技术基础也能看懂，手机上直接打开。"),
 ]
 
+# 首页「规划中」的占位。做好一个就挪到 OTHER_PAGES 里。
 PLANNED = [
-    ("文章归档", "▦", "公众号写过的长文按主题归档，比在公众号里翻历史清楚得多。"),
-    ("书单 / 影单", "▥", "看过的书和片子，带一句短评。"),
-    ("备考资料", "▧", "一建相关的笔记索引、错题和资料清单。"),
+    ("文章归档", "▦", "写过的长文按主题归档，比在平台里翻历史清楚得多。"),
+    ("书单", "▥", "看过的书，带年份、评分和一句短评。"),
+    ("影单", "▤", "看过的电影和剧集，带年份、评分和一句短评。"),
     ("拼音搜索", "拼", "打 wyyy 就能搜到「网易云」，不用来回切输入法。"),
     ("条目对比", "⇄", "把几条并排比参数，选哪个一目了然。"),
     ("失效链接体检", "检", "定期跑一遍外链，把 404 的挑出来。清单最怕的不是少，而是过期。"),
@@ -1450,9 +1457,7 @@ PLANNED = [
 def build_home(pages: dict, updated: str) -> str:
     """pages: {out 文件名: {"items":…, "links":…, "groups":…, "cats":[(id, 标题, 条数)]}}"""
     apps = pages.get("apps.html", {})
-    bm = pages.get("links.html", {})
     apps_cats = apps.get("cats", [])
-    bm_cats = bm.get("cats", [])
 
     # —— 主角：软件清单 ——
     chips = "".join(
@@ -1483,10 +1488,14 @@ def build_home(pages: dict, updated: str) -> str:
     # —— 其它页面 ——
     cards = []
     for t, ico, href, d in OTHER_PAGES:
+        # 是清单页就带上条数；工具页（比如彩票选号）没有条数，跳过
+        # 注意：这里按 pages 里有没有这一页来判断，所以页面下线后卡片会自动消失
+        pg = pages.get(href)
         tag = ""
-        if href == "links.html":
-            tag = f'<span class="tag">{bm.get("items", 0)} 条</span>'
-            d = f"{len(bm_cats)} 个分类，" + d
+        if pg:
+            if pg.get("cats"):
+                d = f'{len(pg["cats"])} 个分类，' + d
+            tag = f'<span class="tag">{pg.get("items", 0)} 条</span>'
         cards.append(f'<a class="card" href="{href}">{tag}'
                      f'<span class="ico">{ico}</span><h3>{esc(t)}</h3>'
                      f'<p>{esc(d)}</p></a>')
@@ -1523,7 +1532,7 @@ HOME_TEMPLATE = r"""<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>__SITE_NAME__ · 软件与网址清单</title>
+<title>__SITE_NAME__ · 软件与工具清单</title>
 <meta name="description" content="__SITE_DESC__">
 <link rel="canonical" href="__SITE__/">
 <link rel="icon" href="favicon.ico" sizes="any">
@@ -1533,7 +1542,7 @@ HOME_TEMPLATE = r"""<!DOCTYPE html>
 <meta name="theme-color" content="__THEME_COLOR__">
 <meta property="og:type" content="website">
 <meta property="og:url" content="__SITE__/">
-<meta property="og:title" content="__SITE_NAME__ · 软件与网址清单">
+<meta property="og:title" content="__SITE_NAME__ · 软件与工具清单">
 <meta property="og:description" content="__SITE_DESC__">
 <style>
 __THEME_CSS__
@@ -1677,9 +1686,7 @@ __SKIN_SCRIPT__
     <a class="brand" href="index.html">__SITE_NAME__<span>个人清单站</span></a>
     <nav class="nav-links">
       <a href="apps.html">软件清单</a>
-      <a href="links.html">网址书签</a>
       <a href="lottery.html">彩票选号</a>
-      <a href="help.html">使用说明</a>
     </nav>
     <div class="tools">
 __SKIN_PANEL_HTML__
@@ -1691,7 +1698,7 @@ __SKIN_PANEL_HTML__
   <div class="hero">
     <p class="kicker">个人清单站</p>
     <h1>__SITE_NAME__</h1>
-    <p>自己在用的软件、硬件和网址，整理成清单长期更新。
+    <p>自己在用的软件、硬件和外设，整理成清单长期更新。
        <strong>不接推广、不做商业排序</strong>，收录标准只有一条：用得住。</p>
     <p class="hint">全站 <b>__N_ALL__</b> 条 · 更新于 __UPDATED__</p>
   </div>
@@ -1715,7 +1722,7 @@ __FEATURE__
 
 <footer>
   <span>纯静态 · 无后端 · 无统计脚本 · 无第三方请求</span>
-  <span>内容源 README.md / links.md · 更新于 __UPDATED__</span>
+  <span>内容源 README.md · 更新于 __UPDATED__</span>
 </footer>
 
 <script>
@@ -1730,11 +1737,15 @@ __SKIN_PANEL_JS__
 
 
 # --------------------------------------------------------------------------
-# 5. 使用说明.md -> 使用说明.html（同一份内容，两个格式）
+# 5. 使用说明（只在本机生成，不上线）
+#    内容源在「本地资料/」，那个目录写进了 .gitignore：
+#    既不提交到 GitHub，也不会出现在 build 产物里，只在你自己电脑上。
+#    想重新上线：把 help 加回 OTHER_PAGES，并把输出路径挪回 ROOT。
 # --------------------------------------------------------------------------
 
-HELP_SRC = ROOT / "使用说明.md"
-HELP_OUT = ROOT / "使用说明.html"
+LOCAL_DIR = ROOT / "本地资料"
+HELP_SRC = LOCAL_DIR / "使用说明.md"
+HELP_OUT = LOCAL_DIR / "使用说明.html"
 
 
 def md_to_html(md: str) -> str:
@@ -1946,12 +1957,11 @@ tbody tr:nth-child(even){background:var(--soft)}
 </head>
 <body>
 <article>
-<a class="back" href="./">← 回到 uppjs.com 首页</a>
+<a class="back" href="https://uppjs.com/">← 回到 uppjs.com 首页</a>
 <nav class="topnav">
-  <a href="./">首页</a>
-  <a href="apps.html">软件清单</a>
-  <a href="links.html">网址书签</a>
-  <a class="on" href="help.html">使用说明</a>
+  <a href="https://uppjs.com/">首页</a>
+  <a href="https://uppjs.com/apps.html">软件清单</a>
+  <a class="on" href="#">使用说明（本地）</a>
 </nav>
 __BODY__
 </article>
@@ -2012,8 +2022,7 @@ def build_seo(today: str):
         "User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % SITE,
         encoding="utf-8")
     pages = [("", "1.0", "weekly"), ("apps.html", "0.9", "weekly"),
-             ("links.html", "0.8", "weekly"), ("lottery.html", "0.6", "monthly"),
-             ("help.html", "0.5", "monthly")]
+             ("lottery.html", "0.6", "monthly")]
     urls = "\n".join(
         "  <url><loc>%s/%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq>"
         "<priority>%s</priority></url>" % (SITE, p, today, cf, pr)
@@ -2030,6 +2039,10 @@ def main():
     pages = {}
 
     for cfg in LIST_PAGES:
+        if not cfg.get("enabled", True):
+            print("已下线 %s（enabled=False，内容源 %s 留着，想恢复改回 True）"
+                  % (cfg["out"], cfg["src"]))
+            continue
         src = ROOT / cfg["src"]
         if not src.exists():
             print("跳过 %s：文件不存在" % cfg["src"])
@@ -2062,13 +2075,14 @@ def main():
     print("已生成 index.html（首页）：全站 %d 条 / %d 个页面 / %d KB"
           % (sum(x["items"] for x in pages.values()), len(pages), len(home) // 1024))
 
-    # 说明书的 HTML 版，跟着一起更新，保证 md / html 两个版本永远同步
-    # 另存一份英文名 help.html，方便在手机上直接输入网址访问
+    # 说明书的 HTML 版，跟着一起更新，保证 md / html 两个版本永远同步。
+    # 注意：只写进「本地资料/」，不上线；另存一份英文名 help.html 方便手机/本地打开。
     if HELP_SRC.exists():
         help_out = build_help_html()
+        LOCAL_DIR.mkdir(exist_ok=True)
         HELP_OUT.write_text(help_out, encoding="utf-8")
-        (ROOT / "help.html").write_text(help_out, encoding="utf-8")
-        print("已生成 %s 与 help.html：%d KB" % (HELP_OUT.name, len(help_out) // 1024))
+        (LOCAL_DIR / "help.html").write_text(help_out, encoding="utf-8")
+        print("已生成本地说明书（不上线）：%s" % HELP_OUT.relative_to(ROOT))
 
     build_seo(today)
     print("已生成 robots.txt 与 sitemap.xml")

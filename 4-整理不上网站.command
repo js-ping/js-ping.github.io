@@ -67,7 +67,8 @@ if ! printf '%s' "$OUT" | grep -q '__SYNC__ changed=1'; then
   exit 0
 fi
 
-echo -e "  ${Y}·${N} 网页内容跟着变了，正在重新生成并发布……"
+echo -e "  ${Y}·${N} 正在重新生成网页……"
+echo -e "  ${D}  （网址书签页目前是下线状态，所以这一步看不到页面变化，内容照常更新）${N}"
 if ! "$PY" build.py > /tmp/uppjs_build.log 2>&1; then
   echo -e "  ${R}✗ 生成网页失败${N}"
   tail -6 /tmp/uppjs_build.log | sed 's/^/     /'

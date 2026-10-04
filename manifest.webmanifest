@@ -1,7 +1,7 @@
 {
-  "name": "uppjs.com · 软件与网址清单",
+  "name": "uppjs.com · 软件与工具清单",
   "short_name": "uppjs",
-  "description": "自己在用的 Mac / PC / 手机软件、硬件和常用网址，整理成清单长期更新，支持即时搜索。不接推广、不做商业排序，收录标准只有一条：用得住。",
+  "description": "自己在用的 Mac / PC / 手机软件、硬件与外设，整理成清单长期更新，支持即时搜索。不接推广、不做商业排序，收录标准只有一条：用得住。",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
