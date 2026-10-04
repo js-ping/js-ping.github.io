@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>更新日志 · uppjs.com</title>
+<meta name="description" content="这个站的每一次改动都记在这里，最新的在最上面。记录由仓库的提交历史自动生成，不用手写，也就不会过期。">
+<link rel="canonical" href="https://uppjs.com/changelog.html">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="uppjs.com">
+<meta property="og:url" content="https://uppjs.com/changelog.html">
+<meta property="og:title" content="更新日志 · uppjs.com">
+<meta property="og:description" content="这个站的每一次改动都记在这里，最新的在最上面。记录由仓库的提交历史自动生成，不用手写，也就不会过期。">
+<meta property="og:image" content="https://uppjs.com/og/changelog.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://uppjs.com/#website","url":"https://uppjs.com/","name":"uppjs.com · 软件与工具清单","description":"自己在用的 Mac / PC / 手机软件、硬件与外设，整理成清单长期更新，支持即时搜索。不接推广、不做商业排序，收录标准只有一条：用得住。","inLanguage":"zh-CN"},{"@type":"Person","@id":"https://uppjs.com/#author","name":"uppjs.com","url":"https://uppjs.com/about.html","description":"把在用的软件、工具和写法整理成清单，长期更新。"},{"@type":"WebPage","@id":"https://uppjs.com/changelog.html#page","url":"https://uppjs.com/changelog.html","name":"更新日志","description":"这个站的每一次改动都记在这里，最新的在最上面。记录由仓库的提交历史自动生成，不用手写，也就不会过期。","inLanguage":"zh-CN","isPartOf":{"@id":"https://uppjs.com/#website"},"author":{"@id":"https://uppjs.com/#author"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://uppjs.com/"},{"@type":"ListItem","position":2,"name":"更新日志","item":"https://uppjs.com/changelog.html"}]}]}</script>
+<style>
+:root{
+  --bg:#fbfbf9; --card:#fff; --fg:#1c1c1a; --fg2:#565650; --fg3:#8e8e86;
+  --line:#e4e4de; --accent:#a8681f; --soft:#f4f3ee; --code:#f2f1ea;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#141413; --card:#1c1c1a; --fg:#eceae4; --fg2:#b2b0a7; --fg3:#85837b;
+    --line:#302f2c; --accent:#d9a05c; --soft:#232320; --code:#25241f;
+  }
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",
+       "Microsoft YaHei",sans-serif;
+}
+article{max-width:800px; margin:0 auto; padding:40px 24px 80px}
+h1{font-size:26px; line-height:1.4; margin:0 0 6px; letter-spacing:-.01em}
+h2{font-size:19px; margin:38px 0 12px; padding-bottom:8px; border-bottom:1px solid var(--line)}
+h3{font-size:16px; margin:26px 0 8px}
+h4{font-size:15px; margin:20px 0 6px}
+p{margin:10px 0}
+a{color:var(--accent); text-decoration:none; border-bottom:1px solid var(--line)}
+a:hover{border-bottom-color:var(--accent)}
+hr{border:0; border-top:1px solid var(--line); margin:34px 0}
+ul,ol{margin:10px 0; padding-left:24px}
+li{margin:5px 0}
+code{
+  background:var(--code); border:1px solid var(--line); border-radius:4px;
+  padding:1px 5px; font-size:13.5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+pre{
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:14px 16px; overflow-x:auto; margin:14px 0;
+}
+pre code{background:none; border:0; padding:0; font-size:13.5px; line-height:1.65}
+blockquote{
+  margin:14px 0; padding:10px 16px; background:var(--soft);
+  border-left:3px solid var(--accent); border-radius:0 8px 8px 0;
+}
+blockquote p{margin:0}
+table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14px}
+th,td{border:1px solid var(--line); padding:8px 12px; text-align:left; vertical-align:top}
+th{background:var(--soft); font-weight:600}
+tbody tr:nth-child(even){background:var(--soft)}
+.back{
+  display:inline-block; margin-bottom:22px; font-size:13.5px; color:var(--fg3);
+  border-bottom:0;
+}
+.back:hover{color:var(--accent)}
+.topnav{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 22px}
+.topnav a{
+  font-size:13px; color:var(--fg2); border:1px solid var(--line);
+  border-radius:8px; padding:5px 11px; border-bottom:1px solid var(--line);
+}
+.topnav a:hover{color:var(--accent); border-color:var(--accent); text-decoration:none}
+.topnav a.on{color:var(--accent); border-color:var(--accent); background:var(--soft)}
+@media (max-width:640px){
+  article{padding:26px 16px 60px}
+  h1{font-size:21px}
+  h2{font-size:17px}
+  table,thead,tbody,tr,th,td{display:block; width:100%}
+  thead{display:none}
+  table{margin:14px 0}
+  tr{
+    border:1px solid var(--line); border-radius:10px; margin:0 0 10px;
+    padding:9px 13px; background:var(--card);
+  }
+  tbody tr:nth-child(even){background:var(--card)}
+  td{border:0; padding:3px 0; font-size:13.5px; color:var(--fg2)}
+  td:first-child{
+    font-weight:600; color:var(--fg); font-size:14.5px; padding-bottom:5px;
+    word-break:break-all;
+  }
+  pre{font-size:12.5px}
+  blockquote{padding:9px 13px}
+}
+@media print{
+  body{background:#fff; color:#000}
+  .back{display:none}
+  .topnav{display:none}
+  a{color:#000}
+  h2{page-break-after:avoid}
+  table,pre,blockquote{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<article>
+<nav class="topnav">
+<a href="apps.html">软件清单</a>
+  <a href="lottery.html">彩票选号</a>
+  <a href="about.html">关于</a>
+  <a class="on" href="changelog.html">更新日志</a>
+</nav>
+<h1>更新日志</h1>
+<p>这个站的每一次改动都记在这里，最新的在最上面。记录由仓库的提交历史自动生成，不用手写，也就不会过期。</p>
+<h2>2026-10-04</h2>
+<ul><li>路线图同步最新状态：书签页下线、说明书本地化、备考资料明确不做</li><li>撤下网址书签页与使用说明页，说明书改为只在本机生成</li></ul>
+<h2>2026-10-03</h2>
+<ul><li>书签同步改成「攒着推送」：本地随时更新，上线由你决定</li><li>新增「4-整理不上网站」：把被安全兜底挡下的书签收拢进「不上网站」文件夹</li><li>网址书签改为自动同步 Chrome 书签，新增彩票选号工具页</li></ul>
+<h2>2026-10-02</h2>
+<ul><li>去掉条目规格行，书签名与展示形式重做</li></ul>
+<h2>2026-10-01</h2>
+<ul><li>改成多页站：导航首页 + 软件清单 + 网址书签</li><li>新增工具台导航页 + 收藏/已装 + 导出 + 条目元数据</li><li>新增 docs/：ICP 备案操作手册 + 网站升级路线图</li><li>新增外观面板：明暗三档 + 8 种底色 + 自定义取色器</li><li>搜索时分组计数改为「命中数 / 总数」，避免搜到 1 条却显示 18 的误导</li><li>内容规范统一：名称/标签/简述分层 + SEO 图标与安全头</li><li>使用说明修正证书章节：Makers 不会自动分配证书，补充两个易混页面区分</li><li>使用说明补充 EdgeOne 证书申请流程与故障速查表</li><li>使用说明补充绑定域名时的 CNAME 记录值来源与阿里云改法</li><li>使用说明补充 EdgeOne 建项实测要点</li><li>新增 edgeone.json：预设 EdgeOne Pages 构建配置，避免控制台填错</li><li>说明书增加 HTML 版自动生成，编辑改用 VSCode 优先</li><li>新增单文件静态站点：README 编译为可搜索网页，附双击更新工具</li></ul>
+<h2>2026-06-01</h2>
+<ul><li>2026年6月5日11:09:17</li><li>2026年6月1日20:52:55</li><li>时间</li></ul>
+<h2>2026-05-27</h2>
+<ul><li>2026年5月27日08:53:37</li><li>2026年5月27日00:39:39</li></ul>
+<h2>2026-05-26</h2>
+<ul><li>2026年5月26日23:37:26</li></ul>
+<h2>2026-05-24</h2>
+<ul><li>2026年5月24日17:18:48</li></ul>
+<h2>2026-05-06</h2>
+<ul><li>2026年5月4日16:32:50</li></ul>
+<h2>2026-05-04</h2>
+<ul><li>2026年5月4日16:32:50</li></ul>
+<h2>2026-03-15</h2>
+<ul><li>2026年3月15日02:57:26</li></ul>
+<h2>2025-11-06</h2>
+<ul><li>2025年11月6日19:26:07</li></ul>
+<h2>2025-11-03</h2>
+<ul><li>2025年11月3日21:13:30</li></ul>
+<h2>2025-10-11</h2>
+<ul><li>2025年10月11日20:03:01</li></ul>
+<h2>2025-10-09</h2>
+<ul><li>2025年10月9日22:24:51</li><li>2025年10月9日08:40:48</li></ul>
+<h2>2025-09-04</h2>
+<ul><li>2025-09-04 23:07:19</li></ul>
+<h2>2025-02-06</h2>
+<ul><li>2025年02月06日 22:38:58</li></ul>
+<h2>2025-01-22</h2>
+<ul><li>2025年01月22日 19:13:09</li></ul>
+<h2>2025-01-15</h2>
+<ul><li>2025年01月15日 19:54:23</li></ul>
+<h2>2024-12-26</h2>
+<ul><li>2024年12月26日 14:50:04</li></ul>
+</article>
+</body>
+</html>

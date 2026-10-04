@@ -12,9 +12,17 @@
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#2f6fed">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="uppjs.com">
 <meta property="og:url" content="https://uppjs.com/">
 <meta property="og:title" content="uppjs.com · 软件与工具清单">
 <meta property="og:description" content="自己在用的 Mac / PC / 手机软件、硬件与外设，整理成清单长期更新，支持即时搜索。不接推广、不做商业排序，收录标准只有一条：用得住。">
+<meta property="og:image" content="https://uppjs.com/og/index.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="uppjs.com · 软件与工具清单">
+<meta name="twitter:card" content="summary_large_image">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://uppjs.com/#website","url":"https://uppjs.com/","name":"uppjs.com · 软件与工具清单","description":"自己在用的 Mac / PC / 手机软件、硬件与外设，整理成清单长期更新，支持即时搜索。不接推广、不做商业排序，收录标准只有一条：用得住。","inLanguage":"zh-CN"},{"@type":"Person","@id":"https://uppjs.com/#author","name":"uppjs.com","url":"https://uppjs.com/about.html","description":"把在用的软件、工具和写法整理成清单，长期更新。"},{"@type":"CollectionPage","@id":"https://uppjs.com/#page","url":"https://uppjs.com/","name":"uppjs.com · 软件与工具清单","description":"自己在用的 Mac / PC / 手机软件、硬件与外设，整理成清单长期更新，支持即时搜索。不接推广、不做商业排序，收录标准只有一条：用得住。","inLanguage":"zh-CN","isPartOf":{"@id":"https://uppjs.com/#website"}}]}</script>
 <style>
 :root{
   --bg:#f6f7f9; --panel:#ffffff; --panel2:#f0f2f5; --line:#e2e5ea;
@@ -200,6 +208,8 @@ footer{
   max-width:980px; margin:0 auto; padding:0 16px 50px; color:var(--fg3); font-size:12.5px;
   display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
 }
+.fnav a{color:var(--fg3)}
+.fnav a:hover{color:var(--accent); text-decoration:none}
 @media (max-width:760px){
   .bar{padding:8px 12px}
   .brand span{display:none}
@@ -308,8 +318,10 @@ footer{
   <div class="bar">
     <a class="brand" href="index.html">uppjs.com<span>个人清单站</span></a>
     <nav class="nav-links">
-      <a href="apps.html">软件清单</a>
-      <a href="lottery.html">彩票选号</a>
+<a href="apps.html">软件清单</a>
+  <a href="lottery.html">彩票选号</a>
+  <a href="about.html">关于</a>
+  <a href="changelog.html">更新日志</a>
     </nav>
     <div class="tools">
       <div class="appear">
@@ -337,7 +349,7 @@ footer{
     <h1>uppjs.com</h1>
     <p>自己在用的软件、硬件和外设，整理成清单长期更新。
        <strong>不接推广、不做商业排序</strong>，收录标准只有一条：用得住。</p>
-    <p class="hint">全站 <b>219</b> 条 · 更新于 2026-10-03</p>
+    <p class="hint">全站 <b>219</b> 条 · 更新于 2026-10-04</p>
   </div>
 
   <section class="feature">
@@ -371,14 +383,15 @@ footer{
   <section class="block">
     <h2>规划中<span class="sub">· 做好一个开一个</span></h2>
     <div class="cards">
-      <div class="card plan"><span class="ico">▦</span><h3>文章归档<span class="st">规划中</span></h3><p>写过的长文按主题归档，比在平台里翻历史清楚得多。</p></div><div class="card plan"><span class="ico">▥</span><h3>书单<span class="st">规划中</span></h3><p>看过的书，带年份、评分和一句短评。</p></div><div class="card plan"><span class="ico">▤</span><h3>影单<span class="st">规划中</span></h3><p>看过的电影和剧集，带年份、评分和一句短评。</p></div><div class="card plan"><span class="ico">拼</span><h3>拼音搜索<span class="st">规划中</span></h3><p>打 wyyy 就能搜到「网易云」，不用来回切输入法。</p></div><div class="card plan"><span class="ico">⇄</span><h3>条目对比<span class="st">规划中</span></h3><p>把几条并排比参数，选哪个一目了然。</p></div><div class="card plan"><span class="ico">检</span><h3>失效链接体检<span class="st">规划中</span></h3><p>定期跑一遍外链，把 404 的挑出来。清单最怕的不是少，而是过期。</p></div>
+      <div class="card plan"><span class="ico">▦</span><h3>文章归档<span class="st">规划中</span></h3><p>写过的长文按主题归档，比在平台里翻历史清楚得多。</p></div><div class="card plan"><span class="ico">▥</span><h3>书单<span class="st">规划中</span></h3><p>看过的书，带年份、评分和一句短评。</p></div><div class="card plan"><span class="ico">▤</span><h3>影单<span class="st">规划中</span></h3><p>看过的电影和剧集，带年份、评分和一句短评。</p></div><div class="card plan"><span class="ico">链</span><h3>网址书签<span class="st">规划中</span></h3><p>常开的网站和在线工具，按用途分好类。</p></div><div class="card plan"><span class="ico">拼</span><h3>拼音搜索<span class="st">规划中</span></h3><p>打 wyyy 就能搜到「网易云」，不用来回切输入法。</p></div><div class="card plan"><span class="ico">⇄</span><h3>条目对比<span class="st">规划中</span></h3><p>把几条并排比参数，选哪个一目了然。</p></div><div class="card plan"><span class="ico">检</span><h3>失效链接体检<span class="st">规划中</span></h3><p>定期跑一遍外链，把 404 的挑出来。清单最怕的不是少，而是过期。</p></div>
     </div>
   </section>
 </main>
 
 <footer>
   <span>纯静态 · 无后端 · 无统计脚本 · 无第三方请求</span>
-  <span>内容源 README.md · 更新于 2026-10-03</span>
+  <span class="fnav"><a href="apps.html">软件清单</a> · <a href="lottery.html">彩票选号</a> · <a href="about.html">关于</a> · <a href="changelog.html">更新日志</a> · <a href="privacy.html">隐私说明</a></span>
+  <span>内容源 README.md · 更新于 2026-10-04</span>
 </footer>
 
 <script>

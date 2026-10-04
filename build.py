@@ -48,24 +48,180 @@ SITE_DESC = ("自己在用的 Mac / PC / 手机软件、硬件与外设，整理
              "不接推广、不做商业排序，收录标准只有一条：用得住。")
 THEME_COLOR = "#2f6fed"
 
-# 页面清单：想加一个新页面，往这里加一条就行。
+# 分享图目录（og:image）。每页一张，文件名 = 页面名（如 og/apps.png）。
+# 找不到就回落到 og/default.png。图片由「生成分享图.py」一次性生成，build 只负责引用。
+OG_DIR = "og"
+OG_DEFAULT = "og/default.png"
+
+# 页面清单：想加一个新清单页，往这里加一条就行，导航 / 卡片 / sitemap / 搜索全部自动继承。
 #   src     —— 内容源（markdown 文件）
 #   out     —— 生成的 html
-#   layout  —— "list" 普通清单 / "compact" 紧凑链接（书签页用）
-#   enabled —— 省略或 True 就生成；False 表示暂时下线（内容源与代码都留着）
+#   title   —— 页面标题，同时用作文档<title>、导航文字、首页卡片标题
+#   layout  —— "list" 普通清单 / "compact" 紧凑链接（网址书签那种）
+#   ico     —— 首页卡片上的一个字图标
+#   home    —— 首页卡片上的一句话（省略时用 sub）
+#   enabled —— True 生成 / False 下线（内容源与代码都留着）
+#              "auto" = 内容源里还没有真条目时不上线，首页显示为「规划中」；
+#                       你往源文件里填了内容，重跑 build.py 就自动上线。
 LIST_PAGES = [
     dict(src="README.md", out="apps.html", kicker="Mac · Windows · 手机 · 外设",
-         title="软件清单",
+         title="软件清单", ico="▤",
          sub="我自己在用的软件、硬件和外设，长期更新。收录标准只有一条：用得住。",
+         home="Mac / PC / 手机软件、硬件与外设。收录标准只有一条：我真的在用、而且用得住。",
          layout="list"),
+    # —— 文章归档：把公众号长文搬进来，是目前唯一能带外部流量的模块 ——
+    dict(src="articles.md", out="articles.html", kicker="公众号长文归档",
+         title="文章归档", ico="▦",
+         sub="写过的长文，按主题归档。比在平台里一条条翻历史清楚得多。",
+         home="写过的长文按主题归档，能搜、能分类。",
+         layout="list", enabled="auto"),
+    # —— 书单 / 影单：字段与筛选完全不同，所以分成两个页面（共用同一套模板） ——
+    dict(src="books.md", out="books.html", kicker="读过的书",
+         title="书单", ico="▥",
+         sub="读过的书，带年份、评分和一句短评。",
+         home="看过的书，带年份、评分和一句短评。",
+         layout="list", enabled="auto"),
+    dict(src="movies.md", out="movies.html", kicker="看过的片子",
+         title="影单", ico="▤",
+         sub="看过的电影和剧集，带年份、评分和一句短评。",
+         home="看过的电影和剧集，带年份、评分和一句短评。",
+         layout="list", enabled="auto"),
     # —— 网址书签：目前下线（2026-10-04 起），页面撤下、接口留着 ——
     #    想恢复：把 enabled 改成 True，重跑 build.py，再双击「2-更新网站.command」。
     #    下线期间 links.md 仍由「同步书签.py」照常更新，内容一条都不会丢。
     dict(src="links.md", out="links.html", kicker="在线工具 · 资源站 · 常用站",
-         title="网址书签",
+         title="网址书签", ico="链",
          sub="从浏览器书签里整理出来的常用网址，按用途分好类，一个搜索框全都能搜到。",
+         home="常开的网站和在线工具，按用途分好类。",
          layout="compact", enabled=False),
 ]
+
+# 文档页：散文式排版（跟「使用说明」同一套版式），不走清单页的搜索/目录骨架。
+#   src —— 内容源；out —— 产物；title —— 标题与导航文字
+#   404.md 会被托管平台自动用于 404，所以它固定产出到根目录的 404.html。
+DOC_PAGES = [
+    dict(src="about.md", out="about.html", title="关于",
+         desc="这个站是什么、为什么要做、怎么做的。"),
+    dict(src="privacy.md", out="privacy.html", title="隐私说明", nav=False,
+         desc="不收集数据、不设 Cookie、不请求第三方——这个站的隐私说明。"),
+    dict(src="404.md", out="404.html", title="页面走丢了",
+         desc="这个地址没有内容。", nav=False, sitemap=False, noindex=True),
+]
+
+# 更新日志：从 git 提交记录自动生成（不手写、不会过期），最多取最近 N 条。
+CHANGELOG_OUT = "changelog.html"
+CHANGELOG_MAX = 40
+
+# 非清单、非文档的独立页面（手写的单文件工具），只有一个就够用。
+TOOL_PAGES = [
+    dict(title="彩票选号", href="lottery.html", ico="彩", nav=True,
+         desc="双色球、大乐透随机选号与购票核对，附历史开奖走势图。纯离线单文件，不联网。"),
+]
+
+# --------------------------------------------------------------------------
+# 0. 页面登记表 —— 导航 / 首页卡片 / sitemap / 分享图 都从这里取
+#    想加页面只改上面的 LIST_PAGES / DOC_PAGES / TOOL_PAGES，别的地方不用动。
+# --------------------------------------------------------------------------
+
+LIVE = set()  # build 时先算好「这次哪些页面真的会生成」，再开渲染
+
+
+def all_pages():
+    """按展示顺序返回所有页面的元信息。nav=False 的页面不出现在顶部导航里。"""
+    out = []
+    for cfg in LIST_PAGES:
+        out.append(dict(title=cfg["title"], href=cfg["out"], ico=cfg.get("ico", "·"),
+                        kind="list", nav=True, cfg=cfg))
+    for t in TOOL_PAGES:
+        out.append(dict(title=t["title"], href=t["href"], ico=t["ico"],
+                        kind="tool", nav=t.get("nav", True), desc=t["desc"]))
+    for cfg in DOC_PAGES:
+        out.append(dict(title=cfg["title"], href=cfg["out"], ico="问",
+                        kind="doc", nav=cfg.get("nav", True),
+                        sitemap=cfg.get("sitemap", True), cfg=cfg))
+    out.append(dict(title="更新日志", href=CHANGELOG_OUT, ico="记", kind="doc", nav=True))
+    return out
+
+
+def nav_html(current=None, base="", cls="topnav"):
+    """统一导航：谁活着就出现谁，顺序由 all_pages() 决定。"""
+    items = []
+    for p in all_pages():
+        if not p.get("nav", True) or p["href"] not in LIVE:
+            continue
+        on = ' class="on"' if p["href"] == current else ""
+        items.append(f'<a{on} href="{base}{p["href"]}">{esc(p["title"])}</a>')
+    return "\n  ".join(items)
+
+
+def og_image(href):
+    """每页一张分享图；命名按页面名，缺了就回落到默认那张。"""
+    cand = f"{OG_DIR}/{href.rsplit('.', 1)[0]}.png"
+    return cand if (ROOT / cand).exists() else OG_DEFAULT
+
+
+def rss_link_tag():
+    """有文章归档才有 RSS —— 不给订阅者一个 404 的订阅入口。"""
+    if "articles.html" in LIVE:
+        return ('<link rel="alternate" type="application/rss+xml" '
+                'title="uppjs.com · 文章归档" href="feed.xml">')
+    return ""
+
+
+def footer_nav(current=None):
+    """页脚的全站地图：每个页面都能走到其它页面，不至于进了子页就出不来。"""
+    parts = []
+    if current != "index.html":
+        parts.append('<a href="index.html">首页</a>')
+    for p in all_pages():
+        if not p.get("nav", True) or p["href"] not in LIVE or p["href"] == current:
+            continue
+        parts.append(f'<a href="{p["href"]}">{esc(p["title"])}</a>')
+    parts.append('<a href="privacy.html">隐私说明</a>')
+    if "articles.html" in LIVE:
+        parts.append('<a href="feed.xml">RSS</a>')
+    return " · ".join(parts)
+
+
+def breadcrumb_html(current_href, current_title, base=""):
+    """面包屑：不只是一行字，同时喂给下面 JSON-LD 里的 BreadcrumbList。"""
+    if current_href == "index.html":
+        return ""
+    return ('<nav class="crumbs" aria-label="面包屑">'
+            f'<a href="{base}index.html">首页</a>'
+            '<span class="sep">›</span>'
+            f'<span class="cur">{esc(current_title)}</span></nav>')
+
+
+def breadcrumb_jsonld(current_href, current_title):
+    if current_href == "index.html":
+        return []
+    return [{"@type": "ListItem", "position": 1, "name": "首页",
+             "item": SITE + "/"},
+            {"@type": "ListItem", "position": 2, "name": current_title,
+             "item": f"{SITE}/{current_href}"}]
+
+
+def jsonld_html(graph):
+    if not graph:
+        return ""
+    data = {"@context": "https://schema.org", "@graph": graph}
+    return ('<script type="application/ld+json">'
+            + json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+            + "</script>")
+
+
+def site_jsonld():
+    """全站通用的一段：告诉搜索引擎这是谁的站、叫什么。"""
+    return [
+        {"@type": "WebSite", "@id": SITE + "/#website", "url": SITE + "/",
+         "name": f"{SITE_NAME} · {SITE_SUB}", "description": SITE_DESC,
+         "inLanguage": "zh-CN"},
+        {"@type": "Person", "@id": SITE + "/#author", "name": SITE_NAME,
+         "url": SITE + "/about.html",
+         "description": "把在用的软件、工具和写法整理成清单，长期更新。"},
+    ]
+
 
 # --------------------------------------------------------------------------
 # 1. 行内 Markdown -> HTML
@@ -141,6 +297,10 @@ def parse_lines(text: str):
                 in_comment = True
             continue
         if not line.strip():
+            continue
+        if line.startswith("### "):
+            # 「### 分组名」= 显式分组（长文归档、书单这类内容用它比缩进更清楚）
+            blocks.append(("sub", 0, line[4:].strip()))
             continue
         if line.startswith("## "):
             blocks.append(("cat", 0, line[3:].strip()))
@@ -319,6 +479,16 @@ def build_tree(blocks):
             slug = re.sub(r"[^a-zA-Z0-9\u4e00-\u9fff]+", "-", content).strip("-").lower()
             cur_cat = {"title": content, "children": [], "cat": True, "id": slug or "cat"}
             stack = []
+            continue
+        if block[0] == "sub":
+            # 显式分组：后面到下一个 ## / ### 之前的条目都归它
+            content = block[2]
+            node = {"title": content, "url": "", "desc": "", "note": "", "tags": [],
+                    "children": [], "dep": False, "star": False, "has_link": False,
+                    "bullet": False, "header": False, "host": "", "raw": content,
+                    "indent": -1, "group": True}
+            (cur_cat if cur_cat is not None else root)["children"].append(node)
+            stack = [(-1, node)]
             continue
         _, indent, content, is_bullet = block
         node = make_node(content, is_bullet)
@@ -526,6 +696,16 @@ def render(cats, cfg: dict, updated: str) -> str:
 def fill_page(page: str, cfg: dict) -> str:
     """把页面级文案填进模板。所有清单页共用同一套骨架，靠这里区分。"""
     canon = SITE + "/" + cfg["out"]
+    og = og_image(cfg["out"])
+    graph = site_jsonld() + [
+        {"@type": "CollectionPage", "@id": canon + "#page", "url": canon,
+         "name": cfg["title"], "description": cfg["sub"], "inLanguage": "zh-CN",
+         "isPartOf": {"@id": SITE + "/#website"},
+         "author": {"@id": SITE + "/#author"}},
+        {"@type": "BreadcrumbList",
+         "itemListElement": breadcrumb_jsonld(cfg["out"], cfg["title"])},
+    ]
+    rss = rss_link_tag()
     return (page
             .replace("__LAYOUT__", cfg["layout"])
             .replace("__THEME_COLOR__", THEME_COLOR)
@@ -535,7 +715,13 @@ def fill_page(page: str, cfg: dict) -> str:
             .replace("__KICKER__", esc(cfg["kicker"]))
             .replace("__H1__", esc(cfg["title"]))
             .replace("__SUB__", esc(cfg["sub"]))
-            .replace("__SRC__", esc(cfg["src"])))
+            .replace("__SRC__", esc(cfg["src"]))
+            .replace("__OG_IMAGE__", esc(SITE + "/" + og))
+            .replace("__JSONLD__", jsonld_html(graph))
+            .replace("__RSS_LINK__", rss)
+            .replace("__NAVFOOT__", footer_nav(cfg["out"]))
+            .replace("__CRUMB__", breadcrumb_html(cfg["out"], cfg["title"]))
+            .replace("__NAVTOP__", nav_html(cfg["out"])))
 
 
 # 下面两块被首页和所有清单页共用，改一次全站都变。
@@ -825,9 +1011,17 @@ TEMPLATE = r"""<!DOCTYPE html>
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="uppjs.com">
 <meta property="og:url" content="__CANON__">
 <meta property="og:title" content="__PAGE_TITLE__">
 <meta property="og:description" content="__PAGE_DESC__">
+<meta property="og:image" content="__OG_IMAGE__">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="__PAGE_TITLE__">
+<meta name="twitter:card" content="summary_large_image">
+__RSS_LINK__
+__JSONLD__
 <style>
 __THEME_CSS__
 *{box-sizing:border-box}
@@ -991,6 +1185,11 @@ mark{background:var(--mark); color:var(--mark-fg); border-radius:2px; padding:0 
 
 /* ---------- 页头 ---------- */
 .pagehead{margin:0 0 20px}
+.crumbs{font-size:12.5px; color:var(--fg3); margin:0 0 10px; display:flex; gap:6px; align-items:center}
+.crumbs a{color:var(--fg3)}
+.crumbs a:hover{color:var(--accent); text-decoration:none}
+.crumbs .sep{color:var(--fg3); opacity:.6}
+.crumbs .cur{color:var(--fg2)}
 .pagehead .kicker{
   font-size:11.5px; letter-spacing:.1em; color:var(--accent);
   margin:0 0 5px; text-transform:uppercase;
@@ -1063,6 +1262,8 @@ footer{
   max-width:1180px; margin:0 auto; padding:0 16px 46px; color:var(--fg3); font-size:12.5px;
   display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
 }
+.fnav a{color:var(--fg3)}
+.fnav a:hover{color:var(--accent); text-decoration:none}
 .totop{
   position:fixed; right:18px; bottom:18px; width:38px; height:38px; border-radius:50%;
   border:1px solid var(--line); background:var(--panel); color:var(--fg2); cursor:pointer;
@@ -1131,6 +1332,7 @@ __TOC__
 
   <main>
     <div class="pagehead">
+__CRUMB__
       <p class="kicker">__KICKER__</p>
       <h1>__H1__</h1>
       <p class="sub">__SUB__</p>
@@ -1167,12 +1369,14 @@ __BODY__
       <p>右上角的筛选可以和搜索叠加用：<strong>有下载链接</strong>只看能直接点开的，
          <strong>我推荐的</strong>只看我标了 ☆ 的。</p>
       <h3>内容怎么更新</h3>
-      <p>本页由仓库里的 <code>__SRC__</code> 自动生成，改内容只改那一个文件，不用碰这个页面的代码。</p>
+      <p>本页由仓库里的 <code>__SRC__</code> 自动生成，改内容只改那一个文件，不用碰这个页面的代码。
+         每次更新做了些什么，都记在<a href="changelog.html">更新日志</a>里。</p>
       <h3>数据与隐私</h3>
       <ul>
         <li>纯静态页面：没有后端、没有数据库、没有统计脚本、不请求任何第三方 CDN。</li>
         <li>本地存储只有一项——你的外观偏好，不上传任何数据。</li>
         <li>页面上的链接都指向第三方站点，跳转之后的行为不受本站控制。</li>
+        <li>完整说明见<a href="privacy.html">隐私说明</a>，站点的来由见<a href="about.html">关于</a>。</li>
       </ul>
       <h3>免责声明</h3>
       <p>清单是个人使用记录，链接来自公开网络，不保证长期有效，
@@ -1183,6 +1387,7 @@ __BODY__
 
 <footer>
   <span>内容源 __SRC__ · 共 __TOTAL__ 条 · __LINKS__ 个外链 · 更新于 __UPDATED__</span>
+  <span class="fnav">__NAVFOOT__</span>
   <span>纯静态 · 无追踪 · 无第三方请求</span>
 </footer>
 
@@ -1428,29 +1633,23 @@ __SKIN_PANEL_JS__
 
 
 # --------------------------------------------------------------------------
-# 4. 导航页 hub.html（工具台）
-#    所有模块都在这张表里。想加一个模块：往 HUB_MODULES 里加一行。
-#    st="live" 可点击 / st="plan" 显示「规划中」占位（灰色不可点）
-# --------------------------------------------------------------------------
 # 4. 首页 index.html（导航）
 #    首页只干一件事：把「软件清单」顶到最显眼的位置，其余页面依次排开。
-#    想加一个入口：往 OTHER_PAGES 里加一行；想加一个预告：往 PLANNED 里加一行。
+#    卡片从 LIST_PAGES / TOOL_PAGES 自动派生 —— 页面一下线，卡片自己就没了，
+#    不用来回改两个地方。想加一个预告：往 PLANNED 里加一行。
 #    页面上的所有数字都是从生成好的页面里数出来的，不写死。
 # --------------------------------------------------------------------------
 
-OTHER_PAGES = [
-    ("彩票选号", "彩", "lottery.html",
-     "双色球、大乐透随机选号与购票核对，附历史开奖走势图。纯离线单文件，不联网。"),
-]
-
-# 首页「规划中」的占位。做好一个就挪到 OTHER_PAGES 里。
+# 首页「规划中」占位：(标题, 图标, 想指向的页面 / None, 说明)。
+# 那个页面一旦真的上线（进了 LIVE），这条会自动从「规划中」消失。
 PLANNED = [
-    ("文章归档", "▦", "写过的长文按主题归档，比在平台里翻历史清楚得多。"),
-    ("书单", "▥", "看过的书，带年份、评分和一句短评。"),
-    ("影单", "▤", "看过的电影和剧集，带年份、评分和一句短评。"),
-    ("拼音搜索", "拼", "打 wyyy 就能搜到「网易云」，不用来回切输入法。"),
-    ("条目对比", "⇄", "把几条并排比参数，选哪个一目了然。"),
-    ("失效链接体检", "检", "定期跑一遍外链，把 404 的挑出来。清单最怕的不是少，而是过期。"),
+    ("文章归档", "▦", "articles.html", "写过的长文按主题归档，比在平台里翻历史清楚得多。"),
+    ("书单", "▥", "books.html", "看过的书，带年份、评分和一句短评。"),
+    ("影单", "▤", "movies.html", "看过的电影和剧集，带年份、评分和一句短评。"),
+    ("网址书签", "链", "links.html", "常开的网站和在线工具，按用途分好类。"),
+    ("拼音搜索", "拼", None, "打 wyyy 就能搜到「网易云」，不用来回切输入法。"),
+    ("条目对比", "⇄", None, "把几条并排比参数，选哪个一目了然。"),
+    ("失效链接体检", "检", None, "定期跑一遍外链，把 404 的挑出来。清单最怕的不是少，而是过期。"),
 ]
 
 
@@ -1485,36 +1684,42 @@ def build_home(pages: dict, updated: str) -> str:
     </div>
   </section>"""
 
-    # —— 其它页面 ——
-    cards = []
-    for t, ico, href, d in OTHER_PAGES:
-        # 是清单页就带上条数；工具页（比如彩票选号）没有条数，跳过
-        # 注意：这里按 pages 里有没有这一页来判断，所以页面下线后卡片会自动消失
-        pg = pages.get(href)
-        tag = ""
-        if pg:
-            if pg.get("cats"):
-                d = f'{len(pg["cats"])} 个分类，' + d
-            tag = f'<span class="tag">{pg.get("items", 0)} 条</span>'
-        cards.append(f'<a class="card" href="{href}">{tag}'
-                     f'<span class="ico">{ico}</span><h3>{esc(t)}</h3>'
-                     f'<p>{esc(d)}</p></a>')
+    def card(ico, title, href, desc, tag=""):
+        return (f'<a class="card" href="{href}">{tag}'
+                f'<span class="ico">{ico}</span><h3>{esc(title)}</h3>'
+                f'<p>{esc(desc)}</p></a>')
 
+    # —— 其它页面：清单页从 LIST_PAGES 自动派生（apps 是主角，跳过）——
+    cards = []
+    for cfg in LIST_PAGES:
+        if cfg["out"] == "apps.html" or cfg["out"] not in LIVE:
+            continue
+        pg = pages.get(cfg["out"], {})
+        d = cfg.get("home") or cfg["sub"]
+        if pg.get("cats"):
+            d = f'{len(pg["cats"])} 个分类，' + d
+        cards.append(card(cfg.get("ico", "·"), cfg["title"], cfg["out"], d,
+                          f'<span class="tag">{pg.get("items", 0)} 条</span>'))
+    for t in TOOL_PAGES:
+        if t["href"] in LIVE:
+            cards.append(card(t["ico"], t["title"], t["href"], t["desc"]))
+
+    # —— 规划中：已经上线的自动去掉 ——
+    todo = [x for x in PLANNED if not (x[2] and x[2] in LIVE)]
     plan = "".join(
         f'<div class="card plan"><span class="ico">{ico}</span>'
         f'<h3>{esc(t)}<span class="st">规划中</span></h3><p>{esc(d)}</p></div>'
-        for t, ico, d in PLANNED
+        for t, ico, _href, d in todo
     )
 
     total = sum(x.get("items", 0) for x in pages.values())
-    n_plan = len(PLANNED)
 
     return (HOME_TEMPLATE
             .replace("__FEATURE__", feature)
             .replace("__CARDS__", "\n      ".join(cards))
             .replace("__PLANNED__", plan)
             .replace("__N_ALL__", str(total))
-            .replace("__N_PLAN__", str(n_plan))
+            .replace("__N_PLAN__", str(len(todo)))
             .replace("__UPDATED__", esc(updated))
             .replace("__THEME_CSS__", THEME_CSS)
             .replace("__SKIN_SCRIPT__", SKIN_SCRIPT)
@@ -1524,6 +1729,16 @@ def build_home(pages: dict, updated: str) -> str:
             .replace("__SITE__", SITE)
             .replace("__SITE_NAME__", SITE_NAME)
             .replace("__THEME_COLOR__", THEME_COLOR)
+            .replace("__OG_IMAGE__", esc(SITE + "/" + og_image("index.html")))
+            .replace("__NAVTOP__", nav_html("index.html"))
+            .replace("__RSS_LINK__", rss_link_tag())
+            .replace("__NAVFOOT__", footer_nav("index.html"))
+            .replace("__JSONLD__", jsonld_html(site_jsonld() + [
+                {"@type": "CollectionPage", "@id": SITE + "/#page",
+                 "url": SITE + "/", "name": f"{SITE_NAME} · {SITE_SUB}",
+                 "description": SITE_DESC, "inLanguage": "zh-CN",
+                 "isPartOf": {"@id": SITE + "/#website"}},
+            ]))
             .replace("__SITE_DESC__", esc(SITE_DESC)))
 
 
@@ -1541,9 +1756,17 @@ HOME_TEMPLATE = r"""<!DOCTYPE html>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="__THEME_COLOR__">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="uppjs.com">
 <meta property="og:url" content="__SITE__/">
 <meta property="og:title" content="__SITE_NAME__ · 软件与工具清单">
 <meta property="og:description" content="__SITE_DESC__">
+<meta property="og:image" content="__OG_IMAGE__">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="uppjs.com · 软件与工具清单">
+<meta name="twitter:card" content="summary_large_image">
+__RSS_LINK__
+__JSONLD__
 <style>
 __THEME_CSS__
 *{box-sizing:border-box}
@@ -1664,6 +1887,8 @@ footer{
   max-width:980px; margin:0 auto; padding:0 16px 50px; color:var(--fg3); font-size:12.5px;
   display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
 }
+.fnav a{color:var(--fg3)}
+.fnav a:hover{color:var(--accent); text-decoration:none}
 @media (max-width:760px){
   .bar{padding:8px 12px}
   .brand span{display:none}
@@ -1685,8 +1910,7 @@ __SKIN_SCRIPT__
   <div class="bar">
     <a class="brand" href="index.html">__SITE_NAME__<span>个人清单站</span></a>
     <nav class="nav-links">
-      <a href="apps.html">软件清单</a>
-      <a href="lottery.html">彩票选号</a>
+__NAVTOP__
     </nav>
     <div class="tools">
 __SKIN_PANEL_HTML__
@@ -1722,6 +1946,7 @@ __FEATURE__
 
 <footer>
   <span>纯静态 · 无后端 · 无统计脚本 · 无第三方请求</span>
+  <span class="fnav">__NAVFOOT__</span>
   <span>内容源 README.md · 更新于 __UPDATED__</span>
 </footer>
 
@@ -1737,10 +1962,12 @@ __SKIN_PANEL_JS__
 
 
 # --------------------------------------------------------------------------
-# 5. 使用说明（只在本机生成，不上线）
-#    内容源在「本地资料/」，那个目录写进了 .gitignore：
-#    既不提交到 GitHub，也不会出现在 build 产物里，只在你自己电脑上。
-#    想重新上线：把 help 加回 OTHER_PAGES，并把输出路径挪回 ROOT。
+# 5. 文档页模板与内容
+#    ① 上线文档页（about / privacy / 404 / 更新日志）—— 从 DOC_PAGES 和 git log 生成
+#    ② 使用说明 —— 只在本机生成，不上线
+#       内容源在「本地资料/」，那个目录写进了 .gitignore：
+#       既不提交到 GitHub，也不会出现在 build 产物里，只在你自己电脑上。
+#       想重新上线：把 help 加进 DOC_PAGES 即可。
 # --------------------------------------------------------------------------
 
 LOCAL_DIR = ROOT / "本地资料"
@@ -1763,12 +1990,26 @@ def md_to_html(md: str) -> str:
         s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
         s = re.sub(r"&lt;(https?://[^\s&]+)&gt;",
                    r'<a href="\1" target="_blank" rel="noopener noreferrer">\1</a>', s)
-        s = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)",
-                   r'<a href="\2" target="_blank" rel="noopener noreferrer">\1</a>', s)
+
+        def _link(m):
+            url = m.group(2)
+            ext = url.startswith("http") or url.startswith("//")
+            tail = ' target="_blank" rel="noopener noreferrer"' if ext else ""
+            return '<a href="%s"%s>%s</a>' % (url, tail, m.group(1))
+
+        # 外链与站内相对链接（apps.html#xxx 这种）都支持 —— 站内互链是归档页最大的价值之一
+        s = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", _link, s)
         return s
 
     while i < n:
         line = lines[i]
+
+        # HTML 注释：整段跳过（内容源文件里用来写「怎么改」的说明，不上页面）
+        if "<!--" in line:
+            while i < n and "-->" not in lines[i]:
+                i += 1
+            i += 1
+            continue
 
         # 代码块
         if line.strip().startswith("```"):
@@ -1863,9 +2104,21 @@ HELP_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>使用说明 · uppjs.com</title>
+<title>__PAGE_TITLE__</title>
+<meta name="description" content="__PAGE_DESC__">
+<link rel="canonical" href="__CANON__">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+__NOINDEX__
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="uppjs.com">
+<meta property="og:url" content="__CANON__">
+<meta property="og:title" content="__PAGE_TITLE__">
+<meta property="og:description" content="__PAGE_DESC__">
+<meta property="og:image" content="__OG_IMAGE__">
+<meta name="twitter:card" content="summary_large_image">
+__JSONLD__
 <style>
 :root{
   --bg:#fbfbf9; --card:#fff; --fg:#1c1c1a; --fg2:#565650; --fg3:#8e8e86;
@@ -1957,11 +2210,8 @@ tbody tr:nth-child(even){background:var(--soft)}
 </head>
 <body>
 <article>
-<a class="back" href="https://uppjs.com/">← 回到 uppjs.com 首页</a>
 <nav class="topnav">
-  <a href="https://uppjs.com/">首页</a>
-  <a href="https://uppjs.com/apps.html">软件清单</a>
-  <a class="on" href="#">使用说明（本地）</a>
+__NAVTOP__
 </nav>
 __BODY__
 </article>
@@ -1970,10 +2220,93 @@ __BODY__
 """
 
 
+def md_desc(md: str, fallback: str) -> str:
+    """从 markdown 里挑一句能当 description 的话：跳过注释、标题、列表、表格。"""
+    text = re.sub(r"<!--.*?-->", "", md, flags=re.S)
+    for line in text.split("\n"):
+        s = line.strip()
+        if not s or s.startswith(("#", "|", "-", "*", ">", "```", "!")) \
+                or re.match(r"^\d+\.", s):
+            continue
+        return plain(s)[:110].strip()
+    return fallback
+
+
+def build_doc_page(src_md: str, title: str, out: str, base: str = "",
+                   nav_current: str = None, noindex: bool = False,
+                   desc: str = "", extra_body: str = "") -> str:
+    """文档页渲染：markdown -> 散文式排版。about / privacy / 404 / 更新日志 / 使用说明 共用。"""
+    canon = SITE + "/" + out
+    desc = (desc or md_desc(src_md, title))[:150]
+    graph = site_jsonld() + [
+        {"@type": "WebPage", "@id": canon + "#page", "url": canon, "name": title,
+         "description": desc, "inLanguage": "zh-CN",
+         "isPartOf": {"@id": SITE + "/#website"},
+         "author": {"@id": SITE + "/#author"}},
+    ] + ([{"@type": "BreadcrumbList",
+           "itemListElement": breadcrumb_jsonld(out, title)}] if not noindex else [])
+    return (HELP_TEMPLATE
+            .replace("__PAGE_TITLE__", esc(title + " · " + SITE_NAME))
+            .replace("__PAGE_DESC__", esc(desc))
+            .replace("__CANON__", esc(canon))
+            .replace("__NOINDEX__", '<meta name="robots" content="noindex">' if noindex else "")
+            .replace("__OG_IMAGE__", esc(SITE + "/" + og_image(out)))
+            .replace("__JSONLD__", jsonld_html(graph))
+            .replace("__NAVTOP__", nav_html(nav_current, base))
+            .replace("__BODY__", md_to_html(src_md) + extra_body))
+
+
 def build_help_html() -> str:
+    """本机说明书：导航指向线上站点（本地文件用不了相对路径）。"""
     md = HELP_SRC.read_text(encoding="utf-8")
-    # 去掉开头的 H1，模板里已有语义（避免和 .back 挤在一起时重复感）
-    return HELP_TEMPLATE.replace("__BODY__", md_to_html(md))
+    return build_doc_page(md, "使用说明（本机）", "help.html",
+                          base="https://uppjs.com/", noindex=True,
+                          extra_body="\n<hr>\n<p><em>这份说明只在本机生成，不上线。</em></p>")
+
+
+def git_commits(limit: int = CHANGELOG_MAX):
+    """读 git 提交记录，用于自动生成更新日志。取不到就返回空列表。"""
+    import subprocess
+    try:
+        out = subprocess.run(
+            ["git", "log", "-%d" % limit, "--date=format:%Y-%m-%d",
+             "--format=%ad\x1f%s"],
+            cwd=ROOT, capture_output=True, text=True, timeout=5,
+        )
+        if out.returncode != 0:
+            return []
+        rows = []
+        for line in out.stdout.splitlines():
+            if "\x1f" not in line:
+                continue
+            d, s = line.split("\x1f", 1)
+            s = s.strip()
+            if not s or s.startswith("Merge "):
+                continue
+            rows.append((d.strip(), s))
+        return rows
+    except Exception:
+        return []
+
+
+def build_changelog_md() -> str:
+    """把提交记录按日期归组，写成一段 markdown，交给文档页渲染。"""
+    rows = git_commits()
+    if not rows:
+        return ("# 更新日志\n\n这个站的每一次改动都会记在这里，按时间倒序，"
+                "最新的一次在最上面。\n\n*（暂时取不到提交记录。）*\n")
+    lines = ["# 更新日志", "",
+             "这个站的每一次改动都记在这里，最新的在最上面。"
+             "记录由仓库的提交历史自动生成，不用手写，也就不会过期。", ""]
+    day = None
+    for d, s in rows:
+        if d != day:
+            day = d
+            lines.append("## " + d)
+            lines.append("")
+        lines.append("- " + s)
+    lines.append("")
+    return "\n".join(lines)
 
 
 def git_date() -> str:
@@ -2016,43 +2349,218 @@ def build_manifest():
         json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def iter_leaf_items(cats):
+    """按渲染器的同一套判断，把树里的叶子条目拍平：[(分类名, 节点)]。"""
+    out = []
+
+    def walk(nodes, cat):
+        for n in nodes:
+            if n["children"] and not n["has_link"]:
+                walk(n["children"], cat)
+            else:
+                out.append((cat, n))
+
+    for c in cats:
+        walk(c["children"], c["title"])
+    return out
+
+
+DATE_RE = re.compile(r"(\d{4})-(\d{2})(?:-(\d{2}))?")
+
+
+def item_date(node, fallback: str) -> str:
+    """条目日期：优先取「简述/点评」里的 2026-08 这种写法，取不到就用 fallback。"""
+    for s in (node.get("desc", ""), node.get("note", ""), node.get("raw", "")):
+        m = DATE_RE.search(s or "")
+        if m:
+            return "%s-%s" % (m.group(1), m.group(2)) + ("-%s" % m.group(3) if m.group(3) else "")
+    return fallback
+
+
+def rfc822(day: str) -> str:
+    """2026-08 / 2026-08-14 -> RFC822（RSS 要的时间格式）。"""
+    parts = [int(x) for x in day.split("-")]
+    y, mo = parts[0], parts[1]
+    d = parts[2] if len(parts) > 2 else 1
+    import datetime
+    dt = datetime.date(y, mo, d)
+    return dt.strftime("%a, %d %b %Y 00:00:00 +0800")
+
+
+def sitemap_pages():
+    """sitemap 的页面清单：活着、且标了 sitemap 的页面。"""
+    weight = {"apps.html": ("0.9", "weekly"), "articles.html": ("0.9", "weekly"),
+              "books.html": ("0.7", "weekly"), "movies.html": ("0.7", "weekly"),
+              "links.html": ("0.7", "weekly"), "lottery.html": ("0.6", "monthly"),
+              "about.html": ("0.5", "monthly"), "changelog.html": ("0.4", "monthly"),
+              "privacy.html": ("0.3", "yearly")}
+    out = [("", "1.0", "weekly")]
+    for p in all_pages():
+        if p["href"] in LIVE and p.get("sitemap", True):
+            pr, cf = weight.get(p["href"], ("0.5", "monthly"))
+            out.append((p["href"], pr, cf))
+    return out
+
+
 def build_seo(today: str):
     """生成 robots.txt 与 sitemap.xml，跟着每次更新一起产出，不用手动维护。"""
     (ROOT / "robots.txt").write_text(
         "User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % SITE,
         encoding="utf-8")
-    pages = [("", "1.0", "weekly"), ("apps.html", "0.9", "weekly"),
-             ("lottery.html", "0.6", "monthly")]
     urls = "\n".join(
         "  <url><loc>%s/%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq>"
         "<priority>%s</priority></url>" % (SITE, p, today, cf, pr)
-        for p, pr, cf in pages)
+        for p, pr, cf in sitemap_pages())
     (ROOT / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + urls + "\n</urlset>\n", encoding="utf-8")
 
 
+LOTTERY_MARK = "<!-- uppjs:seo -->"
+
+
+def patch_lottery():
+    """给手写的 lottery.html 补上分享图 / 结构化数据。
+
+    它是独立单文件、不参与编译，所以这里做一次「幂等注入」：
+    只在缺的时候插一段带标记的 head，插过就跳过。
+    这样即使以后整份换掉 lottery.html，重跑 build.py 也会自动补回来。
+    """
+    p = ROOT / "lottery.html"
+    if not p.exists():
+        return False
+    doc = p.read_text(encoding="utf-8")
+    if LOTTERY_MARK in doc:
+        return False
+    og = og_image("lottery.html")
+    graph = site_jsonld() + [
+        {"@type": "WebApplication", "@id": SITE + "/lottery.html#app",
+         "url": SITE + "/lottery.html", "name": "双色球 / 大乐透选号工具",
+         "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any",
+         "inLanguage": "zh-CN", "isPartOf": {"@id": SITE + "/#website"},
+         "author": {"@id": SITE + "/#author"},
+         "description": "双色球、大乐透随机选号与购票核对，附历史开奖走势图。纯前端单文件，不联网。"},
+        {"@type": "BreadcrumbList", "itemListElement": breadcrumb_jsonld(
+            "lottery.html", "彩票选号")},
+    ]
+    block = "\n".join([
+        LOTTERY_MARK,
+        '<meta property="og:type" content="website">',
+        '<meta property="og:site_name" content="uppjs.com">',
+        '<meta property="og:url" content="%s/lottery.html">' % SITE,
+        '<meta property="og:title" content="双色球 / 大乐透选号工具 · uppjs.com">',
+        '<meta property="og:description" content="随机选号与购票核对，附历史开奖走势图。'
+        '纯前端单文件，不联网、不上传任何信息。">',
+        '<meta property="og:image" content="%s/%s">' % (SITE, og),
+        '<meta property="og:image:width" content="1200">',
+        '<meta property="og:image:height" content="630">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        '<meta name="robots" content="index,follow">',
+        jsonld_html(graph),
+    ])
+    anchor = '<link rel="canonical" href="%s/lottery.html">' % SITE
+    if anchor in doc:
+        doc = doc.replace(anchor, anchor + "\n" + block, 1)
+    elif "</title>" in doc:
+        doc = doc.replace("</title>", "</title>\n" + block, 1)
+    else:
+        return False
+    p.write_text(doc, encoding="utf-8")
+    return True
+
+
+def build_feed(cats, today: str):
+    """RSS 2.0：只做「文章归档」这一条。没有文章就不生成（宁可没有，也别给个空订阅）。"""
+    items = []
+    for cat, n in iter_leaf_items(cats):
+        url = n.get("url")
+        if not url:
+            continue
+        day = item_date(n, today)
+        title = (n.get("title") or "").strip() or url
+        desc = (n.get("note") or n.get("desc") or "").strip()
+        items.append((day, title, url, desc, cat))
+    if not items:
+        return None
+    items.sort(key=lambda x: x[0], reverse=True)
+    entries = []
+    for day, title, url, desc, cat in items[:30]:
+        entries.append(
+            "  <item>\n"
+            "    <title>%s</title>\n"
+            "    <link>%s</link>\n"
+            "    <guid isPermaLink=\"true\">%s</guid>\n"
+            "    <category>%s</category>\n"
+            "    <pubDate>%s</pubDate>\n"
+            "    <description>%s</description>\n"
+            "  </item>" % (esc(title), esc(url), esc(url), esc(cat),
+                           rfc822(day), esc(desc))
+        )
+    newest = rfc822(items[0][0])
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
+        '<channel>\n'
+        '  <title>uppjs.com · 文章归档</title>\n'
+        '  <link>%s/articles.html</link>\n'
+        '  <description>写过的长文，按主题归档。</description>\n'
+        '  <language>zh-cn</language>\n'
+        '  <lastBuildDate>%s</lastBuildDate>\n'
+        '  <atom:link href="%s/feed.xml" rel="self" type="application/rss+xml"/>\n'
+        '%s\n'
+        '</channel>\n</rss>\n'
+        % (SITE, newest, SITE, "\n".join(entries)))
+
+
 def main():
     today = git_date()
     dump = "--dump" in sys.argv
     pages = {}
+    parsed = {}
 
+    # ---------- 第一遍：先决定这次哪些页面会生成 ----------
+    # 导航、首页卡片、sitemap、RSS 链接都要先知道结果，所以决策和渲染必须分开。
     for cfg in LIST_PAGES:
-        if not cfg.get("enabled", True):
+        flag = cfg.get("enabled", True)
+        if flag is False:
             print("已下线 %s（enabled=False，内容源 %s 留着，想恢复改回 True）"
                   % (cfg["out"], cfg["src"]))
             continue
         src = ROOT / cfg["src"]
         if not src.exists():
-            print("跳过 %s：文件不存在" % cfg["src"])
+            print("跳过 %s：内容源 %s 不存在" % (cfg["out"], cfg["src"]))
             continue
         cats = build_tree(parse_lines(src.read_text(encoding="utf-8")))
-        if dump:
-            print("=== %s ===" % cfg["src"])
-            print(json.dumps(cats, ensure_ascii=False, indent=1))
+        n_found = sum(leaf_count(c["children"]) for c in cats)
+        if flag == "auto" and n_found == 0:
+            print("跳过 %s：%s 里还没有条目，先不挂上去（往源文件里填内容，重跑即可自动上线）"
+                  % (cfg["out"], cfg["src"]))
             continue
+        parsed[cfg["out"]] = cats
+        LIVE.add(cfg["out"])
 
+    for cfg in DOC_PAGES:
+        if (ROOT / cfg["src"]).exists():
+            LIVE.add(cfg["out"])
+        else:
+            print("跳过 %s：内容源 %s 不存在" % (cfg["out"], cfg["src"]))
+    LIVE.add(CHANGELOG_OUT)
+    for t in TOOL_PAGES:
+        if (ROOT / t["href"]).exists():
+            LIVE.add(t["href"])
+
+    if dump:
+        for out, cats in parsed.items():
+            print("=== %s ===" % out)
+            print(json.dumps(cats, ensure_ascii=False, indent=1))
+        return
+
+    # ---------- 第二遍：渲染清单页 ----------
+    for cfg in LIST_PAGES:
+        cats = parsed.get(cfg["out"])
+        if cats is None:
+            continue
         page = render(cats, cfg, today)
         out = ROOT / cfg["out"]
         out.write_text(page, encoding="utf-8")
@@ -2067,16 +2575,38 @@ def main():
         print("已生成 %s：%d 个分类 / %d 个分组 / %d 个条目 / %d 个外链 / %d KB"
               % (out.name, len(cats), groups, n, links, len(page) // 1024))
 
-    if dump:
-        return
+    # ---------- 文档页：关于 / 隐私 / 404 / 更新日志 ----------
+    for cfg in DOC_PAGES:
+        if cfg["out"] not in LIVE:
+            continue
+        html = build_doc_page((ROOT / cfg["src"]).read_text(encoding="utf-8"),
+                              cfg["title"], cfg["out"], nav_current=cfg["out"],
+                              noindex=cfg.get("noindex", False),
+                              desc=cfg.get("desc", ""))
+        (ROOT / cfg["out"]).write_text(html, encoding="utf-8")
+        print("已生成 %s（文档页 / %d KB）" % (cfg["out"], len(html) // 1024))
 
+    cl_html = build_doc_page(build_changelog_md(), "更新日志", CHANGELOG_OUT,
+                             nav_current=CHANGELOG_OUT)
+    (ROOT / CHANGELOG_OUT).write_text(cl_html, encoding="utf-8")
+    n_cl = len(git_commits())
+    print("已生成 %s（更新日志，自动取自最近 %d 条提交）" % (CHANGELOG_OUT, n_cl))
+
+    # ---------- 首页 ----------
     home = build_home(pages, today)
     (ROOT / "index.html").write_text(home, encoding="utf-8")
     print("已生成 index.html（首页）：全站 %d 条 / %d 个页面 / %d KB"
           % (sum(x["items"] for x in pages.values()), len(pages), len(home) // 1024))
 
-    # 说明书的 HTML 版，跟着一起更新，保证 md / html 两个版本永远同步。
-    # 注意：只写进「本地资料/」，不上线；另存一份英文名 help.html 方便手机/本地打开。
+    # ---------- RSS：只做文章归档 ----------
+    feed = build_feed(parsed.get("articles.html") or [], today)
+    if feed:
+        (ROOT / "feed.xml").write_text(feed, encoding="utf-8")
+        print("已生成 feed.xml（RSS 订阅）")
+    else:
+        print("未生成 feed.xml（文章归档还没有内容）")
+
+    # ---------- 说明书：只写「本地资料/」，不上线 ----------
     if HELP_SRC.exists():
         help_out = build_help_html()
         LOCAL_DIR.mkdir(exist_ok=True)
@@ -2085,7 +2615,10 @@ def main():
         print("已生成本地说明书（不上线）：%s" % HELP_OUT.relative_to(ROOT))
 
     build_seo(today)
-    print("已生成 robots.txt 与 sitemap.xml")
+    print("已生成 robots.txt 与 sitemap.xml（%d 个页面）" % len(sitemap_pages()))
+
+    if patch_lottery():
+        print("已给 lottery.html 补上分享图与结构化数据")
 
     build_manifest()
     print("已生成 manifest.webmanifest")
