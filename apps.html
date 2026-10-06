@@ -189,6 +189,21 @@ details.group[open]>summary::before{transform:rotate(90deg)}
 .item a.nm{color:var(--accent)}
 .item a.nm:hover{text-decoration:underline}
 .item .chips{display:inline-flex; align-items:center; gap:4px; flex:0 0 auto}
+/* 地域标记：颜色跟着主题走，暗色下自动变亮，不会糊成一片 */
+.item .rg{
+  font-size:10.5px; line-height:1.75; padding:0 6px; border-radius:9px;
+  white-space:nowrap; border:1px solid transparent;
+}
+.item .rg-slow{
+  color:var(--warn-fav);
+  border-color:color-mix(in srgb, var(--warn-fav) 38%, transparent);
+  background:color-mix(in srgb, var(--warn-fav) 12%, transparent);
+}
+.item .rg-bad{
+  color:var(--warn);
+  border-color:color-mix(in srgb, var(--warn) 40%, transparent);
+  background:color-mix(in srgb, var(--warn) 12%, transparent);
+}
 .item .ds{color:var(--fg2); font-size:13px; flex:1 1 280px; min-width:0}
 .item .note{
   flex:1 1 100%; color:var(--fg3); font-size:12.5px; line-height:1.6;
@@ -689,7 +704,7 @@ footer{
 
 <footer>
   <span>内容源 README.md · 共 219 条 · 162 个外链 · 更新于 2026-10-04</span>
-  <span class="fnav"><a href="index.html">首页</a> · <a href="lottery.html">彩票选号</a> · <a href="about.html">关于</a> · <a href="changelog.html">更新日志</a> · <a href="privacy.html">隐私说明</a></span>
+  <span class="fnav"><a href="index.html">首页</a> · <a href="free.html">免费资源</a> · <a href="lottery.html">彩票选号</a> · <a href="about.html">关于</a> · <a href="changelog.html">更新日志</a> · <a href="privacy.html">隐私说明</a></span>
   <span>纯静态 · 无追踪 · 无第三方请求</span>
 </footer>
 
@@ -725,7 +740,8 @@ footer{
   // 筛选：函数式，想加新筛选往这里加一行就行
   var FILTERS = {
     link: function(el){ return el.dataset.l === '1'; },
-    star: function(el){ return el.dataset.star === '1'; }
+    star: function(el){ return el.dataset.star === '1'; },
+    cn: function(el){ return el.dataset.r === 'cn'; }
   };
 
   function esc(s){

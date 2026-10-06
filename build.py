@@ -10,6 +10,7 @@ build.py —— 把 markdown 内容源编译成一套零依赖的静态站点
 产出（会自动上线）：
     index.html    首页（导航，软件清单放最显眼的位置）
     apps.html     软件清单      <- README.md
+    free.html     免费资源      <- free.md + free-region.json（地域标记）
     lottery.html  彩票选号工具   <- 独立单文件，不参与本脚本编译
 
 产出（上线开关关着，随时可开）：
@@ -25,6 +26,9 @@ build.py —— 把 markdown 内容源编译成一套零依赖的静态站点
     2. 每个页面都是单文件、零依赖、离线可用，数据全部内联。
     3. 想加一个新清单页：往下面的 LIST_PAGES 里加一条即可，其余全自动。
     4. 想临时撤下一个页面：把那条的 enabled 改成 False，代码和内容都留着。
+    5. 内容与「实测数据」分开：free.md 只写有哪些资源，链接好不好打开由
+       「6-体检链接.command」实测后写进 free-region.json。机器管链接还活着吗，
+       人管该不该收它 —— 两件事不要混在一份文件里。
 """
 
 import html
@@ -69,6 +73,15 @@ LIST_PAGES = [
          sub="我自己在用的软件、硬件和外设，长期更新。收录标准只有一条：用得住。",
          home="Mac / PC / 手机软件、硬件与外设。收录标准只有一条：我真的在用、而且用得住。",
          layout="list"),
+    # —— 免费资源：合法免费资源的导航，不收盗版 / 破解 / 翻墙 ——
+    #    regions=True 表示这一页会读 free-region.json，给条目挂「慢 / 需代理」标记，
+    #    并在筛选下拉里多出「只看国内直连」。那份数据由「6-体检链接.command」实测生成。
+    dict(src="free.md", out="free.html", kicker="开源 · 官方免费版 · 免费课程 · 公共领域",
+         title="免费资源", ico="免",
+         sub="整理过的合法免费资源：开源软件、官方免费版与学生包、免费课程、公共领域书籍、"
+             "可商用素材。每条都标了国内能不能直连。不收盗版、破解和翻墙工具。",
+         home="120+ 条合法免费资源，标了国内能不能直连，带搜索。",
+         layout="list", regions=True),
     # —— 文章归档：把公众号长文搬进来，是目前唯一能带外部流量的模块 ——
     dict(src="articles.md", out="articles.html", kicker="公众号长文归档",
          title="文章归档", ico="▦",
@@ -520,6 +533,43 @@ def build_tree(blocks):
 DEP_GROUP_HINTS = ("已废除", "已弃用", "弃坑")
 
 
+# 「国内访问情况」的两档标记。cn（国内直连）不出徽章 —— 那是默认的、多数条目的状态，
+# 满页都挂反而看不见重点；但 data-r 照样输出，好让「只看国内直连」能筛。
+REGION_LEGEND = {
+    "slow": ("慢", "rg-slow", "国内能打开，但偶尔慢，时好时坏"),
+    "proxy": ("需代理", "rg-bad", "国内基本打不开，要代理才能访问"),
+}
+
+# 实测数据文件：由「6-体检链接.command」生成，按网址索引 -> "cn" / "slow" / "proxy"
+REGION_FILE = ROOT / "free-region.json"
+
+
+def load_regions():
+    """读地域标记数据。文件不存在或读坏了都返回空 -> 整页不加标记，绝不因此构建失败。"""
+    if not REGION_FILE.exists():
+        return {}
+    try:
+        raw = json.loads(REGION_FILE.read_text(encoding="utf-8"))
+    except Exception as e:
+        print("!! %s 读不了（%s），这次不加地域标记" % (REGION_FILE.name, e))
+        return {}
+    return raw.get("urls") or {}
+
+
+def apply_regions(cats):
+    """把地域标记挂到条目上（按网址匹配）。返回挂上了多少条。"""
+    by_url = load_regions()
+    if not by_url:
+        return 0
+    n = 0
+    for _cat, node in iter_leaf_items(cats):
+        r = by_url.get(node.get("url") or "")
+        if r == "cn" or r in REGION_LEGEND:
+            node["region"] = r
+            n += 1
+    return n
+
+
 def render_node(node, ctx, depth=0):
     """把节点渲染成 HTML，返回 (html, 该节点下的分组锚点列表[(id, 标题, 层级)])。
     有子项且自身无链接 -> 分组(<details>)；否则算条目。"""
@@ -562,10 +612,15 @@ def render_node(node, ctx, depth=0):
     else:
         title_html = f'<span class="nm">{title_html}</span>'
 
-    # 只有一个徽章：清单里写了 ☆ 的条目，名称右边挂一个「荐」
-    chips_html = ('<span class="chips">'
-                  '<span class="badge" title="个人推荐">荐</span></span>') \
-        if node["star"] else ""
+    # 名称右边的小徽章：写了 ☆ 的挂「荐」；有实测地域数据的挂「慢 / 需代理」
+    chips = []
+    if node["star"]:
+        chips.append('<span class="badge" title="个人推荐">荐</span>')
+    rg = node.get("region")
+    if rg in REGION_LEGEND:
+        label, badge_cls, tip = REGION_LEGEND[rg]
+        chips.append('<span class="rg %s" title="%s">%s</span>' % (badge_cls, esc(tip), label))
+    chips_html = ('<span class="chips">' + "".join(chips) + '</span>') if chips else ""
 
     host_html = ""
     if ctx.get("host") and node.get("host"):
@@ -592,6 +647,8 @@ def render_node(node, ctx, depth=0):
         flags += ' data-l="1"'
     if node["star"]:
         flags += ' data-star="1"'
+    if node.get("region"):
+        flags += ' data-r="%s"' % node["region"]
     return (
         f'<div class="{" ".join(cls)}"{flags}>'
         f'{title_html}{chips_html}{host_html}{desc_html}{note_html}{sub}</div>'
@@ -706,7 +763,11 @@ def fill_page(page: str, cfg: dict) -> str:
          "itemListElement": breadcrumb_jsonld(cfg["out"], cfg["title"])},
     ]
     rss = rss_link_tag()
+    # 「只看国内直连」只给挂了地域数据的页面（regions=True），别的页面不多一个筛不动项的选项
+    region_opt = ('\n        <option value="cn">只看国内直连</option>'
+                  if cfg.get("regions") else "")
     return (page
+            .replace("__REGION_OPT__", region_opt)
             .replace("__LAYOUT__", cfg["layout"])
             .replace("__THEME_COLOR__", THEME_COLOR)
             .replace("__PAGE_TITLE__", esc(cfg["title"] + " · " + SITE_NAME))
@@ -1162,6 +1223,21 @@ details.group[open]>summary::before{transform:rotate(90deg)}
 .item a.nm{color:var(--accent)}
 .item a.nm:hover{text-decoration:underline}
 .item .chips{display:inline-flex; align-items:center; gap:4px; flex:0 0 auto}
+/* 地域标记：颜色跟着主题走，暗色下自动变亮，不会糊成一片 */
+.item .rg{
+  font-size:10.5px; line-height:1.75; padding:0 6px; border-radius:9px;
+  white-space:nowrap; border:1px solid transparent;
+}
+.item .rg-slow{
+  color:var(--warn-fav);
+  border-color:color-mix(in srgb, var(--warn-fav) 38%, transparent);
+  background:color-mix(in srgb, var(--warn-fav) 12%, transparent);
+}
+.item .rg-bad{
+  color:var(--warn);
+  border-color:color-mix(in srgb, var(--warn) 40%, transparent);
+  background:color-mix(in srgb, var(--warn) 12%, transparent);
+}
 .item .ds{color:var(--fg2); font-size:13px; flex:1 1 280px; min-width:0}
 .item .note{
   flex:1 1 100%; color:var(--fg3); font-size:12.5px; line-height:1.6;
@@ -1313,7 +1389,7 @@ __SKIN_SCRIPT__
       <select id="filter" title="筛选">
         <option value="all">全部</option>
         <option value="link">有下载链接</option>
-        <option value="star">我推荐的</option>
+        <option value="star">我推荐的</option>__REGION_OPT__
       </select>
       <button id="toggleAll" title="展开 / 折叠全部分组">折叠</button>
       <a class="tool-link" href="index.html" title="回到首页">首页</a>
@@ -1423,7 +1499,8 @@ __BODY__
   // 筛选：函数式，想加新筛选往这里加一行就行
   var FILTERS = {
     link: function(el){ return el.dataset.l === '1'; },
-    star: function(el){ return el.dataset.star === '1'; }
+    star: function(el){ return el.dataset.star === '1'; },
+    cn: function(el){ return el.dataset.r === 'cn'; }
   };
 
   function esc(s){
@@ -2390,6 +2467,7 @@ def rfc822(day: str) -> str:
 def sitemap_pages():
     """sitemap 的页面清单：活着、且标了 sitemap 的页面。"""
     weight = {"apps.html": ("0.9", "weekly"), "articles.html": ("0.9", "weekly"),
+              "free.html": ("0.9", "weekly"),
               "books.html": ("0.7", "weekly"), "movies.html": ("0.7", "weekly"),
               "links.html": ("0.7", "weekly"), "lottery.html": ("0.6", "monthly"),
               "about.html": ("0.5", "monthly"), "changelog.html": ("0.4", "monthly"),
@@ -2532,6 +2610,10 @@ def main():
             print("跳过 %s：内容源 %s 不存在" % (cfg["out"], cfg["src"]))
             continue
         cats = build_tree(parse_lines(src.read_text(encoding="utf-8")))
+        if cfg.get("regions"):
+            n_rg = apply_regions(cats)
+            print("  %s：挂了 %d 条地域标记（数据来自 %s）"
+                  % (cfg["out"], n_rg, REGION_FILE.name))
         n_found = sum(leaf_count(c["children"]) for c in cats)
         if flag == "auto" and n_found == 0:
             print("跳过 %s：%s 里还没有条目，先不挂上去（往源文件里填内容，重跑即可自动上线）"

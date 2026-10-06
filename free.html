@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>免费资源 · uppjs.com</title>
+<meta name="description" content="免费资源：整理过的合法免费资源：开源软件、官方免费版与学生包、免费课程、公共领域书籍、可商用素材。每条都标了国内能不能直连。不收盗版、破解和翻墙工具。">
+<meta name="theme-color" content="#2f6fed">
+<link rel="canonical" href="https://uppjs.com/free.html">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="uppjs.com">
+<meta property="og:url" content="https://uppjs.com/free.html">
+<meta property="og:title" content="免费资源 · uppjs.com">
+<meta property="og:description" content="免费资源：整理过的合法免费资源：开源软件、官方免费版与学生包、免费课程、公共领域书籍、可商用素材。每条都标了国内能不能直连。不收盗版、破解和翻墙工具。">
+<meta property="og:image" content="https://uppjs.com/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="免费资源 · uppjs.com">
+<meta name="twitter:card" content="summary_large_image">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://uppjs.com/#website","url":"https://uppjs.com/","name":"uppjs.com · 软件与工具清单","description":"自己在用的 Mac / PC / 手机软件、硬件与外设，整理成清单长期更新，支持即时搜索。不接推广、不做商业排序，收录标准只有一条：用得住。","inLanguage":"zh-CN"},{"@type":"Person","@id":"https://uppjs.com/#author","name":"uppjs.com","url":"https://uppjs.com/about.html","description":"把在用的软件、工具和写法整理成清单，长期更新。"},{"@type":"CollectionPage","@id":"https://uppjs.com/free.html#page","url":"https://uppjs.com/free.html","name":"免费资源","description":"整理过的合法免费资源：开源软件、官方免费版与学生包、免费课程、公共领域书籍、可商用素材。每条都标了国内能不能直连。不收盗版、破解和翻墙工具。","inLanguage":"zh-CN","isPartOf":{"@id":"https://uppjs.com/#website"},"author":{"@id":"https://uppjs.com/#author"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://uppjs.com/"},{"@type":"ListItem","position":2,"name":"免费资源","item":"https://uppjs.com/free.html"}]}]}</script>
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --panel2:#f0f2f5; --line:#e2e5ea;
+  --fg:#1b1f24; --fg2:#5b626b; --fg3:#767e89;
+  --accent:#2f6fed; --accent-soft:#e8efff; --mark:#ffe9a8; --mark-fg:#3a2c00;
+  --tag-attr-fg:#2c7554; --tag-attr-bg:#eef7f2; --tag-attr-bd:#cfe7dc;
+  --tag-plat-fg:#2f6fed; --tag-plat-bg:#eef3ff; --tag-plat-bd:#d3e0fb;
+  --warn:#bc5a33; --warn-fav:#c9971a;
+  --radius:10px; --hh:57px; --tocw:206px;
+}
+html[data-theme="dark"]{
+  --bg:#14161a; --panel:#1c1f24; --panel2:#22262c; --line:#2e333a;
+  --fg:#e6e8ec; --fg2:#a8b0ba; --fg3:#7c848e;
+  --accent:#6ea0ff; --accent-soft:#22314f; --mark:#6b5a1a; --mark-fg:#ffeaa0;
+  --tag-attr-fg:#7fd3ae; --tag-attr-bg:#1b2a24; --tag-attr-bd:#2c4a3d;
+  --tag-plat-fg:#8fb6ff; --tag-plat-bg:#1a2135; --tag-plat-bd:#2d3f63;
+  --warn:#e08a63; --warn-fav:#e3b53c;
+}
+@media (prefers-color-scheme: dark){
+  html[data-theme="auto"]{
+    --bg:#14161a; --panel:#1c1f24; --panel2:#22262c; --line:#2e333a;
+    --fg:#e6e8ec; --fg2:#a8b0ba; --fg3:#7c848e;
+    --accent:#6ea0ff; --accent-soft:#22314f; --mark:#6b5a1a; --mark-fg:#ffeaa0;
+    --tag-attr-fg:#7fd3ae; --tag-attr-bg:#1b2a24; --tag-attr-bd:#2c4a3d;
+    --tag-plat-fg:#8fb6ff; --tag-plat-bg:#1a2135; --tag-plat-bd:#2d3f63;
+    --warn:#e08a63; --warn-fav:#e3b53c;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:14px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:var(--panel2); padding:1px 5px; border-radius:4px; font-size:12.5px;
+     font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+
+/* ---------- 顶栏 ---------- */
+header{
+  position:sticky; top:0; z-index:50;
+  background:var(--bg); border-bottom:1px solid var(--line);
+}
+@supports (backdrop-filter:blur(8px)){
+  header{background:color-mix(in srgb,var(--bg) 86%,transparent); backdrop-filter:saturate(1.6) blur(10px)}
+}
+.bar{
+  max-width:1180px; margin:0 auto; padding:9px 16px;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+}
+.brand{font-weight:700; font-size:15px; white-space:nowrap}
+.brand span{color:var(--fg3); font-weight:400; margin-left:6px; font-size:13px}
+.search{flex:1 1 240px; min-width:150px; position:relative}
+.search input{
+  width:100%; padding:8px 30px 8px 32px; border:1px solid var(--line); border-radius:var(--radius);
+  background:var(--panel); color:var(--fg); font-size:14px; outline:none;
+}
+.search input:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+.search::before{content:"⌕"; position:absolute; left:11px; top:7px; color:var(--fg3); font-size:15px}
+.search button{
+  position:absolute; right:4px; top:4px; border:0; background:transparent; color:var(--fg3);
+  font-size:16px; cursor:pointer; padding:4px 8px; border-radius:6px; display:none;
+}
+.search.has button{display:block}
+.tools{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--fg3); white-space:nowrap}
+.tools>button,.tools>select,.tools>a.tool-link{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  padding:6px 9px; border-radius:8px; cursor:pointer; font-size:13px; max-width:150px;
+  white-space:nowrap;
+}
+.tools>button:hover,.tools>select:hover,.tools>a.tool-link:hover{
+  border-color:var(--accent); color:var(--accent); text-decoration:none;
+}
+#count{font-variant-numeric:tabular-nums}
+
+/* ---------- 窄屏分类条 ---------- */
+nav.cats{position:sticky; top:var(--hh); z-index:40; background:var(--bg); border-bottom:1px solid var(--line)}
+nav.cats .wrap{
+  max-width:1180px; margin:0 auto; padding:8px 16px; display:flex; gap:6px;
+  overflow-x:auto; scrollbar-width:none;
+}
+nav.cats .wrap::-webkit-scrollbar{display:none}
+nav.cats a{
+  white-space:nowrap; padding:5px 11px; border-radius:20px; border:1px solid var(--line);
+  background:var(--panel); color:var(--fg2); font-size:13px;
+}
+nav.cats a:hover,nav.cats a.on{border-color:var(--accent); color:var(--accent); text-decoration:none}
+nav.cats a .n{color:var(--fg3); margin-left:5px; font-size:11px}
+
+/* ---------- 外壳 ---------- */
+.shell{
+  max-width:1180px; margin:0 auto; padding:16px 16px 0;
+  display:flex; align-items:flex-start; gap:24px;
+}
+aside.toc{display:none}
+main{flex:1; min-width:0; padding-bottom:34px}
+
+@media (min-width:1024px){
+  nav.cats{display:none}
+  aside.toc{
+    display:block; flex:0 0 var(--tocw); position:sticky; top:calc(var(--hh) + 14px);
+    max-height:calc(100vh - var(--hh) - 28px); overflow-y:auto; overscroll-behavior:contain;
+    padding-right:4px;
+  }
+  aside.toc::-webkit-scrollbar{width:6px}
+  aside.toc::-webkit-scrollbar-thumb{background:var(--line); border-radius:3px}
+}
+.toc-h{font-size:11px; letter-spacing:.09em; color:var(--fg3); text-transform:uppercase;
+       margin:0 0 7px 9px}
+.toc-cat>a{
+  display:flex; align-items:center; gap:8px; padding:5px 9px; border-radius:7px;
+  font-weight:600; font-size:13px; color:var(--fg2);
+}
+.toc-cat>a span.n{margin-left:auto}
+.toc-cat>a:hover{background:var(--panel2); color:var(--fg); text-decoration:none}
+.toc-cat>a.on{background:var(--accent-soft); color:var(--accent)}
+.toc-cat>a .n,.toc-grp a .n{font-size:11px; color:var(--fg3); font-weight:400}
+.toc-grp{margin:1px 0 7px 9px; border-left:1px solid var(--line); padding-left:7px}
+.toc-grp a{
+  display:block; padding:3px 7px; border-radius:6px; font-size:12.5px; color:var(--fg3);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.toc-grp a:hover{color:var(--accent); background:var(--panel2); text-decoration:none}
+.toc-grp a.on{color:var(--accent); background:var(--accent-soft)}
+.toc-grp a[data-d="1"]{padding-left:18px; font-size:12px}
+
+/* ---------- 主体 ---------- */
+.sec{margin-bottom:22px; scroll-margin-top:calc(var(--hh) + 14px)}
+.sec h2{
+  font-size:17px; margin:0 0 10px; padding-bottom:7px; border-bottom:2px solid var(--line);
+  display:flex; align-items:center; gap:8px;
+}
+.sec h2 .anchor{opacity:0; font-size:15px; color:var(--fg3)}
+.sec h2:hover .anchor{opacity:1}
+.sec-body{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:6px 14px}
+
+details.group{border-bottom:1px dashed var(--line); padding:4px 0; scroll-margin-top:calc(var(--hh) + 14px)}
+details.group:last-child{border-bottom:0}
+details.group.grp-dep{opacity:.78}
+details.group>summary{
+  cursor:pointer; list-style:none; padding:7px 0; display:flex; align-items:center; gap:8px;
+  font-weight:600; font-size:14px;
+}
+details.group>summary::-webkit-details-marker{display:none}
+details.group>summary::before{
+  content:"▸"; color:var(--fg3); font-size:11px; transition:transform .15s; display:inline-block;
+}
+details.group[open]>summary::before{transform:rotate(90deg)}
+.grp-n{color:var(--fg3); font-weight:400; font-size:11.5px;
+       background:var(--panel2); border-radius:10px; padding:0 7px}
+.grp-desc{margin:0 0 6px 19px; color:var(--fg2); font-size:13px}
+.grp-body{margin-left:19px; padding-bottom:6px}
+
+.item{
+  padding:6px 8px 6px 12px; border-left:2px solid var(--line); margin:2px 0;
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 9px;
+  border-radius:0 5px 5px 0;
+}
+.item:hover{border-left-color:var(--accent); background:var(--panel2)}
+.item .nm{font-weight:600; color:var(--fg); font-size:14.5px; flex:0 1 auto; min-width:0}
+.item a.nm{color:var(--accent)}
+.item a.nm:hover{text-decoration:underline}
+.item .chips{display:inline-flex; align-items:center; gap:4px; flex:0 0 auto}
+/* 地域标记：颜色跟着主题走，暗色下自动变亮，不会糊成一片 */
+.item .rg{
+  font-size:10.5px; line-height:1.75; padding:0 6px; border-radius:9px;
+  white-space:nowrap; border:1px solid transparent;
+}
+.item .rg-slow{
+  color:var(--warn-fav);
+  border-color:color-mix(in srgb, var(--warn-fav) 38%, transparent);
+  background:color-mix(in srgb, var(--warn-fav) 12%, transparent);
+}
+.item .rg-bad{
+  color:var(--warn);
+  border-color:color-mix(in srgb, var(--warn) 40%, transparent);
+  background:color-mix(in srgb, var(--warn) 12%, transparent);
+}
+.item .ds{color:var(--fg2); font-size:13px; flex:1 1 280px; min-width:0}
+.item .note{
+  flex:1 1 100%; color:var(--fg3); font-size:12.5px; line-height:1.6;
+  padding-left:9px; border-left:2px solid var(--line);
+}
+.item .note::before{content:"▸ "; color:var(--fg3)}
+.item.dep .nm{text-decoration:line-through; color:var(--fg3)}
+.item.dep .ds{color:var(--fg3); text-decoration:line-through}
+.item.cur{background:var(--accent-soft); border-left-color:var(--accent)}
+ul.sub{margin:4px 0 2px 0; padding-left:16px; color:var(--fg2); font-size:13px; width:100%}
+ul.sub li{margin:2px 0}
+mark{background:var(--mark); color:var(--mark-fg); border-radius:2px; padding:0 1px}
+
+@keyframes flash{from{background:var(--accent-soft)} to{background:transparent}}
+.flash{animation:flash 1.2s ease-out}
+
+.hidden{display:none !important}
+.empty{display:none; text-align:center; color:var(--fg3); padding:44px 0; font-size:13.5px}
+.empty.show{display:block}
+.empty b{color:var(--fg2)}
+
+/* ---------- 页头 ---------- */
+.pagehead{margin:0 0 20px}
+.crumbs{font-size:12.5px; color:var(--fg3); margin:0 0 10px; display:flex; gap:6px; align-items:center}
+.crumbs a{color:var(--fg3)}
+.crumbs a:hover{color:var(--accent); text-decoration:none}
+.crumbs .sep{color:var(--fg3); opacity:.6}
+.crumbs .cur{color:var(--fg2)}
+.pagehead .kicker{
+  font-size:11.5px; letter-spacing:.1em; color:var(--accent);
+  margin:0 0 5px; text-transform:uppercase;
+}
+.pagehead h1{font-size:23px; margin:0 0 7px; letter-spacing:-.01em}
+.pagehead .sub{color:var(--fg2); font-size:13.5px; margin:0; max-width:660px}
+a.brand{color:var(--fg)}
+a.brand:hover{color:var(--accent); text-decoration:none}
+
+/* ---------- 紧凑布局：网址书签页 ---------- */
+body[data-layout="compact"] .sec-body{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(296px,1fr));
+  gap:12px; align-items:start;
+}
+body[data-layout="compact"] details.group{
+  border:1px solid var(--line); border-radius:10px; background:var(--panel);
+  padding:11px 13px 12px;
+}
+body[data-layout="compact"] details.group>summary{
+  padding:0 0 8px; margin:0 0 5px; font-size:13px; font-weight:600;
+  border-bottom:1px solid var(--line); color:var(--fg);
+}
+body[data-layout="compact"] details.group>summary .grp-n{
+  color:var(--fg3); font-weight:400; font-size:11.5px;
+}
+body[data-layout="compact"] .grp-body{padding-left:0; margin-left:0}
+body[data-layout="compact"] .item{
+  padding:3px 7px; margin:0 -7px; border-left:0; border-radius:6px;
+  gap:0 9px; font-size:13.5px; line-height:1.55;
+}
+body[data-layout="compact"] .item:hover{background:var(--panel2); border-left-color:transparent}
+body[data-layout="compact"] .item .nm{
+  flex:1 1 auto; min-width:0; font-weight:400; font-size:13.5px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+body[data-layout="compact"] .item a.nm{color:var(--fg)}
+body[data-layout="compact"] .item a.nm:hover{color:var(--accent); text-decoration:none}
+/* 右侧的来源域名：不抢眼，但一眼能看出是哪个站 */
+body[data-layout="compact"] .item .dm{
+  flex:0 0 auto; max-width:40%; font-size:10.5px; color:var(--fg3); opacity:.7;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+body[data-layout="compact"] .item:hover .dm{opacity:1}
+body[data-layout="compact"] .item .ds{flex:1 1 100%; font-size:11.8px; color:var(--fg3)}
+body[data-layout="compact"] .item ul.sub{flex:1 1 100%; font-size:12.5px}
+body[data-layout="compact"] .sec-body > .item{grid-column:1/-1}
+/* 窄屏：单列，别让卡片被内容撑出去 */
+body[data-layout="compact"] details.group,
+body[data-layout="compact"] .sec-body > .item{min-width:0}
+@media (max-width:720px){
+  body[data-layout="compact"] .sec-body{grid-template-columns:minmax(0,1fr)}
+  body[data-layout="compact"] .item .nm{white-space:normal}
+}
+
+/* ---------- 使用说明 ---------- */
+.help{margin-top:28px; background:var(--panel); border:1px solid var(--line);
+      border-radius:var(--radius); padding:6px 16px}
+.help summary{cursor:pointer; font-weight:600; padding:8px 0}
+.help h3{font-size:14px; margin:16px 0 6px}
+.help p,.help li{color:var(--fg2); font-size:13px}
+.help table{border-collapse:collapse; width:100%; margin:6px 0 4px}
+.help td,.help th{border:1px solid var(--line); padding:5px 9px; font-size:13px; text-align:left;
+                  vertical-align:top}
+.help th{background:var(--panel2); font-weight:600}
+.help kbd{background:var(--panel2); border:1px solid var(--line); border-bottom-width:2px;
+          border-radius:4px; padding:0 5px; font-size:12px; font-family:inherit}
+
+footer{
+  max-width:1180px; margin:0 auto; padding:0 16px 46px; color:var(--fg3); font-size:12.5px;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+}
+.fnav a{color:var(--fg3)}
+.fnav a:hover{color:var(--accent); text-decoration:none}
+.totop{
+  position:fixed; right:18px; bottom:18px; width:38px; height:38px; border-radius:50%;
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2); cursor:pointer;
+  font-size:16px; display:none; z-index:60;
+}
+.totop.show{display:block}
+
+/* ---------- 外观面板（明暗 + 底色） ---------- */
+.appear{position:relative}
+.appear>button{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  border-radius:8px; padding:5px 11px; font-size:13px; cursor:pointer;
+  font-family:inherit; line-height:1.4;
+}
+.appear>button:hover{color:var(--fg); border-color:var(--fg3)}
+.ap-panel{
+  position:absolute; right:0; top:calc(100% + 9px); z-index:70; width:268px;
+  background:var(--panel); border:1px solid var(--line); border-radius:12px;
+  padding:13px 13px 11px; text-align:left; white-space:normal;
+  box-shadow:0 14px 38px rgba(0,0,0,.20);
+}
+.ap-panel[hidden]{display:none}
+.ap-lab{
+  font-size:10.5px; letter-spacing:.1em; color:var(--fg3); text-transform:uppercase;
+  margin:0 0 7px; font-weight:600;
+}
+.ap-modes{display:flex; gap:6px; margin:0 0 13px}
+.ap-modes button{
+  flex:1; border:1px solid var(--line); background:var(--panel2); color:var(--fg2);
+  border-radius:8px; padding:6px 0; font-size:12.5px; cursor:pointer;
+  font-family:inherit; white-space:nowrap;
+}
+.ap-modes button.on{border-color:var(--accent); background:var(--accent-soft); color:var(--accent); font-weight:600}
+.ap-sw{display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin:0 0 13px}
+.ap-sw button{
+  width:100%; height:32px; border-radius:9px; border:1px solid var(--line);
+  cursor:pointer; padding:0;
+}
+.ap-sw button.on{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+.ap-foot{display:flex; gap:6px; border-top:1px solid var(--line); padding-top:11px}
+.ap-foot button{
+  flex:1; border:1px solid var(--line); background:transparent; color:var(--fg2);
+  border-radius:8px; padding:6px 0; font-size:12.5px; cursor:pointer; font-family:inherit;
+}
+.ap-foot button:hover{color:var(--fg); background:var(--panel2)}
+.ap-tip{font-size:11.5px; color:var(--fg3); line-height:1.55; margin:10px 0 0}
+#apPick{position:absolute; width:0; height:0; opacity:0; pointer-events:none; border:0; padding:0}
+
+@media (max-width:720px){
+  .bar{padding:8px 12px; gap:8px}
+  .brand span{display:none}
+  .brand{font-size:14px}
+  /* 窄屏按钮多，工具区独占一行并允许换行，避免顶栏横向溢出 */
+  .tools{gap:6px; flex-wrap:wrap; white-space:normal; width:100%; justify-content:flex-start}
+  .tools>button,.tools>select,.tools>a.tool-link{padding:6px 8px; font-size:12.5px}
+  .appear>button{padding:6px 8px; font-size:12.5px}
+  .ap-panel{position:fixed; top:calc(var(--hh) + 6px); right:12px; left:auto;
+            width:min(276px,calc(100vw - 24px))}
+  .shell{padding:12px 12px 0}
+  .item .ds{flex-basis:100%; padding-left:0}
+  .sec-body{padding:4px 10px}
+  footer{padding:0 12px 34px}
+}
+@media print{
+  header,nav.cats,aside.toc,.totop,.help{display:none}
+  body{background:#fff}
+  .shell{display:block; padding:0}
+  .sec-body{border:0; padding:0}
+  details.group{page-break-inside:avoid}
+  details.group:not([open])>div,details.group:not([open])>p{display:block}
+}
+</style>
+<script>
+/* 外观：明暗 + 底色。在首帧前应用，避免闪烁；设置只存在本机浏览器。 */
+(function(){
+  var VARS = ['--bg','--panel','--panel2','--line','--fg','--fg2','--fg3','--accent','--accent-soft'];
+  function rgb(h){
+    h = String(h || '').replace('#','');
+    if(h.length === 3) h = h.charAt(0)+h.charAt(0)+h.charAt(1)+h.charAt(1)+h.charAt(2)+h.charAt(2);
+    if(!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+    return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+  }
+  function hex(c){
+    var o = '#';
+    for(var i = 0; i < 3; i++) o += ('0' + Math.max(0, Math.min(255, Math.round(c[i]))).toString(16)).slice(-2);
+    return o;
+  }
+  function mix(a, b, t){
+    var A = rgb(a), B = rgb(b);
+    if(!A) return a;
+    if(!B) return b;
+    return hex([0,1,2].map(function(i){ return A[i] + (B[i] - A[i]) * t; }));
+  }
+  function lum(h){
+    var c = rgb(h);
+    if(!c) return 1;
+    return (0.2126*c[0] + 0.7152*c[1] + 0.0722*c[2]) / 255;
+  }
+  function clear(){
+    var st = document.documentElement.style;
+    for(var i = 0; i < VARS.length; i++) st.removeProperty(VARS[i]);
+  }
+  function paint(bg){
+    if(!rgb(bg)) return true;
+    var W = '#ffffff', K = '#000000', L = lum(bg), light = L >= 0.45, st = document.documentElement.style;
+    var t = light
+      ? {panel: L > 0.93 ? '#ffffff' : mix(bg, W, .72), panel2: mix(bg, K, .05),
+         line: mix(bg, K, .12), fg: mix(bg, K, .84), fg2: mix(bg, K, .57), fg3: mix(bg, K, .45),
+         accent: '#2f6fed', soft: '#e8efff'}
+      : {panel: mix(bg, W, .06), panel2: mix(bg, W, .11), line: mix(bg, W, .18),
+         fg: mix(bg, W, .88), fg2: mix(bg, W, .64), fg3: mix(bg, W, .50),
+         accent: '#6ea0ff', soft: mix(bg, '#2f6fed', .28)};
+    st.setProperty('--bg', bg);
+    st.setProperty('--panel', t.panel);
+    st.setProperty('--panel2', t.panel2);
+    st.setProperty('--line', t.line);
+    st.setProperty('--fg', t.fg);
+    st.setProperty('--fg2', t.fg2);
+    st.setProperty('--fg3', t.fg3);
+    st.setProperty('--accent', t.accent);
+    st.setProperty('--accent-soft', t.soft);
+    return light;
+  }
+  var SKIN = {
+    modes: ['auto', 'light', 'dark'],
+    label: {auto: '跟随系统', light: '浅色', dark: '深色'},
+    presets: [
+      {name: '默认', bg: ''},
+      {name: '云白', bg: '#ffffff'},
+      {name: '暖阳', bg: '#f7efd9'},
+      {name: '护眼', bg: '#e6f1e1'},
+      {name: '石青', bg: '#e5eef8'},
+      {name: '藕荷', bg: '#f8eaef'},
+      {name: '午夜蓝', bg: '#182233'},
+      {name: '纯黑', bg: '#000000'}
+    ],
+    read: function(){
+      try{ return JSON.parse(localStorage.getItem('uppjs-appearance') || 'null') || {}; }
+      catch(e){ return {}; }
+    },
+    paint: paint,
+    apply: function(s){
+      var d = document.documentElement;
+      if(s && s.bg){
+        d.setAttribute('data-theme', paint(s.bg) ? 'light' : 'dark');
+      }else{
+        clear();
+        d.setAttribute('data-theme', (s && s.mode) || 'auto');
+      }
+      return s;
+    },
+    save: function(s){
+      try{ localStorage.setItem('uppjs-appearance', JSON.stringify(s)); }catch(e){}
+    }
+  };
+  window.UPPJS_SKIN = SKIN;
+  var s = SKIN.read();
+  if(s.bg || s.mode === 'light' || s.mode === 'dark') SKIN.apply(s);
+})();
+</script>
+</head>
+<body id="top" data-layout="list">
+
+<header>
+  <div class="bar">
+    <a class="brand" href="index.html">uppjs.com<span>开源 · 官方免费版 · 免费课程 · 公共领域</span></a>
+    <div class="search" id="searchbox">
+      <input id="q" type="search" placeholder="搜索名称 / 说明，按 / 聚焦、↑↓ 选择" autocomplete="off">
+      <button id="clr" title="清空">×</button>
+    </div>
+    <div class="tools">
+      <span id="count"></span>
+      <select id="filter" title="筛选">
+        <option value="all">全部</option>
+        <option value="link">有下载链接</option>
+        <option value="star">我推荐的</option>
+        <option value="cn">只看国内直连</option>
+      </select>
+      <button id="toggleAll" title="展开 / 折叠全部分组">折叠</button>
+      <a class="tool-link" href="index.html" title="回到首页">首页</a>
+      <div class="appear">
+        <button id="theme" title="外观：明暗与底色" aria-haspopup="dialog" aria-expanded="false">外观</button>
+        <div class="ap-panel" id="apPanel" hidden>
+          <p class="ap-lab">明暗</p>
+          <div class="ap-modes" id="apModes"></div>
+          <p class="ap-lab">底色</p>
+          <div class="ap-sw" id="apSw"></div>
+          <div class="ap-foot">
+            <button id="apCustom" title="用取色器自选一个底色">自定义…</button>
+            <button id="apReset" title="恢复默认外观">恢复默认</button>
+          </div>
+          <p class="ap-tip">选「底色」后明暗会自动适配，文字颜色跟着变，不用担心看不清。设置只保存在你自己的浏览器里。</p>
+          <input type="color" id="apPick" value="#f6f7f9" tabindex="-1" aria-hidden="true">
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="cats"><div class="wrap"><a href="#去广告与隐私">去广告与隐私<span class="n">11</span></a><a href="#桌面开源软件">桌面开源软件<span class="n">35</span></a><a href="#免费正版与学生包">免费正版与学生包<span class="n">9</span></a><a href="#学习与课程">学习与课程<span class="n">13</span></a><a href="#书籍与文献">书籍与文献<span class="n">12</span></a><a href="#图片-字体-音效">图片 / 字体 / 音效<span class="n">15</span></a><a href="#在线工具">在线工具<span class="n">13</span></a><a href="#免费云服务与-ai">免费云服务与 AI<span class="n">14</span></a></div></nav>
+
+<div class="shell">
+  <aside class="toc">
+    <p class="toc-h">目录</p>
+<div class="toc-cat"><a href="#去广告与隐私" data-t="去广告与隐私">去广告与隐私<span class="n">11</span></a>
+<div class="toc-grp">
+<a href="#g1" data-t="g1">拦截广告与跟踪</a>
+<a href="#g2" data-t="g2">账号与通讯安全</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#桌面开源软件" data-t="桌面开源软件">桌面开源软件<span class="n">35</span></a>
+<div class="toc-grp">
+<a href="#g3" data-t="g3">影音播放与剪辑</a>
+<a href="#g4" data-t="g4">图像与 3D</a>
+<a href="#g5" data-t="g5">办公与阅读</a>
+<a href="#g6" data-t="g6">文件与同步</a>
+<a href="#g7" data-t="g7">截图与远程</a>
+<a href="#g8" data-t="g8">笔记与浏览器</a>
+<a href="#g9" data-t="g9">开发工具</a>
+<a href="#g10" data-t="g10">Mac 专用小工具</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#免费正版与学生包" data-t="免费正版与学生包">免费正版与学生包<span class="n">9</span></a>
+<div class="toc-grp">
+<a href="#g11" data-t="g11">学生与教育免费</a>
+<a href="#g12" data-t="g12">个人免费</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#学习与课程" data-t="学习与课程">学习与课程<span class="n">13</span></a>
+<div class="toc-grp">
+<a href="#g13" data-t="g13">中文课程平台</a>
+<a href="#g14" data-t="g14">编程与计算机</a>
+<a href="#g15" data-t="g15">国际公开课</a>
+<a href="#g16" data-t="g16">找项目练手</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#书籍与文献" data-t="书籍与文献">书籍与文献<span class="n">12</span></a>
+<div class="toc-grp">
+<a href="#g17" data-t="g17">中文古籍</a>
+<a href="#g18" data-t="g18">免费电子书</a>
+<a href="#g19" data-t="g19">论文与开放教材</a>
+<a href="#g20" data-t="g20">文献管理</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#图片-字体-音效" data-t="图片-字体-音效">图片 / 字体 / 音效<span class="n">15</span></a>
+<div class="toc-grp">
+<a href="#g21" data-t="g21">图片与插画</a>
+<a href="#g22" data-t="g22">图标</a>
+<a href="#g23" data-t="g23">字体</a>
+<a href="#g24" data-t="g24">音效与视频素材</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#在线工具" data-t="在线工具">在线工具<span class="n">13</span></a>
+<div class="toc-grp">
+<a href="#g25" data-t="g25">图像与文档</a>
+<a href="#g26" data-t="g26">绘图与图表</a>
+<a href="#g27" data-t="g27">开发小工具</a>
+<a href="#g28" data-t="g28">代码配图</a>
+<a href="#g29" data-t="g29">传文件</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#免费云服务与-ai" data-t="免费云服务与-ai">免费云服务与 AI<span class="n">14</span></a>
+<div class="toc-grp">
+<a href="#g30" data-t="g30">静态托管</a>
+<a href="#g31" data-t="g31">后端与数据库</a>
+<a href="#g32" data-t="g32">免费算力</a>
+<a href="#g33" data-t="g33">本地跑模型</a>
+<a href="#g34" data-t="g34">在线 AI</a>
+</div>
+</div>
+  </aside>
+
+  <main>
+    <div class="pagehead">
+<nav class="crumbs" aria-label="面包屑"><a href="index.html">首页</a><span class="sep">›</span><span class="cur">免费资源</span></nav>
+      <p class="kicker">开源 · 官方免费版 · 免费课程 · 公共领域</p>
+      <h1>免费资源</h1>
+      <p class="sub">整理过的合法免费资源：开源软件、官方免费版与学生包、免费课程、公共领域书籍、可商用素材。每条都标了国内能不能直连。不收盗版、破解和翻墙工具。</p>
+    </div>
+    <div class="empty" id="empty">
+      没有匹配的条目。<br><b>试试更短的关键词</b>，或把筛选切回「全部」。
+    </div>
+<section class="sec" id="去广告与隐私" data-spy>
+<h2>去广告与隐私<a class="anchor" href="#去广告与隐私" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g1" data-spy open><summary><span class="grp-title">拦截广告与跟踪</span><span class="grp-n">5</span></summary><div class="grp-body"><div class="item star" data-s="ublock origin 最强开源广告拦截器，浏览器去广告的事实标准  github.com" data-l="1" data-star="1" data-r="slow"><a class="nm" href="https://github.com/gorhill/uBlock" target="_blank" rel="noopener noreferrer" title="uBlock Origin">uBlock Origin</a><span class="chips"><span class="badge" title="个人推荐">荐</span><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">最强开源广告拦截器，浏览器去广告的事实标准</span></div><div class="item" data-s="ublock origin lite mv3 版本，适配 chrome 扩展新规  github.com" data-l="1" data-r="slow"><a class="nm" href="https://github.com/uBlockOrigin/uBOL-home" target="_blank" rel="noopener noreferrer" title="uBlock Origin Lite">uBlock Origin Lite</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">MV3 版本，适配 Chrome 扩展新规</span></div><div class="item" data-s="adguard home 自建 dns 级去广告，全屋设备一起生效  adguard.com" data-l="1" data-r="cn"><a class="nm" href="https://adguard.com/adguard-home/overview.html" target="_blank" rel="noopener noreferrer" title="AdGuard Home">AdGuard Home</a><span class="ds">自建 DNS 级去广告，全屋设备一起生效</span></div><div class="item" data-s="nextdns 云端 dns 过滤，免费额度每月 30 万次查询  nextdns.io" data-l="1" data-r="cn"><a class="nm" href="https://nextdns.io" target="_blank" rel="noopener noreferrer" title="NextDNS">NextDNS</a><span class="ds">云端 DNS 过滤，免费额度每月 30 万次查询</span></div><div class="item" data-s="privacy badger eff 出品，自动学习并拦截跟踪器  privacybadger.org" data-l="1" data-r="slow"><a class="nm" href="https://privacybadger.org" target="_blank" rel="noopener noreferrer" title="Privacy Badger">Privacy Badger</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">EFF 出品，自动学习并拦截跟踪器</span></div></div></details>
+<details class="group grp" id="g2" data-spy open><summary><span class="grp-title">账号与通讯安全</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item" data-s="bitwarden 开源密码管理器，个人版永久免费不限条数  bitwarden.com" data-l="1" data-r="slow"><a class="nm" href="https://bitwarden.com" target="_blank" rel="noopener noreferrer" title="Bitwarden">Bitwarden</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">开源密码管理器，个人版永久免费不限条数</span></div><div class="item" data-s="keepassxc 本地密码库，完全离线不联网  keepassxc.org" data-l="1" data-r="cn"><a class="nm" href="https://keepassxc.org" target="_blank" rel="noopener noreferrer" title="KeePassXC">KeePassXC</a><span class="ds">本地密码库，完全离线不联网</span></div><div class="item" data-s="signal 端到端加密通讯，非营利开源  signal.org" data-l="1" data-r="proxy"><a class="nm" href="https://signal.org" target="_blank" rel="noopener noreferrer" title="Signal">Signal</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">端到端加密通讯，非营利开源</span></div><div class="item" data-s="simplelogin 邮箱别名，注册杂七杂八的站不再暴露真邮箱  simplelogin.io" data-l="1" data-r="slow"><a class="nm" href="https://simplelogin.io" target="_blank" rel="noopener noreferrer" title="SimpleLogin">SimpleLogin</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">邮箱别名，注册杂七杂八的站不再暴露真邮箱</span></div><div class="item" data-s="have i been pwned 查你的邮箱和密码有没有出现在泄露库里  haveibeenpwned.com" data-l="1" data-r="slow"><a class="nm" href="https://haveibeenpwned.com" target="_blank" rel="noopener noreferrer" title="Have I Been Pwned">Have I Been Pwned</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">查你的邮箱和密码有没有出现在泄露库里</span></div><div class="item" data-s="proton mail 端到端加密邮箱，免费版 1gb  proton.me" data-l="1" data-r="proxy"><a class="nm" href="https://proton.me/mail" target="_blank" rel="noopener noreferrer" title="Proton Mail">Proton Mail</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">端到端加密邮箱，免费版 1GB</span></div></div></details>
+</div></section>
+<section class="sec" id="桌面开源软件" data-spy>
+<h2>桌面开源软件<a class="anchor" href="#桌面开源软件" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g3" data-spy open><summary><span class="grp-title">影音播放与剪辑</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item star" data-s="vlc 万能播放器，几乎没有放不了的格式  videolan.org" data-l="1" data-star="1" data-r="cn"><a class="nm" href="https://www.videolan.org/vlc/" target="_blank" rel="noopener noreferrer" title="VLC">VLC</a><span class="chips"><span class="badge" title="个人推荐">荐</span></span><span class="ds">万能播放器，几乎没有放不了的格式</span></div><div class="item" data-s="iina macos 最强播放器，基于 mpv，界面原生  iina.io" data-l="1" data-r="cn"><a class="nm" href="https://iina.io" target="_blank" rel="noopener noreferrer" title="IINA">IINA</a><span class="ds">macOS 最强播放器，基于 mpv，界面原生</span></div><div class="item" data-s="obs studio 录屏与直播推流，专业级且免费  obsproject.com" data-l="1" data-r="cn"><a class="nm" href="https://obsproject.com" target="_blank" rel="noopener noreferrer" title="OBS Studio">OBS Studio</a><span class="ds">录屏与直播推流，专业级且免费</span></div><div class="item" data-s="shotcut 开源视频剪辑，格式支持极广  shotcut.org" data-l="1" data-r="cn"><a class="nm" href="https://www.shotcut.org" target="_blank" rel="noopener noreferrer" title="Shotcut">Shotcut</a><span class="ds">开源视频剪辑，格式支持极广</span></div><div class="item" data-s="handbrake 开源视频转码，压缩画质损失小  handbrake.fr" data-l="1" data-r="cn"><a class="nm" href="https://handbrake.fr" target="_blank" rel="noopener noreferrer" title="HandBrake">HandBrake</a><span class="ds">开源视频转码，压缩画质损失小</span></div><div class="item" data-s="audacity 开源音频编辑与降噪，播客录音够用  audacityteam.org" data-l="1" data-r="cn"><a class="nm" href="https://www.audacityteam.org" target="_blank" rel="noopener noreferrer" title="Audacity">Audacity</a><span class="ds">开源音频编辑与降噪，播客录音够用</span></div></div></details>
+<details class="group grp" id="g4" data-spy open><summary><span class="grp-title">图像与 3D</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item" data-s="gimp 开源 photoshop，图像处理全能  gimp.org" data-l="1" data-r="cn"><a class="nm" href="https://www.gimp.org" target="_blank" rel="noopener noreferrer" title="GIMP">GIMP</a><span class="ds">开源 Photoshop，图像处理全能</span></div><div class="item" data-s="krita 开源数字绘画，画师向，笔刷手感好  krita.org" data-l="1" data-r="cn"><a class="nm" href="https://krita.org" target="_blank" rel="noopener noreferrer" title="Krita">Krita</a><span class="ds">开源数字绘画，画师向，笔刷手感好</span></div><div class="item" data-s="inkscape 开源矢量绘图，illustrator 的免费替代  inkscape.org" data-l="1" data-r="cn"><a class="nm" href="https://inkscape.org" target="_blank" rel="noopener noreferrer" title="Inkscape">Inkscape</a><span class="ds">开源矢量绘图，Illustrator 的免费替代</span></div><div class="item" data-s="blender 3d 建模 / 动画 / 渲染 / 剪辑一体  blender.org" data-l="1" data-r="cn"><a class="nm" href="https://www.blender.org" target="_blank" rel="noopener noreferrer" title="Blender">Blender</a><span class="ds">3D 建模 / 动画 / 渲染 / 剪辑一体</span></div><div class="item" data-s="imageglass windows 轻量看图工具，支持 raw 与动图  imageglass.org" data-l="1" data-r="cn"><a class="nm" href="https://imageglass.org" target="_blank" rel="noopener noreferrer" title="ImageGlass">ImageGlass</a><span class="ds">Windows 轻量看图工具，支持 RAW 与动图</span></div><div class="item" data-s="freecad 开源三维 cad，参数化建模  freecad.org" data-l="1" data-r="cn"><a class="nm" href="https://www.freecad.org" target="_blank" rel="noopener noreferrer" title="FreeCAD">FreeCAD</a><span class="ds">开源三维 CAD，参数化建模</span></div></div></details>
+<details class="group grp" id="g5" data-spy open><summary><span class="grp-title">办公与阅读</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item" data-s="libreoffice 开源办公套件，兼容 office 格式  libreoffice.org" data-l="1" data-r="cn"><a class="nm" href="https://www.libreoffice.org" target="_blank" rel="noopener noreferrer" title="LibreOffice">LibreOffice</a><span class="ds">开源办公套件，兼容 Office 格式</span></div><div class="item" data-s="onlyoffice 开源办公，界面更贴近 ms office  onlyoffice.com" data-l="1" data-r="cn"><a class="nm" href="https://www.onlyoffice.com" target="_blank" rel="noopener noreferrer" title="ONLYOFFICE">ONLYOFFICE</a><span class="ds">开源办公，界面更贴近 MS Office</span></div><div class="item" data-s="sumatrapdf 极轻量 pdf 阅读器，秒开不卡  sumatrapdfreader.org" data-l="1" data-r="cn"><a class="nm" href="https://www.sumatrapdfreader.org" target="_blank" rel="noopener noreferrer" title="SumatraPDF">SumatraPDF</a><span class="ds">极轻量 PDF 阅读器，秒开不卡</span></div><div class="item" data-s="pdfgear 免费 pdf 编辑加 ocr，功能没阉割  pdfgear.com" data-l="1" data-r="cn"><a class="nm" href="https://www.pdfgear.com" target="_blank" rel="noopener noreferrer" title="PDFgear">PDFgear</a><span class="ds">免费 PDF 编辑加 OCR，功能没阉割</span></div><div class="item" data-s="calibre 电子书管理与格式转换神器  calibre-ebook.com" data-l="1" data-r="cn"><a class="nm" href="https://calibre-ebook.com" target="_blank" rel="noopener noreferrer" title="Calibre">Calibre</a><span class="ds">电子书管理与格式转换神器</span></div><div class="item" data-s="koodo reader 开源电子书阅读器，全格式通吃  koodoreader.com" data-l="1" data-r="cn"><a class="nm" href="https://koodoreader.com" target="_blank" rel="noopener noreferrer" title="Koodo Reader">Koodo Reader</a><span class="ds">开源电子书阅读器，全格式通吃</span></div></div></details>
+<details class="group grp" id="g6" data-spy open><summary><span class="grp-title">文件与同步</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item star" data-s="7-zip 开源压缩工具，无广告无捆绑  7-zip.org" data-l="1" data-star="1" data-r="cn"><a class="nm" href="https://www.7-zip.org" target="_blank" rel="noopener noreferrer" title="7-Zip">7-Zip</a><span class="chips"><span class="badge" title="个人推荐">荐</span></span><span class="ds">开源压缩工具，无广告无捆绑</span></div><div class="item star" data-s="everything windows 秒级文件名搜索，比系统搜索快几个量级  voidtools.com" data-l="1" data-star="1" data-r="cn"><a class="nm" href="https://www.voidtools.com" target="_blank" rel="noopener noreferrer" title="Everything">Everything</a><span class="chips"><span class="badge" title="个人推荐">荐</span></span><span class="ds">Windows 秒级文件名搜索，比系统搜索快几个量级</span></div><div class="item star" data-s="syncthing 点对点文件同步，不经过第三方服务器  syncthing.net" data-l="1" data-star="1" data-r="cn"><a class="nm" href="https://syncthing.net" target="_blank" rel="noopener noreferrer" title="Syncthing">Syncthing</a><span class="chips"><span class="badge" title="个人推荐">荐</span></span><span class="ds">点对点文件同步，不经过第三方服务器</span></div><div class="item" data-s="localsend 局域网跨平台传文件，无广告无账号  localsend.org" data-l="1" data-r="cn"><a class="nm" href="https://localsend.org" target="_blank" rel="noopener noreferrer" title="LocalSend">LocalSend</a><span class="ds">局域网跨平台传文件，无广告无账号</span></div><div class="item" data-s="qbittorrent 开源 bt 客户端，无广告无捆绑  qbittorrent.org" data-l="1" data-r="cn"><a class="nm" href="https://www.qbittorrent.org" target="_blank" rel="noopener noreferrer" title="qBittorrent">qBittorrent</a><span class="ds">开源 BT 客户端，无广告无捆绑</span></div><div class="item" data-s="motrix 开源全能下载工具，界面清爽  motrix.app" data-l="1" data-r="cn"><a class="nm" href="https://motrix.app" target="_blank" rel="noopener noreferrer" title="Motrix">Motrix</a><span class="ds">开源全能下载工具，界面清爽</span></div></div></details>
+<details class="group grp" id="g7" data-spy open><summary><span class="grp-title">截图与远程</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="sharex windows 截图/录屏/上传的瑞士军刀  getsharex.com" data-l="1" data-r="cn"><a class="nm" href="https://getsharex.com" target="_blank" rel="noopener noreferrer" title="ShareX">ShareX</a><span class="ds">Windows 截图/录屏/上传的瑞士军刀</span></div><div class="item" data-s="flameshot 开源截图标注工具，快捷键顺手  flameshot.org" data-l="1" data-r="cn"><a class="nm" href="https://flameshot.org" target="_blank" rel="noopener noreferrer" title="Flameshot">Flameshot</a><span class="ds">开源截图标注工具，快捷键顺手</span></div><div class="item" data-s="rustdesk 开源远程桌面，可以自建中继不依赖第三方  rustdesk.com" data-l="1" data-r="cn"><a class="nm" href="https://rustdesk.com" target="_blank" rel="noopener noreferrer" title="RustDesk">RustDesk</a><span class="ds">开源远程桌面，可以自建中继不依赖第三方</span></div></div></details>
+<details class="group grp" id="g8" data-spy open><summary><span class="grp-title">笔记与浏览器</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="joplin 开源笔记，支持端到端加密同步  joplinapp.org" data-l="1" data-r="cn"><a class="nm" href="https://joplinapp.org" target="_blank" rel="noopener noreferrer" title="Joplin">Joplin</a><span class="ds">开源笔记，支持端到端加密同步</span></div><div class="item" data-s="firefox 开源浏览器，隐私保护比 chrome 好  mozilla.org" data-l="1" data-r="cn"><a class="nm" href="https://www.mozilla.org/firefox/" target="_blank" rel="noopener noreferrer" title="Firefox">Firefox</a><span class="ds">开源浏览器，隐私保护比 Chrome 好</span></div><div class="item" data-s="thunderbird 开源邮件客户端，多账号管理顺手  thunderbird.net" data-l="1" data-r="cn"><a class="nm" href="https://www.thunderbird.net" target="_blank" rel="noopener noreferrer" title="Thunderbird">Thunderbird</a><span class="ds">开源邮件客户端，多账号管理顺手</span></div></div></details>
+<details class="group grp" id="g9" data-spy open><summary><span class="grp-title">开发工具</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="vs code 微软免费代码编辑器，插件生态最大  code.visualstudio.com" data-l="1" data-r="slow"><a class="nm" href="https://code.visualstudio.com" target="_blank" rel="noopener noreferrer" title="VS Code">VS Code</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">微软免费代码编辑器，插件生态最大</span></div><div class="item" data-s="zed rust 写的新一代高性能编辑器，启动飞快  zed.dev" data-l="1" data-r="slow"><a class="nm" href="https://zed.dev" target="_blank" rel="noopener noreferrer" title="Zed">Zed</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">Rust 写的新一代高性能编辑器，启动飞快</span></div></div></details>
+<details class="group grp" id="g10" data-spy open><summary><span class="grp-title">Mac 专用小工具</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="rectangle macos 窗口分屏管理，快捷键拖拽  rectangleapp.com" data-l="1" data-r="cn"><a class="nm" href="https://rectangleapp.com" target="_blank" rel="noopener noreferrer" title="Rectangle">Rectangle</a><span class="ds">macOS 窗口分屏管理，快捷键拖拽</span></div><div class="item" data-s="maccy macos 剪贴板历史，搜一下就能翻出旧内容  maccy.app" data-l="1" data-r="cn"><a class="nm" href="https://maccy.app" target="_blank" rel="noopener noreferrer" title="Maccy">Maccy</a><span class="ds">macOS 剪贴板历史，搜一下就能翻出旧内容</span></div><div class="item" data-s="stats macos 菜单栏系统监控，替代 istat menus  github.com" data-l="1" data-r="slow"><a class="nm" href="https://github.com/exelban/stats" target="_blank" rel="noopener noreferrer" title="Stats">Stats</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">macOS 菜单栏系统监控，替代 iStat Menus</span></div></div></details>
+</div></section>
+<section class="sec" id="免费正版与学生包" data-spy>
+<h2>免费正版与学生包<a class="anchor" href="#免费正版与学生包" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g11" data-spy open><summary><span class="grp-title">学生与教育免费</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item" data-s="jetbrains 学生授权 全套 ide 免费用，在校师生可申请  jetbrains.com" data-l="1" data-r="cn"><a class="nm" href="https://www.jetbrains.com/community/education/" target="_blank" rel="noopener noreferrer" title="JetBrains 学生授权">JetBrains 学生授权</a><span class="ds">全套 IDE 免费用，在校师生可申请</span></div><div class="item" data-s="github student pack 上百项开发服务对学生免费开放  education.github.com" data-l="1" data-r="slow"><a class="nm" href="https://education.github.com/pack" target="_blank" rel="noopener noreferrer" title="GitHub Student Pack">GitHub Student Pack</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">上百项开发服务对学生免费开放</span></div><div class="item" data-s="figma 教育版 设计工具专业版教育免费  figma.com" data-l="1" data-r="slow"><a class="nm" href="https://www.figma.com/education/" target="_blank" rel="noopener noreferrer" title="Figma 教育版">Figma 教育版</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">设计工具专业版教育免费</span></div><div class="item" data-s="autodesk 教育版 autocad / revit / 3ds max 学生免费一年，可续  autodesk.com" data-l="1" data-r="slow"><a class="nm" href="https://www.autodesk.com/education/edu-software" target="_blank" rel="noopener noreferrer" title="Autodesk 教育版">Autodesk 教育版</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">AutoCAD / Revit / 3ds Max 学生免费一年，可续</span></div><div class="item" data-s="microsoft 365 教育版 用学校邮箱注册，很多学校能免费领 office  microsoft.com" data-l="1" data-r="cn"><a class="nm" href="https://www.microsoft.com/education/products/office" target="_blank" rel="noopener noreferrer" title="Microsoft 365 教育版">Microsoft 365 教育版</a><span class="ds">用学校邮箱注册，很多学校能免费领 Office</span></div><div class="item" data-s="notion 教育版 个人 pro 计划对师生免费  notion.com" data-l="1" data-r="proxy"><a class="nm" href="https://www.notion.com/product/notion-for-education" target="_blank" rel="noopener noreferrer" title="Notion 教育版">Notion 教育版</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">个人 Pro 计划对师生免费</span></div></div></details>
+<details class="group grp" id="g12" data-spy open><summary><span class="grp-title">个人免费</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="obsidian 本地 markdown 笔记，个人使用免费  obsidian.md" data-l="1" data-r="cn"><a class="nm" href="https://obsidian.md" target="_blank" rel="noopener noreferrer" title="Obsidian">Obsidian</a><span class="ds">本地 Markdown 笔记，个人使用免费</span></div><div class="item" data-s="godot 完全免费开源的游戏引擎，无抽成  godotengine.org" data-l="1" data-r="cn"><a class="nm" href="https://godotengine.org" target="_blank" rel="noopener noreferrer" title="Godot">Godot</a><span class="ds">完全免费开源的游戏引擎，无抽成</span></div><div class="item" data-s="unity personal 收入未达门槛前免费使用  unity.com" data-l="1" data-r="slow"><a class="nm" href="https://unity.com/products/unity-personal" target="_blank" rel="noopener noreferrer" title="Unity Personal">Unity Personal</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">收入未达门槛前免费使用</span></div></div></details>
+</div></section>
+<section class="sec" id="学习与课程" data-spy>
+<h2>学习与课程<a class="anchor" href="#学习与课程" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g13" data-spy open><summary><span class="grp-title">中文课程平台</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item star" data-s="中国大学mooc 国内高校课程免费看，配套作业与讨论  icourse163.org" data-l="1" data-star="1" data-r="cn"><a class="nm" href="https://www.icourse163.org" target="_blank" rel="noopener noreferrer" title="中国大学MOOC">中国大学MOOC</a><span class="chips"><span class="badge" title="个人推荐">荐</span></span><span class="ds">国内高校课程免费看，配套作业与讨论</span></div><div class="item" data-s="学堂在线 清华出品，国内外名校课程  xuetangx.com" data-l="1" data-r="cn"><a class="nm" href="https://www.xuetangx.com" target="_blank" rel="noopener noreferrer" title="学堂在线">学堂在线</a><span class="ds">清华出品，国内外名校课程</span></div><div class="item" data-s="国家中小学智慧教育平台 教育部官方，中小学全科免费资源  basic.smartedu.cn" data-l="1" data-r="cn"><a class="nm" href="https://basic.smartedu.cn" target="_blank" rel="noopener noreferrer" title="国家中小学智慧教育平台">国家中小学智慧教育平台</a><span class="ds">教育部官方，中小学全科免费资源</span></div><div class="item" data-s="网易公开课 国内外名校公开课，带中文字幕  open.163.com" data-l="1" data-r="cn"><a class="nm" href="https://open.163.com" target="_blank" rel="noopener noreferrer" title="网易公开课">网易公开课</a><span class="ds">国内外名校公开课，带中文字幕</span></div></div></details>
+<details class="group grp" id="g14" data-spy open><summary><span class="grp-title">编程与计算机</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item" data-s="freecodecamp 免费编程课加认证，有完整中文版  freecodecamp.org" data-l="1" data-r="slow"><a class="nm" href="https://www.freecodecamp.org/chinese/" target="_blank" rel="noopener noreferrer" title="freeCodeCamp">freeCodeCamp</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">免费编程课加认证，有完整中文版</span></div><div class="item" data-s="cs50 哈佛计算机科学入门神课，有中文字幕  cs50.harvard.edu" data-l="1" data-r="slow"><a class="nm" href="https://cs50.harvard.edu/x/" target="_blank" rel="noopener noreferrer" title="CS50">CS50</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">哈佛计算机科学入门神课，有中文字幕</span></div><div class="item" data-s="mdn web docs 前端权威文档，中文翻译完整  developer.mozilla.org" data-l="1" data-r="slow"><a class="nm" href="https://developer.mozilla.org/zh-CN/" target="_blank" rel="noopener noreferrer" title="MDN Web Docs">MDN Web Docs</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">前端权威文档，中文翻译完整</span></div><div class="item" data-s="廖雪峰的官方网站 python / java / git 中文教程，适合入门  liaoxuefeng.com" data-l="1" data-r="cn"><a class="nm" href="https://liaoxuefeng.com" target="_blank" rel="noopener noreferrer" title="廖雪峰的官方网站">廖雪峰的官方网站</a><span class="ds">Python / Java / Git 中文教程，适合入门</span></div><div class="item" data-s="菜鸟教程 各语言快速入门手册，当速查表用  runoob.com" data-l="1" data-r="cn"><a class="nm" href="https://www.runoob.com" target="_blank" rel="noopener noreferrer" title="菜鸟教程">菜鸟教程</a><span class="ds">各语言快速入门手册，当速查表用</span></div><div class="item" data-s="oi wiki 算法竞赛知识库，写得很系统  oi-wiki.org" data-l="1" data-r="cn"><a class="nm" href="https://oi-wiki.org" target="_blank" rel="noopener noreferrer" title="OI Wiki">OI Wiki</a><span class="ds">算法竞赛知识库，写得很系统</span></div></div></details>
+<details class="group grp" id="g15" data-spy open><summary><span class="grp-title">国际公开课</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="可汗学院 数学与科学，从零基础讲到大学  zh.khanacademy.org" data-l="1" data-r="proxy"><a class="nm" href="https://zh.khanacademy.org" target="_blank" rel="noopener noreferrer" title="可汗学院">可汗学院</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">数学与科学，从零基础讲到大学</span></div><div class="item" data-s="mit opencourseware mit 全部课程的讲义与视频公开  ocw.mit.edu" data-l="1" data-r="slow"><a class="nm" href="https://ocw.mit.edu" target="_blank" rel="noopener noreferrer" title="MIT OpenCourseWare">MIT OpenCourseWare</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">MIT 全部课程的讲义与视频公开</span></div></div></details>
+<details class="group grp" id="g16" data-spy open><summary><span class="grp-title">找项目练手</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="hellogithub 每月精选开源项目，找项目练手用  hellogithub.com" data-l="1" data-r="cn"><a class="nm" href="https://hellogithub.com" target="_blank" rel="noopener noreferrer" title="HelloGitHub">HelloGitHub</a><span class="ds">每月精选开源项目，找项目练手用</span></div></div></details>
+</div></section>
+<section class="sec" id="书籍与文献" data-spy>
+<h2>书籍与文献<a class="anchor" href="#书籍与文献" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g17" data-spy open><summary><span class="grp-title">中文古籍</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="中国哲学书电子化计划 先秦至清代古籍全文，公共领域  ctext.org" data-l="1" data-r="cn"><a class="nm" href="https://ctext.org/zh" target="_blank" rel="noopener noreferrer" title="中国哲学书电子化计划">中国哲学书电子化计划</a><span class="ds">先秦至清代古籍全文，公共领域</span></div><div class="item" data-s="中华古籍资源库 国家图书馆高清古籍影像库  read.nlc.cn" data-l="1" data-r="cn"><a class="nm" href="http://read.nlc.cn" target="_blank" rel="noopener noreferrer" title="中华古籍资源库">中华古籍资源库</a><span class="ds">国家图书馆高清古籍影像库</span></div><div class="item" data-s="书格 高清彩色古籍数字图书馆，完全免费  shuge.org" data-l="1" data-r="cn"><a class="nm" href="https://www.shuge.org" target="_blank" rel="noopener noreferrer" title="书格">书格</a><span class="ds">高清彩色古籍数字图书馆，完全免费</span></div></div></details>
+<details class="group grp" id="g18" data-spy open><summary><span class="grp-title">免费电子书</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="project gutenberg 7 万本公共领域电子书，多语言  gutenberg.org" data-l="1" data-r="slow"><a class="nm" href="https://www.gutenberg.org" target="_blank" rel="noopener noreferrer" title="Project Gutenberg">Project Gutenberg</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">7 万本公共领域电子书，多语言</span></div><div class="item" data-s="standard ebooks 精校排版的公共领域好书，排版讲究  standardebooks.org" data-l="1" data-r="slow"><a class="nm" href="https://standardebooks.org" target="_blank" rel="noopener noreferrer" title="Standard Ebooks">Standard Ebooks</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">精校排版的公共领域好书，排版讲究</span></div><div class="item" data-s="internet archive 非营利数字图书馆，含绝版书与老影像  archive.org" data-l="1" data-r="proxy"><a class="nm" href="https://archive.org" target="_blank" rel="noopener noreferrer" title="Internet Archive">Internet Archive</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">非营利数字图书馆，含绝版书与老影像</span></div><div class="item" data-s="维基文库 自由版权的中文文献库  zh.wikisource.org" data-l="1" data-r="proxy"><a class="nm" href="https://zh.wikisource.org" target="_blank" rel="noopener noreferrer" title="维基文库">维基文库</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">自由版权的中文文献库</span></div></div></details>
+<details class="group grp" id="g19" data-spy open><summary><span class="grp-title">论文与开放教材</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="国家哲学社会科学文献中心 免费下载哲学社科类学术论文  ncpssd.org" data-l="1" data-r="cn"><a class="nm" href="https://www.ncpssd.org" target="_blank" rel="noopener noreferrer" title="国家哲学社会科学文献中心">国家哲学社会科学文献中心</a><span class="ds">免费下载哲学社科类学术论文</span></div><div class="item" data-s="arxiv 物理数学计算机预印本论文，全部免费  arxiv.org" data-l="1" data-r="slow"><a class="nm" href="https://arxiv.org" target="_blank" rel="noopener noreferrer" title="arXiv">arXiv</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">物理数学计算机预印本论文，全部免费</span></div><div class="item" data-s="doaj 开放获取期刊目录，收录的都是合法 oa 刊  doaj.org" data-l="1" data-r="slow"><a class="nm" href="https://doaj.org" target="_blank" rel="noopener noreferrer" title="DOAJ">DOAJ</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">开放获取期刊目录，收录的都是合法 OA 刊</span></div><div class="item" data-s="openstax 莱斯大学出品的免费大学教材  openstax.org" data-l="1" data-r="slow"><a class="nm" href="https://openstax.org" target="_blank" rel="noopener noreferrer" title="OpenStax">OpenStax</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">莱斯大学出品的免费大学教材</span></div></div></details>
+<details class="group grp" id="g20" data-spy open><summary><span class="grp-title">文献管理</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="zotero 免费文献管理，一键抓取引用信息  zotero.org" data-l="1" data-r="cn"><a class="nm" href="https://www.zotero.org" target="_blank" rel="noopener noreferrer" title="Zotero">Zotero</a><span class="ds">免费文献管理，一键抓取引用信息</span></div></div></details>
+</div></section>
+<section class="sec" id="图片-字体-音效" data-spy>
+<h2>图片 / 字体 / 音效<a class="anchor" href="#图片-字体-音效" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g21" data-spy open><summary><span class="grp-title">图片与插画</span><span class="grp-n">5</span></summary><div class="grp-body"><div class="item" data-s="unsplash 免费高清照片，可商用无需署名  unsplash.com" data-l="1" data-r="proxy"><a class="nm" href="https://unsplash.com" target="_blank" rel="noopener noreferrer" title="Unsplash">Unsplash</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">免费高清照片，可商用无需署名</span></div><div class="item" data-s="pexels 免费图片与视频，有中文界面  pexels.com" data-l="1" data-r="proxy"><a class="nm" href="https://www.pexels.com/zh-cn/" target="_blank" rel="noopener noreferrer" title="Pexels">Pexels</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">免费图片与视频，有中文界面</span></div><div class="item" data-s="pixabay 图片 / 视频 / 音乐 / 音效全免费  pixabay.com" data-l="1" data-r="slow"><a class="nm" href="https://pixabay.com" target="_blank" rel="noopener noreferrer" title="Pixabay">Pixabay</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">图片 / 视频 / 音乐 / 音效全免费</span></div><div class="item" data-s="openverse 跨站搜索开放许可素材，一次搜遍多个源  openverse.org" data-l="1" data-r="slow"><a class="nm" href="https://openverse.org" target="_blank" rel="noopener noreferrer" title="Openverse">Openverse</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">跨站搜索开放许可素材，一次搜遍多个源</span></div><div class="item" data-s="undraw 可自定义配色的开源插画库，风格统一  undraw.co" data-l="1" data-r="cn"><a class="nm" href="https://undraw.co" target="_blank" rel="noopener noreferrer" title="unDraw">unDraw</a><span class="ds">可自定义配色的开源插画库，风格统一</span></div></div></details>
+<details class="group grp" id="g22" data-spy open><summary><span class="grp-title">图标</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item star" data-s="iconfont 阿里巴巴矢量图标库，海量免费图标  iconfont.cn" data-l="1" data-star="1" data-r="cn"><a class="nm" href="https://www.iconfont.cn" target="_blank" rel="noopener noreferrer" title="iconfont">iconfont</a><span class="chips"><span class="badge" title="个人推荐">荐</span></span><span class="ds">阿里巴巴矢量图标库，海量免费图标</span></div><div class="item" data-s="svg repo 30 万以上开源 svg 图标与插画  svgrepo.com" data-l="1" data-r="slow"><a class="nm" href="https://www.svgrepo.com" target="_blank" rel="noopener noreferrer" title="SVG Repo">SVG Repo</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">30 万以上开源 SVG 图标与插画</span></div><div class="item" data-s="simple icons 品牌 logo 图标 svg 集合  simpleicons.org" data-l="1" data-r="cn"><a class="nm" href="https://simpleicons.org" target="_blank" rel="noopener noreferrer" title="Simple Icons">Simple Icons</a><span class="ds">品牌 Logo 图标 SVG 集合</span></div></div></details>
+<details class="group grp" id="g23" data-spy open><summary><span class="grp-title">字体</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="google fonts 全免费可商用字体库，中文也有  fonts.google.com" data-l="1" data-r="proxy"><a class="nm" href="https://fonts.google.com" target="_blank" rel="noopener noreferrer" title="Google Fonts">Google Fonts</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">全免费可商用字体库，中文也有</span></div><div class="item" data-s="思源黑体 adobe 开源中文字体，可商用  github.com" data-l="1" data-r="slow"><a class="nm" href="https://github.com/adobe-fonts/source-han-sans" target="_blank" rel="noopener noreferrer" title="思源黑体">思源黑体</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">Adobe 开源中文字体，可商用</span></div><div class="item" data-s="阿里巴巴普惠体 免费商用中文字体，字重齐全  fonts.alibabagroup.com" data-l="1" data-r="cn"><a class="nm" href="https://fonts.alibabagroup.com" target="_blank" rel="noopener noreferrer" title="阿里巴巴普惠体">阿里巴巴普惠体</a><span class="ds">免费商用中文字体，字重齐全</span></div></div></details>
+<details class="group grp" id="g24" data-spy open><summary><span class="grp-title">音效与视频素材</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="freesound 海量音效素材，按 cc 授权筛选  freesound.org" data-l="1" data-r="slow"><a class="nm" href="https://freesound.org" target="_blank" rel="noopener noreferrer" title="Freesound">Freesound</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">海量音效素材，按 CC 授权筛选</span></div><div class="item" data-s="free music archive 免费音乐库，可按许可类型过滤  freemusicarchive.org" data-l="1" data-r="slow"><a class="nm" href="https://freemusicarchive.org" target="_blank" rel="noopener noreferrer" title="Free Music Archive">Free Music Archive</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">免费音乐库，可按许可类型过滤</span></div><div class="item" data-s="mixkit 免费视频素材 / 音乐 / 音效，质量不错  mixkit.co" data-l="1" data-r="slow"><a class="nm" href="https://mixkit.co" target="_blank" rel="noopener noreferrer" title="Mixkit">Mixkit</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">免费视频素材 / 音乐 / 音效，质量不错</span></div><div class="item" data-s="lottiefiles 免费 lottie 动效，网页里直接用  lottiefiles.com" data-l="1" data-r="slow"><a class="nm" href="https://lottiefiles.com" target="_blank" rel="noopener noreferrer" title="LottieFiles">LottieFiles</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">免费 Lottie 动效，网页里直接用</span></div></div></details>
+</div></section>
+<section class="sec" id="在线工具" data-spy>
+<h2>在线工具<a class="anchor" href="#在线工具" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g25" data-spy open><summary><span class="grp-title">图像与文档</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="photopea 浏览器里的 photoshop，连 psd 都能开  photopea.com" data-l="1" data-r="cn"><a class="nm" href="https://www.photopea.com" target="_blank" rel="noopener noreferrer" title="Photopea">Photopea</a><span class="ds">浏览器里的 Photoshop，连 PSD 都能开</span></div><div class="item" data-s="squoosh google 出品的图片压缩，本地跑不上传  squoosh.app" data-l="1" data-r="proxy"><a class="nm" href="https://squoosh.app" target="_blank" rel="noopener noreferrer" title="Squoosh">Squoosh</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">Google 出品的图片压缩，本地跑不上传</span></div><div class="item" data-s="tinypng 图片压缩老牌工具，效果稳  tinypng.com" data-l="1" data-r="cn"><a class="nm" href="https://tinypng.com" target="_blank" rel="noopener noreferrer" title="TinyPNG">TinyPNG</a><span class="ds">图片压缩老牌工具，效果稳</span></div><div class="item" data-s="pdf24 免费 pdf 工具箱，处理在本地完成  tools.pdf24.org" data-l="1" data-r="cn"><a class="nm" href="https://tools.pdf24.org/zh/" target="_blank" rel="noopener noreferrer" title="PDF24">PDF24</a><span class="ds">免费 PDF 工具箱，处理在本地完成</span></div></div></details>
+<details class="group grp" id="g26" data-spy open><summary><span class="grp-title">绘图与图表</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item star" data-s="excalidraw 手绘风白板，画架构图和草图很舒服  excalidraw.com" data-l="1" data-star="1" data-r="cn"><a class="nm" href="https://excalidraw.com" target="_blank" rel="noopener noreferrer" title="Excalidraw">Excalidraw</a><span class="chips"><span class="badge" title="个人推荐">荐</span></span><span class="ds">手绘风白板，画架构图和草图很舒服</span></div><div class="item" data-s="draw.io 免费流程图与思维导图，可存本地  app.diagrams.net" data-l="1" data-r="cn"><a class="nm" href="https://app.diagrams.net" target="_blank" rel="noopener noreferrer" title="draw.io">draw.io</a><span class="ds">免费流程图与思维导图，可存本地</span></div></div></details>
+<details class="group grp" id="g27" data-spy open><summary><span class="grp-title">开发小工具</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="it-tools 开发者小工具合集，可以自己部署一份  it-tools.tech" data-l="1" data-r="cn"><a class="nm" href="https://it-tools.tech" target="_blank" rel="noopener noreferrer" title="IT-Tools">IT-Tools</a><span class="ds">开发者小工具合集，可以自己部署一份</span></div><div class="item" data-s="cyberchef 数据编解码瑞士军刀，英国 gchq 开源  gchq.github.io" data-l="1" data-r="proxy"><a class="nm" href="https://gchq.github.io/CyberChef/" target="_blank" rel="noopener noreferrer" title="CyberChef">CyberChef</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">数据编解码瑞士军刀，英国 GCHQ 开源</span></div><div class="item" data-s="regex101 正则表达式调试器，解释每一步匹配  regex101.com" data-l="1" data-r="cn"><a class="nm" href="https://regex101.com" target="_blank" rel="noopener noreferrer" title="Regex101">Regex101</a><span class="ds">正则表达式调试器，解释每一步匹配</span></div><div class="item" data-s="json crack 把 json 变成可交互的图，看结构很快  jsoncrack.com" data-l="1" data-r="cn"><a class="nm" href="https://jsoncrack.com" target="_blank" rel="noopener noreferrer" title="JSON Crack">JSON Crack</a><span class="ds">把 JSON 变成可交互的图，看结构很快</span></div></div></details>
+<details class="group grp" id="g28" data-spy open><summary><span class="grp-title">代码配图</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="carbon 生成漂亮的代码截图，做配图用  carbon.now.sh" data-l="1" data-r="cn"><a class="nm" href="https://carbon.now.sh" target="_blank" rel="noopener noreferrer" title="Carbon">Carbon</a><span class="ds">生成漂亮的代码截图，做配图用</span></div><div class="item" data-s="ray.so 另一种优雅的代码截图风格  ray.so" data-l="1" data-r="cn"><a class="nm" href="https://ray.so" target="_blank" rel="noopener noreferrer" title="Ray.so">Ray.so</a><span class="ds">另一种优雅的代码截图风格</span></div></div></details>
+<details class="group grp" id="g29" data-spy open><summary><span class="grp-title">传文件</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="wormhole 端到端加密传文件，24 小时后自动销毁  wormhole.app" data-l="1" data-r="slow"><a class="nm" href="https://wormhole.app" target="_blank" rel="noopener noreferrer" title="Wormhole">Wormhole</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">端到端加密传文件，24 小时后自动销毁</span></div></div></details>
+</div></section>
+<section class="sec" id="免费云服务与-ai" data-spy>
+<h2>免费云服务与 AI<a class="anchor" href="#免费云服务与-ai" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g30" data-spy open><summary><span class="grp-title">静态托管</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="github pages 免费静态网站托管，绑定自定义域名  pages.github.com" data-l="1" data-r="proxy"><a class="nm" href="https://pages.github.com" target="_blank" rel="noopener noreferrer" title="GitHub Pages">GitHub Pages</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">免费静态网站托管，绑定自定义域名</span></div><div class="item" data-s="cloudflare pages 免费静态托管加全球 cdn，额度很慷慨  pages.cloudflare.com" data-l="1" data-r="proxy"><a class="nm" href="https://pages.cloudflare.com" target="_blank" rel="noopener noreferrer" title="Cloudflare Pages">Cloudflare Pages</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">免费静态托管加全球 CDN，额度很慷慨</span></div><div class="item" data-s="vercel 前端项目一键部署，个人免费层够用  vercel.com" data-l="1" data-r="proxy"><a class="nm" href="https://vercel.com" target="_blank" rel="noopener noreferrer" title="Vercel">Vercel</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">前端项目一键部署，个人免费层够用</span></div><div class="item" data-s="netlify 老牌静态托管，免费层含表单和函数  netlify.com" data-l="1" data-r="proxy"><a class="nm" href="https://www.netlify.com" target="_blank" rel="noopener noreferrer" title="Netlify">Netlify</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">老牌静态托管，免费层含表单和函数</span></div></div></details>
+<details class="group grp" id="g31" data-spy open><summary><span class="grp-title">后端与数据库</span><span class="grp-n">1</span></summary><div class="grp-body"><div class="item" data-s="supabase 开源后端，免费层含数据库、认证与存储  supabase.com" data-l="1" data-r="slow"><a class="nm" href="https://supabase.com" target="_blank" rel="noopener noreferrer" title="Supabase">Supabase</a><span class="chips"><span class="rg rg-slow" title="国内能打开，但偶尔慢，时好时坏">慢</span></span><span class="ds">开源后端，免费层含数据库、认证与存储</span></div></div></details>
+<details class="group grp" id="g32" data-spy open><summary><span class="grp-title">免费算力</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="google colab 免费在线 python 环境，偶尔有 gpu  colab.research.google.com" data-l="1" data-r="proxy"><a class="nm" href="https://colab.research.google.com" target="_blank" rel="noopener noreferrer" title="Google Colab">Google Colab</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">免费在线 Python 环境，偶尔有 GPU</span></div><div class="item" data-s="kaggle notebooks 免费 gpu 算力笔记本，每周有额度  kaggle.com" data-l="1" data-r="proxy"><a class="nm" href="https://www.kaggle.com/code" target="_blank" rel="noopener noreferrer" title="Kaggle Notebooks">Kaggle Notebooks</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">免费 GPU 算力笔记本，每周有额度</span></div></div></details>
+<details class="group grp" id="g33" data-spy open><summary><span class="grp-title">本地跑模型</span><span class="grp-n">2</span></summary><div class="grp-body"><div class="item" data-s="ollama 本地跑开源大模型，数据完全不出门  ollama.com" data-l="1" data-r="cn"><a class="nm" href="https://ollama.com" target="_blank" rel="noopener noreferrer" title="Ollama">Ollama</a><span class="ds">本地跑开源大模型，数据完全不出门</span></div><div class="item" data-s="lm studio 本地大模型图形界面，不写代码也能用  lmstudio.ai" data-l="1" data-r="cn"><a class="nm" href="https://lmstudio.ai" target="_blank" rel="noopener noreferrer" title="LM Studio">LM Studio</a><span class="ds">本地大模型图形界面，不写代码也能用</span></div></div></details>
+<details class="group grp" id="g34" data-spy open><summary><span class="grp-title">在线 AI</span><span class="grp-n">5</span></summary><div class="grp-body"><div class="item" data-s="hugging face spaces 免费部署 ai 应用，能跑 demo  huggingface.co" data-l="1" data-r="proxy"><a class="nm" href="https://huggingface.co/spaces" target="_blank" rel="noopener noreferrer" title="Hugging Face Spaces">Hugging Face Spaces</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">免费部署 AI 应用，能跑 demo</span></div><div class="item" data-s="google ai studio gemini api 免费额度，调试方便  aistudio.google.com" data-l="1" data-r="proxy"><a class="nm" href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer" title="Google AI Studio">Google AI Studio</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">Gemini API 免费额度，调试方便</span></div><div class="item" data-s="notebooklm 上传自己的资料，生成问答和摘要  notebooklm.google.com" data-l="1" data-r="proxy"><a class="nm" href="https://notebooklm.google.com" target="_blank" rel="noopener noreferrer" title="NotebookLM">NotebookLM</a><span class="chips"><span class="rg rg-bad" title="国内基本打不开，要代理才能访问">需代理</span></span><span class="ds">上传自己的资料，生成问答和摘要</span></div><div class="item" data-s="deepseek 国产大模型，网页版免费不限次  deepseek.com" data-l="1" data-r="cn"><a class="nm" href="https://www.deepseek.com" target="_blank" rel="noopener noreferrer" title="DeepSeek">DeepSeek</a><span class="ds">国产大模型，网页版免费不限次</span></div><div class="item" data-s="通义千问 阿里大模型，网页版免费  tongyi.aliyun.com" data-l="1" data-r="cn"><a class="nm" href="https://tongyi.aliyun.com" target="_blank" rel="noopener noreferrer" title="通义千问">通义千问</a><span class="ds">阿里大模型，网页版免费</span></div></div></details>
+</div></section>
+
+    <details class="help" id="help">
+      <summary>这一页怎么用 / 关于本站</summary>
+      <h3>这是什么</h3>
+      <p>我自己在用的东西整理成的一份清单，长期更新。收录标准只有一条：
+         <strong>我真的在用、而且用得住</strong>。不接推广、不做商业排序。</p>
+      <h3>最常用的三个动作</h3>
+      <table>
+        <tr><th>动作</th><th>怎么做</th></tr>
+        <tr><td>找东西</td><td>顶栏搜索框直接打字，名称、说明、子条目全文都能搜到，
+            <strong>大小写无所谓，中文英文都行</strong></td></tr>
+        <tr><td>只看某一类</td><td>点左侧目录（手机上点顶部分类条）跳到分类；点分组标题可以折叠/展开</td></tr>
+        <tr><td>换配色</td><td>右上角「外观」——明暗三档 + 8 种底色 + 自定义取色</td></tr>
+      </table>
+      <h3>键盘快捷键</h3>
+      <table>
+        <tr><td><kbd>/</kbd></td><td>跳到搜索框</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>清空搜索</td></tr>
+        <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>在搜索结果之间移动</td></tr>
+        <tr><td><kbd>Enter</kbd></td><td>打开选中的那一条</td></tr>
+      </table>
+      <h3>搜索的小细节</h3>
+      <p>搜索时所有分组会自动展开，没命中的分组会收起来，
+         分组标题右边的数字会变成<strong>「命中数 / 总数」</strong>。
+         试试搜 <code>截图</code>、<code>下载</code>、<code>pdf</code>、<code>heic</code>。</p>
+      <p>右上角的筛选可以和搜索叠加用：<strong>有下载链接</strong>只看能直接点开的，
+         <strong>我推荐的</strong>只看我标了 ☆ 的。</p>
+      <h3>内容怎么更新</h3>
+      <p>本页由仓库里的 <code>free.md</code> 自动生成，改内容只改那一个文件，不用碰这个页面的代码。
+         每次更新做了些什么，都记在<a href="changelog.html">更新日志</a>里。</p>
+      <h3>数据与隐私</h3>
+      <ul>
+        <li>纯静态页面：没有后端、没有数据库、没有统计脚本、不请求任何第三方 CDN。</li>
+        <li>本地存储只有一项——你的外观偏好，不上传任何数据。</li>
+        <li>页面上的链接都指向第三方站点，跳转之后的行为不受本站控制。</li>
+        <li>完整说明见<a href="privacy.html">隐私说明</a>，站点的来由见<a href="about.html">关于</a>。</li>
+      </ul>
+      <h3>免责声明</h3>
+      <p>清单是个人使用记录，链接来自公开网络，不保证长期有效，
+         也不提供任何软件下载托管。软件版权归各自厂商所有，请通过正规渠道购买授权。</p>
+    </details>
+  </main>
+</div>
+
+<footer>
+  <span>内容源 free.md · 共 122 条 · 123 个外链 · 更新于 2026-10-04</span>
+  <span class="fnav"><a href="index.html">首页</a> · <a href="apps.html">软件清单</a> · <a href="lottery.html">彩票选号</a> · <a href="about.html">关于</a> · <a href="changelog.html">更新日志</a> · <a href="privacy.html">隐私说明</a></span>
+  <span>纯静态 · 无追踪 · 无第三方请求</span>
+</footer>
+
+<button class="totop" id="totop" title="回到顶部">↑</button>
+
+<script>
+(function(){
+  var q = document.getElementById('q'),
+      box = document.getElementById('searchbox'),
+      clr = document.getElementById('clr'),
+      filter = document.getElementById('filter'),
+      count = document.getElementById('count'),
+      empty = document.getElementById('empty'),
+      toggleAll = document.getElementById('toggleAll'),
+      items = [].slice.call(document.querySelectorAll('.item')),
+      groups = [].slice.call(document.querySelectorAll('details.group')),
+      sections = [].slice.call(document.querySelectorAll('.sec')),
+      spyTargets = [].slice.call(document.querySelectorAll('[data-spy]')),
+      tocLinks = [].slice.call(document.querySelectorAll('.toc a[data-t]')),
+      orig = new Map(),
+      shown = [],
+      cursor = -1,
+      reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  items.forEach(function(el){ orig.set(el, el.innerHTML); });
+  var savedOpen = groups.map(function(g){ return g.open; });
+  // 记住每个分组的原始条目数，搜索时改显示「命中 / 总数」
+  groups.forEach(function(g){
+    var n = g.querySelector('summary .grp-n');
+    if(n) n.dataset.n = n.textContent;
+  });
+
+  // 筛选：函数式，想加新筛选往这里加一行就行
+  var FILTERS = {
+    link: function(el){ return el.dataset.l === '1'; },
+    star: function(el){ return el.dataset.star === '1'; },
+    cn: function(el){ return el.dataset.r === 'cn'; }
+  };
+
+  function esc(s){
+    return s.replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function escRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function paint(el, re){
+    var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null),
+        nodes = [], n;
+    while((n = w.nextNode())){
+      if(n.parentNode.nodeName === 'MARK') continue;
+      if(re.test(n.nodeValue)) nodes.push(n);
+    }
+    nodes.forEach(function(node){
+      var frag = document.createDocumentFragment(), text = node.nodeValue, last = 0, m;
+      re.lastIndex = 0;
+      while((m = re.exec(text))){
+        if(m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        var mk = document.createElement('mark');
+        mk.textContent = m[0];
+        frag.appendChild(mk);
+        last = m.index + m[0].length;
+        if(m[0] === '') re.lastIndex++;
+      }
+      if(last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  function setCursor(i){
+    if(cursor > -1 && shown[cursor]) shown[cursor].classList.remove('cur');
+    cursor = i;
+    if(cursor > -1 && shown[cursor]){
+      shown[cursor].classList.add('cur');
+      shown[cursor].scrollIntoView({block:'center', behavior: reduced ? 'auto' : 'smooth'});
+    }
+  }
+
+  function run(){
+    var raw = q.value.trim(), term = raw.toLowerCase(), f = filter.value;
+    var re = term ? new RegExp('(' + escRe(raw) + ')', 'gi') : null;
+
+    shown = []; cursor = -1;
+
+    items.forEach(function(el){
+      el.innerHTML = orig.get(el);
+      el.classList.remove('cur');
+      var hit = (!term || (el.dataset.s || '').indexOf(term) !== -1);
+      if(hit && FILTERS[f] && !FILTERS[f](el)) hit = false;
+      el.classList.toggle('hidden', !hit);
+      if(hit){
+        shown.push(el);
+        if(re) paint(el, re);
+      }
+    });
+
+    var filtering = term !== '' || f !== 'all';
+    groups.forEach(function(g, i){
+      if(!filtering){ g.open = savedOpen[i]; return; }
+      g.open = true;
+    });
+
+    var visible = shown.length;
+    sections.forEach(function(s){
+      s.classList.toggle('hidden', !s.querySelector('.item:not(.hidden)'));
+    });
+    groups.forEach(function(g){
+      var hit = g.querySelectorAll('.item:not(.hidden)').length;
+      var n = g.querySelector('summary .grp-n');
+      if(n) n.textContent = filtering ? hit + ' / ' + n.dataset.n : n.dataset.n;
+      g.classList.toggle('hidden', filtering && hit === 0);
+    });
+
+    empty.classList.toggle('show', filtering && visible === 0);
+    box.classList.toggle('has', raw !== '');
+    count.textContent = filtering
+      ? visible + ' / ' + items.length
+      : items.length + ' 条';
+
+    var allOpen = groups.every(function(g){ return g.open || g.classList.contains('hidden'); });
+    toggleAll.textContent = allOpen ? '折叠' : '全部展开';
+    spy();
+  }
+
+  /* ---- 折叠 / 展开全部 ---- */
+  toggleAll.addEventListener('click', function(){
+    var anyClosed = groups.some(function(g){
+      return !g.open && !g.classList.contains('hidden');
+    });
+    groups.forEach(function(g){ if(!g.classList.contains('hidden')) g.open = anyClosed; });
+    savedOpen = groups.map(function(g){ return g.open; });
+    this.textContent = anyClosed ? '折叠' : '全部展开';
+  });
+
+  /* ---- 搜索 ---- */
+  var t;
+  q.addEventListener('input', function(){ clearTimeout(t); t = setTimeout(run, 90); });
+  clr.addEventListener('click', function(){ q.value = ''; run(); q.focus(); });
+  filter.addEventListener('change', function(){ run(); });
+
+  document.addEventListener('keydown', function(e){
+    var typing = document.activeElement === q;
+    if(e.key === '/' && !typing){ e.preventDefault(); q.focus(); q.select(); return; }
+    if(e.key === 'Escape' && typing){ q.value = ''; run(); q.blur(); return; }
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      if(!shown.length) return;
+      e.preventDefault();
+      if(!typing) q.focus();
+      var next = e.key === 'ArrowDown' ? cursor + 1 : cursor - 1;
+      if(next < 0) next = shown.length - 1;
+      if(next >= shown.length) next = 0;
+      setCursor(next);
+      return;
+    }
+    if(e.key === 'Enter' && cursor > -1 && shown[cursor]){
+      var a = shown[cursor].querySelector('a.nm') ||
+              shown[cursor].querySelector('.ds a') ||
+              shown[cursor].querySelector('ul.sub a');
+      if(a){ e.preventDefault(); window.open(a.href, '_blank', 'noopener'); }
+    }
+  });
+
+  // 供共用组件（外观面板）回调，避免组件之间硬耦合
+  window.UPPJS_REMEASURE = function(){ measure(); };
+
+  /* ---- 外观：明暗 + 底色 ---- */
+  var SK = window.UPPJS_SKIN;
+  if(SK){
+    var themeBtn = document.getElementById('theme'),
+        apPanel = document.getElementById('apPanel'),
+        apModes = document.getElementById('apModes'),
+        apSw = document.getElementById('apSw'),
+        apReset = document.getElementById('apReset'),
+        apCustom = document.getElementById('apCustom'),
+        apPick = document.getElementById('apPick'),
+        look = SK.read();
+    if(typeof look.bg !== 'string') look.bg = '';
+    if(!look.mode) look.mode = 'auto';
+
+    function syncSkin(){
+      [].forEach.call(apModes.children, function(b){
+        b.classList.toggle('on', b.dataset.mode === look.mode);
+      });
+      [].forEach.call(apSw.children, function(b){
+        b.classList.toggle('on', (b.dataset.bg || '') === look.bg);
+      });
+    }
+    function useSkin(){
+      SK.apply(look);
+      SK.save(look);
+      syncSkin();
+      if(window.UPPJS_REMEASURE) window.UPPJS_REMEASURE();
+    }
+    function closeSkin(){
+      apPanel.hidden = true;
+      themeBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    SK.modes.forEach(function(m){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.mode = m;
+      b.textContent = SK.label[m];
+      b.addEventListener('click', function(){
+        look.mode = m;
+        look.bg = '';
+        useSkin();
+      });
+      apModes.appendChild(b);
+    });
+
+    SK.presets.forEach(function(p){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.bg = p.bg;
+      b.title = '底色：' + p.name;
+      b.setAttribute('aria-label', '底色：' + p.name);
+      b.style.background = p.bg || 'linear-gradient(135deg,#fff 0 50%,#16181c 50% 100%)';
+      b.addEventListener('click', function(){
+        look.bg = p.bg;
+        look.mode = p.bg ? (SK.paint(p.bg) ? 'light' : 'dark') : 'auto';
+        useSkin();
+      });
+      apSw.appendChild(b);
+    });
+
+    apCustom.addEventListener('click', function(e){
+      e.stopPropagation();
+      apPick.click();
+    });
+    apPick.addEventListener('input', function(){
+      look.bg = apPick.value;
+      look.mode = SK.paint(apPick.value) ? 'light' : 'dark';
+      useSkin();
+    });
+    apReset.addEventListener('click', function(){
+      look = {mode: 'auto', bg: ''};
+      useSkin();
+    });
+
+    themeBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(window.UPPJS_CLOSE_OTHERS) window.UPPJS_CLOSE_OTHERS();   // 面板互斥
+      apPanel.hidden = !apPanel.hidden;
+      themeBtn.setAttribute('aria-expanded', apPanel.hidden ? 'false' : 'true');
+    });
+    apPanel.addEventListener('click', function(e){ e.stopPropagation(); });
+    document.addEventListener('click', function(){
+      if(!apPanel.hidden) closeSkin();
+      if(window.UPPJS_CLOSE_OTHERS) window.UPPJS_CLOSE_OTHERS();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !apPanel.hidden) closeSkin();
+    });
+    syncSkin();
+  }
+
+
+
+  /* ---- 顶栏高度 -> CSS 变量，供 sticky 定位 ---- */
+  var header = document.querySelector('header');
+  function measure(){
+    document.documentElement.style.setProperty('--hh', header.offsetHeight + 'px');
+  }
+
+  /* ---- 滚动高亮目录 ---- */
+  var ticking = false;
+  function spy(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      ticking = false;
+      var line = header.offsetHeight + 20, cur = null, i, el, top;
+      for(i = 0; i < spyTargets.length; i++){
+        el = spyTargets[i];
+        if(el.classList.contains('hidden')) continue;
+        top = el.getBoundingClientRect().top;
+        if(top <= line) cur = el; else break;
+      }
+      if(!cur) cur = spyTargets[0];
+      var id = cur ? cur.id : null;
+      tocLinks.forEach(function(a){ a.classList.toggle('on', a.dataset.t === id); });
+    });
+  }
+
+  /* ---- 目录跳转：展开目标分组 + 闪一下提示 ---- */
+  function goTo(el){
+    if(!el) return;
+    if(el.tagName === 'DETAILS' && !el.open){
+      el.open = true;
+      savedOpen = groups.map(function(g){ return g.open; });
+    }
+    el.classList.remove('flash');
+    void el.offsetWidth;
+    el.classList.add('flash');
+    setTimeout(function(){ el.classList.remove('flash'); }, 1300);
+  }
+  document.querySelectorAll('.toc a[data-t], nav.cats a').forEach(function(a){
+    a.addEventListener('click', function(){
+      var id = (a.dataset.t || a.getAttribute('href').slice(1));
+      goTo(document.getElementById(id));
+      var s = document.querySelector('nav.cats .wrap');
+      if(s) [].slice.call(s.children).forEach(function(x){
+        x.classList.toggle('on', x === a);
+      });
+    });
+  });
+  window.addEventListener('hashchange', function(){
+    if(location.hash) goTo(document.getElementById(location.hash.slice(1)));
+  });
+
+  /* ---- 回到顶部 ---- */
+  var top = document.getElementById('totop');
+  window.addEventListener('scroll', function(){
+    top.classList.toggle('show', window.scrollY > 500);
+    spy();
+  }, {passive:true});
+  top.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+  window.addEventListener('resize', function(){ measure(); spy(); });
+  measure();
+  run();
+  if(location.hash) goTo(document.getElementById(location.hash.slice(1)));
+  // 从首页带 ?view=link / ?view=star 过来时，直接切到对应筛选
+  var want = (location.search.match(/[?&]view=(link|star)\b/) || [])[1];
+  if(want && filter.querySelector('[value="' + want + '"]')){
+    filter.value = want;
+    run();
+  }
+})();
+</script>
+</body>
+</html>
