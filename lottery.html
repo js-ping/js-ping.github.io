@@ -1,11 +1,101 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="auto">
 <head>
+<!-- uppjs:shell-unified -->
+<script>document.documentElement.className+=" js";</script>
+<script>
+/* 外观：明暗 + 底色。在首帧前应用，避免闪烁；设置只存在本机浏览器。 */
+(function(){
+  var VARS = ['--bg','--panel','--panel2','--line','--fg','--fg2','--fg3','--accent','--accent-soft'];
+  function rgb(h){
+    h = String(h || '').replace('#','');
+    if(h.length === 3) h = h.charAt(0)+h.charAt(0)+h.charAt(1)+h.charAt(1)+h.charAt(2)+h.charAt(2);
+    if(!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+    return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+  }
+  function hex(c){
+    var o = '#';
+    for(var i = 0; i < 3; i++) o += ('0' + Math.max(0, Math.min(255, Math.round(c[i]))).toString(16)).slice(-2);
+    return o;
+  }
+  function mix(a, b, t){
+    var A = rgb(a), B = rgb(b);
+    if(!A) return a;
+    if(!B) return b;
+    return hex([0,1,2].map(function(i){ return A[i] + (B[i] - A[i]) * t; }));
+  }
+  function lum(h){
+    var c = rgb(h);
+    if(!c) return 1;
+    return (0.2126*c[0] + 0.7152*c[1] + 0.0722*c[2]) / 255;
+  }
+  function clear(){
+    var st = document.documentElement.style;
+    for(var i = 0; i < VARS.length; i++) st.removeProperty(VARS[i]);
+  }
+  function paint(bg){
+    if(!rgb(bg)) return true;
+    var W = '#ffffff', K = '#000000', L = lum(bg), light = L >= 0.45, st = document.documentElement.style;
+    var t = light
+      ? {panel: L > 0.93 ? '#ffffff' : mix(bg, W, .72), panel2: mix(bg, K, .05),
+         line: mix(bg, K, .12), fg: mix(bg, K, .84), fg2: mix(bg, K, .57), fg3: mix(bg, K, .45),
+         accent: '#2f6fed', soft: '#e8efff'}
+      : {panel: mix(bg, W, .06), panel2: mix(bg, W, .11), line: mix(bg, W, .18),
+         fg: mix(bg, W, .88), fg2: mix(bg, W, .64), fg3: mix(bg, W, .50),
+         accent: '#6ea0ff', soft: mix(bg, '#2f6fed', .28)};
+    st.setProperty('--bg', bg);
+    st.setProperty('--panel', t.panel);
+    st.setProperty('--panel2', t.panel2);
+    st.setProperty('--line', t.line);
+    st.setProperty('--fg', t.fg);
+    st.setProperty('--fg2', t.fg2);
+    st.setProperty('--fg3', t.fg3);
+    st.setProperty('--accent', t.accent);
+    st.setProperty('--accent-soft', t.soft);
+    return light;
+  }
+  var SKIN = {
+    modes: ['auto', 'light', 'dark'],
+    label: {auto: '跟随系统', light: '浅色', dark: '深色'},
+    presets: [
+      {name: '默认', bg: ''},
+      {name: '云白', bg: '#ffffff'},
+      {name: '暖阳', bg: '#f7efd9'},
+      {name: '护眼', bg: '#e6f1e1'},
+      {name: '石青', bg: '#e5eef8'},
+      {name: '藕荷', bg: '#f8eaef'},
+      {name: '午夜蓝', bg: '#182233'},
+      {name: '纯黑', bg: '#000000'}
+    ],
+    read: function(){
+      try{ return JSON.parse(localStorage.getItem('uppjs-appearance') || 'null') || {}; }
+      catch(e){ return {}; }
+    },
+    paint: paint,
+    apply: function(s){
+      var d = document.documentElement;
+      if(s && s.bg){
+        d.setAttribute('data-theme', paint(s.bg) ? 'light' : 'dark');
+      }else{
+        clear();
+        d.setAttribute('data-theme', (s && s.mode) || 'auto');
+      }
+      return s;
+    },
+    save: function(s){
+      try{ localStorage.setItem('uppjs-appearance', JSON.stringify(s)); }catch(e){}
+    }
+  };
+  window.UPPJS_SKIN = SKIN;
+  var s = SKIN.read();
+  if(s.bg || s.mode === 'light' || s.mode === 'dark') SKIN.apply(s);
+})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>双色球 / 大乐透选号工具 · uppjs.com</title>
 <meta name="description" content="双色球、大乐透随机选号与购票核对，附历史开奖走势图。纯前端单文件工具，数据内嵌，不联网、不上传任何信息。">
-<meta name="theme-color" content="#c0392b">
+<meta name="theme-color" content="#2f6fed">
 <link rel="canonical" href="https://uppjs.com/lottery.html">
 <!-- uppjs:seo -->
 <meta property="og:type" content="website">
@@ -22,134 +112,406 @@
 <link rel="icon" href="favicon.svg">
 <link rel="apple-touch-icon" href="icon-180.png">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; background:#f5f6f8; color:#2c3e50; line-height:1.6;
-  --accent:#c0392b; }
-body[data-view="dlt"] { --accent:#2e4bb5; }
-body[data-view="check"] { --accent:#16a085; }
-body[data-view="trend"] { --accent:#7d3c98; }
-body[data-view="help"] { --accent:#2e6bb5; }
-body[data-view="home"] { --accent:#c0392b; }
-.nav { position:sticky; top:0; z-index:99; background:#fff; box-shadow:0 1px 6px rgba(0,0,0,.08); }
-.nav .in { max-width:960px; margin:0 auto; display:flex; align-items:center; gap:2px; padding:8px 14px; flex-wrap:wrap; }
-.nav a { padding:7px 14px; border-radius:8px; font-size:13.5px; font-weight:600; color:#888; text-decoration:none; cursor:pointer; }
-.nav a:hover { background:#f0f2f4; }
-.nav a.on { background:var(--accent); color:#fff; }
-.nav .brand { font-weight:800; color:#2c3e50; margin-right:10px; font-size:14.5px; }
-.nav .btn-mini { margin-left:auto; }
-.wrap { max-width:920px; margin:0 auto; padding:22px 16px 60px; }
-header { margin-bottom:18px; }
-header h1 { font-size:23px; }
-header .sub { font-size:13px; color:#888; margin-top:2px; }
-.panel { background:#fff; border-radius:10px; padding:18px 20px; box-shadow:0 1px 4px rgba(0,0,0,.06); margin-bottom:16px; }
-.panel h2 { font-size:16px; margin-bottom:12px; padding-left:10px; border-left:4px solid var(--accent); }
-.lastinfo { font-size:13.5px; color:#666; margin-bottom:14px; }
-.lastinfo b { color:var(--accent); }
-.grid { display:grid; grid-template-columns:repeat(11,1fr); gap:6px; }
-.grid.blue { grid-template-columns:repeat(12,1fr); margin-top:10px; }
-.num { aspect-ratio:1; border-radius:50%; display:flex; align-items:center; justify-content:center;
+/* ==========================================================================
+   彩票选号工具 · 页面样式
+   --------------------------------------------------------------------------
+   外壳（顶栏 / 配色 / 明暗）与站内其它页面共用同一套令牌与规则，
+   取值逐字取自 theme/theme.css 的第 1～3 节，保证两边永远长得一样。
+   页内的功能色（双色球红 / 大乐透蓝 / 核对绿 / 走势紫）不随明暗变化 ——
+   它们代表玩法本身，不是装饰。
+   ========================================================================== */
+
+/* ---------- 1. 站内令牌（与 theme/theme.css 一致） ---------- */
+:root{
+  --radius:12px; --radius-sm:9px; --radius-lg:18px; --radius-xl:24px;
+  --hh:62px;
+  --sh1:0 1px 2px rgba(15,23,42,.05), 0 1px 3px rgba(15,23,42,.06);
+  --sh2:0 4px 16px rgba(15,23,42,.07), 0 2px 6px rgba(15,23,42,.05);
+  --sh3:0 22px 52px rgba(15,23,42,.15), 0 8px 22px rgba(15,23,42,.07);
+  --ease:cubic-bezier(.22,.61,.36,1);
+
+  --bg:#eef1f7; --panel:#ffffff; --panel2:#f3f6fb; --line:#e4e9f2;
+  --fg:#121826; --fg2:#5a6474; --fg3:#8b95a5;
+  --accent:#2f6fed; --accent-soft:#e8efff;
+
+  /* 站内主色：顶栏与功能条用它，永远跟站内走，不受本页玩法色影响 */
+  --site:#2f6fed; --site-soft:#e8efff;
+
+  /* 提示块 */
+  --warn-bg:#fff8e1; --warn-bd:#f5deb3; --warn-fg:#ca6f1e;
+  --tip-bg:#eaf4fb;  --tip-bd:#cfe3f2;
+  --err-bg:#fdeceb;
+}
+html[data-theme="dark"]{
+  --sh1:0 1px 2px rgba(0,0,0,.45);
+  --sh2:0 4px 18px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
+  --sh3:0 24px 56px rgba(0,0,0,.62), 0 8px 22px rgba(0,0,0,.45);
+  --bg:#111521; --panel:#181e2b; --panel2:#1f2736; --line:#2b3444;
+  --fg:#e9edf5; --fg2:#a7b1c2; --fg3:#7a8598;
+  --accent:#6ea0ff; --accent-soft:#1d2b4b;
+  --site:#6ea0ff; --site-soft:#1d2b4b;
+  --warn-bg:#3a2f14; --warn-bd:#5c4a1c; --warn-fg:#e0b25c;
+  --tip-bg:#152a3a;  --tip-bd:#26485f;
+  --err-bg:#3a1c1a;
+}
+@media (prefers-color-scheme: dark){
+  html[data-theme="auto"]{
+    --sh1:0 1px 2px rgba(0,0,0,.45);
+    --sh2:0 4px 18px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
+    --sh3:0 24px 56px rgba(0,0,0,.62), 0 8px 22px rgba(0,0,0,.45);
+    --bg:#111521; --panel:#181e2b; --panel2:#1f2736; --line:#2b3444;
+    --fg:#e9edf5; --fg2:#a7b1c2; --fg3:#7a8598;
+    --accent:#6ea0ff; --accent-soft:#1d2b4b;
+    --site:#6ea0ff; --site-soft:#1d2b4b;
+    --warn-bg:#3a2f14; --warn-bd:#5c4a1c; --warn-fg:#e0b25c;
+    --tip-bg:#152a3a;  --tip-bd:#26485f;
+    --err-bg:#3a1c1a;
+  }
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+/* 页面底色 / 字体：与站内各页一致（同一层淡淡的色雾 + var(--bg)） */
+body{
+  font-family:-apple-system,"system-ui","PingFang SC","Hiragino Sans GB",
+              "Microsoft YaHei",system-ui,sans-serif;
+  font-size:16px; line-height:1.6; color:var(--fg);
+  background:
+    radial-gradient(1200px 600px at 12% -8%, color-mix(in srgb, var(--site) 7%, transparent), transparent 70%),
+    var(--bg);
+  background-attachment:fixed;
+  /* 页内功能色（只影响内容区，顶栏另用 --site） */
+  --accent:#c0392b;
+}
+body[data-view="ssq"], body[data-view="home"]{ --accent:#c0392b; }
+body[data-view="dlt"]{ --accent:#2e4bb5; }
+body[data-view="check"]{ --accent:#16a085; }
+body[data-view="trend"]{ --accent:#7d3c98; }
+body[data-view="help"]{ --accent:#2e6bb5; }
+body[data-view="pick-ssq"]{ --accent:#c0392b; }
+body[data-view="pick-dlt"]{ --accent:#2e4bb5; }
+html[data-theme="dark"] body[data-view="ssq"],
+html[data-theme="dark"] body[data-view="home"]{ --accent:#e2574a; }
+html[data-theme="dark"] body[data-view="dlt"]{ --accent:#6c86e8; }
+html[data-theme="dark"] body[data-view="check"]{ --accent:#2fbe9c; }
+html[data-theme="dark"] body[data-view="trend"]{ --accent:#a86fc4; }
+html[data-theme="dark"] body[data-view="help"]{ --accent:#5b9ae0; }
+::selection{ background:color-mix(in srgb, var(--site) 26%, transparent); color:var(--fg) }
+*::-webkit-scrollbar{ width:9px; height:9px }
+*::-webkit-scrollbar-thumb{ background:color-mix(in srgb, var(--fg3) 32%, transparent); border-radius:6px }
+*::-webkit-scrollbar-thumb:hover{ background:color-mix(in srgb, var(--fg3) 55%, transparent) }
+*::-webkit-scrollbar-track{ background:transparent }
+
+/* ---------- 2. 顶栏：与站内各页同一套（theme.css 第 3 节） ---------- */
+header{
+  position:sticky; top:0; z-index:50;
+  height:var(--hh); box-sizing:border-box;
+  background:color-mix(in srgb, var(--bg) 84%, transparent);
+  border-bottom:1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  transition:background .24s var(--ease), border-color .24s var(--ease), box-shadow .24s var(--ease);
+  /* 顶栏里一律用站内主色。本页 body 上挂了一个「玩法色」--accent，
+     不在这里重置的话，外观面板的选中态会跟着玩法变成红色。 */
+  --accent:var(--site); --accent-soft:var(--site-soft);
+}
+@supports (backdrop-filter:blur(14px)){
+  header{ background:color-mix(in srgb, var(--bg) 62%, transparent);
+          backdrop-filter:saturate(1.7) blur(20px) }
+}
+header.scrolled{ box-shadow:0 1px 18px rgba(15,23,42,.07) }
+html[data-theme="dark"] header.scrolled,
+html[data-theme="auto"] header.scrolled{ box-shadow:0 1px 22px rgba(0,0,0,.42) }
+
+.bar{ max-width:1240px; margin:0 auto; padding:0 20px; height:100%;
+      display:flex; align-items:center; gap:14px; flex-wrap:nowrap;
+      /* 行高跟站内各页一致：本站 body 是 1.6，站内是 1.72，
+         不写这一行导航胶囊会比别的页面矮 1.6px、差半个像素对不齐。 */
+      line-height:1.72 }
+.brand{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:15.5px;
+        letter-spacing:-.015em; color:var(--fg); white-space:nowrap }
+a.brand{ text-decoration:none }
+a.brand:hover{ color:var(--fg) }
+.brand .logo{
+  flex:none; width:31px; height:31px; border-radius:10px;
+  display:grid; place-items:center; color:#fff; font-size:14.5px; font-weight:800;
+  background:linear-gradient(138deg, var(--site), color-mix(in srgb, var(--site) 52%, #a855f7));
+  box-shadow:0 3px 11px color-mix(in srgb, var(--site) 36%, transparent),
+             inset 0 1px 0 rgba(255,255,255,.34);
+}
+.brand em{ font-style:normal; font-weight:500; font-size:12.5px; color:var(--fg3); margin-left:2px }
+
+.nav-links{ display:flex; gap:3px; margin-left:6px; min-width:0;
+            overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none }
+.nav-links::-webkit-scrollbar{ display:none }
+.nav-links a{
+  color:var(--fg2); font-size:13.2px; padding:6px 11px; border-radius:9px;
+  white-space:nowrap; text-decoration:none;
+  transition:background .16s var(--ease), color .16s var(--ease);
+}
+.nav-links a:hover{ background:var(--panel2); color:var(--fg) }
+.nav-links a.on{ background:var(--site-soft); color:var(--site); font-weight:600 }
+.tools{ margin-left:auto; display:flex; align-items:center; gap:8px; white-space:nowrap }
+.tools>button{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  border-radius:8px; padding:5px 11px; font-size:13px; line-height:1.4;
+  font-family:inherit; font-weight:500; cursor:pointer;
+}
+.tools>button:hover{ opacity:1; color:var(--fg); border-color:var(--fg3) }
+a.tool-link{
+  font-size:13px; color:var(--fg2); text-decoration:none; padding:5px 11px;
+  border:1px solid var(--line); border-radius:8px;
+}
+a.tool-link:hover{ border-color:var(--site); color:var(--site) }
+
+/* 塞不下时的收缩顺序：① 藏品牌小字 → ② 导航横向滚动 → ③ 换行 */
+@media (max-width:1180px){
+  .bar{ gap:10px }
+  .brand em{ display:none }
+}
+@media (max-width:900px){
+  header{ height:auto; min-height:var(--hh) }
+  .bar{ padding:8px 13px; gap:8px; row-gap:8px; flex-wrap:wrap; height:auto }
+  .brand{ font-size:14.5px }
+  .nav-links{ order:2; flex:1 1 100%; margin-left:0; gap:2px }
+  .nav-links a{ padding:6px 9px; font-size:12.8px }
+  .tools{ order:1; margin-left:auto; gap:6px; flex:0 0 auto; white-space:nowrap }
+  .tools>button, a.tool-link{ font-size:12px; padding:6px 10px }
+}
+
+/* ---------- 3. 页内功能条（就是站内的 nav.cats，只把主色换成站内蓝） ---------- */
+nav.cats{
+  position:sticky; top:var(--hh); z-index:40;
+  background:color-mix(in srgb, var(--bg) 86%, transparent);
+  border-bottom:1px solid color-mix(in srgb, var(--line) 80%, transparent);
+}
+@supports (backdrop-filter:blur(14px)){
+  nav.cats{ background:color-mix(in srgb, var(--bg) 64%, transparent);
+            backdrop-filter:blur(18px) saturate(1.6) }
+}
+nav.cats .in2{ max-width:1240px; margin:0 auto; padding:9px 20px;
+  display:flex; gap:7px; overflow-x:auto; scrollbar-width:none }
+nav.cats .in2::-webkit-scrollbar{ display:none }
+nav.cats a{ white-space:nowrap; padding:6px 13px; border-radius:999px; border:1px solid var(--line);
+  background:var(--panel); color:var(--fg2); font-size:12.8px; text-decoration:none; cursor:pointer;
+  transition:all .15s var(--ease) }
+nav.cats a:hover, nav.cats a.on{
+  border-color:color-mix(in srgb, var(--site) 45%, transparent);
+  color:var(--site); background:var(--site-soft) }
+@media (max-width:900px){
+  nav.cats{ position:static }
+  nav.cats .in2{ padding:8px 13px }
+}
+
+/* ---------- 4. 内容区 ---------- */
+.wrap{ max-width:920px; margin:0 auto; padding:22px 16px 60px }
+.pagehead{ margin-bottom:18px }
+.pagehead h1{ font-size:23px }
+.pagehead .sub{ font-size:13px; color:var(--fg3); margin-top:2px }
+
+.panel{ background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+  padding:18px 20px; box-shadow:var(--sh1); margin-bottom:16px }
+.panel h2{ font-size:16px; margin-bottom:12px; padding-left:10px; border-left:4px solid var(--accent) }
+.lastinfo{ font-size:13.5px; color:var(--fg2); margin-bottom:14px }
+.lastinfo b{ color:var(--accent) }
+.grid{ display:grid; grid-template-columns:repeat(11,1fr); gap:6px }
+.grid.blue{ grid-template-columns:repeat(12,1fr); margin-top:10px }
+.num{ aspect-ratio:1; border-radius:50%; display:flex; align-items:center; justify-content:center;
   font-size:13.5px; font-weight:600; cursor:pointer; user-select:none;
-  background:#f0f0f0; color:#888; border:2px solid transparent; transition:all .12s; }
-.num:hover { transform:scale(1.08); }
-.num.on-red { background:radial-gradient(circle at 35% 30%,#e74c3c,#a93226); color:#fff; border-color:#c0392b; }
-.num.on-blue { background:radial-gradient(circle at 35% 30%,#3498db,#1f618d); color:#fff; border-color:#1f618d; }
-.hint { font-size:12.5px; color:#999; margin-top:8px; }
-.rules { display:grid; grid-template-columns:1fr 1fr; gap:10px 22px; }
-.rule { display:flex; align-items:center; gap:7px; font-size:14px; }
-.rule input[type=checkbox] { width:17px; height:17px; accent-color:var(--accent); }
-.rule input[type=number], .rule select { width:70px; padding:3px 6px; border:1px solid #ddd; border-radius:6px; font-size:13.5px; }
-.rule small { color:#999; }
-.actions { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-button { border:none; border-radius:8px; padding:11px 26px; font-size:15px; font-weight:600; cursor:pointer; transition:opacity .15s; }
-button:hover { opacity:.88; }
-.btn-main { background:var(--accent); color:#fff; }
-.btn-sub { background:#ecf0f1; color:#555; }
-.btn-mini { border:none; border-radius:6px; padding:5px 14px; font-size:12.5px; font-weight:600; cursor:pointer; background:#e8eef7; color:#2e6bb5; transition:opacity .15s; }
-.btn-mini:hover { opacity:.85; }
-.cnt { display:inline-flex; align-items:center; gap:6px; background:#ecf0f1; border-radius:8px; padding:8px 14px; font-size:13.5px; color:#555; }
-.cnt select { border:none; background:none; font-size:14px; font-weight:600; color:var(--accent); padding:2px 0; }
-#result { margin-top:4px; }
-.stat { font-size:14px; margin-bottom:12px; }
-.stat b { color:var(--accent); }
-.combo { display:flex; align-items:center; gap:6px; padding:10px 0; border-bottom:1px dashed #eee; flex-wrap:wrap; }
-.combo .idx { color:#bbb; font-size:12px; width:26px; }
-.ball { display:inline-flex; width:34px; height:34px; border-radius:50%; color:#fff; font-weight:700; font-size:14px; align-items:center; justify-content:center; }
-.ball.red { background:radial-gradient(circle at 35% 30%,#e74c3c,#a93226); }
-.ball.blue { background:radial-gradient(circle at 35% 30%,#3498db,#1f618d); }
-.ball.sm { width:26px; height:26px; font-size:11.5px; }
-.sum-tag { margin-left:8px; font-size:12px; color:#999; }
-.err { color:#c0392b; font-size:14px; padding:10px; background:#fdeceb; border-radius:8px; }
-.disclaimer { background:#fff8e1; border:1px solid #f5deb3; border-radius:10px; padding:14px 18px; font-size:13px; margin-top:20px; }
-.disclaimer b { color:#ca6f1e; }
-.tabs { display:flex; gap:10px; margin-bottom:16px; align-items:center; flex-wrap:wrap; }
-.tab { flex:1; text-align:center; padding:12px; border-radius:10px; background:#fff; cursor:pointer; font-weight:600; color:#888; border:2px solid transparent; box-shadow:0 1px 4px rgba(0,0,0,.06); }
-.tab.on-ssq { border-color:#c0392b; color:#c0392b; }
-.tab.on-dlt { border-color:#2e4bb5; color:#2e4bb5; }
-.ticket { display:flex; align-items:center; gap:6px; padding:8px 0; border-bottom:1px dashed #eee; flex-wrap:wrap; }
-.ticket .idx { color:#bbb; font-size:12px; width:26px; }
-.ticket .del { margin-left:auto; color:#ccc; cursor:pointer; font-size:18px; padding:0 8px; }
-.ticket .del:hover { color:#c0392b; }
-.result-item { padding:12px 0; border-bottom:1px dashed #eee; }
-.verdict { font-weight:700; margin-left:10px; }
-.verdict.win { color:#16a085; }
-.verdict.lose { color:#95a5a6; }
-.hit-detail { font-size:13px; color:#7f8c8d; margin-top:4px; }
-.window-sel { margin-left:auto; font-size:13.5px; color:#666; }
-.window-sel select { padding:6px 10px; border:1px solid #ddd; border-radius:8px; font-size:14px; }
-.heat { display:grid; gap:4px; }
-.cell { border-radius:6px; padding:7px 0; text-align:center; font-size:12.5px; font-weight:600; position:relative; }
-.cell .cnt2 { display:block; font-size:10px; font-weight:400; opacity:.75; }
-.draw { display:flex; align-items:center; gap:5px; padding:6px 0; border-bottom:1px dashed #eee; flex-wrap:wrap; }
-.draw .code { color:#999; font-size:12px; width:74px; }
-.cards { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
-.card { border-radius:14px; padding:30px 26px; color:#fff; cursor:pointer; text-decoration:none; display:block;
-  transition:transform .15s, box-shadow .15s; box-shadow:0 4px 14px rgba(0,0,0,.12); }
-.card:hover { transform:translateY(-4px); box-shadow:0 10px 24px rgba(0,0,0,.18); }
-.card h2 { font-size:20px; margin-bottom:8px; color:#fff; border:none; padding:0; }
-.card p { font-size:13px; opacity:.92; }
-.card .meta { margin-top:14px; font-size:12px; opacity:.85; border-top:1px solid rgba(255,255,255,.25); padding-top:10px; }
-.note { background:#fff8e1; border:1px solid #f5deb3; border-radius:10px; padding:14px 18px; font-size:13px; margin-top:26px; }
-.note b { color:#ca6f1e; }
-footer { text-align:center; color:#95a5a6; font-size:12px; margin-top:26px; }
-.sec h2 { font-size:19px; margin:0 0 12px; padding-left:12px; border-left:4px solid #c0392b; }
-.sec h3 { font-size:15.5px; margin:20px 0 8px; color:#34495e; }
-.sec table { width:100%; border-collapse:collapse; margin:10px 0; font-size:13.5px; }
-.sec th, .sec td { border:1px solid #e5e8ec; padding:8px 12px; text-align:left; vertical-align:top; }
-.sec th { background:#f8f9fa; white-space:nowrap; }
-.sec kbd { background:#ecf0f1; border-radius:5px; padding:2px 8px; font-size:13px; font-weight:600; }
-.sec code { background:#f0f2f4; border-radius:4px; padding:1px 6px; font-size:13px; }
-.sec ul, .sec ol { padding-left:24px; margin:8px 0; }
-.sec li { margin:4px 0; font-size:14.5px; }
-.sec p { font-size:14.5px; }
-.tip { background:#eaf4fb; border:1px solid #cfe3f2; border-radius:8px; padding:10px 14px; font-size:13.5px; margin:10px 0; }
-.warn { background:#fff8e1; border:1px solid #f5deb3; border-radius:8px; padding:12px 16px; font-size:13.5px; margin:10px 0; }
-.warn b { color:#ca6f1e; }
-.sec pre { background:#f8f9fa; border-radius:8px; padding:14px 18px; font-size:13px; line-height:1.8; overflow-x:auto; }
-.step { display:flex; gap:10px; margin:8px 0; }
-.step .no { flex:none; width:24px; height:24px; border-radius:50%; background:#c0392b; color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:2px; }
-@media (max-width:680px){ .grid{grid-template-columns:repeat(9,1fr)!important;} .rules{grid-template-columns:1fr;} .cards{grid-template-columns:1fr;} }
+  background:var(--panel2); color:var(--fg3); border:2px solid transparent; transition:all .12s }
+.num:hover{ transform:scale(1.08) }
+.num.on-red{ background:radial-gradient(circle at 35% 30%,#e74c3c,#a93226); color:#fff; border-color:#c0392b }
+.num.on-blue{ background:radial-gradient(circle at 35% 30%,#3498db,#1f618d); color:#fff; border-color:#1f618d }
+.hint{ font-size:12.5px; color:var(--fg3); margin-top:8px }
+.rules{ display:grid; grid-template-columns:1fr 1fr; gap:10px 22px }
+.rule{ display:flex; align-items:center; gap:7px; font-size:14px }
+.rule input[type=checkbox]{ width:17px; height:17px; accent-color:var(--accent) }
+.rule input[type=number], .rule select{ width:70px; padding:3px 6px; border:1px solid var(--line);
+  border-radius:6px; font-size:13.5px; background:var(--panel); color:var(--fg) }
+.rule small{ color:var(--fg3) }
+.actions{ display:flex; gap:12px; flex-wrap:wrap; align-items:center }
+button{ border:none; border-radius:8px; padding:11px 26px; font-size:15px; font-weight:600;
+  cursor:pointer; transition:opacity .15s; font-family:inherit }
+button:hover{ opacity:.88 }
+.btn-main{ background:var(--accent); color:#fff }
+.btn-sub{ background:var(--panel2); color:var(--fg2) }
+.btn-mini{ border:none; border-radius:6px; padding:5px 14px; font-size:12.5px; font-weight:600;
+  cursor:pointer; background:var(--panel2); color:var(--site); transition:opacity .15s }
+.btn-mini:hover{ opacity:.85 }
+.cnt{ display:inline-flex; align-items:center; gap:6px; background:var(--panel2);
+  border-radius:8px; padding:8px 14px; font-size:13.5px; color:var(--fg2) }
+.cnt select{ border:none; background:none; font-size:14px; font-weight:600; color:var(--accent); padding:2px 0 }
+#result{ margin-top:4px }
+.stat{ font-size:14px; margin-bottom:12px }
+.stat b{ color:var(--accent) }
+.combo{ display:flex; align-items:center; gap:6px; padding:10px 0;
+  border-bottom:1px dashed var(--line); flex-wrap:wrap }
+.combo .idx{ color:var(--fg3); font-size:12px; width:26px }
+.ball{ display:inline-flex; width:34px; height:34px; border-radius:50%; color:#fff;
+  font-weight:700; font-size:14px; align-items:center; justify-content:center }
+.ball.red{ background:radial-gradient(circle at 35% 30%,#e74c3c,#a93226) }
+.ball.blue{ background:radial-gradient(circle at 35% 30%,#3498db,#1f618d) }
+.ball.sm{ width:26px; height:26px; font-size:11.5px }
+.sum-tag{ margin-left:8px; font-size:12px; color:var(--fg3) }
+.err{ color:#c0392b; font-size:14px; padding:10px; background:var(--err-bg); border-radius:8px }
+html[data-theme="dark"] .err{ color:#e88b80 }
+.disclaimer{ background:var(--warn-bg); border:1px solid var(--warn-bd); border-radius:10px;
+  padding:14px 18px; font-size:13px; margin-top:20px }
+.disclaimer b{ color:var(--warn-fg) }
+.tabs{ display:flex; gap:10px; margin-bottom:16px; align-items:center; flex-wrap:wrap }
+.tab{ flex:1; text-align:center; padding:12px; border-radius:10px; background:var(--panel);
+  cursor:pointer; font-weight:600; color:var(--fg3); border:2px solid transparent; box-shadow:var(--sh1) }
+.tab.on-ssq{ border-color:#c0392b; color:#c0392b }
+.tab.on-dlt{ border-color:#2e4bb5; color:#2e4bb5 }
+html[data-theme="dark"] .tab.on-ssq{ border-color:#e2574a; color:#e2574a }
+html[data-theme="dark"] .tab.on-dlt{ border-color:#7b93e6; color:#7b93e6 }
+.ticket{ display:flex; align-items:center; gap:6px; padding:8px 0;
+  border-bottom:1px dashed var(--line); flex-wrap:wrap }
+.ticket .idx{ color:var(--fg3); font-size:12px; width:26px }
+.ticket .del{ margin-left:auto; color:var(--fg3); cursor:pointer; font-size:18px; padding:0 8px }
+.ticket .del:hover{ color:#c0392b }
+.result-item{ padding:12px 0; border-bottom:1px dashed var(--line) }
+.verdict{ font-weight:700; margin-left:10px }
+.verdict.win{ color:#16a085 }
+html[data-theme="dark"] .verdict.win{ color:#2fbe9c }
+.verdict.lose{ color:var(--fg3) }
+.hit-detail{ font-size:13px; color:var(--fg2); margin-top:4px }
+.window-sel{ margin-left:auto; font-size:13.5px; color:var(--fg2) }
+.window-sel select{ padding:6px 10px; border:1px solid var(--line); border-radius:8px;
+  font-size:14px; background:var(--panel); color:var(--fg) }
+.heat{ display:grid; gap:4px }
+.cell{ border-radius:6px; padding:7px 0; text-align:center; font-size:12.5px;
+  font-weight:600; position:relative }
+.cell .cnt2{ display:block; font-size:10px; font-weight:400; opacity:.75 }
+.draw{ display:flex; align-items:center; gap:5px; padding:6px 0;
+  border-bottom:1px dashed var(--line); flex-wrap:wrap }
+.draw .code{ color:var(--fg3); font-size:12px; width:74px }
+
+.cards{ display:grid; grid-template-columns:1fr 1fr; gap:18px }
+.card{ border-radius:14px; padding:30px 26px; color:#fff; cursor:pointer; text-decoration:none;
+  display:block; transition:transform .15s, box-shadow .15s; box-shadow:0 4px 14px rgba(0,0,0,.12) }
+.card:hover{ transform:translateY(-4px); box-shadow:0 10px 24px rgba(0,0,0,.18) }
+.card h2{ font-size:20px; margin-bottom:8px; color:#fff; border:none; padding:0 }
+.card p{ font-size:13px; opacity:.92 }
+.card .meta{ margin-top:14px; font-size:12px; opacity:.85;
+  border-top:1px solid rgba(255,255,255,.25); padding-top:10px }
+.note{ background:var(--warn-bg); border:1px solid var(--warn-bd); border-radius:10px;
+  padding:14px 18px; font-size:13px; margin-top:26px }
+.note b{ color:var(--warn-fg) }
+footer{ text-align:center; color:var(--fg3); font-size:12px; margin-top:26px }
+
+/* ---------- 5. 说明书（.sec） ---------- */
+.sec h2{ font-size:19px; margin:0 0 12px; padding-left:12px; border-left:4px solid #c0392b }
+.sec h3{ font-size:15.5px; margin:20px 0 8px; color:var(--fg) }
+.sec table{ width:100%; border-collapse:collapse; margin:10px 0; font-size:13.5px }
+.sec th, .sec td{ border:1px solid var(--line); padding:8px 12px; text-align:left; vertical-align:top }
+.sec th{ background:var(--panel2); white-space:nowrap }
+.sec kbd{ background:var(--panel2); border:1px solid var(--line); border-radius:5px;
+  padding:2px 8px; font-size:13px; font-weight:600 }
+.sec code{ background:var(--panel2); border-radius:4px; padding:1px 6px; font-size:13px }
+.sec ul, .sec ol{ padding-left:24px; margin:8px 0 }
+.sec li{ margin:4px 0; font-size:14.5px }
+.sec p{ font-size:14.5px }
+.tip{ background:var(--tip-bg); border:1px solid var(--tip-bd); border-radius:8px;
+  padding:10px 14px; font-size:13.5px; margin:10px 0 }
+.warn{ background:var(--warn-bg); border:1px solid var(--warn-bd); border-radius:8px;
+  padding:12px 16px; font-size:13.5px; margin:10px 0 }
+.warn b{ color:var(--warn-fg) }
+.sec pre{ background:var(--panel2); border-radius:8px; padding:14px 18px;
+  font-size:13px; line-height:1.8; overflow-x:auto }
+.step{ display:flex; gap:10px; margin:8px 0 }
+.step .no{ flex:none; width:24px; height:24px; border-radius:50%; background:#c0392b; color:#fff;
+  font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:2px }
+
+@media (max-width:680px){
+  .grid{ grid-template-columns:repeat(9,1fr)!important }
+  .rules{ grid-template-columns:1fr }
+  .cards{ grid-template-columns:1fr }
+}
+
+/* ---------- 外观面板（明暗 + 底色） ---------- */
+.appear{position:relative}
+.appear>button{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  border-radius:8px; padding:5px 11px; font-size:13px; cursor:pointer;
+  font-family:inherit; line-height:1.4;
+}
+.appear>button:hover{color:var(--fg); border-color:var(--fg3)}
+.ap-panel{
+  position:absolute; right:0; top:calc(100% + 9px); z-index:70; width:268px;
+  background:var(--panel); border:1px solid var(--line); border-radius:12px;
+  padding:13px 13px 11px; text-align:left; white-space:normal;
+  box-shadow:0 14px 38px rgba(0,0,0,.20);
+}
+.ap-panel[hidden]{display:none}
+.ap-lab{
+  font-size:10.5px; letter-spacing:.1em; color:var(--fg3); text-transform:uppercase;
+  margin:0 0 7px; font-weight:600;
+}
+.ap-modes{display:flex; gap:6px; margin:0 0 13px}
+.ap-modes button{
+  flex:1; border:1px solid var(--line); background:var(--panel2); color:var(--fg2);
+  border-radius:8px; padding:6px 0; font-size:12.5px; cursor:pointer;
+  font-family:inherit; white-space:nowrap;
+}
+.ap-modes button.on{border-color:var(--accent); background:var(--accent-soft); color:var(--accent); font-weight:600}
+.ap-sw{display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin:0 0 13px}
+.ap-sw button{
+  width:100%; height:32px; border-radius:9px; border:1px solid var(--line);
+  cursor:pointer; padding:0;
+}
+.ap-sw button.on{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+.ap-foot{display:flex; gap:6px; border-top:1px solid var(--line); padding-top:11px}
+.ap-foot button{
+  flex:1; border:1px solid var(--line); background:transparent; color:var(--fg2);
+  border-radius:8px; padding:6px 0; font-size:12.5px; cursor:pointer; font-family:inherit;
+}
+.ap-foot button:hover{color:var(--fg); background:var(--panel2)}
+.ap-tip{font-size:11.5px; color:var(--fg3); line-height:1.55; margin:10px 0 0}
+#apPick{position:absolute; width:0; height:0; opacity:0; pointer-events:none; border:0; padding:0}
 </style>
 </head>
-<body data-view="home">
+<body class="toolpage" data-view="home">
 
-<div class="nav"><div class="in">
-  <span class="brand">🎱 彩票选号工具</span>
+<header>
+  <div class="bar">
+    <a class="brand" href="index.html"><span class="logo">U</span>uppjs.com<em>个人清单站</em></a>
+    <nav class="nav-links"><a href="apps.html">软件清单</a>
+  <a href="free.html">免费资源</a>
+  <a class="on" href="lottery.html">彩票选号</a>
+  <a href="about.html">关于</a>
+  <a href="changelog.html">更新日志</a></nav>
+    <div class="tools"><button type="button" onclick="showDataInfo()" title="这份数据是哪一期">📅 数据快照</button>      <div class="appear">
+        <button id="theme" title="外观：明暗与底色" aria-haspopup="dialog" aria-expanded="false">外观</button>
+        <div class="ap-panel" id="apPanel" hidden>
+          <p class="ap-lab">明暗</p>
+          <div class="ap-modes" id="apModes"></div>
+          <p class="ap-lab">底色</p>
+          <div class="ap-sw" id="apSw"></div>
+          <div class="ap-foot">
+            <button id="apCustom" title="用取色器自选一个底色">自定义…</button>
+            <button id="apReset" title="恢复默认外观">恢复默认</button>
+          </div>
+          <p class="ap-tip">选「底色」后明暗会自动适配，文字颜色跟着变，不用担心看不清。设置只保存在你自己的浏览器里。</p>
+          <input type="color" id="apPick" value="#f6f7f9" tabindex="-1" aria-hidden="true">
+        </div>
+      </div></div>
+  </div>
+</header>
+
+<nav class="cats"><div class="in2">
   <a data-v="home" onclick="go('home')">首页</a>
-  <a data-v="pick-ssq" onclick="go('pick-ssq')">双色球</a>
-  <a data-v="pick-dlt" onclick="go('pick-dlt')">大乐透</a>
+  <a data-v="pick-ssq" onclick="go('pick-ssq')">🎱 双色球</a>
+  <a data-v="pick-dlt" onclick="go('pick-dlt')">⚽ 大乐透</a>
   <a data-v="check" onclick="go('check')">✅ 核对器</a>
   <a data-v="trend" onclick="go('trend')">📈 走势图</a>
   <a data-v="help" onclick="go('help')">📖 说明书</a>
-  <button class="btn-mini" onclick="showDataInfo()">📅 数据快照</button>
-  <a href="index.html" title="回到 uppjs.com" style="margin-left:6px;color:#aaa;font-weight:500">← 返回主页</a>
-</div></div>
+</div></nav>
 
 <div class="wrap">
 
 <!-- ============ 首页 ============ -->
 <div class="view" id="view-home">
-  <header><h1>彩票选号工具 <span style="font-size:14px;color:#16a085">单文件网页版</span></h1>
-  <div class="sub">开奖数据内嵌 · 不联网 · 不上传任何输入 · 断网也能用</div></header>
+  <div class="pagehead"><h1>彩票选号工具 <span style="font-size:14px;color:#16a085">单文件网页版</span></h1>
+  <div class="sub">开奖数据内嵌 · 不联网 · 不上传任何输入 · 断网也能用</div></div>
   <div class="cards">
     <a class="card" style="background:linear-gradient(135deg,#8e1c1c,#c0392b 60%,#e67e22)" onclick="go('pick-ssq')">
       <h2>🎱 双色球选号</h2><p>中国福利彩票 · 周二/四/日开奖</p><p>红球 33选6 + 蓝球 16选1</p>
@@ -165,12 +527,12 @@ footer { text-align:center; color:#95a5a6; font-size:12px; margin-top:26px; }
       <div class="meta">支持双色球 + 大乐透</div></a>
   </div>
   <div class="note"><b>⛔ 提醒：</b>工具里的排除规则不会提高中奖概率，只用于复式缩水省钱和避开大众号减少平分。2元娱乐，量力而行。</div>
-  <footer>uppjs.com · 本地工具 · 数据内嵌（双色球截至2026-09-13 / 大乐透截至2026-09-12）· 数据源：500彩票网</footer>
+  <footer id="siteFoot">uppjs.com · 本地工具 · 数据内嵌（双色球截至 2026-09-13 / 大乐透截至 2026-09-12）· 数据源：中国福利彩票官网 / 中国体彩网</footer>
 </div>
 
 <!-- ============ 选号视图（双色球/大乐透共用） ============ -->
 <div class="view" id="view-pick" style="display:none">
-  <header><h1 id="pageTitle">选号</h1><div class="sub">打开就能用 · 不联网 · 不上传任何输入</div></header>
+  <div class="pagehead"><h1 id="pageTitle">选号</h1><div class="sub">打开就能用 · 不联网 · 不上传任何输入</div></div>
   <div class="panel">
     <h2>候选号码（点选后可过滤缩水）</h2>
     <div class="lastinfo" id="lastinfo"></div>
@@ -226,8 +588,8 @@ footer { text-align:center; color:#95a5a6; font-size:12px; margin-top:26px; }
 
 <!-- ============ 购票核对器 ============ -->
 <div class="view" id="view-check" style="display:none">
-  <header><h1>✅ 购票核对器</h1>
-  <div class="sub">把买过的票输进来，自动对照全部历史开奖，告诉你中没中、中几等奖</div></header>
+  <div class="pagehead"><h1>✅ 购票核对器</h1>
+  <div class="sub">把买过的票输进来，自动对照全部历史开奖，告诉你中没中、中几等奖</div></div>
   <div class="tabs">
     <div class="tab on-ssq" id="ckTabSsq" onclick="ckSwitch('ssq')">🎱 双色球</div>
     <div class="tab" id="ckTabDlt" onclick="ckSwitch('dlt')">⚽ 大乐透</div>
@@ -257,8 +619,8 @@ footer { text-align:center; color:#95a5a6; font-size:12px; margin-top:26px; }
 
 <!-- ============ 号码走势图 ============ -->
 <div class="view" id="view-trend" style="display:none">
-  <header><h1>📈 号码走势图</h1>
-  <div class="sub">近N期号码热力图 · 看个热闹可以，别当规律用</div></header>
+  <div class="pagehead"><h1>📈 号码走势图</h1>
+  <div class="sub">近N期号码热力图 · 看个热闹可以，别当规律用</div></div>
   <div class="tabs">
     <div class="tab on-ssq" id="trTabSsq" onclick="trSwitch('ssq')">🎱 双色球</div>
     <div class="tab" id="trTabDlt" onclick="trSwitch('dlt')">⚽ 大乐透</div>
@@ -613,7 +975,7 @@ function go(view) {
   document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
   $('view-' + target).style.display = 'block';
   document.body.dataset.view = view === 'pick-ssq' ? 'ssq' : (view === 'pick-dlt' ? 'dlt' : view);
-  document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('on', a.dataset.v === view));
+  document.querySelectorAll('.cats a').forEach(a => a.classList.toggle('on', a.dataset.v === view));
   if (view === 'pick-ssq') initPick('ssq');
   if (view === 'pick-dlt') initPick('dlt');
   if (view === 'check') ckInit();
@@ -622,7 +984,14 @@ function go(view) {
   window.scrollTo(0, 0);
 }
 function showDataInfo() {
-  alert(`网页版数据为内嵌快照：\n· 双色球截至 ${INFO.ssq.last.date} 第${INFO.ssq.last.code}期（${INFO.ssq.historyCount}期）\n· 大乐透截至 ${INFO.dlt.last.date} 第${INFO.dlt.last.code}期（${INFO.dlt.historyCount}期）\n\n数据为发布当时的快照，最新开奖请以官方公告为准。`);
+  const line = k => `· ${INFO[k].name}截至 ${INFO[k].last.date} 第${INFO[k].last.code}期（共 ${INFO[k].historyCount} 期）`;
+  const head = LIVE.state === 'live'
+    ? '线上数据：每次打开这个页面都会向本站服务器取一次最新开奖。'
+    : LIVE.state === 'stale'
+      ? '页面内置快照偏旧，且这次没能补全中间缺的期数（缺口太大）。建议重新生成一次页面。'
+      : '当前显示的是页面内置的快照 —— 没能连上本站服务器（离线打开、或服务暂时不可用）。';
+  alert(head + '\n' + line('ssq') + '\n' + line('dlt')
+    + '\n数据源：中国福利彩票官网 / 中国体彩网。以官方公告为准。');
 }
 
 /* ================= 选号视图（双色球/大乐透共用） ================= */
@@ -887,6 +1256,212 @@ function trRender() {
 
 /* 启动 */
 go('home');
+
+/* ================= 线上数据：打开页面时向自己站要最新开奖 =================
+   官方接口不给跨域许可（同源策略），网页里直接抓一定被拦。
+   所以这里只请求自己站的 /api/lottery —— 同域，不算第三方请求，
+   由站上的云函数在服务器端去抓两个官网，补上页面快照之后缺的期数。
+
+   拿不到、超时、数据有缺口 —— 一律保持内嵌快照。宁可少更新，
+   也不能把半截数据画上去：走势图会把不连续的期当成连续的。 */
+const LIVE = { state: 'snapshot', updatedAt: '' };
+
+function footText() {
+  const head = LIVE.state === 'live'
+    ? '线上数据 · 每次打开自动取最新一期'
+    : LIVE.state === 'stale'
+      ? '线上数据 · 页面快照偏旧，建议重新生成页面'
+      : '数据内嵌';
+  return 'uppjs.com · 本地工具 · ' + head
+    + '（双色球截至 ' + INFO.ssq.last.date + ' / 大乐透截至 ' + INFO.dlt.last.date + '）'
+    + ' · 数据源：中国福利彩票官网 / 中国体彩网';
+}
+
+function paintFoot() {
+  const f = document.getElementById('siteFoot');
+  if (f) f.textContent = footText();
+}
+
+/* 把接口补的期数并进历史数组。完整才并 —— 有缺口就整段不要。 */
+function mergeSeries(key, part) {
+  if (!part || !part.complete || !Array.isArray(part.list) || !part.list.length) return 0;
+  const g = GAMES[key], rows = g.data;
+  const have = {};
+  rows.forEach(r => { have[String(r[2])] = 1; });
+  const inRange = (arr, nMax, n) =>
+    Array.isArray(arr) && arr.length === n && arr.every(x => Number.isInteger(x) && x >= 1 && x <= nMax);
+  const valid = r =>
+    Array.isArray(r) && r.length === 4 &&
+    inRange(r[0], g.frontMax, g.frontPick) && inRange(r[1], g.backMax, g.backPick) &&
+    /^\d{5,7}$/.test(String(r[2])) && /^\d{4}-\d{2}-\d{2}$/.test(String(r[3]));
+  let added = 0;
+  part.list.forEach(r => {
+    const code = String(r[2]);
+    if (have[code] || !valid(r)) return;
+    rows.push([r[0].slice().sort((a, b) => a - b), r[1].slice(), code, r[3]]);
+    have[code] = 1; added++;
+  });
+  if (added) {
+    rows.sort((a, b) => Number(a[2]) - Number(b[2]));
+    INFO[key] = gameInfo(key);
+  }
+  return added;
+}
+
+/* 数据变了，就把当前这一屏重画一遍 */
+function repaint() {
+  PICK = null; ckInfo = null;
+  try {
+    if (curView === 'pick-ssq') initPick('ssq');
+    else if (curView === 'pick-dlt') initPick('dlt');
+    else if (curView === 'check') ckBuild();
+    else if (curView === 'trend') trRender();
+  } catch (e) { /* 重画失败也不该影响已经拿到的数据 */ }
+  paintFoot();
+}
+
+function pullLatest() {
+  if (location.protocol === 'file:') { paintFoot(); return; }   /* 双击本地打开时没有后端 */
+  const q = '?ssq=' + encodeURIComponent(INFO.ssq.last.code)
+          + '&dlt=' + encodeURIComponent(INFO.dlt.last.code);
+  const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  const timer = ctl ? setTimeout(function () { ctl.abort(); }, 5000) : null;
+  const done = function () { if (timer) clearTimeout(timer); };
+  fetch('/api/lottery' + q, ctl ? { signal: ctl.signal } : {})
+    .then(r => (r.ok ? r.json() : null))
+    .then(p => {
+      done();
+      if (!p || !p.ok) { paintFoot(); return; }
+      const want = k => p[k] && p[k].latest && Number(p[k].latest.code) > Number(INFO[k].last.code);
+      const gap = (want('ssq') && !p.ssq.complete) || (want('dlt') && !p.dlt.complete);
+      const n = mergeSeries('ssq', p.ssq) + mergeSeries('dlt', p.dlt);
+      LIVE.state = gap ? 'stale' : 'live';
+      LIVE.updatedAt = p.updatedAt || '';
+      if (n) repaint(); else paintFoot();
+    })
+    .catch(() => { done(); paintFoot(); });
+}
+
+paintFoot();
+pullLatest();
+
+
+/* ================= 站内外壳：外观面板 + 顶栏 ================= */
+(function () {
+  var SK = window.UPPJS_SKIN;
+  if (SK) {
+    /* ---- 外观：明暗 + 底色 ---- */
+    var SK = window.UPPJS_SKIN;
+    if(SK){
+      var themeBtn = document.getElementById('theme'),
+          apPanel = document.getElementById('apPanel'),
+          apModes = document.getElementById('apModes'),
+          apSw = document.getElementById('apSw'),
+          apReset = document.getElementById('apReset'),
+          apCustom = document.getElementById('apCustom'),
+          apPick = document.getElementById('apPick'),
+          look = SK.read();
+      if(typeof look.bg !== 'string') look.bg = '';
+      if(!look.mode) look.mode = 'auto';
+  
+      function syncSkin(){
+        [].forEach.call(apModes.children, function(b){
+          b.classList.toggle('on', b.dataset.mode === look.mode);
+        });
+        [].forEach.call(apSw.children, function(b){
+          b.classList.toggle('on', (b.dataset.bg || '') === look.bg);
+        });
+      }
+      function useSkin(){
+        SK.apply(look);
+        SK.save(look);
+        syncSkin();
+        if(window.UPPJS_REMEASURE) window.UPPJS_REMEASURE();
+      }
+      function closeSkin(){
+        apPanel.hidden = true;
+        themeBtn.setAttribute('aria-expanded', 'false');
+      }
+  
+      SK.modes.forEach(function(m){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.dataset.mode = m;
+        b.textContent = SK.label[m];
+        b.addEventListener('click', function(){
+          look.mode = m;
+          look.bg = '';
+          useSkin();
+        });
+        apModes.appendChild(b);
+      });
+  
+      SK.presets.forEach(function(p){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.dataset.bg = p.bg;
+        b.title = '底色：' + p.name;
+        b.setAttribute('aria-label', '底色：' + p.name);
+        b.style.background = p.bg || 'linear-gradient(135deg,#fff 0 50%,#16181c 50% 100%)';
+        b.addEventListener('click', function(){
+          look.bg = p.bg;
+          look.mode = p.bg ? (SK.paint(p.bg) ? 'light' : 'dark') : 'auto';
+          useSkin();
+        });
+        apSw.appendChild(b);
+      });
+  
+      apCustom.addEventListener('click', function(e){
+        e.stopPropagation();
+        apPick.click();
+      });
+      apPick.addEventListener('input', function(){
+        look.bg = apPick.value;
+        look.mode = SK.paint(apPick.value) ? 'light' : 'dark';
+        useSkin();
+      });
+      apReset.addEventListener('click', function(){
+        look = {mode: 'auto', bg: ''};
+        useSkin();
+      });
+  
+      themeBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        if(window.UPPJS_CLOSE_OTHERS) window.UPPJS_CLOSE_OTHERS();   // 面板互斥
+        apPanel.hidden = !apPanel.hidden;
+        themeBtn.setAttribute('aria-expanded', apPanel.hidden ? 'false' : 'true');
+      });
+      apPanel.addEventListener('click', function(e){ e.stopPropagation(); });
+      document.addEventListener('click', function(){
+        if(!apPanel.hidden) closeSkin();
+        if(window.UPPJS_CLOSE_OTHERS) window.UPPJS_CLOSE_OTHERS();
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && !apPanel.hidden) closeSkin();
+      });
+      syncSkin();
+    }
+  }
+
+  var hd = document.querySelector('header');
+  if (!hd) return;
+  function syncHH() {
+    var h = Math.round(hd.getBoundingClientRect().height);
+    if (h > 0) document.documentElement.style.setProperty('--hh', h + 'px');
+  }
+  syncHH();
+  window.addEventListener('resize', syncHH, { passive: true });
+  window.addEventListener('load', syncHH);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncHH);
+  window.UPPJS_REMEASURE = syncHH;
+
+  var onScroll = function () {
+    if (window.scrollY > 12) hd.classList.add('scrolled');
+    else hd.classList.remove('scrolled');
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
 
 </script>
 </body>

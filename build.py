@@ -132,6 +132,64 @@ TOOL_PAGES = [
 ]
 
 # --------------------------------------------------------------------------
+# ★ v2 新增：外观源文件
+#    theme/theme.css  —— 新的设计层（配色、卡片、hero、动效）
+#    theme/theme.js   —— 顶栏滚动态 / 打字机 / 入场动效
+#    构建时读进来「内联」到每个页面，产物依旧是单文件、零外部请求。
+#    想调外观只改这两个文件，不用碰这个 py。
+# --------------------------------------------------------------------------
+THEME_DIR = ROOT / "theme"
+
+
+def _read_theme(name: str) -> str:
+    p = THEME_DIR / name
+    if not p.exists():
+        print("!! 没找到 %s，外观层会是空的" % p)
+        return ""
+    return p.read_text(encoding="utf-8")
+
+
+# 护栏：这两个文件是「内联」进页面的，一旦正文里出现结束标签，
+# 浏览器会当场把 style / script 关掉，剩下的 CSS 全部漏到页面上变成文字。
+# 踩过一次（CSS 注释里写了「内联到 </style> 之前」），所以在这里硬拦一道。
+UPGRADE_CSS = _read_theme("theme.css")
+if "</style" in UPGRADE_CSS.lower():
+    raise SystemExit("theme/theme.css 里出现了 </style —— 会在页面里提前闭合样式表，"
+                     "把注释里的这个写法改掉（例如写成「样式表末尾」）")
+_JS_SRC = _read_theme("theme.js")
+if "</script" in _JS_SRC.lower():
+    raise SystemExit("theme/theme.js 里出现了 </script —— 会在页面里提前闭合脚本块，"
+                     "把注释里的这个写法改掉")
+UPGRADE_JS = '<script>\n' + _JS_SRC + '</script>'
+
+
+def sidecard_html(current_out: str) -> str:
+    """清单页左侧栏顶部的站点名片。计数用占位符，渲染完再填。"""
+    others = []
+    for p in all_pages():
+        if p["href"] == current_out or p["href"] not in LIVE:
+            continue
+        if not p.get("nav", True):
+            continue
+        others.append(f'<a href="{p["href"]}">{esc(p["title"])}</a>')
+    if current_out != "index.html":
+        others.insert(0, '<a href="index.html">首页</a>')
+    return f"""<div class="sidecard">
+      <div class="top">
+        <span class="av">U</span>
+        <span class="nm">uppjs.com<i>个人清单站</i></span>
+      </div>
+      <p class="sg">收录标准只有一条：<b>我真的在用、而且用得住</b>。不接推广、不做商业排序。</p>
+      <div class="st">
+        <div><b>__SC_ITEMS__</b><i>条收录</i></div>
+        <div><b>__SC_CATS__</b><i>个分类</i></div>
+        <div><b>__SC_GROUPS__</b><i>个分组</i></div>
+      </div>
+      <div class="lnk">{''.join(others[:3])}</div>
+    </div>"""
+
+
+# --------------------------------------------------------------------------
 # 0. 页面登记表 —— 导航 / 首页卡片 / sitemap / 分享图 都从这里取
 #    想加页面只改上面的 LIST_PAGES / DOC_PAGES / TOOL_PAGES，别的地方不用动。
 # --------------------------------------------------------------------------
@@ -167,6 +225,45 @@ def nav_html(current=None, base="", cls="topnav"):
     return "\n  ".join(items)
 
 
+# 品牌后面那句小字。整站统一成一句，不在页面之间换 ——
+# 每一页自己的定位由页头那句 kicker 说明，不占用导航栏。
+BRAND_TAGLINE = "个人清单站"
+
+
+def site_header(current=None, tools="", base=""):
+    """全站唯一的顶栏 —— 首页 / 清单页 / 文档页三个模板都调这一个函数。
+
+    统一的三件事：品牌区（logo + 站名 + 一句小字）、导航链接（顺序与高亮）、
+    右侧工具区（永远在最右边，外观按钮每页都有）。
+    页面之间只差「右侧多放什么」：清单页多一个搜索框和筛选，其它页不占位。
+    """
+    return (
+        '<header>\n'
+        '  <div class="bar">\n'
+        f'    <a class="brand" href="{base}index.html">'
+        f'<span class="logo">U</span>{esc(SITE_NAME)}<em>{esc(BRAND_TAGLINE)}</em></a>\n'
+        f'    <nav class="nav-links">{nav_html(current, base)}</nav>\n'
+        f'    <div class="tools">{tools}{SKIN_PANEL_HTML}</div>\n'
+        '  </div>\n'
+        '</header>'
+    )
+
+
+# 清单页在顶栏右侧多出来的那一块：搜索框 + 计数 + 筛选 + 折叠。
+# 放在这里而不是模板里，是为了让 site_header() 成为顶栏的唯一出题口。
+LIST_TOOLS = r"""      <div class="search" id="searchbox">
+        <input id="q" type="search" placeholder="搜索名称 / 说明，按 / 聚焦、↑↓ 选择" autocomplete="off">
+        <button id="clr" title="清空">×</button>
+      </div>
+      <span id="count"></span>
+      <select id="filter" title="筛选">
+        <option value="all">全部</option>
+        <option value="link">有下载链接</option>
+        <option value="star">我推荐的</option>__REGION_OPT__
+      </select>
+      <button id="toggleAll" title="展开 / 折叠全部分组">折叠</button>"""
+
+
 def og_image(href):
     """每页一张分享图；命名按页面名，缺了就回落到默认那张。"""
     cand = f"{OG_DIR}/{href.rsplit('.', 1)[0]}.png"
@@ -193,7 +290,8 @@ def footer_nav(current=None):
     parts.append('<a href="privacy.html">隐私说明</a>')
     if "articles.html" in LIVE:
         parts.append('<a href="feed.xml">RSS</a>')
-    return " · ".join(parts)
+    # v2：不再用「 · 」串起来 —— 新页脚是竖排一列，每个链接独立成行。
+    return "\n        ".join(parts)
 
 
 def breadcrumb_html(current_href, current_title, base=""):
@@ -734,10 +832,16 @@ def render(cats, cfg: dict, updated: str) -> str:
         toc.append("</div>")
 
     page = (TEMPLATE
+            .replace("__SITE_HEADER__", site_header(cfg["out"], LIST_TOOLS))
             .replace("__NAV__", nav)
             .replace("__TOC__", "\n".join(toc))
             .replace("__BODY__", "\n".join(body))
+            .replace("__SIDECARD__", sidecard_html(cfg["out"]))
+            .replace("__SC_ITEMS__", str(sum(leaf_count(c["children"]) for c in cats)))
+            .replace("__SC_CATS__", str(len(cats)))
             .replace("__THEME_CSS__", THEME_CSS)
+            .replace("__UPGRADE_CSS__", UPGRADE_CSS)
+            .replace("__UPGRADE_JS__", UPGRADE_JS)
             .replace("__SKIN_SCRIPT__", SKIN_SCRIPT)
             .replace("__SKIN_PANEL_CSS__", SKIN_PANEL_CSS)
             .replace("__SKIN_PANEL_HTML__", SKIN_PANEL_HTML)
@@ -747,7 +851,10 @@ def render(cats, cfg: dict, updated: str) -> str:
     # 计数直接从成品里数，保证页脚、顶栏、JS 三处口径一致
     total = len(re.findall(r'<div class="[^"]*\bitem\b[^"]*" data-s=', page))
     links = len(re.findall(r'href="https?://', page))
-    return page.replace("__TOTAL__", str(total)).replace("__LINKS__", str(links))
+    groups = len(re.findall(r'<details class="group', page))
+    return (page.replace("__TOTAL__", str(total))
+                .replace("__LINKS__", str(links))
+                .replace("__SC_GROUPS__", str(groups)))
 
 
 def fill_page(page: str, cfg: dict) -> str:
@@ -1061,6 +1168,7 @@ SKIN_PANEL_JS = r"""  /* ---- 外观：明暗 + 底色 ---- */
 TEMPLATE = r"""<!DOCTYPE html>
 <html lang="zh-CN" data-theme="auto">
 <head>
+<script>document.documentElement.className+=" js";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__PAGE_TITLE__</title>
@@ -1111,7 +1219,6 @@ header{
   display:flex; align-items:center; gap:10px; flex-wrap:wrap;
 }
 .brand{font-weight:700; font-size:15px; white-space:nowrap}
-.brand span{color:var(--fg3); font-weight:400; margin-left:6px; font-size:13px}
 .search{flex:1 1 240px; min-width:150px; position:relative}
 .search input{
   width:100%; padding:8px 30px 8px 32px; border:1px solid var(--line); border-radius:var(--radius);
@@ -1351,7 +1458,6 @@ __SKIN_PANEL_CSS__
 
 @media (max-width:720px){
   .bar{padding:8px 12px; gap:8px}
-  .brand span{display:none}
   .brand{font-size:14px}
   /* 窄屏按钮多，工具区独占一行并允许换行，避免顶栏横向溢出 */
   .tools{gap:6px; flex-wrap:wrap; white-space:normal; width:100%; justify-content:flex-start}
@@ -1372,37 +1478,22 @@ __SKIN_PANEL_CSS__
   details.group{page-break-inside:avoid}
   details.group:not([open])>div,details.group:not([open])>p{display:block}
 }
+/* >>> 外观层 v2（theme/theme.css，构建时内联） >>> */
+__UPGRADE_CSS__
+/* <<< 外观层 v2 <<< */
 </style>
 __SKIN_SCRIPT__
 </head>
 <body id="top" data-layout="__LAYOUT__">
 
-<header>
-  <div class="bar">
-    <a class="brand" href="index.html">uppjs.com<span>__KICKER__</span></a>
-    <div class="search" id="searchbox">
-      <input id="q" type="search" placeholder="搜索名称 / 说明，按 / 聚焦、↑↓ 选择" autocomplete="off">
-      <button id="clr" title="清空">×</button>
-    </div>
-    <div class="tools">
-      <span id="count"></span>
-      <select id="filter" title="筛选">
-        <option value="all">全部</option>
-        <option value="link">有下载链接</option>
-        <option value="star">我推荐的</option>__REGION_OPT__
-      </select>
-      <button id="toggleAll" title="展开 / 折叠全部分组">折叠</button>
-      <a class="tool-link" href="index.html" title="回到首页">首页</a>
-__SKIN_PANEL_HTML__
-    </div>
-  </div>
-</header>
+__SITE_HEADER__
 
 <nav class="cats"><div class="wrap">__NAV__</div></nav>
 
 <div class="shell">
   <aside class="toc">
-    <p class="toc-h">目录</p>
+__SIDECARD__
+    <p class="toc-h">本页目录</p>
 __TOC__
   </aside>
 
@@ -1462,12 +1553,39 @@ __BODY__
 </div>
 
 <footer>
-  <span>内容源 __SRC__ · 共 __TOTAL__ 条 · __LINKS__ 个外链 · 更新于 __UPDATED__</span>
-  <span class="fnav">__NAVFOOT__</span>
-  <span>纯静态 · 无追踪 · 无第三方请求</span>
+  <div class="f-wrap">
+    <div class="f-col">
+      <div class="f-brand"><span class="logo">U</span><b>uppjs.com</b></div>
+      <p>自己在用的软件、硬件和外设，整理成清单长期更新。<br>
+         不接推广、不做商业排序，收录标准只有一条：用得住。</p>
+      <div class="f-badges" style="margin-top:13px">
+        <span>纯静态</span><span>无后端</span><span>无统计脚本</span><span>无第三方请求</span>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>站内导航</h4>
+      <div class="fl">
+        __NAVFOOT__
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>本页数据</h4>
+      <div class="rows">
+        <div>内容源<b>__SRC__</b></div>
+        <div>收录条目<b>__TOTAL__</b></div>
+        <div>外部链接<b>__LINKS__</b></div>
+        <div>更新时间<b>__UPDATED__</b></div>
+      </div>
+    </div>
+  </div>
+  <div class="f-bot">
+    <span>© 2026 uppjs.com · 页面由 <code>build_v2.py</code> 从 markdown 编译生成</span>
+    <span>没有 Cookie、没有埋点、没有第三方请求</span>
+  </div>
 </footer>
 
 <button class="totop" id="totop" title="回到顶部">↑</button>
+__UPGRADE_JS__
 
 <script>
 (function(){
@@ -1730,75 +1848,196 @@ PLANNED = [
 ]
 
 
-def build_home(pages: dict, updated: str) -> str:
+# 首页 hero 里打字机滚出来的那句话。想换文案只改这一行。
+HOME_QUOTE = ("不接推广，不做商业排序 —— 收录标准只有一条："
+              "我真的在用，而且用得住。")
+
+
+def collect_stars(cats, page_title):
+    """把一个清单页里标了 ☆ 的条目收出来，供首页「精选条目」用。"""
+    out = []
+
+    def walk(ns, group_title=""):
+        for x in ns:
+            if x.get("children") and not x.get("has_link"):
+                walk(x["children"], x.get("title") or group_title)
+            elif x.get("star"):
+                out.append(dict(
+                    title=plain(x["title"]),
+                    url=x.get("url") or "",
+                    desc=plain(x.get("desc") or ""),
+                    src=page_title,
+                    group=plain(group_title),
+                ))
+
+    # cats 是分类层，本身不是条目节点，从它们的 children 开始走
+    for c in cats:
+        walk(c["children"], c.get("title", ""))
+    return out
+
+
+def _glyph(title: str) -> str:
+    """封面 / 图标上那个字：中文取首字，英文取首字母。"""
+    t = (title or "·").strip()
+    return t[0] if t else "·"
+
+
+def _cover_glyph(ico, title):
+    """▤ ▥ ▦ 这类方块符号当封面太单薄 —— 换成标题首字，一眼能认出是谁。"""
+    if ico and ico[0] in "▤▥▦▧▨▩▣◈◇◆":
+        return _glyph(title)
+    return ico or _glyph(title)
+
+
+def _frow(idx, ico, title, href, desc, meta, pin="", rev=False):
+    """首页的图文大卡。封面是纯 CSS 渐变 —— 不引任何图片，页面依旧是零外部请求。"""
+    g = "g%d" % (idx % 6 + 1)
+    meta_html = "".join(f"<i>{m}</i>" for m in meta)
+    pin_html = f'<span class="pin">{esc(pin)}</span>' if pin else ""
+    cls = "frow rev" if rev else "frow"
+    return (
+        f'<a class="{cls} reveal" href="{href}">'
+        f'<span class="fcover {g}">{_cover_glyph(ico, title)}</span>'
+        f'<div class="ftxt">'
+        f'<h3>{esc(title)}{pin_html}</h3>'
+        f'<p>{desc}</p>'
+        f'<span class="meta">{meta_html}</span>'
+        f'<span class="go">进入</span>'
+        f'</div></a>'
+    )
+
+
+def build_home(pages: dict, updated: str, stars=None) -> str:
     """pages: {out 文件名: {"items":…, "links":…, "groups":…, "cats":[(id, 标题, 条数)]}}"""
     apps = pages.get("apps.html", {})
     apps_cats = apps.get("cats", [])
+    stars = stars or []
 
-    # —— 主角：软件清单 ——
-    chips = "".join(
-        f'<a class="chip" href="apps.html#{cid}">{esc(ct)}<span>{n}</span></a>'
-        for cid, ct, n in apps_cats[:8]
-    )
-    feature = f"""  <section class="feature">
-    <div class="f-head">
-      <span class="ico">▤</span>
-      <div class="f-txt">
-        <h2>软件清单</h2>
-        <p>Mac / PC / 手机软件、硬件与外设。收录标准只有一条：<strong>我真的在用、而且用得住</strong>。</p>
-      </div>
-      <a class="f-go" href="apps.html">打开清单 →</a>
-    </div>
-    <div class="f-facts">
-      <span><b>{apps.get("items", 0)}</b> 条收录</span>
-      <span><b>{apps.get("groups", 0)}</b> 个分组</span>
-      <span><b>{len(apps_cats)}</b> 个分类</span>
-    </div>
-    <div class="f-chips">{chips}</div>
-    <div class="f-quickrow">
-      <a href="apps.html?view=star">★ 我推荐的</a>
-      <a href="apps.html?view=link">有下载链接的</a>
-    </div>
-  </section>"""
-
-    def card(ico, title, href, desc, tag=""):
-        return (f'<a class="card" href="{href}">{tag}'
-                f'<span class="ico">{ico}</span><h3>{esc(title)}</h3>'
-                f'<p>{esc(desc)}</p></a>')
-
-    # —— 其它页面：清单页从 LIST_PAGES 自动派生（apps 是主角，跳过）——
-    cards = []
+    # ---------- 主要板块：图文交替大卡 ----------
+    rows, idx = [], 0
     for cfg in LIST_PAGES:
-        if cfg["out"] == "apps.html" or cfg["out"] not in LIVE:
+        if cfg["out"] not in LIVE:
             continue
         pg = pages.get(cfg["out"], {})
-        d = cfg.get("home") or cfg["sub"]
-        if pg.get("cats"):
-            d = f'{len(pg["cats"])} 个分类，' + d
-        cards.append(card(cfg.get("ico", "·"), cfg["title"], cfg["out"], d,
-                          f'<span class="tag">{pg.get("items", 0)} 条</span>'))
-    for t in TOOL_PAGES:
-        if t["href"] in LIVE:
-            cards.append(card(t["ico"], t["title"], t["href"], t["desc"]))
+        meta = [f'<b>{pg.get("items", 0)}</b> 条收录',
+                f'<b>{len(pg.get("cats", []))}</b> 个分类',
+                f'<b>{pg.get("groups", 0)}</b> 个分组']
+        if cfg.get("regions"):
+            meta.append('已标 <b>国内能不能直连</b>')
+        rows.append(_frow(idx, cfg.get("ico", "·"), cfg["title"], cfg["out"],
+                          md_inline(cfg.get("home") or cfg["sub"]), meta,
+                          pin=("主打" if cfg["out"] == "apps.html" else ""),
+                          rev=bool(idx % 2)))
+        idx += 1
 
-    # —— 规划中：已经上线的自动去掉 ——
+    for t in TOOL_PAGES:
+        if t["href"] not in LIVE:
+            continue
+        rows.append(_frow(idx, t["ico"], t["title"], t["href"],
+                          md_inline(t["desc"]),
+                          ['<b>纯离线</b> 单文件', '<b>不联网</b>', '<b>2</b> 种玩法'],
+                          rev=bool(idx % 2)))
+        idx += 1
+
+    # ---------- 精选条目（各页标了 ☆ 的） ----------
+    if stars:
+        picks = stars[:6]
+        tiles = []
+        for i, s in enumerate(picks):
+            if s["url"]:
+                head = (f'<a class="tcard reveal" href="{esc(s["url"])}" target="_blank" '
+                        f'rel="noopener noreferrer">')
+                tail = "</a>"
+            else:
+                head, tail = '<div class="tcard reveal">', "</div>"
+            tiles.append(
+                f'{head}<span class="cnt">{esc(s["src"])}</span>'
+                f'<div class="ti g{i % 6 + 1}">{esc(_glyph(s["title"]))}</div>'
+                f'<h3>{esc(s["title"])}</h3>'
+                f'<p>{esc(s["desc"]) or "—"}</p>{tail}'
+            )
+        stars_sec = f"""    <section>
+      <div class="sec-h reveal">
+        <i class="bar-i"></i>精选条目
+        <span class="sub">· 清单里标了 ☆ 的那些</span>
+        <a class="more" href="apps.html?view=star">看全部 →</a>
+      </div>
+      <div class="grid2">
+{chr(10).join('        ' + t for t in tiles)}
+      </div>
+    </section>"""
+    else:
+        stars_sec = ""
+
+    # ---------- 规划中 ----------
     todo = [x for x in PLANNED if not (x[2] and x[2] in LIVE)]
     plan = "".join(
-        f'<div class="card plan"><span class="ico">{ico}</span>'
+        f'<div class="tcard plan reveal"><div class="ti">{_cover_glyph(ico, t)}</div>'
         f'<h3>{esc(t)}<span class="st">规划中</span></h3><p>{esc(d)}</p></div>'
         for t, ico, _href, d in todo
     )
 
+    # ---------- 侧栏：快速入口 ----------
+    side_links = []
+    for cfg in LIST_PAGES:
+        if cfg["out"] not in LIVE:
+            continue
+        n = pages.get(cfg["out"], {}).get("items", 0)
+        side_links.append(f'<a href="{cfg["out"]}"><span class="ic">{cfg.get("ico", "·")}</span>'
+                          f'{esc(cfg["title"])}<span class="n">{n}</span></a>')
+    for t in TOOL_PAGES:
+        if t["href"] in LIVE:
+            side_links.append(f'<a href="{t["href"]}"><span class="ic">{t["ico"]}</span>'
+                              f'{esc(t["title"])}</a>')
+    for p in all_pages():
+        if p["kind"] == "doc" and p.get("nav", True) and p["href"] in LIVE:
+            side_links.append(f'<a href="{p["href"]}"><span class="ic">{p["ico"]}</span>'
+                              f'{esc(p["title"])}</a>')
+
+    # ---------- 侧栏：分类标签云 ----------
+    cloud = "".join(
+        f'<a href="apps.html#{cid}">{esc(ct)}<span>{n}</span></a>'
+        for cid, ct, n in apps_cats[:10]
+    )
+
+    # ---------- 侧栏：最近更新（读 git 提交记录，没仓库就整块不出现） ----------
+    recent = [c for c in git_commits(6) if c[1]]
+    if recent:
+        items = "".join(
+            f'<div><span>{esc(s[:38])}</span><b class="dt">{esc(d)}</b></div>'
+            for d, s in recent)
+        recent_card = f"""    <div class="pcard">
+      <h3>最近更新<span class="r"><a href="changelog.html">全部 →</a></span></h3>
+      <div class="rows">{items}</div>
+    </div>
+"""
+    else:
+        recent_card = ""
+
+    # ---------- 汇总 ----------
     total = sum(x.get("items", 0) for x in pages.values())
+    links = sum(x.get("links", 0) for x in pages.values())
+    groups = sum(x.get("groups", 0) for x in pages.values())
+    n_cats = sum(len(x.get("cats", [])) for x in pages.values())
 
     return (HOME_TEMPLATE
-            .replace("__FEATURE__", feature)
-            .replace("__CARDS__", "\n      ".join(cards))
+            .replace("__ROWS__", "\n        ".join(rows))
+            .replace("__STARS_SEC__", stars_sec)
             .replace("__PLANNED__", plan)
+            .replace("__SIDE_LINKS__", "\n        ".join(side_links))
+            .replace("__SIDE_CLOUD__", cloud)
+            .replace("__SIDE_RECENT__", recent_card.rstrip("\n"))
             .replace("__N_ALL__", str(total))
+            .replace("__N_CATS__", str(n_cats))
+            .replace("__N_GROUPS__", str(groups))
+            .replace("__N_LINKS__", str(links))
+            .replace("__N_PAGES__", str(len(LIVE)))
             .replace("__N_PLAN__", str(len(todo)))
+            .replace("__QUOTE__", esc(HOME_QUOTE))
             .replace("__UPDATED__", esc(updated))
             .replace("__THEME_CSS__", THEME_CSS)
+            .replace("__UPGRADE_CSS__", UPGRADE_CSS)
+            .replace("__UPGRADE_JS__", UPGRADE_JS)
             .replace("__SKIN_SCRIPT__", SKIN_SCRIPT)
             .replace("__SKIN_PANEL_CSS__", SKIN_PANEL_CSS)
             .replace("__SKIN_PANEL_HTML__", SKIN_PANEL_HTML)
@@ -1807,7 +2046,7 @@ def build_home(pages: dict, updated: str) -> str:
             .replace("__SITE_NAME__", SITE_NAME)
             .replace("__THEME_COLOR__", THEME_COLOR)
             .replace("__OG_IMAGE__", esc(SITE + "/" + og_image("index.html")))
-            .replace("__NAVTOP__", nav_html("index.html"))
+            .replace("__SITE_HEADER__", site_header("index.html"))
             .replace("__RSS_LINK__", rss_link_tag())
             .replace("__NAVFOOT__", footer_nav("index.html"))
             .replace("__JSONLD__", jsonld_html(site_jsonld() + [
@@ -1822,6 +2061,7 @@ def build_home(pages: dict, updated: str) -> str:
 HOME_TEMPLATE = r"""<!DOCTYPE html>
 <html lang="zh-CN" data-theme="auto">
 <head>
+<script>document.documentElement.className+=" js";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__SITE_NAME__ · 软件与工具清单</title>
@@ -1854,179 +2094,146 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 a{color:var(--accent); text-decoration:none}
-a:hover{text-decoration:underline}
 :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
-
-/* ---------- 顶栏 ---------- */
-header{position:sticky; top:0; z-index:50; background:var(--bg); border-bottom:1px solid var(--line)}
-@supports (backdrop-filter:blur(8px)){
-  header{background:color-mix(in srgb,var(--bg) 86%,transparent); backdrop-filter:saturate(1.6) blur(10px)}
-}
-.bar{max-width:980px; margin:0 auto; padding:9px 16px; display:flex; align-items:center; gap:10px; flex-wrap:wrap}
-.brand{font-weight:700; font-size:15px; white-space:nowrap; color:var(--fg)}
-a.brand:hover{color:var(--accent); text-decoration:none}
-.brand span{color:var(--fg3); font-weight:400; margin-left:6px; font-size:13px}
-.nav-links{display:flex; gap:2px; margin-left:4px}
-.nav-links a{color:var(--fg2); font-size:13px; padding:5px 9px; border-radius:7px; white-space:nowrap}
-.nav-links a:hover{background:var(--panel2); color:var(--fg); text-decoration:none}
-.tools{margin-left:auto; display:flex; align-items:center; gap:8px; white-space:nowrap}
 __SKIN_PANEL_CSS__
-
-/* ---------- 主体 ---------- */
-main{max-width:980px; margin:0 auto; padding:30px 16px 56px}
-
-/* 页头 */
-.hero{margin:0 0 26px}
-.hero .kicker{font-size:11.5px; letter-spacing:.1em; color:var(--accent); margin:0 0 6px; text-transform:uppercase}
-.hero h1{font-size:30px; margin:0 0 10px; letter-spacing:-.02em}
-.hero p{color:var(--fg2); margin:0 0 9px; font-size:14.5px; max-width:700px}
-.hero .hint{color:var(--fg3); font-size:12.5px; margin:0}
-.hero .hint b{color:var(--fg2)}
-
-/* ---------- 主角：软件清单 ---------- */
-.feature{
-  border:1px solid var(--line); border-radius:14px; background:var(--panel);
-  padding:20px 22px 18px; margin:0 0 30px;
-}
-.feature .f-head{display:flex; align-items:flex-start; gap:14px; flex-wrap:wrap}
-.feature .ico{
-  flex:none; display:flex; align-items:center; justify-content:center;
-  width:40px; height:40px; border-radius:11px;
-  background:var(--accent-soft); color:var(--accent); font-size:19px;
-}
-.feature .f-txt{flex:1 1 250px; min-width:0}
-.feature h2{margin:0 0 5px; font-size:20px; letter-spacing:-.01em}
-.feature p{margin:0; color:var(--fg2); font-size:13.5px; line-height:1.6; max-width:560px}
-a.f-go{
-  flex:none; margin-left:auto; align-self:center;
-  background:var(--accent); color:#fff; font-weight:600; font-size:13.5px;
-  padding:9px 16px; border-radius:9px; white-space:nowrap;
-}
-a.f-go:hover{text-decoration:none; filter:brightness(1.08)}
-.feature .f-facts{
-  display:flex; flex-wrap:wrap; gap:6px 20px;
-  margin:15px 0 0; padding:13px 0 0; border-top:1px solid var(--line);
-  color:var(--fg3); font-size:12.5px;
-}
-.feature .f-facts b{color:var(--fg); font-size:15px; font-weight:700; margin-right:4px}
-.feature .f-chips{display:flex; flex-wrap:wrap; gap:7px; margin:13px 0 0}
-.chip{
-  display:inline-flex; align-items:center; gap:6px;
-  border:1px solid var(--line); background:var(--bg); color:var(--fg2);
-  border-radius:999px; padding:4px 11px; font-size:12.5px;
-}
-.chip:hover{border-color:var(--accent); color:var(--accent); text-decoration:none}
-.chip span{color:var(--fg3); font-size:11.5px}
-.feature .f-quickrow{display:flex; flex-wrap:wrap; gap:9px; margin:14px 0 0}
-.feature .f-quickrow a{
-  border:1px solid var(--line); background:var(--bg); color:var(--fg2);
-  border-radius:8px; padding:6px 12px; font-size:12.8px;
-}
-.feature .f-quickrow a:hover{border-color:var(--accent); color:var(--accent); text-decoration:none}
-
-/* ---------- 其它区块 ---------- */
-section.block{margin-top:30px}
-section.block>h2{
-  font-size:12.5px; letter-spacing:.07em; color:var(--fg3); font-weight:600;
-  margin:0 0 12px; display:flex; align-items:center; gap:8px; white-space:nowrap;
-}
-section.block>h2 .sub{font-weight:400; letter-spacing:0; font-size:12px}
-section.block>h2::after{content:""; flex:1; height:1px; background:var(--line)}
-.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(292px,1fr)); gap:12px}
-.cards.wide{grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
-.card{
-  position:relative; display:block; color:var(--fg);
-  background:var(--panel); border:1px solid var(--line); border-radius:12px;
-  padding:15px 16px 16px; transition:border-color .13s, transform .13s;
-}
-a.card:hover{border-color:var(--accent); text-decoration:none; transform:translateY(-1px)}
-.card .ico{
-  display:flex; align-items:center; justify-content:center;
-  width:28px; height:28px; border-radius:8px; margin-bottom:9px;
-  background:var(--panel2); color:var(--fg2); font-size:15px; line-height:1; font-weight:600;
-}
-a.card:hover .ico{background:var(--accent-soft); color:var(--accent)}
-.card h3{margin:0 0 5px; font-size:14.5px; display:flex; align-items:center; gap:7px}
-.card p{margin:0; color:var(--fg2); font-size:12.8px; line-height:1.62}
-.card p strong{color:var(--fg)}
-.card .st{
-  font-size:10.5px; font-weight:600; color:var(--fg3);
-  background:var(--panel2); border:1px solid var(--line); border-radius:4px; padding:1px 6px;
-}
-.card.plan{opacity:.62; cursor:default}
-.card .tag{
-  position:absolute; right:14px; top:15px;
-  font-size:10.5px; color:var(--accent); background:var(--accent-soft);
-  border-radius:4px; padding:1px 6px;
-}
-
-footer{
-  max-width:980px; margin:0 auto; padding:0 16px 50px; color:var(--fg3); font-size:12.5px;
-  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
-}
-.fnav a{color:var(--fg3)}
-.fnav a:hover{color:var(--accent); text-decoration:none}
-@media (max-width:760px){
-  .bar{padding:8px 12px}
-  .brand span{display:none}
-  .nav-links a{padding:5px 7px}
-  main{padding:20px 12px 50px}
-  .hero h1{font-size:25px}
-  .feature{padding:17px 16px 16px}
-  a.f-go{width:100%; text-align:center; margin-left:0; order:9}
-  .cards{grid-template-columns:1fr}
-  .card.plan{opacity:.75}
-  .ap-panel{right:-8px; width:min(268px,calc(100vw - 26px))}
-}
+/* >>> 外观层 v2（theme/theme.css，构建时内联） >>> */
+__UPGRADE_CSS__
+/* <<< 外观层 v2 <<< */
 </style>
 __SKIN_SCRIPT__
 </head>
-<body>
+<body class="home">
 
-<header>
-  <div class="bar">
-    <a class="brand" href="index.html">__SITE_NAME__<span>个人清单站</span></a>
-    <nav class="nav-links">
-__NAVTOP__
-    </nav>
-    <div class="tools">
-__SKIN_PANEL_HTML__
-    </div>
-  </div>
-</header>
+__SITE_HEADER__
 
-<main>
-  <div class="hero">
-    <p class="kicker">个人清单站</p>
-    <h1>__SITE_NAME__</h1>
-    <p>自己在用的软件、硬件和外设，整理成清单长期更新。
-       <strong>不接推广、不做商业排序</strong>，收录标准只有一条：用得住。</p>
-    <p class="hint">全站 <b>__N_ALL__</b> 条 · 更新于 __UPDATED__</p>
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="hero-av reveal">U</div>
+  <h1 class="hero-name reveal">__SITE_NAME__</h1>
+  <p class="hero-en reveal" data-typer-en="TOOLS I ACTUALLY USE"></p>
+  <div class="hero-quote reveal"
+       data-typer-quote="__QUOTE__"
+       data-quote-label="本站态度"></div>
+
+  <div class="hero-cta reveal">
+    <a class="btn btn-primary" href="apps.html">打开软件清单</a>
+    <a class="btn btn-ghost" href="free.html">免费资源</a>
   </div>
 
-__FEATURE__
+  <a class="hero-scroll" href="#main" aria-label="向下滚动"><span></span></a>
+</section>
 
-  <section class="block">
-    <h2>还有这些</h2>
-    <div class="cards wide">
-      __CARDS__
-    </div>
-  </section>
+<div class="wrap" id="main">
 
-  <section class="block">
-    <h2>规划中<span class="sub">· 做好一个开一个</span></h2>
-    <div class="cards">
-      __PLANNED__
+  <aside class="side">
+    <div class="pcard me">
+      <div class="av">U</div>
+      <div class="nm">__SITE_NAME__</div>
+      <p class="sg">让技术说人话</p>
+      <div class="sr">
+        <div><b>__N_ALL__</b><i>条收录</i></div>
+        <div><b>__N_CATS__</b><i>个分类</i></div>
+        <div><b>__N_GROUPS__</b><i>个分组</i></div>
+      </div>
+      <a class="cta" href="apps.html">开始浏览</a>
+      <a class="cta2" href="about.html">这个站是什么</a>
     </div>
-  </section>
-</main>
+
+    <div class="pcard">
+      <h3>站点数据</h3>
+      <div class="rows">
+        <div>收录条目<b>__N_ALL__</b></div>
+        <div>外链总数<b>__N_LINKS__</b></div>
+        <div>页面数量<b>__N_PAGES__</b></div>
+        <div>最近更新<b>__UPDATED__</b></div>
+      </div>
+    </div>
+
+    <div class="pcard">
+      <h3>快速入口</h3>
+      <div class="slist">
+__SIDE_LINKS__
+      </div>
+    </div>
+
+    <div class="pcard">
+      <h3>分类</h3>
+      <div class="cloud">
+__SIDE_CLOUD__
+      </div>
+    </div>
+
+__SIDE_RECENT__
+  </aside>
+
+  <main class="content">
+
+    <div class="notice reveal">
+      <span class="b">✓</span>
+      <span>全站 <b>__N_ALL__ 条</b>，全部是我自己真在用、用得住才写进来 ——
+            没有推广位，没有商业排序，也没有人付钱能把自己塞进来。</span>
+    </div>
+
+    <section>
+      <div class="sec-h reveal">
+        <i class="bar-i"></i>主要板块
+        <span class="sub">· 各自独立成页，都能搜</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:15px">
+__ROWS__
+      </div>
+    </section>
+
+__STARS_SEC__
+
+    <section>
+      <div class="sec-h reveal">
+        <i class="bar-i"></i>规划中
+        <span class="sub">· 做好一个开一个，不摆空页面</span>
+        <a class="more" href="changelog.html">更新日志 →</a>
+      </div>
+      <div class="grid3">
+__PLANNED__
+      </div>
+    </section>
+
+  </main>
+</div>
 
 <footer>
-  <span>纯静态 · 无后端 · 无统计脚本 · 无第三方请求</span>
-  <span class="fnav">__NAVFOOT__</span>
-  <span>内容源 README.md · 更新于 __UPDATED__</span>
+  <div class="f-wrap">
+    <div class="f-col">
+      <div class="f-brand"><span class="logo">U</span><b>uppjs.com</b></div>
+      <p>自己在用的软件、硬件和外设，整理成清单长期更新。<br>
+         不接推广、不做商业排序，收录标准只有一条：用得住。</p>
+      <div class="f-badges" style="margin-top:13px">
+        <span>纯静态</span><span>无后端</span><span>无统计脚本</span><span>无第三方请求</span>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>站内导航</h4>
+      <div class="fl">
+        __NAVFOOT__
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>本站怎么做的</h4>
+      <p>内容源是 markdown，所有页面由脚本编译成纯静态 HTML。
+         唯一存进浏览器的，是你的外观偏好，不上传任何数据。</p>
+      <div class="fl" style="margin-top:10px">
+        <a href="about.html">关于这个站</a>
+        <a href="sitemap.xml">站点地图</a>
+      </div>
+    </div>
+  </div>
+  <div class="f-bot">
+    <span>© 2026 uppjs.com · 更新于 __UPDATED__</span>
+    <span>没有 Cookie、没有埋点、没有第三方请求</span>
+  </div>
 </footer>
 
+__UPGRADE_JS__
 <script>
 (function(){
   /* 外观面板的绑定逻辑（与清单页共用同一份，改一次两边都变） */
@@ -2177,8 +2384,9 @@ def md_to_html(md: str) -> str:
 
 
 HELP_TEMPLATE = """<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="auto">
 <head>
+<script>document.documentElement.className+=" js";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__PAGE_TITLE__</title>
@@ -2248,13 +2456,8 @@ tbody tr:nth-child(even){background:var(--soft)}
   border-bottom:0;
 }
 .back:hover{color:var(--accent)}
-.topnav{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 22px}
-.topnav a{
-  font-size:13px; color:var(--fg2); border:1px solid var(--line);
-  border-radius:8px; padding:5px 11px; border-bottom:1px solid var(--line);
-}
-.topnav a:hover{color:var(--accent); border-color:var(--accent); text-decoration:none}
-.topnav a.on{color:var(--accent); border-color:var(--accent); background:var(--soft)}
+/* 顶栏不再单独 styl —— 文档页现在与首页 / 清单页共用同一套 <header class="bar">，
+   样式全部来自 theme/theme.css（下面那段 __UPGRADE_CSS__），改一处全站生效。 */
 @media (max-width:640px){
   article{padding:26px 16px 60px}
   h1{font-size:21px}
@@ -2278,20 +2481,60 @@ tbody tr:nth-child(even){background:var(--soft)}
 @media print{
   body{background:#fff; color:#000}
   .back{display:none}
-  .topnav{display:none}
+  header{display:none}
   a{color:#000}
   h2{page-break-after:avoid}
   table,pre,blockquote{page-break-inside:avoid}
 }
+__SKIN_PANEL_CSS__
+/* >>> 外观层 v2（theme/theme.css，构建时内联） >>> */
+__UPGRADE_CSS__
+/* <<< 外观层 v2 <<< */
 </style>
+__SKIN_SCRIPT__
 </head>
 <body>
+__SITE_HEADER__
 <article>
-<nav class="topnav">
-__NAVTOP__
-</nav>
 __BODY__
 </article>
+
+<footer>
+  <div class="f-wrap">
+    <div class="f-col">
+      <div class="f-brand"><span class="logo">U</span><b>uppjs.com</b></div>
+      <p>自己在用的软件、硬件和外设，整理成清单长期更新。<br>
+         不接推广、不做商业排序，收录标准只有一条：用得住。</p>
+      <div class="f-badges" style="margin-top:13px">
+        <span>纯静态</span><span>无后端</span><span>无统计脚本</span><span>无第三方请求</span>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>站内导航</h4>
+      <div class="fl">
+        __NAVFOOT__
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>本站怎么做的</h4>
+      <p>内容源是 markdown，所有页面由脚本编译成纯静态 HTML。
+         唯一存进浏览器的，是你的外观偏好。</p>
+      <div class="fl" style="margin-top:10px">
+        <a href="index.html">回到首页</a>
+        <a href="sitemap.xml">站点地图</a>
+      </div>
+    </div>
+  </div>
+  <div class="f-bot">
+    <span>© 2026 uppjs.com</span>
+    <span>没有 Cookie、没有埋点、没有第三方请求</span>
+  </div>
+</footer>
+
+<script>
+__SKIN_PANEL_JS__
+</script>
+__UPGRADE_JS__
 </body>
 </html>
 """
@@ -2329,7 +2572,13 @@ def build_doc_page(src_md: str, title: str, out: str, base: str = "",
             .replace("__NOINDEX__", '<meta name="robots" content="noindex">' if noindex else "")
             .replace("__OG_IMAGE__", esc(SITE + "/" + og_image(out)))
             .replace("__JSONLD__", jsonld_html(graph))
-            .replace("__NAVTOP__", nav_html(nav_current, base))
+            .replace("__SITE_HEADER__", site_header(nav_current, base=base))
+            .replace("__NAVFOOT__", footer_nav(out))
+            .replace("__SKIN_SCRIPT__", SKIN_SCRIPT)
+            .replace("__SKIN_PANEL_CSS__", SKIN_PANEL_CSS)
+            .replace("__SKIN_PANEL_JS__", SKIN_PANEL_JS)
+            .replace("__UPGRADE_CSS__", UPGRADE_CSS)
+            .replace("__UPGRADE_JS__", UPGRADE_JS)
             .replace("__BODY__", md_to_html(src_md) + extra_body))
 
 
@@ -2675,7 +2924,13 @@ def main():
     print("已生成 %s（更新日志，自动取自最近 %d 条提交）" % (CHANGELOG_OUT, n_cl))
 
     # ---------- 首页 ----------
-    home = build_home(pages, today)
+    # 首页「精选条目」取各清单页里标了 ☆ 的：一个人推荐过什么，比总数更能说明这站靠不靠谱。
+    stars = []
+    for cfg in LIST_PAGES:
+        cs = parsed.get(cfg["out"])
+        if cs and cfg.get("layout") == "list":
+            stars.extend(collect_stars(cs, cfg["title"]))
+    home = build_home(pages, today, stars)
     (ROOT / "index.html").write_text(home, encoding="utf-8")
     print("已生成 index.html（首页）：全站 %d 条 / %d 个页面 / %d KB"
           % (sum(x["items"] for x in pages.values()), len(pages), len(home) // 1024))
@@ -2704,6 +2959,29 @@ def main():
 
     build_manifest()
     print("已生成 manifest.webmanifest")
+
+    # ---------- 收尾自检 ----------
+    # ① 占位符没被替换干净 = 上面某处接线漏了，页面上会出现 __XXX__ 这种字样
+    # ② 标签开闭不平衡 = 某个模板拼坏了，页面版式会整块塌掉
+    # 这两类错都「不报错、但肉眼才看得出」，所以在这里硬拦一道。
+    import re as _re
+    bad = []
+    for p in sorted(ROOT.glob("*.html")):
+        t = p.read_text(encoding="utf-8")
+        left = {x for x in _re.findall(r"__[A-Z][A-Z0-9_]{2,}__", t)}
+        if left:
+            bad.append("%s 里还有没替换的占位符：%s" % (p.name, "、".join(sorted(left))))
+        for tag in ("div", "section", "main", "aside", "article", "a", "span"):
+            o = len(_re.findall(r"<%s[\s>]" % tag, t))
+            c = t.count("</%s>" % tag)
+            if o != c:
+                bad.append("%s 的 <%s> 开 %d / 闭 %d 对不上" % (p.name, tag, o, c))
+    if bad:
+        print("\n!! 自检没通过：")
+        for b in bad:
+            print("   - " + b)
+        raise SystemExit(1)
+    print("自检通过：占位符全部替换、主要标签开闭平衡")
 
 
 if __name__ == "__main__":
