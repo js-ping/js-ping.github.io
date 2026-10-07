@@ -17,17 +17,17 @@ const TARGETS = [
   { id: 'cwl-api-ssq',     tag: '官方',     url: 'https://www.cwl.gov.cn/cwl_admin/front/cwlkj/search/kjxx/findDrawNotice?name=ssq&issueCount=3&pageNo=1&pageSize=3', ref: 'https://www.cwl.gov.cn/' },
   { id: 'cwl-root',        tag: '官方',     url: 'https://www.cwl.gov.cn/', ref: 'https://www.cwl.gov.cn/' },
   { id: 'sporttery-api',   tag: '官方',     url: 'https://webapi.sporttery.cn/gateway/lottery/getHistoryPageListV1.qry?gameNo=85&provinceId=0&isVerify=1&pageNo=1&pageSize=3', ref: 'https://www.lottery.gov.cn/' },
-  { id: 'sporttery-root',  tag: '官方',     url: 'https://webapi.sporttery.cn/', ref: 'https://www.lottery.gov.cn/' },
+  { id: 'sporttery-alt',   tag: '官方备用', url: 'https://www.sporttery.cn/', ref: 'https://www.sporttery.cn/' },
   { id: 'lottery-gov',     tag: '官方',     url: 'https://www.lottery.gov.cn/', ref: 'https://www.lottery.gov.cn/' },
+  { id: 'cwl-nodns',       tag: '官方备用', url: 'https://cwl.gov.cn/', ref: '' },
   { id: 'zhcw-ssq',        tag: '媒体',     url: 'https://www.zhcw.com/kjxx/ssq/', ref: 'https://www.zhcw.com/' },
-  { id: 'zhcw-api',        tag: '媒体',     url: 'https://jc.zhcw.com/port/client_json.php?transactionType=10001001&lotteryId=1&issueCount=3&type=0', ref: 'https://www.zhcw.com/' },
-  { id: '500-dc-ssq',      tag: '数据站',   url: 'https://datachart.500.com/ssq/history/newinc/history.php?limit=3', ref: 'https://datachart.500.com/ssq/history/history.shtml' },
-  { id: '500-dc-dlt',      tag: '数据站',   url: 'https://datachart.500.com/dlt/history/newinc/history.php?limit=3', ref: 'https://datachart.500.com/dlt/history/history.shtml' },
-  { id: '17500-txt-ssq',   tag: '数据站',   url: 'https://www.17500.cn/getData/ssq.TXT', ref: 'https://www.17500.cn/' },
-  { id: '17500-txt-dlt',   tag: '数据站',   url: 'https://www.17500.cn/getData/dlt.TXT', ref: 'https://www.17500.cn/' },
-  { id: '17500-home',      tag: '数据站',   url: 'https://www.17500.cn/', ref: 'https://www.17500.cn/' },
-  { id: 'sina-zst',        tag: '门户',     url: 'https://match.lottery.sina.com.cn/lotto/pc_zst/index?lottoType=ssq&actionType=chzs', ref: 'https://lottery.sina.com.cn/' },
-  { id: 'netease-award',   tag: '门户',     url: 'https://caipiao.163.com/award/ssq/', ref: 'https://caipiao.163.com/' },
+  { id: '17500-txt-ssq',   tag: '数据站★',  url: 'https://www.17500.cn/getData/ssq.TXT', ref: 'https://www.17500.cn/' },
+  { id: '17500-txt-dlt',   tag: '数据站★',  url: 'https://www.17500.cn/getData/dlt.TXT', ref: 'https://www.17500.cn/' },
+  { id: '17500-api-ssq',   tag: '数据站备用', url: 'https://api.17500.cn/getData/ssq.TXT', ref: 'https://www.17500.cn/' },
+  { id: '17500-http-ssq',  tag: '数据站备用', url: 'http://www.17500.cn/getData/ssq.TXT', ref: 'https://www.17500.cn/' },
+  { id: '17500-cp-ssq',    tag: '数据站备用', url: 'https://cp.17500.cn/getData/ssq.TXT', ref: 'https://www.17500.cn/' },
+  { id: '17500-data-ssq',  tag: '数据站备用', url: 'https://data.17500.cn/ssq_asc.txt', ref: 'https://www.17500.cn/' },
+  { id: '17500-dltd-ssq',  tag: '数据站备用', url: 'https://data.17500.cn/dlt_desc.txt', ref: 'https://www.17500.cn/' },
 ];
 
 function trim(s, n) { return String(s == null ? '' : s).replace(/\s+/g, ' ').trim().slice(0, n); }
@@ -86,8 +86,11 @@ async function handler(context) {
       const res = await fetch(t.url, { headers: hdrs, redirect: 'follow', signal: ac.signal });
       const text = await res.text();
       const lines = text.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      const hs = {};
+      res.headers.forEach((v, k) => { hs[k] = String(v).slice(0, 90); });
       return new Response(JSON.stringify({
         id: t.id, url: t.url, status: res.status,
+        headers: hs,
         totalLen: text.length, totalLines: lines.length,
         head5: lines.slice(0, 5).map(s => s.slice(0, 200)),
         tail8: lines.slice(-8).map(s => s.slice(0, 200)),
