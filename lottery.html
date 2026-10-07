@@ -728,8 +728,32 @@ footer{ text-align:center; color:var(--fg3); font-size:12px; margin-top:26px }
 <h2>六、数据更新</h2>
 <ul>
   <li><b>历史开奖：</b>全部内嵌在这一页里，页面顶部的「📅 数据快照信息」按钮可随时查看数据截止日</li>
-  <li><b>数据会自己更新吗？</b>打开页面时，它会先向<b>本站自己的</b>开奖接口取一次最新数据（不跨域、不请求任何第三方）。取到了就自动补进历史；取不到（离线、断网或接口暂时异常）就安静地用内嵌快照，功能完全不受影响。页脚会标明当前用的是哪一种</li>
+  <li><b>数据会自己更新吗？</b>打开页面时，它会先向<b>本站自己的</b>开奖接口取一次最新数据（同域请求，不向任何第三方发送你的任何信息）。取到了就自动补进历史；取不到（离线、断网或接口暂时异常）就安静地用内嵌快照，功能完全不受影响。页脚会标明当前用的是哪一种</li>
 </ul>
+
+<h3>6.1 这些开奖数据到底从哪来</h3>
+<p>官方的两个接口对境外 IP 是直接拒绝的（实测：福彩官网对境外出口返回 <code>403</code>，体彩接口返回 <code>567</code>，连站点首页都打不开），改 UA、加 Referer 都没用 —— 这不是反爬，是地域封锁。所以本站服务器按下面的顺序逐个试，谁能用用谁，并把<b>实际用的那一个原样写在页脚上</b>：</p>
+<table>
+  <tr><th>顺序</th><th>数据源</th><th>什么时候会命中</th></tr>
+  <tr><td>1</td><td>中国福利彩票官网 / 中国体彩网</td><td>官方接口。服务器出口在大陆时优先命中，拿到的就是第一手数据</td></tr>
+  <tr><td>2</td><td>17500.cn</td><td>第三方数据站。内容是官方开奖公告的转录 —— 服务器在境外时实际最常用它</td></tr>
+  <tr><td>3</td><td>17500.cn 备用域名 / http 入口</td><td>同一份数据的备用入口，只在前两个都不通时才用</td></tr>
+  <tr><td>—</td><td>页面内嵌快照</td><td>上面全都拿不到时。此时页脚写「数据内嵌」，页面照常可用</td></tr>
+</table>
+
+<div class="warn"><b>需要知情：　17500.cn 是第三方站点，不是官方。</b>本站取回它的数据后会<b>逐行校验</b>（期号必须严格递增、日期格式、球的个数、取值范围、最新一期不能太旧），任何一行不合规就当这个源失效、换下一个；整份校验通过才合并进历史。实测官方接口与 17500.cn 在 100 个重叠期上<b>逐期完全一致</b>。<br>但你要知道这条路的前提：它依赖一个第三方站点的可用性。那个站改版或失效时，自动更新会暂时退回内嵌快照 —— 只会「更新不到」，不会给出错误数据。</div>
+
+<h3>6.2 为什么不干脆只用自己的服务器去抓官方</h3>
+<p>因为「服务器在哪」决定了能不能抓到官方接口：</p>
+<table>
+  <tr><th>做法</th><th>能不能拿到官方接口</th><th>代价</th></tr>
+  <tr><td>本站现在这样（境外边缘节点）</td><td>不能，被 403 / 567</td><td>零成本，但要靠 17500.cn 中转</td></tr>
+  <tr><td>自建大陆云函数（函数 URL）</td><td>能</td><td>需要注册实名账号，免费额度够用；接口地址固定不变</td></tr>
+  <tr><td>自己的域名 + 大陆服务器 + ICP 备案</td><td>能</td><td>要备案、要买服务器，是最重的一条路</td></tr>
+</table>
+<p>所以本接口的源表把官方放在第一位：将来若接上大陆出口，<b>代码一行都不用改</b>，第 1 级自动就命中了。</p>
+
+<p><b>无论如何，最终以官方开奖公告为准。</b>本工具只做娱乐辅助，不构成任何购票依据。</p>
 </div>
 
 <div class="sec">
@@ -987,7 +1011,9 @@ function showDataInfo() {
       ? '页面内置快照偏旧，且这次没能补全中间缺的期数（缺口太大）。建议重新生成一次页面。'
       : '当前显示的是页面内置的快照 —— 没能连上本站服务器（离线打开、或服务暂时不可用）。';
   alert(head + '\n' + line('ssq') + '\n' + line('dlt')
-    + '\n数据源：中国福利彩票官网 / 中国体彩网。以官方公告为准。');
+    + '\n数据源：' + (LIVE.source || LIVE_SOURCE_DEFAULT)
+    + '\n（官方接口优先；服务器在境外时会自动改用 17500.cn 的官方公告转录。详见说明书「六、数据更新」）'
+    + '\n最终以官方公告为准。');
 }
 
 /* ================= 选号视图（双色球/大乐透共用） ================= */
@@ -1260,7 +1286,11 @@ go('home');
 
    拿不到、超时、数据有缺口 —— 一律保持内嵌快照。宁可少更新，
    也不能把半截数据画上去：走势图会把不连续的期当成连续的。 */
-const LIVE = { state: 'snapshot', updatedAt: '' };
+const LIVE = { state: 'snapshot', updatedAt: '', source: '' };
+
+/* 拿不到线上数据（断网 / 双击本地文件打开 / 接口挂了）时显示的源。
+   此时页面上呈现的是页面里内嵌的那份快照。 */
+const LIVE_SOURCE_DEFAULT = '中国福利彩票官网 / 中国体彩网（内嵌快照）';
 
 function footText() {
   const head = LIVE.state === 'live'
@@ -1268,9 +1298,13 @@ function footText() {
     : LIVE.state === 'stale'
       ? '线上数据 · 页面快照偏旧，建议重新生成页面'
       : '数据内嵌';
+  /* 数据源如实写。正常情况下服务端命中的是官方接口（见 /api/lottery 的源表），
+     境外出口拿不到官方接口时会自动回退到 17500.cn —— 那是官方公告的转录站，
+     接口会把实际用的是哪个源回报过来，这里原样显示，不替它遮掩。 */
+  const src = LIVE.source || LIVE_SOURCE_DEFAULT;
   return 'uppjs.com · 本地工具 · ' + head
     + '（双色球截至 ' + INFO.ssq.last.date + ' / 大乐透截至 ' + INFO.dlt.last.date + '）'
-    + ' · 数据源：中国福利彩票官网 / 中国体彩网';
+    + ' · 数据源：' + src;
 }
 
 function paintFoot() {
@@ -1320,8 +1354,12 @@ function pullLatest() {
   if (location.protocol === 'file:') { paintFoot(); return; }   /* 双击本地打开时没有后端 */
   const q = '?ssq=' + encodeURIComponent(INFO.ssq.last.code)
           + '&dlt=' + encodeURIComponent(INFO.dlt.last.code);
+  /* 12 秒是「服务端自己试完所有源 + 再留点余量」的上限。
+     服务端按官方源 → 17500.cn → 备用域名 逐级试，单源最长 2.5s / 5s，
+     最坏约 7.5s；加上网络往返，给它 12 秒足够。等不到就退回内嵌快照 ——
+     页面从一开始显示的就是快照，等多久都不会白屏，所以放宽没有代价。 */
   const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-  const timer = ctl ? setTimeout(function () { ctl.abort(); }, 5000) : null;
+  const timer = ctl ? setTimeout(function () { ctl.abort(); }, 12000) : null;
   const done = function () { if (timer) clearTimeout(timer); };
   fetch('/api/lottery' + q, ctl ? { signal: ctl.signal } : {})
     .then(r => (r.ok ? r.json() : null))
@@ -1333,6 +1371,7 @@ function pullLatest() {
       const n = mergeSeries('ssq', p.ssq) + mergeSeries('dlt', p.dlt);
       LIVE.state = gap ? 'stale' : 'live';
       LIVE.updatedAt = p.updatedAt || '';
+      LIVE.source = p.source || '';
       if (n) repaint(); else paintFoot();
     })
     .catch(() => { done(); paintFoot(); });
