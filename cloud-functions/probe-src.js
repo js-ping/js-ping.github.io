@@ -35,7 +35,7 @@ function trim(s, n) { return String(s == null ? '' : s).replace(/\s+/g, ' ').tri
 async function probe(url, headers) {
   const t0 = Date.now();
   const ac = new AbortController();
-  const timer = setTimeout(() => ac.abort(), 12000);
+  const timer = setTimeout(() => ac.abort(), 6000);
   try {
     const res = await fetch(url, { headers, redirect: 'follow', signal: ac.signal });
     const text = await res.text();
@@ -70,13 +70,12 @@ async function runOne(t) {
 }
 
 async function handler(context) {
-  const out = [];
-  const BATCH = 4;
-  for (let i = 0; i < TARGETS.length; i += BATCH) {
-    const slice = TARGETS.slice(i, i + BATCH);
-    const rs = await Promise.all(slice.map(runOne));
-    rs.forEach(r => out.push(r));
-  }
+  const url = new URL((context && context.request && context.request.url) || 'https://x/probe-src');
+  const only = (url.searchParams.get('only') || '').split(',').map(s => s.trim()).filter(Boolean);
+  const list = only.length ? TARGETS.filter(t => only.includes(t.id)) : TARGETS;
+
+  // 全部并发跑，单次上限 6 秒 → 整体最坏约 8 秒，够 EdgeOne 函数跑完
+  const out = await Promise.all(list.map(runOne));
 
   const pass = out.filter(r => r.verdict.startsWith('PASS'));
   return new Response(JSON.stringify({
