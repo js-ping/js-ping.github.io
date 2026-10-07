@@ -1,0 +1,128 @@
+name: 更新开奖数据
+
+# 把 lottery.html 内嵌的开奖历史快照追平到最新一期，然后自动提交。
+#
+# 为什么要它：
+#   页面打开时会向本站的 /api/lottery 取最新数据，那是最新的。但内嵌快照决定了
+#   「接口还没回来时先显示什么」和「离线打开时显示什么」。快照越旧，这两种
+#   情况下的体验越差。这个任务每天补一次，让快照始终保持在几天以内。
+#
+# 为什么放这儿跑而不是本地：
+#   开奖在晚上 21:15 / 21:25，本机那时不一定开着。放在这里就不用管了。
+#   出口在境外无所谓 —— 脚本走的是本站自己的 /api/lottery，那个接口
+#   内部已经做过「官方 → 17500.cn → 备用域名」的分级回退。
+#
+# 时间表（cron 用 UTC，下面换算成北京时间）：
+#   13:45 UTC = 21:45   双色球（周二/四/日 21:15 开奖）
+#   15:10 UTC = 23:10   大乐透（周一/三/六 21:25 开奖）
+#   01:00 UTC = 09:00   次日早上兜一次，防数据站当晚录入延迟
+# 三个点都是为了「开奖后尽早」，不是为了准点。GitHub 的定时任务在高峰期
+# 可能延后几分钟到几十分钟，这对开奖数据没有影响。
+
+on:
+  schedule:
+    - cron: '45 13 * * *'
+    - cron: '10 15 * * *'
+    - cron: '0 1 * * *'
+  workflow_dispatch:          # 也可以在 Actions 页面上手动点一下立即跑
+
+permissions:
+  contents: write             # 需要写权限才能把提交推回去
+
+concurrency:
+  group: update-lottery-data
+  cancel-in-progress: false   # 上一次没跑完就别再开一次，排队等
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 取出仓库
+        uses: actions/checkout@v4
+
+      - name: 检查一下下载来的东西没被改过
+        run: |
+          echo "Python: $(python3 --version)"
+          test -f lottery.html || { echo "缺少 lottery.html"; exit 1; }
+          test -f scripts/更新开奖数据.py || { echo "缺少更新脚本"; exit 1; }
+
+      - name: 拉最新开奖数据并补进 lottery.html
+        id: upd
+        run: python3 scripts/更新开奖数据.py --apply
+
+      - name: 有变化就提交推送
+        id: commit
+        run: |
+          set -e
+          git config user.name 'uppjs 数据机器人'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          if git diff --quiet -- lottery.html; then
+            echo "lottery.html 没有变化，不提交。"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          SNAP=$(python3 -c "
+          import re
+          s = open('lottery.html', encoding='utf-8').read()
+          m = re.search(r'数据内嵌（双色球截至 ([\d-]+) / 大乐透截至 ([\d-]+)）', s)
+          print('%s / %s' % (m.group(1), m.group(2)) if m else '未知')
+          ")
+          TODAY=$(TZ=Asia/Shanghai date +%F)
+
+          git add lottery.html
+          git commit -m "开奖数据自动更新（${TODAY}）—— 快照截至 ${SNAP}"
+          git push
+
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "已推送：快照截至 ${SNAP}"
+
+      - name: 写一份运行摘要
+        if: always()
+        run: |
+          {
+            echo "## 开奖数据更新 · $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M')（北京时间）"
+            echo ""
+            echo "本次是否产生提交：\`${{ steps.commit.outputs.changed || 'false' }}\`"
+            echo ""
+            echo '```'
+            python3 scripts/更新开奖数据.py
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # 独立一步，放在提交之后 —— 这样即使它报红，改动也已经推上去了，
+      # 不会出现「告警了但更新丢了」。
+      - name: 快照是不是太久没更新了
+        if: always()
+        run: |
+          python3 - <<'PYEOF'
+          import re, sys
+          from datetime import datetime, timezone, timedelta
+
+          CN = timezone(timedelta(hours=8))
+          STALE = 7
+          s = open('lottery.html', encoding='utf-8').read()
+          m = re.search(r'数据内嵌（双色球截至 ([\d-]+) / 大乐透截至 ([\d-]+)）', s)
+          if not m:
+              print('找不到快照文案，lottery.html 的结构可能变了。')
+              sys.exit(1)
+
+          now = datetime.now(CN)
+          worst, who = 0, ''
+          for name, d in (('双色球', m.group(1)), ('大乐透', m.group(2))):
+              days = (now - datetime.strptime(d, '%Y-%m-%d').replace(tzinfo=CN)).days
+              print('%s 最新一期 %s，距今 %d 天' % (name, d, days))
+              if days > worst:
+                  worst, who = days, name
+
+          if worst > STALE:
+              print('')
+              print('::error::%s 的快照已 %d 天没更新，超过 %d 天的阈值。'
+                    '大概率是 /api/lottery 的上游链路断了，去看一眼接口返回值。'
+                    % (who, worst, STALE))
+              sys.exit(1)
+          print('')
+          print('新鲜度正常（阈值 %d 天）。' % STALE)
+          PYEOF
+

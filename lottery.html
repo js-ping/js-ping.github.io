@@ -567,8 +567,8 @@ footer{ text-align:center; color:var(--fg3); font-size:12px; margin-top:26px }
       <button class="btn-main" onclick="run()">🎲 按规则机选</button>
       <span class="cnt">注数
         <select id="mCount">
-          <option>1</option><option>2</option><option>3</option><option>4</option>
-          <option selected>5</option><option>6</option><option>7</option><option>8</option>
+          <option selected>1</option><option>2</option><option>3</option><option>4</option>
+          <option>5</option><option>6</option><option>7</option><option>8</option>
           <option>9</option><option>10</option>
         </select></span>
       <button class="btn-sub" onclick="clearAll()">清空选择</button>
@@ -666,7 +666,7 @@ footer{ text-align:center; color:var(--fg3); font-size:12px; margin-top:26px }
 <div class="sec">
 <h2>二、快速上手（30秒版）</h2>
 <div class="step"><div class="no">1</div><div>双击文件夹里的 <kbd>index.html</kbd>（或「打开工具.command」），浏览器自动打开首页。</div></div>
-<div class="step"><div class="no">2</div><div>进入双色球或大乐透页面，什么都不选，注数选 5，点 <kbd>🎲 按规则机选</kbd> —— 直接出 5 注号码，照着打票即可。</div></div>
+<div class="step"><div class="no">2</div><div>进入双色球或大乐透页面，什么都不选，点 <kbd>🎲 按规则机选</kbd> —— 默认出 1 注号码。想要多注就把「注数」调大（1–10），照着打票即可。</div></div>
 <div class="step"><div class="no">3</div><div>买完票，到「购票核对器」把票录进去保存。开奖后重新打开，一键核对中没中。</div></div>
 </div>
 
@@ -1120,7 +1120,7 @@ function showErr(msg) {
   $('result').innerHTML = '';
 }
 function run() {
-  const count = parseInt($('mCount').value) || 5;
+  const count = parseInt($('mCount').value) || 1;
   const g = GAMES[PICK.key];
   const hasPool = pState.reds.size >= g.frontPick && pState.blues.size >= g.backPick;
   const resp = filterCombos(PICK.key, [...pState.reds].sort((a,b)=>a-b), [...pState.blues].sort((a,b)=>a-b), gatherRules(), count);
