@@ -71,6 +71,33 @@ async function runOne(t) {
 
 async function handler(context) {
   const url = new URL((context && context.request && context.request.url) || 'https://x/probe-src');
+  const peek = url.searchParams.get('peek') || '';
+
+  // ---- 模式二：?peek=<id> —— 把某个源的头尾抓回来，验证「格式 + 新鲜度」 ----
+  if (peek) {
+    const t = TARGETS.filter(x => x.id === peek)[0];
+    if (!t) return new Response(JSON.stringify({ err: 'unknown id: ' + peek }), { status: 400 });
+    const refOrigin = t.ref ? t.ref.replace(/^(https?:\/\/[^/]+).*$/, '$1') : 'https://x/';
+    const hdrs = { 'User-Agent': UA_WIN, 'Accept': 'application/json,text/html,text/plain,*/*', 'Accept-Language': 'zh-CN,zh;q=0.9' };
+    if (t.ref) { hdrs['Referer'] = t.ref; hdrs['Origin'] = refOrigin; }
+    const ac = new AbortController();
+    const timer = setTimeout(() => ac.abort(), 10000);
+    try {
+      const res = await fetch(t.url, { headers: hdrs, redirect: 'follow', signal: ac.signal });
+      const text = await res.text();
+      const lines = text.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      return new Response(JSON.stringify({
+        id: t.id, url: t.url, status: res.status,
+        totalLen: text.length, totalLines: lines.length,
+        head5: lines.slice(0, 5).map(s => s.slice(0, 200)),
+        tail8: lines.slice(-8).map(s => s.slice(0, 200)),
+      }, null, 2), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' } });
+    } catch (e) {
+      return new Response(JSON.stringify({ id: t.id, status: 'ERR', err: String(e && e.message || e).slice(0, 200) }), {
+        headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' } });
+    } finally { clearTimeout(timer); }
+  }
+
   const only = (url.searchParams.get('only') || '').split(',').map(s => s.trim()).filter(Boolean);
   const list = only.length ? TARGETS.filter(t => only.includes(t.id)) : TARGETS;
 
