@@ -1,8 +1,8 @@
 #!/bin/bash
 # 体检链接 —— 双击运行
-# 用你本机的真实网络，逐条测「免费资源」页里的每个链接能不能打开，
+# 用你本机的真实网络，逐条测「软件与资源」页里的每个链接能不能打开，
 # 把结果写进 free-region.json，然后自动生成网页并上线。
-# 线上地址：https://uppjs.com/free.html
+# 线上地址：https://uppjs.com/apps.html
 
 cd "$(dirname "$0")" || exit 1
 
@@ -116,12 +116,12 @@ fi
 echo ""
 echo "  ========================================"
 echo -e "  ${G}✓ 完成${N}"
-echo "     线上  https://uppjs.com/free.html"
+echo "     线上  https://uppjs.com/apps.html"
 echo "     大约 1 分钟后生效"
 echo ""
 osascript -e 'display dialog "已上线 ✓
 
-https://uppjs.com/free.html
+https://uppjs.com/apps.html
 大约 1 分钟后生效。" buttons {"好"} default button 1 with icon note' >/dev/null 2>&1
 read -n 1 -s -r -p "  按任意键关闭这个窗口..."
 exit 0

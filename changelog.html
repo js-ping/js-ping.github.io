@@ -704,6 +704,13 @@ details.group>summary::-webkit-details-marker{display:none}
   font-size:10.5px; font-weight:700; color:var(--accent);
   background:var(--accent-soft); border-radius:6px; padding:1px 7px;
 }
+/* 平台标记：只给「挑系统」的条目挂，颜色比「荐」淡一档，不跟正文抢视线 */
+.item .plat{
+  font-size:10.5px; font-weight:600; line-height:1.75; padding:0 6px;
+  border-radius:9px; white-space:nowrap; color:var(--fg2);
+  border:1px solid color-mix(in srgb, var(--fg3) 36%, transparent);
+  background:color-mix(in srgb, var(--fg3) 9%, transparent);
+}
 .item .note{flex:1 1 100%; color:var(--fg3); font-size:12.5px; line-height:1.68; padding-left:10px; border-left:2px solid var(--line); margin-top:2px}
 .item .note::before{content:"▸ "; color:var(--fg3)}
 ul.sub{margin:5px 0 3px; padding-left:18px; color:var(--fg2); font-size:12.8px; width:100%; line-height:1.7}
@@ -1633,6 +1640,13 @@ details.group>summary::-webkit-details-marker{display:none}
   font-size:10.5px; font-weight:700; color:var(--accent);
   background:var(--accent-soft); border-radius:6px; padding:1px 7px;
 }
+/* 平台标记：只给「挑系统」的条目挂，颜色比「荐」淡一档，不跟正文抢视线 */
+.item .plat{
+  font-size:10.5px; font-weight:600; line-height:1.75; padding:0 6px;
+  border-radius:9px; white-space:nowrap; color:var(--fg2);
+  border:1px solid color-mix(in srgb, var(--fg3) 36%, transparent);
+  background:color-mix(in srgb, var(--fg3) 9%, transparent);
+}
 .item .note{flex:1 1 100%; color:var(--fg3); font-size:12.5px; line-height:1.68; padding-left:10px; border-left:2px solid var(--line); margin-top:2px}
 .item .note::before{content:"▸ "; color:var(--fg3)}
 ul.sub{margin:5px 0 3px; padding-left:18px; color:var(--fg2); font-size:12.8px; width:100%; line-height:1.7}
@@ -1956,8 +1970,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <header>
   <div class="bar">
     <a class="brand" href="index.html"><span class="logo">U</span>uppjs.com<em>个人清单站</em></a>
-    <nav class="nav-links"><a href="apps.html">软件清单</a>
-  <a href="free.html">免费资源</a>
+    <nav class="nav-links"><a href="apps.html">软件与资源</a>
   <a href="lottery.html">彩票选号</a>
   <a href="about.html">关于</a>
   <a class="on" href="changelog.html">更新日志</a></nav>
@@ -1982,7 +1995,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <h1>更新日志</h1>
 <p>这个站的每一次改动都记在这里，最新的在最上面。记录由仓库的提交历史自动生成，不用手写，也就不会过期。</p>
 <h2>2026-10-08</h2>
-<ul><li>根目录 README 改成 GitHub 仓库说明（站点内容在「内容源/」）</li><li>内容源统一收进「内容源/」目录 + 软件清单与免费资源合并草稿</li></ul>
+<ul><li>重新生成页面：更新日志收进上面两个提交，日期推进到 2026-10-08</li><li>根目录 README 改成 GitHub 仓库说明（站点内容在「内容源/」）</li><li>内容源统一收进「内容源/」目录 + 软件清单与免费资源合并草稿</li></ul>
 <h2>2026-10-07</h2>
 <ul><li>开奖数据每天自动补进内嵌快照 + 机选默认注数改为 1</li><li>彩票页说明书：修掉深色主题下「文件结构」段落白底浅字读不出来的问题</li><li>彩票页自动更新：不用任何账号，就能从境外节点拿到最新开奖</li><li>探测函数：第二轮候选（17500 备用路径 / 官方备用域名）+ 返回响应头</li><li>探测函数：加 ?peek= 模式，验数据格式与新鲜度</li><li>探测函数：全并发 + 6秒超时，避免 EdgeOne 504</li><li>临时：境外出口数据源可达性探测（用完即删）</li><li>彩票页：内嵌快照追到最新一期 + 清理旧版独立工具残留的说明文字</li></ul>
 <h2>2026-10-06</h2>
@@ -1997,8 +2010,6 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <ul><li>改成多页站：导航首页 + 软件清单 + 网址书签</li><li>新增工具台导航页 + 收藏/已装 + 导出 + 条目元数据</li><li>新增 docs/：ICP 备案操作手册 + 网站升级路线图</li><li>新增外观面板：明暗三档 + 8 种底色 + 自定义取色器</li><li>搜索时分组计数改为「命中数 / 总数」，避免搜到 1 条却显示 18 的误导</li><li>内容规范统一：名称/标签/简述分层 + SEO 图标与安全头</li><li>使用说明修正证书章节：Makers 不会自动分配证书，补充两个易混页面区分</li><li>使用说明补充 EdgeOne 证书申请流程与故障速查表</li><li>使用说明补充绑定域名时的 CNAME 记录值来源与阿里云改法</li><li>使用说明补充 EdgeOne 建项实测要点</li><li>新增 edgeone.json：预设 EdgeOne Pages 构建配置，避免控制台填错</li><li>说明书增加 HTML 版自动生成，编辑改用 VSCode 优先</li><li>新增单文件静态站点：README 编译为可搜索网页，附双击更新工具</li></ul>
 <h2>2026-06-01</h2>
 <ul><li>2026年6月5日11:09:17</li><li>2026年6月1日20:52:55</li><li>时间</li></ul>
-<h2>2026-05-27</h2>
-<ul><li>2026年5月27日08:53:37</li></ul>
 </article>
 
 <footer>
@@ -2015,8 +2026,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
       <h4>站内导航</h4>
       <div class="fl">
         <a href="index.html">首页</a>
-        <a href="apps.html">软件清单</a>
-        <a href="free.html">免费资源</a>
+        <a href="apps.html">软件与资源</a>
         <a href="lottery.html">彩票选号</a>
         <a href="about.html">关于</a>
         <a href="privacy.html">隐私说明</a>

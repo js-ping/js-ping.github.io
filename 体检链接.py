@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-链接体检 —— 用你本机的真实网络，逐条测「免费资源」页里每个链接能不能打开。
+链接体检 —— 用你本机的真实网络，逐条测「软件与资源」页里每个链接能不能打开。
 
 怎么跑：
     双击「6-体检链接.command」，或者在网站文件夹里执行：
         python3 体检链接.py
 
 做什么：
-    1. 从 free.md 里取出全部链接；
+    1. 从 内容源/软件与资源.md 里取出全部链接；
     2. 逐条真实访问，记录状态码和耗时；
     3. 把结论写进 free-region.json；
     4. 接着双击「2-更新网站.command」，页面上的「慢 / 需代理」标记就换成实测结果。
+
+注意：这一页现在是「软件 + 硬件 + 免费资源」合并后的一份，链接有三百多条，
+      跑一轮比原来久（大概 4~6 分钟），中途别关窗口。
 
 判定标准（写死在这里，想改就改）：
     连不上 / 超时          -> proxy（页面上标「需代理」）
@@ -37,7 +40,7 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).parent
-FREE_SRC = ROOT / "内容源" / "免费资源.md"
+FREE_SRC = ROOT / "内容源" / "软件与资源.md"
 REGION_FILE = ROOT / "free-region.json"
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -97,14 +100,14 @@ def probe_hard(url):
 
 def main():
     if not FREE_SRC.exists():
-        print("✗ 找不到 内容源/免费资源.md，确认这个脚本和「内容源」文件夹在同一处。")
+        print("✗ 找不到 内容源/软件与资源.md，确认这个脚本和「内容源」文件夹在同一处。")
         return 1
 
     b = load_build()
     cats = b.build_tree(b.parse_lines(FREE_SRC.read_text(encoding="utf-8")))
     items = [(n["title"], n["url"]) for _c, n in b.iter_leaf_items(cats) if n.get("url")]
     if not items:
-        print("✗ 内容源/免费资源.md 里没找到带链接的条目。")
+        print("✗ 内容源/软件与资源.md 里没找到带链接的条目。")
         return 1
 
     print("=" * 64)

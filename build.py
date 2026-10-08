@@ -8,9 +8,10 @@ build.py —— 把 markdown 内容源编译成一套零依赖的静态站点
     python3 build.py --dump     # 只打印解析后的结构（JSON），用于校对内容有无丢失
 
 产出（会自动上线）：
-    index.html    首页（导航，软件清单放最显眼的位置）
-    apps.html     软件清单      <- 内容源/软件清单.md
-    free.html     免费资源      <- 内容源/免费资源.md + free-region.json（地域标记）
+    index.html    首页（导航，软件与资源放最显眼的位置）
+    apps.html     软件与资源      <- 内容源/软件与资源.md + free-region.json（地域标记）
+                  原本的「软件清单」和「免费资源」两页已经并进这一份
+    free.html     旧地址，自动跳到 apps.html（老链接不失效）
     lottery.html  彩票选号工具   <- 独立单文件，不参与本脚本编译
 
 产出（上线开关关着，随时可开）：
@@ -22,7 +23,7 @@ build.py —— 把 markdown 内容源编译成一套零依赖的静态站点
     这样根目录只剩「要发布的东西（.html）+ 双击就能用的东西（.command）」，
     打开文件夹不会一眼看到十几个 .md 分不清哪个是哪个。
     唯一的例外是根目录的 README.md —— 它是 GitHub 仓库首页会读的那一份，
-    内容正文已移到「内容源/软件清单.md」，根目录那份只是仓库说明，不参与编译。
+    内容正文已移到「内容源/软件与资源.md」，根目录那份只是仓库说明，不参与编译。
 
 产出（只在本机，不上线）：
     本地资料/使用说明.html     <- 本地资料/使用说明.md
@@ -33,10 +34,11 @@ build.py —— 把 markdown 内容源编译成一套零依赖的静态站点
     2. 每个页面都是单文件、零依赖、离线可用，数据全部内联。
     3. 想加一个新清单页：往下面的 LIST_PAGES 里加一条即可，其余全自动。
     4. 想临时撤下一个页面：把那条的 enabled 改成 False，代码和内容都留着。
-    5. 内容与「实测数据」分开：内容源/免费资源.md 只写有哪些资源，链接好不好打开由
+    5. 内容与「实测数据」分开：内容源/软件与资源.md 只写有哪些资源，链接好不好打开由
        「6-体检链接.command」实测后写进 free-region.json。机器管链接还活着吗，
        人管该不该收它 —— 两件事不要混在一份文件里。
-"""
+    6. 平台标记只标「挑系统」的：不写就是多平台通用，写在方括号里（[Mac] [Win] [安卓]…），
+       页面渲染成名称右边的小徽章。默认全标反而没人看。"""
 
 import html
 import json
@@ -50,7 +52,7 @@ ROOT = Path(__file__).parent
 # 想加一个新清单页：把 .md 丢进 内容源/，再到下面 LIST_PAGES 里加一条。
 SRC_DIR = ROOT / "内容源"
 
-SRC = SRC_DIR / "软件清单.md"
+SRC = SRC_DIR / "软件与资源.md"
 OUT = ROOT / "index.html"
 
 # ==========================================================================
@@ -80,19 +82,17 @@ OG_DEFAULT = "og/default.png"
 #              "auto" = 内容源里还没有真条目时不上线，首页显示为「规划中」；
 #                       你往源文件里填了内容，重跑 build.py 就自动上线。
 LIST_PAGES = [
-    dict(src="内容源/软件清单.md", out="apps.html", kicker="Mac · Windows · 手机 · 外设",
-         title="软件清单", ico="▤",
-         sub="我自己在用的软件、硬件和外设，长期更新。收录标准只有一条：用得住。",
-         home="Mac / PC / 手机软件、硬件与外设。收录标准只有一条：我真的在用、而且用得住。",
-         layout="list"),
-    # —— 免费资源：合法免费资源的导航，不收盗版 / 破解 / 翻墙 ——
+    # —— 软件与资源：原来「软件清单」+「免费资源」两页，2026-10-08 并成一页 ——
+    #    输出的文件名仍是 apps.html，老外链和搜索引擎收录的地址不用改。
+    #    旧地址 free.html 由下面的 REDIRECTS 自动跳过来，不会 404。
     #    regions=True 表示这一页会读 free-region.json，给条目挂「慢 / 需代理」标记，
     #    并在筛选下拉里多出「只看国内直连」。那份数据由「6-体检链接.command」实测生成。
-    dict(src="内容源/免费资源.md", out="free.html", kicker="开源 · 官方免费版 · 免费课程 · 公共领域",
-         title="免费资源", ico="免",
-         sub="整理过的合法免费资源：开源软件、官方免费版与学生包、免费课程、公共领域书籍、"
-             "可商用素材。每条都标了国内能不能直连。不收盗版、破解和翻墙工具。",
-         home="120+ 条合法免费资源，标了国内能不能直连，带搜索。",
+    dict(src="内容源/软件与资源.md", out="apps.html", kicker="Mac · Windows · 手机 · 网页 · 外设",
+         title="软件与资源", ico="▤",
+         sub="我在用的软件、硬件与外设，加上整理过的合法免费资源：开源软件、官方免费版与学生包、"
+             "免费课程、公共领域书籍、可商用素材。收录标准只有一条：用得住。"
+             "不接推广、不做商业排序。",
+         home="软件、硬件外设 + 合法免费资源，合成一份，带搜索和平台标记。",
          layout="list", regions=True),
     # —— 文章归档：把公众号长文搬进来，是目前唯一能带外部流量的模块 ——
     dict(src="内容源/文章归档.md", out="articles.html", kicker="公众号长文归档",
@@ -141,6 +141,14 @@ CHANGELOG_MAX = 40
 TOOL_PAGES = [
     dict(title="彩票选号", href="lottery.html", ico="彩", nav=True,
          desc="双色球、大乐透随机选号与购票核对，附历史开奖走势图。纯离线单文件，不联网。"),
+]
+
+# 旧地址跳转：页面合并、改名之后，原来的网址不能直接 404 ——
+# 别人收藏的、搜索引擎收录的、公众号文章里贴过的老链接，都由这张表兜住。
+# 产出的是一个几十行的静态跳转页，零依赖、离线也一样能跳。
+REDIRECTS = [
+    dict(out="free.html", to="apps.html",
+         title="免费资源已经并进「软件与资源」"),
 ]
 
 # --------------------------------------------------------------------------
@@ -271,7 +279,7 @@ LIST_TOOLS = r"""      <div class="search" id="searchbox">
       <select id="filter" title="筛选">
         <option value="all">全部</option>
         <option value="link">有下载链接</option>
-        <option value="star">我推荐的</option>__REGION_OPT__
+        <option value="star">我推荐的</option>__REGION_OPT____PLAT_OPT__
       </select>
       <button id="toggleAll" title="展开 / 折叠全部分组">折叠</button>"""
 
@@ -508,12 +516,63 @@ def extract_star(title: str):
     return "☆" in title, re.sub(r"\s{2,}", " ", title.replace("☆", "")).strip(" ·-—")
 
 
+# --------------------------------------------------------------------------
+# 平台标记 —— 只标「挑系统」的条目
+#
+#   在条目行里任意位置写一个方括号标记，解析时会被抽走，正文里不留痕迹：
+#       - [IINA](https://iina.io/) [Mac]：macOS 最强播放器……
+#       - Edge [Win]：感觉这个浏览器同步起来更方便一点……
+#   不写 = 多平台通用，页面不显示徽章。整页都标反而没人看，只标限制项才有信息量。
+#   别名可以随便写（macOS / macOS 版 / iPhone / Windows / PC / Android…），
+#   统一归到「显示名」上；几个平台写几个方括号，顺序按下面的 PLAT_ORDER 排。
+# --------------------------------------------------------------------------
+PLAT_ALIAS = {
+    "mac": "Mac", "macos": "Mac", "mac os": "Mac", "osx": "Mac", "苹果": "Mac",
+    "win": "Win", "windows": "Win", "pc": "Win",
+    "ios": "iOS", "iphone": "iOS", "ipad": "iOS",
+    "android": "安卓", "安卓": "安卓",
+    "web": "网页", "网页": "网页",
+}
+PLAT_ORDER = ["Mac", "Win", "安卓", "iOS", "网页"]
+# data-p 用的小写键，给筛选下拉用
+PLAT_KEY = {"Mac": "mac", "Win": "win", "安卓": "android", "iOS": "ios", "网页": "web"}
+PLAT_TIP = {"Mac": "只有 Mac 版", "Win": "只有 Windows 版", "安卓": "只有安卓版",
+            "iOS": "只有 iPhone / iPad 版", "网页": "网页版，浏览器直接打开"}
+# 搜索时也认这些词，输入 windows / android 能搜到对应的条目
+PLAT_WORDS = {"Mac": "mac macos 苹果", "Win": "win windows pc",
+              "安卓": "安卓 android", "iOS": "ios iphone ipad", "网页": "网页 web 在线"}
+
+_PLAT_KEYS = sorted(PLAT_ALIAS, key=len, reverse=True)
+# 「[名字](网址)」是 markdown 链接，别被当成平台标记 —— 所以后面加个负向断言
+PLAT_RE = re.compile(
+    r"\[\s*(" + "|".join(re.escape(k) for k in _PLAT_KEYS) + r")\s*\](?!\s*\()", re.I)
+
+
+def take_platforms(text: str):
+    """抽出 [Mac] / [Win] 这类平台标记，返回 (清干净的文字, [显示名...])。"""
+    found = []
+
+    def _rep(m):
+        val = PLAT_ALIAS.get(re.sub(r"\s+", " ", m.group(1).strip().lower()))
+        if val and val not in found:
+            found.append(val)
+        return ""
+
+    out = PLAT_RE.sub(_rep, text)
+    if found:
+        found.sort(key=lambda v: PLAT_ORDER.index(v) if v in PLAT_ORDER else 99)
+        # 标记被摘掉后可能留下多余空格，顺手压一下（"[IINA](url) [Mac]：说明" -> "[IINA](url) ：说明"）
+        out = re.sub(r"[ \t]{2,}", " ", out).rstrip()
+    return out, found
+
+
 # 名称与简述之间：中英文冒号、逗号、顿号、句号都当分隔符，统一处理
 DESC_SEP_RE = re.compile(r"^[\s：:，,、。.；;]+")
 TAIL_PUNCT = "。.．；;，,、 "
 
 
 def make_node(text: str, is_bullet: bool = True):
+    text, plats = take_platforms(text)
     dep = "~~" in text
     bare = text.replace("~~", "").strip()
     node = {
@@ -522,6 +581,7 @@ def make_node(text: str, is_bullet: bool = True):
         "desc": "",
         "note": "",
         "tags": [],
+        "plat": plats,
         "children": [],
         "dep": dep,
         "star": False,
@@ -607,7 +667,7 @@ def build_tree(blocks):
             # 显式分组：后面到下一个 ## / ### 之前的条目都归它
             content = block[2]
             node = {"title": content, "url": "", "desc": "", "note": "", "tags": [],
-                    "children": [], "dep": False, "star": False, "has_link": False,
+                    "plat": [], "children": [], "dep": False, "star": False, "has_link": False,
                     "bullet": False, "header": False, "host": "", "raw": content,
                     "indent": -1, "group": True}
             (cur_cat if cur_cat is not None else root)["children"].append(node)
@@ -722,10 +782,13 @@ def render_node(node, ctx, depth=0):
     else:
         title_html = f'<span class="nm">{title_html}</span>'
 
-    # 名称右边的小徽章：写了 ☆ 的挂「荐」；有实测地域数据的挂「慢 / 需代理」
+    # 名称右边的小徽章：写了 ☆ 的挂「荐」；标了平台的挂平台名；有实测地域数据的挂「慢 / 需代理」
     chips = []
     if node["star"]:
         chips.append('<span class="badge" title="个人推荐">荐</span>')
+    for p in node.get("plat") or []:
+        chips.append('<span class="plat plat-%s" title="%s">%s</span>'
+                     % (PLAT_KEY.get(p, "x"), esc(PLAT_TIP.get(p, p)), esc(p)))
     rg = node.get("region")
     if rg in REGION_LEGEND:
         label, badge_cls, tip = REGION_LEGEND[rg]
@@ -750,6 +813,7 @@ def render_node(node, ctx, depth=0):
 
     search = plain(" ".join(
         [node["title"], node["desc"], node["note"], node.get("host", "")]
+        + [PLAT_WORDS.get(p, p) for p in (node.get("plat") or [])]
         + [plain(k["title"] + k["desc"]) for k in kids]
     ))
     flags = f' data-s="{esc(search.lower())}"'
@@ -757,6 +821,8 @@ def render_node(node, ctx, depth=0):
         flags += ' data-l="1"'
     if node["star"]:
         flags += ' data-star="1"'
+    if node.get("plat"):
+        flags += ' data-p="%s"' % " ".join(PLAT_KEY.get(p, "x") for p in node["plat"])
     if node.get("region"):
         flags += ' data-r="%s"' % node["region"]
     return (
@@ -885,8 +951,19 @@ def fill_page(page: str, cfg: dict) -> str:
     # 「只看国内直连」只给挂了地域数据的页面（regions=True），别的页面不多一个筛不动项的选项
     region_opt = ('\n        <option value="cn">只看国内直连</option>'
                   if cfg.get("regions") else "")
+    # 「只有 XX 版」按页面里真实存在的平台标记来加 —— 这一页没标平台，就不多出空选项
+    present = set()
+    for m in re.finditer(r'data-p="([^"]*)"', page):
+        present.update(m.group(1).split())
+    plat_opt = "".join(
+        '\n        <option value="p%s">%s</option>' % (key, label)
+        for key, label in (("mac", "只有 Mac 版"), ("win", "只有 Windows 版"),
+                           ("android", "只有安卓版"), ("ios", "只有 iPhone / iPad 版"),
+                           ("web", "网页版"))
+        if key in present)
     return (page
             .replace("__REGION_OPT__", region_opt)
+            .replace("__PLAT_OPT__", plat_opt)
             .replace("__LAYOUT__", cfg["layout"])
             .replace("__THEME_COLOR__", THEME_COLOR)
             .replace("__PAGE_TITLE__", esc(cfg["title"] + " · " + SITE_NAME))
@@ -1627,10 +1704,18 @@ __UPGRADE_JS__
   });
 
   // 筛选：函数式，想加新筛选往这里加一行就行
+  function hasP(el, k){
+    return (' ' + (el.dataset.p || '') + ' ').indexOf(' ' + k + ' ') !== -1;
+  }
   var FILTERS = {
     link: function(el){ return el.dataset.l === '1'; },
     star: function(el){ return el.dataset.star === '1'; },
-    cn: function(el){ return el.dataset.r === 'cn'; }
+    cn: function(el){ return el.dataset.r === 'cn'; },
+    pmac: function(el){ return hasP(el, 'mac'); },
+    pwin: function(el){ return hasP(el, 'win'); },
+    pandroid: function(el){ return hasP(el, 'android'); },
+    pios: function(el){ return hasP(el, 'ios'); },
+    pweb: function(el){ return hasP(el, 'web'); }
   };
 
   function esc(s){
@@ -2129,8 +2214,8 @@ __SITE_HEADER__
        data-quote-label="本站态度"></div>
 
   <div class="hero-cta reveal">
-    <a class="btn btn-primary" href="apps.html">打开软件清单</a>
-    <a class="btn btn-ghost" href="free.html">免费资源</a>
+    <a class="btn btn-primary" href="apps.html">打开软件与资源</a>
+    <a class="btn btn-ghost" href="lottery.html">彩票选号</a>
   </div>
 
   <a class="hero-scroll" href="#main" aria-label="向下滚动"><span></span></a>
@@ -2725,10 +2810,50 @@ def rfc822(day: str) -> str:
     return dt.strftime("%a, %d %b %Y 00:00:00 +0800")
 
 
+def redirect_page(r: dict) -> str:
+    """旧地址的跳转页：一个几十行的静态 HTML，零依赖、离线也能跳，深浅色都跟系统走。
+    除了 meta refresh 还带一段 JS —— 这样老链接后面带的 #锚点 也能一起带过去。"""
+    to = r["to"]
+    title = r.get("title") or "这个页面搬家了"
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url={to}">
+<link rel="canonical" href="{esc(SITE + '/' + to)}">
+<title>{esc(title)} · {esc(SITE_NAME)}</title>
+<style>
+:root{{--bg:#f6f7f9;--card:#fff;--fg:#12161f;--fg2:#5a6472;--line:#e2e5ea;--accent:#2f6fed}}
+@media (prefers-color-scheme:dark){{:root{{--bg:#0e1116;--card:#161a21;--fg:#e8ecf3;--fg2:#9aa4b2;--line:#242a34;--accent:#5b8cff}}}}
+*{{box-sizing:border-box}}
+body{{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+ background:var(--bg);color:var(--fg);padding:24px;
+ font:15px/1.7 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}}
+.box{{background:var(--card);border:1px solid var(--line);border-radius:16px;
+ padding:30px 28px;max-width:460px;text-align:center}}
+h1{{font-size:18px;margin:0 0 8px}}
+p{{color:var(--fg2);font-size:13.5px;margin:0 0 18px}}
+a{{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;
+ border-radius:11px;padding:9px 18px;font-weight:600}}
+</style>
+<script>location.replace("{to}" + location.hash);</script>
+</head>
+<body>
+<div class="box">
+<h1>{esc(title)}</h1>
+<p>没有自动跳过去的话，点下面这个。</p>
+<a href="{esc(to)}">前往新页面 →</a>
+</div>
+</body>
+</html>
+"""
+
+
 def sitemap_pages():
     """sitemap 的页面清单：活着、且标了 sitemap 的页面。"""
     weight = {"apps.html": ("0.9", "weekly"), "articles.html": ("0.9", "weekly"),
-              "free.html": ("0.9", "weekly"),
               "books.html": ("0.7", "weekly"), "movies.html": ("0.7", "weekly"),
               "links.html": ("0.7", "weekly"), "lottery.html": ("0.6", "monthly"),
               "about.html": ("0.5", "monthly"), "changelog.html": ("0.4", "monthly"),
@@ -2917,6 +3042,13 @@ def main():
         )
         print("已生成 %s：%d 个分类 / %d 个分组 / %d 个条目 / %d 个外链 / %d KB"
               % (out.name, len(cats), groups, n, links, len(page) // 1024))
+
+    # ---------- 旧地址跳转页：页面合并之后，收藏夹里的老链接不能 404 ----------
+    for r in REDIRECTS:
+        if r["to"] not in LIVE:
+            continue
+        (ROOT / r["out"]).write_text(redirect_page(r), encoding="utf-8")
+        print("已生成 %s：跳转到 %s" % (r["out"], r["to"]))
 
     # ---------- 文档页：关于 / 隐私 / 404 / 更新日志 ----------
     for cfg in DOC_PAGES:

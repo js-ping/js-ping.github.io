@@ -704,6 +704,13 @@ details.group>summary::-webkit-details-marker{display:none}
   font-size:10.5px; font-weight:700; color:var(--accent);
   background:var(--accent-soft); border-radius:6px; padding:1px 7px;
 }
+/* 平台标记：只给「挑系统」的条目挂，颜色比「荐」淡一档，不跟正文抢视线 */
+.item .plat{
+  font-size:10.5px; font-weight:600; line-height:1.75; padding:0 6px;
+  border-radius:9px; white-space:nowrap; color:var(--fg2);
+  border:1px solid color-mix(in srgb, var(--fg3) 36%, transparent);
+  background:color-mix(in srgb, var(--fg3) 9%, transparent);
+}
 .item .note{flex:1 1 100%; color:var(--fg3); font-size:12.5px; line-height:1.68; padding-left:10px; border-left:2px solid var(--line); margin-top:2px}
 .item .note::before{content:"▸ "; color:var(--fg3)}
 ul.sub{margin:5px 0 3px; padding-left:18px; color:var(--fg2); font-size:12.8px; width:100%; line-height:1.7}
@@ -1633,6 +1640,13 @@ details.group>summary::-webkit-details-marker{display:none}
   font-size:10.5px; font-weight:700; color:var(--accent);
   background:var(--accent-soft); border-radius:6px; padding:1px 7px;
 }
+/* 平台标记：只给「挑系统」的条目挂，颜色比「荐」淡一档，不跟正文抢视线 */
+.item .plat{
+  font-size:10.5px; font-weight:600; line-height:1.75; padding:0 6px;
+  border-radius:9px; white-space:nowrap; color:var(--fg2);
+  border:1px solid color-mix(in srgb, var(--fg3) 36%, transparent);
+  background:color-mix(in srgb, var(--fg3) 9%, transparent);
+}
 .item .note{flex:1 1 100%; color:var(--fg3); font-size:12.5px; line-height:1.68; padding-left:10px; border-left:2px solid var(--line); margin-top:2px}
 .item .note::before{content:"▸ "; color:var(--fg3)}
 ul.sub{margin:5px 0 3px; padding-left:18px; color:var(--fg2); font-size:12.8px; width:100%; line-height:1.7}
@@ -1956,8 +1970,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <header>
   <div class="bar">
     <a class="brand" href="index.html"><span class="logo">U</span>uppjs.com<em>个人清单站</em></a>
-    <nav class="nav-links"><a href="apps.html">软件清单</a>
-  <a href="free.html">免费资源</a>
+    <nav class="nav-links"><a href="apps.html">软件与资源</a>
   <a href="lottery.html">彩票选号</a>
   <a href="about.html">关于</a>
   <a href="changelog.html">更新日志</a></nav>
@@ -1982,7 +1995,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <h1>这个地址没有内容</h1>
 <p>你要找的页面不在了——可能是链接打错了，也可能是页面改过名字。</p>
 <p>下面这些还在：</p>
-<ul><li><a href="https://uppjs.com/" target="_blank" rel="noopener noreferrer">首页</a> —— 全站入口</li><li><a href="https://uppjs.com/apps.html" target="_blank" rel="noopener noreferrer">软件清单</a> —— Mac / PC / 手机软件、硬件与外设</li><li><a href="https://uppjs.com/lottery.html" target="_blank" rel="noopener noreferrer">彩票选号</a> —— 双色球 / 大乐透随机选号与购票核对</li><li><a href="https://uppjs.com/about.html" target="_blank" rel="noopener noreferrer">关于</a> —— 这个站是什么、怎么做的</li></ul>
+<ul><li><a href="https://uppjs.com/" target="_blank" rel="noopener noreferrer">首页</a> —— 全站入口</li><li><a href="https://uppjs.com/apps.html" target="_blank" rel="noopener noreferrer">软件与资源</a> —— 软件、硬件与外设，加上合法免费资源</li><li><a href="https://uppjs.com/lottery.html" target="_blank" rel="noopener noreferrer">彩票选号</a> —— 双色球 / 大乐透随机选号与购票核对</li><li><a href="https://uppjs.com/about.html" target="_blank" rel="noopener noreferrer">关于</a> —— 这个站是什么、怎么做的</li></ul>
 <p>如果你是从站内的某个链接点进来的，说明那个链接该修了——麻烦从<a href="https://uppjs.com/about.html" target="_blank" rel="noopener noreferrer">关于</a>页告诉我一声。</p>
 </article>
 
@@ -2000,8 +2013,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
       <h4>站内导航</h4>
       <div class="fl">
         <a href="index.html">首页</a>
-        <a href="apps.html">软件清单</a>
-        <a href="free.html">免费资源</a>
+        <a href="apps.html">软件与资源</a>
         <a href="lottery.html">彩票选号</a>
         <a href="about.html">关于</a>
         <a href="changelog.html">更新日志</a>

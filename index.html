@@ -734,6 +734,13 @@ details.group>summary::-webkit-details-marker{display:none}
   font-size:10.5px; font-weight:700; color:var(--accent);
   background:var(--accent-soft); border-radius:6px; padding:1px 7px;
 }
+/* 平台标记：只给「挑系统」的条目挂，颜色比「荐」淡一档，不跟正文抢视线 */
+.item .plat{
+  font-size:10.5px; font-weight:600; line-height:1.75; padding:0 6px;
+  border-radius:9px; white-space:nowrap; color:var(--fg2);
+  border:1px solid color-mix(in srgb, var(--fg3) 36%, transparent);
+  background:color-mix(in srgb, var(--fg3) 9%, transparent);
+}
 .item .note{flex:1 1 100%; color:var(--fg3); font-size:12.5px; line-height:1.68; padding-left:10px; border-left:2px solid var(--line); margin-top:2px}
 .item .note::before{content:"▸ "; color:var(--fg3)}
 ul.sub{margin:5px 0 3px; padding-left:18px; color:var(--fg2); font-size:12.8px; width:100%; line-height:1.7}
@@ -1058,8 +1065,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <header>
   <div class="bar">
     <a class="brand" href="index.html"><span class="logo">U</span>uppjs.com<em>个人清单站</em></a>
-    <nav class="nav-links"><a href="apps.html">软件清单</a>
-  <a href="free.html">免费资源</a>
+    <nav class="nav-links"><a href="apps.html">软件与资源</a>
   <a href="lottery.html">彩票选号</a>
   <a href="about.html">关于</a>
   <a href="changelog.html">更新日志</a></nav>
@@ -1092,8 +1098,8 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
        data-quote-label="本站态度"></div>
 
   <div class="hero-cta reveal">
-    <a class="btn btn-primary" href="apps.html">打开软件清单</a>
-    <a class="btn btn-ghost" href="free.html">免费资源</a>
+    <a class="btn btn-primary" href="apps.html">打开软件与资源</a>
+    <a class="btn btn-ghost" href="lottery.html">彩票选号</a>
   </div>
 
   <a class="hero-scroll" href="#main" aria-label="向下滚动"><span></span></a>
@@ -1107,9 +1113,9 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
       <div class="nm">uppjs.com</div>
       <p class="sg">让技术说人话</p>
       <div class="sr">
-        <div><b>341</b><i>条收录</i></div>
-        <div><b>16</b><i>个分类</i></div>
-        <div><b>72</b><i>个分组</i></div>
+        <div><b>321</b><i>条收录</i></div>
+        <div><b>12</b><i>个分类</i></div>
+        <div><b>75</b><i>个分组</i></div>
       </div>
       <a class="cta" href="apps.html">开始浏览</a>
       <a class="cta2" href="about.html">这个站是什么</a>
@@ -1118,9 +1124,9 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
     <div class="pcard">
       <h3>站点数据</h3>
       <div class="rows">
-        <div>收录条目<b>341</b></div>
-        <div>外链总数<b>285</b></div>
-        <div>页面数量<b>7</b></div>
+        <div>收录条目<b>321</b></div>
+        <div>外链总数<b>306</b></div>
+        <div>页面数量<b>6</b></div>
         <div>最近更新<b>2026-10-08</b></div>
       </div>
     </div>
@@ -1128,8 +1134,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
     <div class="pcard">
       <h3>快速入口</h3>
       <div class="slist">
-<a href="apps.html"><span class="ic">▤</span>软件清单<span class="n">219</span></a>
-        <a href="free.html"><span class="ic">免</span>免费资源<span class="n">122</span></a>
+<a href="apps.html"><span class="ic">▤</span>软件与资源<span class="n">321</span></a>
         <a href="lottery.html"><span class="ic">彩</span>彩票选号</a>
         <a href="about.html"><span class="ic">问</span>关于</a>
         <a href="changelog.html"><span class="ic">记</span>更新日志</a>
@@ -1139,13 +1144,13 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
     <div class="pcard">
       <h3>分类</h3>
       <div class="cloud">
-<a href="apps.html#软件合集网">软件合集网<span>2</span></a><a href="apps.html#ai-工具">AI 工具<span>15</span></a><a href="apps.html#mac-iphone">Mac&amp;iPhone<span>27</span></a><a href="apps.html#pc-软件">PC 软件<span>99</span></a><a href="apps.html#mac-软件">MAC 软件<span>6</span></a><a href="apps.html#手机软件">手机软件<span>19</span></a><a href="apps.html#配件硬件推荐">配件硬件推荐<span>22</span></a><a href="apps.html#其他">其他<span>29</span></a>
+<a href="apps.html#ai-工具">AI 工具<span>20</span></a><a href="apps.html#上网与隐私">上网与隐私<span>27</span></a><a href="apps.html#办公与文档">办公与文档<span>29</span></a><a href="apps.html#影音与图像">影音与图像<span>31</span></a><a href="apps.html#文件与存储">文件与存储<span>30</span></a><a href="apps.html#开发与建站">开发与建站<span>15</span></a><a href="apps.html#学习与知识">学习与知识<span>32</span></a><a href="apps.html#素材与在线工具">素材与在线工具<span>20</span></a><a href="apps.html#系统与装机">系统与装机<span>49</span></a><a href="apps.html#硬件与外设">硬件与外设<span>22</span></a>
       </div>
     </div>
 
     <div class="pcard">
       <h3>最近更新<span class="r"><a href="changelog.html">全部 →</a></span></h3>
-      <div class="rows"><div><span>根目录 README 改成 GitHub 仓库说明（站点内容在「内容源/」）</span><b class="dt">2026-10-08</b></div><div><span>内容源统一收进「内容源/」目录 + 软件清单与免费资源合并草稿</span><b class="dt">2026-10-08</b></div><div><span>开奖数据每天自动补进内嵌快照 + 机选默认注数改为 1</span><b class="dt">2026-10-07</b></div><div><span>彩票页说明书：修掉深色主题下「文件结构」段落白底浅字读不出来的问题</span><b class="dt">2026-10-07</b></div><div><span>彩票页自动更新：不用任何账号，就能从境外节点拿到最新开奖</span><b class="dt">2026-10-07</b></div><div><span>探测函数：第二轮候选（17500 备用路径 / 官方备用域名）+ 返回响应头</span><b class="dt">2026-10-07</b></div></div>
+      <div class="rows"><div><span>重新生成页面：更新日志收进上面两个提交，日期推进到 2026-10-08</span><b class="dt">2026-10-08</b></div><div><span>根目录 README 改成 GitHub 仓库说明（站点内容在「内容源/」）</span><b class="dt">2026-10-08</b></div><div><span>内容源统一收进「内容源/」目录 + 软件清单与免费资源合并草稿</span><b class="dt">2026-10-08</b></div><div><span>开奖数据每天自动补进内嵌快照 + 机选默认注数改为 1</span><b class="dt">2026-10-07</b></div><div><span>彩票页说明书：修掉深色主题下「文件结构」段落白底浅字读不出来的问题</span><b class="dt">2026-10-07</b></div><div><span>彩票页自动更新：不用任何账号，就能从境外节点拿到最新开奖</span><b class="dt">2026-10-07</b></div></div>
     </div>
   </aside>
 
@@ -1153,7 +1158,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 
     <div class="notice reveal">
       <span class="b">✓</span>
-      <span>全站 <b>341 条</b>，全部是我自己真在用、用得住才写进来 ——
+      <span>全站 <b>321 条</b>，全部是我自己真在用、用得住才写进来 ——
             没有推广位，没有商业排序，也没有人付钱能把自己塞进来。</span>
     </div>
 
@@ -1163,9 +1168,8 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
         <span class="sub">· 各自独立成页，都能搜</span>
       </div>
       <div style="display:flex; flex-direction:column; gap:15px">
-<a class="frow reveal" href="apps.html"><span class="fcover g1">软</span><div class="ftxt"><h3>软件清单<span class="pin">主打</span></h3><p>Mac / PC / 手机软件、硬件与外设。收录标准只有一条：我真的在用、而且用得住。</p><span class="meta"><i><b>219</b> 条收录</i><i><b>8</b> 个分类</i><i><b>38</b> 个分组</i></span><span class="go">进入</span></div></a>
-        <a class="frow rev reveal" href="free.html"><span class="fcover g2">免</span><div class="ftxt"><h3>免费资源</h3><p>120+ 条合法免费资源，标了国内能不能直连，带搜索。</p><span class="meta"><i><b>122</b> 条收录</i><i><b>8</b> 个分类</i><i><b>34</b> 个分组</i><i>已标 <b>国内能不能直连</b></i></span><span class="go">进入</span></div></a>
-        <a class="frow reveal" href="lottery.html"><span class="fcover g3">彩</span><div class="ftxt"><h3>彩票选号</h3><p>双色球、大乐透随机选号与购票核对，附历史开奖走势图。纯离线单文件，不联网。</p><span class="meta"><i><b>纯离线</b> 单文件</i><i><b>不联网</b></i><i><b>2</b> 种玩法</i></span><span class="go">进入</span></div></a>
+<a class="frow reveal" href="apps.html"><span class="fcover g1">软</span><div class="ftxt"><h3>软件与资源<span class="pin">主打</span></h3><p>软件、硬件外设 + 合法免费资源，合成一份，带搜索和平台标记。</p><span class="meta"><i><b>321</b> 条收录</i><i><b>12</b> 个分类</i><i><b>75</b> 个分组</i><i>已标 <b>国内能不能直连</b></i></span><span class="go">进入</span></div></a>
+        <a class="frow rev reveal" href="lottery.html"><span class="fcover g2">彩</span><div class="ftxt"><h3>彩票选号</h3><p>双色球、大乐透随机选号与购票核对，附历史开奖走势图。纯离线单文件，不联网。</p><span class="meta"><i><b>纯离线</b> 单文件</i><i><b>不联网</b></i><i><b>2</b> 种玩法</i></span><span class="go">进入</span></div></a>
       </div>
     </section>
 
@@ -1176,12 +1180,12 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
         <a class="more" href="apps.html?view=star">看全部 →</a>
       </div>
       <div class="grid2">
-        <a class="tcard reveal" href="https://www.aliyundrive.com/s/W8sT57gsbJ2" target="_blank" rel="noopener noreferrer"><span class="cnt">软件清单</span><div class="ti g1">W</div><h3>WPS v11.8.2.11019</h3><p>最后一版支持经典模式，皮肤 → 经典，带上 PDF 阅读器</p></a>
-        <a class="tcard reveal" href="https://www.smartisan.com/apps/#/handshaker" target="_blank" rel="noopener noreferrer"><span class="cnt">软件清单</span><div class="ti g2">H</div><h3>Handshaker</h3><p>手机电脑最好用的文件传输工具，没有之一</p></a>
-        <a class="tcard reveal" href="https://www.aliyundrive.com/s/GVsDt8iEnTZ" target="_blank" rel="noopener noreferrer"><span class="cnt">软件清单</span><div class="ti g3">迅</div><h3>迅雷（绿色版）</h3><p>BT 下载没一个能用的，迅雷太强大了</p></a>
-        <a class="tcard reveal" href="https://github.com/gorhill/uBlock" target="_blank" rel="noopener noreferrer"><span class="cnt">免费资源</span><div class="ti g4">u</div><h3>uBlock Origin</h3><p>最强开源广告拦截器，浏览器去广告的事实标准</p></a>
-        <a class="tcard reveal" href="https://www.videolan.org/vlc/" target="_blank" rel="noopener noreferrer"><span class="cnt">免费资源</span><div class="ti g5">V</div><h3>VLC</h3><p>万能播放器，几乎没有放不了的格式</p></a>
-        <a class="tcard reveal" href="https://www.7-zip.org" target="_blank" rel="noopener noreferrer"><span class="cnt">免费资源</span><div class="ti g6">7</div><h3>7-Zip</h3><p>开源压缩工具，无广告无捆绑</p></a>
+        <a class="tcard reveal" href="https://github.com/gorhill/uBlock" target="_blank" rel="noopener noreferrer"><span class="cnt">软件与资源</span><div class="ti g1">u</div><h3>uBlock Origin</h3><p>最强开源广告拦截器，浏览器去广告的事实标准</p></a>
+        <a class="tcard reveal" href="https://www.aliyundrive.com/s/W8sT57gsbJ2" target="_blank" rel="noopener noreferrer"><span class="cnt">软件与资源</span><div class="ti g2">W</div><h3>WPS</h3><p>Mac 和 Windows 上都换不掉。Windows 用 v11.8.2.11019，最后一版支持经典模式（皮肤 → 经典），自带 PDF 阅读器</p></a>
+        <a class="tcard reveal" href="https://www.videolan.org/vlc/" target="_blank" rel="noopener noreferrer"><span class="cnt">软件与资源</span><div class="ti g3">V</div><h3>VLC</h3><p>万能播放器，几乎没有放不了的格式</p></a>
+        <a class="tcard reveal" href="https://syncthing.net" target="_blank" rel="noopener noreferrer"><span class="cnt">软件与资源</span><div class="ti g4">S</div><h3>Syncthing</h3><p>点对点文件同步，不经过第三方服务器</p></a>
+        <a class="tcard reveal" href="https://www.smartisan.com/apps/#/handshaker" target="_blank" rel="noopener noreferrer"><span class="cnt">软件与资源</span><div class="ti g5">H</div><h3>Handshaker</h3><p>手机电脑最好用的文件传输工具，没有之一</p></a>
+        <a class="tcard reveal" href="https://www.voidtools.com/" target="_blank" rel="noopener noreferrer"><span class="cnt">软件与资源</span><div class="ti g6">E</div><h3>Everything</h3><p>Windows 秒级文件名搜索，比系统自带搜索快几个量级，没有之一</p></a>
       </div>
     </section>
 
@@ -1212,8 +1216,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
     <div class="f-col">
       <h4>站内导航</h4>
       <div class="fl">
-        <a href="apps.html">软件清单</a>
-        <a href="free.html">免费资源</a>
+        <a href="apps.html">软件与资源</a>
         <a href="lottery.html">彩票选号</a>
         <a href="about.html">关于</a>
         <a href="changelog.html">更新日志</a>
