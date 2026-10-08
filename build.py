@@ -2068,11 +2068,59 @@ def _frow(idx, ico, title, href, desc, meta, pin="", rev=False):
     )
 
 
-def build_home(pages: dict, updated: str, stars=None) -> str:
+# 首页「最近」模块：从这几页各取第一条，当「在读 / 在看 / 在写」。
+# 取的是「作者排在最前面的那一条」—— 内容源里把最近的在最前，
+# 这条约定比加一个日期字段省事，也不会让用户填错。
+RECENT_SRC = [
+    ("books.html", "在读", "书"),
+    ("movies.html", "在看", "影"),
+    ("articles.html", "在写", "文"),
+]
+
+# 侧栏个人名片上那句自我介绍。想换只改这一行。
+HOME_BIO = ("做效率工具和 AI 工具的实践分享。不做测评，只看自己真在用、"
+            "真踩过坑的东西 —— 工具好不好用，看你有没有用完它。")
+
+
+def first_leaf(cats):
+    """深度优先取第一条真正的条目（遇到分组就往下钻）。"""
+    def walk(ns):
+        for x in ns:
+            kids = x.get("children") or []
+            if kids and not x.get("has_link"):
+                got = walk(kids)
+                if got:
+                    return got
+            elif (x.get("title") or "").strip():
+                return x
+        return None
+    return walk(cats or [])
+
+
+def collect_recents(parsed):
+    """首页「最近」用的数据：书单 / 影单 / 文章归档各取最新一条。
+
+    某页还没上线（内容源是空的）就自然不出现 —— 不用手工维护这个列表。"""
+    out = []
+    for out_name, label, ico in RECENT_SRC:
+        it = first_leaf(parsed.get(out_name))
+        if not it:
+            continue
+        # 「简述 ｜ 点评」两段拼起来显示：点评那句才是别人真正想看的
+        bits = [plain(it.get("desc") or ""), plain(it.get("note") or "")]
+        desc = "｜".join(b for b in bits if b)
+        out.append(dict(label=label, ico=ico, href=out_name,
+                        title=plain(it.get("title") or ""),
+                        url=it.get("url") or "", desc=desc))
+    return out
+
+
+def build_home(pages: dict, updated: str, stars=None, recents=None) -> str:
     """pages: {out 文件名: {"items":…, "links":…, "groups":…, "cats":[(id, 标题, 条数)]}}"""
     apps = pages.get("apps.html", {})
     apps_cats = apps.get("cats", [])
     stars = stars or []
+    recents = recents or []
 
     # ---------- 主要板块：图文交替大卡 ----------
     rows, idx = [], 0
@@ -2130,6 +2178,35 @@ def build_home(pages: dict, updated: str, stars=None) -> str:
     else:
         stars_sec = ""
 
+    # ---------- 最近：在读 / 在看 / 在写 ----------
+    # 数字花园的「生长感」全在这一块：主页能看出这个人最近在看什么、写什么。
+    # 只有真上了线的页才会出现，所以书单 / 影单没内容时这里整块不渲染。
+    if recents:
+        cards = []
+        for i, r in enumerate(recents):
+            if r["url"]:
+                tag = (f'<a class="tcard rc reveal" href="{esc(r["url"])}" '
+                       f'target="_blank" rel="noopener noreferrer">')
+            else:
+                tag = f'<a class="tcard rc reveal" href="{r["href"]}">'
+            cards.append(
+                f'{tag}<span class="cnt">{esc(r["label"])}</span>'
+                f'<div class="ti g{i % 6 + 1}">{esc(r["ico"])}</div>'
+                f'<h3>{esc(r["title"])}</h3>'
+                f'<p>{esc(r["desc"]) or "—"}</p></a>'
+            )
+        recent_sec = ("""    <section>
+      <div class="sec-h reveal">
+        <i class="bar-i"></i>最近
+        <span class="sub">· 在读 / 在看 / 在写</span>
+      </div>
+      <div class="grid3">
+%s
+      </div>
+    </section>""" % chr(10).join('        ' + c for c in cards))
+    else:
+        recent_sec = ""
+
     # ---------- 规划中 ----------
     todo = [x for x in PLANNED if not (x[2] and x[2] in LIVE)]
     plan = "".join(
@@ -2184,6 +2261,8 @@ def build_home(pages: dict, updated: str, stars=None) -> str:
     return (HOME_TEMPLATE
             .replace("__ROWS__", "\n        ".join(rows))
             .replace("__STARS_SEC__", stars_sec)
+            .replace("__RECENT_SEC__", recent_sec)
+            .replace("__BIO__", esc(HOME_BIO))
             .replace("__PLANNED__", plan)
             .replace("__SIDE_LINKS__", "\n        ".join(side_links))
             .replace("__SIDE_CLOUD__", cloud)
@@ -2268,7 +2347,7 @@ __SKIN_SCRIPT__
 __SITE_HEADER__
 
 <section class="hero">
-  <div class="hero-bg" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="hero-bg" aria-hidden="true"></div>
 
   <div class="hero-av reveal">U</div>
   <h1 class="hero-name reveal">__SITE_NAME__</h1>
@@ -2292,6 +2371,7 @@ __SITE_HEADER__
       <div class="av">U</div>
       <div class="nm">__SITE_NAME__</div>
       <p class="sg">让技术说人话</p>
+      <p class="bio">__BIO__</p>
       <div class="sr">
         <div><b>__N_ALL__</b><i>条收录</i></div>
         <div><b>__N_CATS__</b><i>个分类</i></div>
@@ -2336,9 +2416,11 @@ __SIDE_RECENT__
             没有推广位，没有商业排序，也没有人付钱能把自己塞进来。</span>
     </div>
 
+__RECENT_SEC__
+
     <section>
       <div class="sec-h reveal">
-        <i class="bar-i"></i>主要板块
+        <i class="bar-i"></i>我整理的东西
         <span class="sub">· 各自独立成页，都能搜</span>
       </div>
       <div style="display:flex; flex-direction:column; gap:15px">
@@ -3153,7 +3235,9 @@ def main():
         cs = parsed.get(cfg["out"])
         if cs and cfg.get("layout") == "list":
             stars.extend(collect_stars(cs, cfg["title"]))
-    home = build_home(pages, today, stars)
+    # 首页「最近」取书单 / 影单 / 文章归档的首条，全部来自已解析的内容，不另存一份。
+    recents = collect_recents(parsed)
+    home = build_home(pages, today, stars, recents)
     (OUT_DIR / "index.html").write_text(home, encoding="utf-8")
     print("已生成 index.html（首页）：全站 %d 条 / %d 个页面 / %d KB"
           % (sum(x["items"] for x in pages.values()), len(pages), len(home) // 1024))
