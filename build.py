@@ -127,12 +127,15 @@ LIST_PAGES = [
     # —— 「现在」（Now 页）：数字花园的标配 ——
     #    写清我最近在忙什么、在学什么，一个月更新一次。它不追热点，
     #    但它是全站唯一能看出「这个站还活着」的地方，也是主页「最近」那块的出处。
+    # —— 「现在」（Now 页）已下线（2026-10-08，用户要求去掉）——
+    #    页面撤下，内容源 内容源/现在.md 整个留着。
+    #    想恢复：把 enabled 改成 True，重跑 build.py，再双击「2-更新网站.command」。
     dict(src="内容源/现在.md", out="now.html", kicker="最近在忙什么",
          title="现在", ico="今",
          sub="我最近在忙什么、在学什么、在看什么。一个月更新一次，不追热点，"
              "只记真的还在推进的事 —— 停了的就删掉，不装样子。",
          home="最近在忙什么，一个月更新一次。",
-         layout="list"),
+         layout="list", enabled=False),
     # —— 专题合集：按「场景」把软件重新打包 ——
     #    内容源里只写条目名（不写网址），构建时去「软件与资源」查真身把
     #    网址 / 简述 / 平台标记带过来 —— 只引用，不复制，一条内容不存两份。
@@ -975,8 +978,9 @@ def render(cats, cfg: dict, updated: str) -> str:
         toc.append("</div>")
 
     page = (TEMPLATE
-            .replace("__SITE_HEADER__", site_header(cfg["out"], LIST_TOOLS))
+            .replace("__SITE_HEADER__", site_header(cfg["out"]))
             .replace("__NAV__", nav)
+            .replace("__TOOLS__", LIST_TOOLS)
             .replace("__TOC__", "\n".join(toc))
             .replace("__BODY__", "\n".join(body))
             .replace("__SIDECARD__", sidecard_html(cfg["out"]))
@@ -1030,6 +1034,7 @@ def fill_page(page: str, cfg: dict) -> str:
             .replace("__REGION_OPT__", region_opt)
             .replace("__PLAT_OPT__", plat_opt)
             .replace("__LAYOUT__", cfg["layout"])
+            .replace("__BODYCLS__", "packpage" if cfg.get("pack") else "")
             .replace("__THEME_COLOR__", THEME_COLOR)
             .replace("__PAGE_TITLE__", esc(cfg["title"] + " · " + SITE_NAME))
             .replace("__PAGE_DESC__", esc(cfg["title"] + "：" + cfg["sub"]))
@@ -1657,11 +1662,14 @@ __UPGRADE_CSS__
 </style>
 __SKIN_SCRIPT__
 </head>
-<body id="top" data-layout="__LAYOUT__">
+<body id="top" data-layout="__LAYOUT__" class="__BODYCLS__">
 
 __SITE_HEADER__
 
-<nav class="cats"><div class="wrap">__NAV__</div></nav>
+<!-- 顶栏（header）全站焊死成同一副样子：品牌 + 页面导航 + 外观按钮，
+     不因为页面不同而多一块少一块。搜索框 / 筛选 / 折叠这些只属于清单页的东西，
+     2026-10-08 起搬到下面这一行（分类条的右端），清单页之间也保持一致。 -->
+<nav class="cats"><div class="wrap"><div class="cats-scroll">__NAV__</div><div class="cats-tools">__TOOLS__</div></div></nav>
 
 <div class="shell">
   <aside class="toc">

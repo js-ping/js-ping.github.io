@@ -124,7 +124,7 @@ a{color:var(--accent); text-decoration:none}
   --radius-sm:9px;
   --radius-lg:18px;
   --radius-xl:24px;
-  --hh:62px;            /* 顶栏高度 */
+  --hh:70px;            /* 顶栏高度（2026-10-08 从 62px 放宽：原来那一行太挤了） */
   --tocw:242px;         /* 清单页左侧栏宽度 */
 
   --sh1:0 1px 2px rgba(15,23,42,.05), 0 1px 3px rgba(15,23,42,.06);
@@ -230,8 +230,8 @@ body.home header.scrolled{
 
 /* 顶栏外壳：全站同一个宽度（1240 居中），三个页面模板共用。
    flex-wrap:nowrap 是为了让「先收缩、再换行」的顺序可控 —— 换行只在窄屏媒体查询里开。 */
-.bar{max-width:1240px; margin:0 auto; padding:0 20px; height:100%;
-     display:flex; align-items:center; gap:14px; flex-wrap:nowrap}
+.bar{max-width:1240px; margin:0 auto; padding:0 22px; height:100%;
+     display:flex; align-items:center; gap:18px; flex-wrap:nowrap}
 
 .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:15.5px;
        letter-spacing:-.015em; color:var(--fg); white-space:nowrap}
@@ -247,16 +247,16 @@ a.brand:hover{color:var(--fg)}
 
 /* 导航链接：min-width:0 + 横向滚动，保证任何宽度下都不会被挤没。
    以前在 1080px 以下直接把导航藏掉，手机上就跳不出当前页了。 */
-.nav-links{display:flex; gap:3px; margin-left:6px; min-width:0;
+.nav-links{display:flex; gap:6px; margin-left:8px; min-width:0;
            overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none}
 .nav-links::-webkit-scrollbar{display:none}
 .nav-links a{
-  color:var(--fg2); font-size:13.2px; padding:6px 11px; border-radius:9px;
+  color:var(--fg2); font-size:13.5px; padding:8px 13px; border-radius:10px;
   white-space:nowrap; transition:background .16s var(--ease), color .16s var(--ease);
 }
 .nav-links a:hover{background:var(--panel2); color:var(--fg)}
 .nav-links a.on{background:var(--accent-soft); color:var(--accent); font-weight:600}
-.tools{margin-left:auto; display:flex; align-items:center; gap:8px; white-space:nowrap}
+.tools{margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap}
 
 /* 顶栏塞不下时的收缩顺序（导航任何时候都不隐藏，只是换行 / 横向滚动）：
    ① 藏品牌小字与计数、把搜索框收窄  →  ② 导航横向滚动
@@ -611,7 +611,14 @@ nav.cats{
 @supports (backdrop-filter:blur(14px)){
   nav.cats{background:color-mix(in srgb, var(--bg) 64%, transparent); backdrop-filter:blur(18px) saturate(1.6)}
 }
-nav.cats .wrap{max-width:1240px; margin:0 auto; padding:9px 20px; display:flex; gap:7px; overflow-x:auto; scrollbar-width:none}
+/* 这一行现在是「分类链接（可横向滚动） + 右端的搜索/筛选/折叠」。
+   工具区用 flex:none 钉在右端，分类再多也不会把它挤走。 */
+nav.cats .wrap{max-width:1240px; margin:0 auto; padding:9px 22px;
+  display:flex; align-items:center; gap:12px; overflow:visible}
+.cats-scroll{display:flex; align-items:center; gap:7px; min-width:0; flex:1 1 auto;
+  overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none}
+.cats-scroll::-webkit-scrollbar{display:none}
+.cats-tools{flex:none; margin-left:auto; display:flex; align-items:center; gap:8px; white-space:nowrap}
 nav.cats a{
   white-space:nowrap; padding:6px 13px; border-radius:999px; border:1px solid var(--line);
   background:var(--panel); color:var(--fg2); font-size:12.8px; transition:all .15s var(--ease);
@@ -729,6 +736,32 @@ details.group>summary::-webkit-details-marker{display:none}
 ul.sub{margin:5px 0 3px; padding-left:18px; color:var(--fg2); font-size:12.8px; width:100%; line-height:1.7}
 .item.cur{background:var(--accent-soft); border-left-color:var(--accent)}
 mark{background:var(--mark); color:var(--mark-fg); border-radius:3px; padding:0 2px}
+
+/* --------------------------------------------------------------------------
+   专题合集页（body.packpage）：条目压成两行、一组里从 1 开始编号 ——
+   读下来是「先装什么、再装什么」的一条线，而不是一份散着的清单。
+   编号用 CSS counter，内容源里不用写序号，插入 / 删除条目自动重排。
+   -------------------------------------------------------------------------- */
+.packpage .sec{margin-bottom:18px}
+.packpage details.group{margin-bottom:7px; counter-reset:pack}
+.packpage .item{
+  position:relative; padding:7px 10px 7px 31px; margin:2px 0;
+  border-radius:9px; gap:3px 9px; counter-increment:pack;
+}
+.packpage .item::before{
+  content:counter(pack); position:absolute; left:7px; top:9px;
+  min-width:16px; height:16px; padding:0 3px; border-radius:8px; box-sizing:border-box;
+  display:grid; place-items:center; font-size:10px; font-weight:700;
+  color:var(--fg3); background:var(--panel2); border:1px solid var(--line);
+}
+.packpage .item:hover{transform:none}
+.packpage .item .nm{font-size:14px}
+.packpage .item .ds{flex:1 1 100%; font-size:12.7px; line-height:1.6}
+.packpage .item .note{
+  flex:1 1 100%; font-size:12.4px; line-height:1.6; margin-top:0;
+  padding-left:0; border-left:0; color:var(--fg2);
+}
+.packpage .item .note::before{content:"— "; color:var(--fg3)}
 
 /* 清单页顶部搜索 / 筛选控件 */
 .search input, .search button, #filter, #toggleAll, .tool-link, .tools select, .tools button{
@@ -1051,7 +1084,6 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
     <nav class="nav-links"><a href="apps.html">软件与资源</a>
   <a href="books.html">书单</a>
   <a href="movies.html">影单</a>
-  <a href="now.html">现在</a>
   <a href="packs.html">专题合集</a>
   <a href="lottery.html">彩票选号</a>
   <a href="about.html">关于</a>
@@ -1101,8 +1133,8 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
       <p class="sg">让技术说人话</p>
       <p class="bio">做效率工具和 AI 工具的实践分享。不做测评，只看自己真在用、真踩过坑的东西 —— 工具好不好用，看你有没有用完它。</p>
       <div class="sr">
-        <div><b>389</b><i>条收录</i></div>
-        <div><b>24</b><i>个分类</i></div>
+        <div><b>380</b><i>条收录</i></div>
+        <div><b>20</b><i>个分类</i></div>
         <div><b>85</b><i>个分组</i></div>
       </div>
       <a class="cta" href="apps.html">开始浏览</a>
@@ -1112,9 +1144,9 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
     <div class="pcard">
       <h3>站点数据</h3>
       <div class="rows">
-        <div>收录条目<b>389</b></div>
-        <div>外链总数<b>369</b></div>
-        <div>页面数量<b>10</b></div>
+        <div>收录条目<b>380</b></div>
+        <div>外链总数<b>368</b></div>
+        <div>页面数量<b>9</b></div>
         <div>最近更新<b>2026-10-08</b></div>
       </div>
     </div>
@@ -1125,7 +1157,6 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <a href="apps.html"><span class="ic">▤</span>软件与资源<span class="n">321</span></a>
         <a href="books.html"><span class="ic">▥</span>书单<span class="n">5</span></a>
         <a href="movies.html"><span class="ic">▤</span>影单<span class="n">4</span></a>
-        <a href="now.html"><span class="ic">今</span>现在<span class="n">9</span></a>
         <a href="packs.html"><span class="ic">合</span>专题合集<span class="n">50</span></a>
         <a href="lottery.html"><span class="ic">彩</span>彩票选号</a>
         <a href="about.html"><span class="ic">问</span>关于</a>
@@ -1142,7 +1173,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 
     <div class="pcard">
       <h3>最近更新<span class="r"><a href="changelog.html">全部 →</a></span></h3>
-      <div class="rows"><div><span>新增「现在」页与「专题合集」页：专题只写条目名，构建时引用软件与资源的网址/</span><b class="dt">2026-10-08</b></div><div><span>重新生成页面：更新日志收进上面那个提交</span><b class="dt">2026-10-08</b></div><div><span>hero 打字机改为直接显示：去掉逐字动画与闪烁光标（含减少动态偏好下引言空</span><b class="dt">2026-10-08</b></div><div><span>重新生成页面：更新日志收进上面那个提交</span><b class="dt">2026-10-08</b></div><div><span>主页转向数字花园：去掉背景漂移动效 + 新增「最近在读/在看」模块 + 书单</span><b class="dt">2026-10-08</b></div><div><span>重新生成页面：更新日志收进上面那个提交</span><b class="dt">2026-10-08</b></div></div>
+      <div class="rows"><div><span>重新生成页面：更新日志收进上面那个提交</span><b class="dt">2026-10-08</b></div><div><span>新增「现在」页与「专题合集」页：专题只写条目名，构建时引用软件与资源的网址/</span><b class="dt">2026-10-08</b></div><div><span>重新生成页面：更新日志收进上面那个提交</span><b class="dt">2026-10-08</b></div><div><span>hero 打字机改为直接显示：去掉逐字动画与闪烁光标（含减少动态偏好下引言空</span><b class="dt">2026-10-08</b></div><div><span>重新生成页面：更新日志收进上面那个提交</span><b class="dt">2026-10-08</b></div><div><span>主页转向数字花园：去掉背景漂移动效 + 新增「最近在读/在看」模块 + 书单</span><b class="dt">2026-10-08</b></div></div>
     </div>
   </aside>
 
@@ -1150,7 +1181,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 
     <div class="notice reveal">
       <span class="b">✓</span>
-      <span>全站 <b>389 条</b>，全部是我自己真在用、用得住才写进来 ——
+      <span>全站 <b>380 条</b>，全部是我自己真在用、用得住才写进来 ——
             没有推广位，没有商业排序，也没有人付钱能把自己塞进来。</span>
     </div>
 
@@ -1174,9 +1205,8 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <a class="frow reveal" href="apps.html"><span class="fcover g1">软</span><div class="ftxt"><h3>软件与资源<span class="pin">主打</span></h3><p>软件、硬件外设 + 合法免费资源，合成一份，带搜索和平台标记。</p><span class="meta"><i><b>321</b> 条收录</i><i><b>12</b> 个分类</i><i><b>75</b> 个分组</i><i>已标 <b>国内能不能直连</b></i></span><span class="go">进入</span></div></a>
         <a class="frow rev reveal" href="books.html"><span class="fcover g2">书</span><div class="ftxt"><h3>书单</h3><p>看过的书，带年份、评分和一句短评。</p><span class="meta"><i><b>5</b> 条收录</i><i><b>2</b> 个分类</i><i><b>1</b> 个分组</i></span><span class="go">进入</span></div></a>
         <a class="frow reveal" href="movies.html"><span class="fcover g3">影</span><div class="ftxt"><h3>影单</h3><p>看过的电影和剧集，带年份、评分和一句短评。</p><span class="meta"><i><b>4</b> 条收录</i><i><b>2</b> 个分类</i><i><b>2</b> 个分组</i></span><span class="go">进入</span></div></a>
-        <a class="frow rev reveal" href="now.html"><span class="fcover g4">今</span><div class="ftxt"><h3>现在</h3><p>最近在忙什么，一个月更新一次。</p><span class="meta"><i><b>9</b> 条收录</i><i><b>4</b> 个分类</i><i><b>0</b> 个分组</i></span><span class="go">进入</span></div></a>
-        <a class="frow reveal" href="packs.html"><span class="fcover g5">合</span><div class="ftxt"><h3>专题合集</h3><p>按场景重新打包的一批清单，条目全部引用自软件与资源，不存两份。</p><span class="meta"><i><b>50</b> 条收录</i><i><b>4</b> 个分类</i><i><b>7</b> 个分组</i></span><span class="go">进入</span></div></a>
-        <a class="frow rev reveal" href="lottery.html"><span class="fcover g6">彩</span><div class="ftxt"><h3>彩票选号</h3><p>双色球、大乐透随机选号与购票核对，附历史开奖走势图。纯离线单文件，不联网。</p><span class="meta"><i><b>纯离线</b> 单文件</i><i><b>不联网</b></i><i><b>2</b> 种玩法</i></span><span class="go">进入</span></div></a>
+        <a class="frow rev reveal" href="packs.html"><span class="fcover g4">合</span><div class="ftxt"><h3>专题合集</h3><p>按场景重新打包的一批清单，条目全部引用自软件与资源，不存两份。</p><span class="meta"><i><b>50</b> 条收录</i><i><b>4</b> 个分类</i><i><b>7</b> 个分组</i></span><span class="go">进入</span></div></a>
+        <a class="frow reveal" href="lottery.html"><span class="fcover g5">彩</span><div class="ftxt"><h3>彩票选号</h3><p>双色球、大乐透随机选号与购票核对，附历史开奖走势图。纯离线单文件，不联网。</p><span class="meta"><i><b>纯离线</b> 单文件</i><i><b>不联网</b></i><i><b>2</b> 种玩法</i></span><span class="go">进入</span></div></a>
       </div>
     </section>
 
@@ -1226,7 +1256,6 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
         <a href="apps.html">软件与资源</a>
         <a href="books.html">书单</a>
         <a href="movies.html">影单</a>
-        <a href="now.html">现在</a>
         <a href="packs.html">专题合集</a>
         <a href="lottery.html">彩票选号</a>
         <a href="about.html">关于</a>

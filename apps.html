@@ -418,7 +418,7 @@ footer{
   --radius-sm:9px;
   --radius-lg:18px;
   --radius-xl:24px;
-  --hh:62px;            /* 顶栏高度 */
+  --hh:70px;            /* 顶栏高度（2026-10-08 从 62px 放宽：原来那一行太挤了） */
   --tocw:242px;         /* 清单页左侧栏宽度 */
 
   --sh1:0 1px 2px rgba(15,23,42,.05), 0 1px 3px rgba(15,23,42,.06);
@@ -524,8 +524,8 @@ body.home header.scrolled{
 
 /* 顶栏外壳：全站同一个宽度（1240 居中），三个页面模板共用。
    flex-wrap:nowrap 是为了让「先收缩、再换行」的顺序可控 —— 换行只在窄屏媒体查询里开。 */
-.bar{max-width:1240px; margin:0 auto; padding:0 20px; height:100%;
-     display:flex; align-items:center; gap:14px; flex-wrap:nowrap}
+.bar{max-width:1240px; margin:0 auto; padding:0 22px; height:100%;
+     display:flex; align-items:center; gap:18px; flex-wrap:nowrap}
 
 .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:15.5px;
        letter-spacing:-.015em; color:var(--fg); white-space:nowrap}
@@ -541,16 +541,16 @@ a.brand:hover{color:var(--fg)}
 
 /* 导航链接：min-width:0 + 横向滚动，保证任何宽度下都不会被挤没。
    以前在 1080px 以下直接把导航藏掉，手机上就跳不出当前页了。 */
-.nav-links{display:flex; gap:3px; margin-left:6px; min-width:0;
+.nav-links{display:flex; gap:6px; margin-left:8px; min-width:0;
            overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none}
 .nav-links::-webkit-scrollbar{display:none}
 .nav-links a{
-  color:var(--fg2); font-size:13.2px; padding:6px 11px; border-radius:9px;
+  color:var(--fg2); font-size:13.5px; padding:8px 13px; border-radius:10px;
   white-space:nowrap; transition:background .16s var(--ease), color .16s var(--ease);
 }
 .nav-links a:hover{background:var(--panel2); color:var(--fg)}
 .nav-links a.on{background:var(--accent-soft); color:var(--accent); font-weight:600}
-.tools{margin-left:auto; display:flex; align-items:center; gap:8px; white-space:nowrap}
+.tools{margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap}
 
 /* 顶栏塞不下时的收缩顺序（导航任何时候都不隐藏，只是换行 / 横向滚动）：
    ① 藏品牌小字与计数、把搜索框收窄  →  ② 导航横向滚动
@@ -905,7 +905,14 @@ nav.cats{
 @supports (backdrop-filter:blur(14px)){
   nav.cats{background:color-mix(in srgb, var(--bg) 64%, transparent); backdrop-filter:blur(18px) saturate(1.6)}
 }
-nav.cats .wrap{max-width:1240px; margin:0 auto; padding:9px 20px; display:flex; gap:7px; overflow-x:auto; scrollbar-width:none}
+/* 这一行现在是「分类链接（可横向滚动） + 右端的搜索/筛选/折叠」。
+   工具区用 flex:none 钉在右端，分类再多也不会把它挤走。 */
+nav.cats .wrap{max-width:1240px; margin:0 auto; padding:9px 22px;
+  display:flex; align-items:center; gap:12px; overflow:visible}
+.cats-scroll{display:flex; align-items:center; gap:7px; min-width:0; flex:1 1 auto;
+  overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none}
+.cats-scroll::-webkit-scrollbar{display:none}
+.cats-tools{flex:none; margin-left:auto; display:flex; align-items:center; gap:8px; white-space:nowrap}
 nav.cats a{
   white-space:nowrap; padding:6px 13px; border-radius:999px; border:1px solid var(--line);
   background:var(--panel); color:var(--fg2); font-size:12.8px; transition:all .15s var(--ease);
@@ -1023,6 +1030,32 @@ details.group>summary::-webkit-details-marker{display:none}
 ul.sub{margin:5px 0 3px; padding-left:18px; color:var(--fg2); font-size:12.8px; width:100%; line-height:1.7}
 .item.cur{background:var(--accent-soft); border-left-color:var(--accent)}
 mark{background:var(--mark); color:var(--mark-fg); border-radius:3px; padding:0 2px}
+
+/* --------------------------------------------------------------------------
+   专题合集页（body.packpage）：条目压成两行、一组里从 1 开始编号 ——
+   读下来是「先装什么、再装什么」的一条线，而不是一份散着的清单。
+   编号用 CSS counter，内容源里不用写序号，插入 / 删除条目自动重排。
+   -------------------------------------------------------------------------- */
+.packpage .sec{margin-bottom:18px}
+.packpage details.group{margin-bottom:7px; counter-reset:pack}
+.packpage .item{
+  position:relative; padding:7px 10px 7px 31px; margin:2px 0;
+  border-radius:9px; gap:3px 9px; counter-increment:pack;
+}
+.packpage .item::before{
+  content:counter(pack); position:absolute; left:7px; top:9px;
+  min-width:16px; height:16px; padding:0 3px; border-radius:8px; box-sizing:border-box;
+  display:grid; place-items:center; font-size:10px; font-weight:700;
+  color:var(--fg3); background:var(--panel2); border:1px solid var(--line);
+}
+.packpage .item:hover{transform:none}
+.packpage .item .nm{font-size:14px}
+.packpage .item .ds{flex:1 1 100%; font-size:12.7px; line-height:1.6}
+.packpage .item .note{
+  flex:1 1 100%; font-size:12.4px; line-height:1.6; margin-top:0;
+  padding-left:0; border-left:0; color:var(--fg2);
+}
+.packpage .item .note::before{content:"— "; color:var(--fg3)}
 
 /* 清单页顶部搜索 / 筛选控件 */
 .search input, .search button, #filter, #toggleAll, .tool-link, .tools select, .tools button{
@@ -1337,7 +1370,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 })();
 </script>
 </head>
-<body id="top" data-layout="list">
+<body id="top" data-layout="list" class="">
 
 <header>
   <div class="bar">
@@ -1345,26 +1378,11 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
     <nav class="nav-links"><a class="on" href="apps.html">软件与资源</a>
   <a href="books.html">书单</a>
   <a href="movies.html">影单</a>
-  <a href="now.html">现在</a>
   <a href="packs.html">专题合集</a>
   <a href="lottery.html">彩票选号</a>
   <a href="about.html">关于</a>
   <a href="changelog.html">更新日志</a></nav>
-    <div class="tools">      <div class="search" id="searchbox">
-        <input id="q" type="search" placeholder="搜索名称 / 说明，按 / 聚焦、↑↓ 选择" autocomplete="off">
-        <button id="clr" title="清空">×</button>
-      </div>
-      <span id="count"></span>
-      <select id="filter" title="筛选">
-        <option value="all">全部</option>
-        <option value="link">有下载链接</option>
-        <option value="star">我推荐的</option>
-        <option value="cn">只看国内直连</option>
-        <option value="pmac">只有 Mac 版</option>
-        <option value="pwin">只有 Windows 版</option>
-        <option value="pandroid">只有安卓版</option>
-      </select>
-      <button id="toggleAll" title="展开 / 折叠全部分组">折叠</button>      <div class="appear">
+    <div class="tools">      <div class="appear">
         <button id="theme" title="外观：明暗与底色" aria-haspopup="dialog" aria-expanded="false">外观</button>
         <div class="ap-panel" id="apPanel" hidden>
           <p class="ap-lab">明暗</p>
@@ -1382,7 +1400,24 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
   </div>
 </header>
 
-<nav class="cats"><div class="wrap"><a href="#ai-工具">AI 工具<span class="n">20</span></a><a href="#上网与隐私">上网与隐私<span class="n">27</span></a><a href="#办公与文档">办公与文档<span class="n">29</span></a><a href="#影音与图像">影音与图像<span class="n">31</span></a><a href="#文件与存储">文件与存储<span class="n">30</span></a><a href="#开发与建站">开发与建站<span class="n">15</span></a><a href="#学习与知识">学习与知识<span class="n">32</span></a><a href="#素材与在线工具">素材与在线工具<span class="n">20</span></a><a href="#系统与装机">系统与装机<span class="n">49</span></a><a href="#硬件与外设">硬件与外设<span class="n">22</span></a><a href="#手机-app">手机 App<span class="n">19</span></a><a href="#经验与备忘">经验与备忘<span class="n">27</span></a></div></nav>
+<!-- 顶栏（header）全站焊死成同一副样子：品牌 + 页面导航 + 外观按钮，
+     不因为页面不同而多一块少一块。搜索框 / 筛选 / 折叠这些只属于清单页的东西，
+     2026-10-08 起搬到下面这一行（分类条的右端），清单页之间也保持一致。 -->
+<nav class="cats"><div class="wrap"><div class="cats-scroll"><a href="#ai-工具">AI 工具<span class="n">20</span></a><a href="#上网与隐私">上网与隐私<span class="n">27</span></a><a href="#办公与文档">办公与文档<span class="n">29</span></a><a href="#影音与图像">影音与图像<span class="n">31</span></a><a href="#文件与存储">文件与存储<span class="n">30</span></a><a href="#开发与建站">开发与建站<span class="n">15</span></a><a href="#学习与知识">学习与知识<span class="n">32</span></a><a href="#素材与在线工具">素材与在线工具<span class="n">20</span></a><a href="#系统与装机">系统与装机<span class="n">49</span></a><a href="#硬件与外设">硬件与外设<span class="n">22</span></a><a href="#手机-app">手机 App<span class="n">19</span></a><a href="#经验与备忘">经验与备忘<span class="n">27</span></a></div><div class="cats-tools">      <div class="search" id="searchbox">
+        <input id="q" type="search" placeholder="搜索名称 / 说明，按 / 聚焦、↑↓ 选择" autocomplete="off">
+        <button id="clr" title="清空">×</button>
+      </div>
+      <span id="count"></span>
+      <select id="filter" title="筛选">
+        <option value="all">全部</option>
+        <option value="link">有下载链接</option>
+        <option value="star">我推荐的</option>
+        <option value="cn">只看国内直连</option>
+        <option value="pmac">只有 Mac 版</option>
+        <option value="pwin">只有 Windows 版</option>
+        <option value="pandroid">只有安卓版</option>
+      </select>
+      <button id="toggleAll" title="展开 / 折叠全部分组">折叠</button></div></div></nav>
 
 <div class="shell">
   <aside class="toc">
@@ -1714,7 +1749,6 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
         <a href="index.html">首页</a>
         <a href="books.html">书单</a>
         <a href="movies.html">影单</a>
-        <a href="now.html">现在</a>
         <a href="packs.html">专题合集</a>
         <a href="lottery.html">彩票选号</a>
         <a href="about.html">关于</a>
