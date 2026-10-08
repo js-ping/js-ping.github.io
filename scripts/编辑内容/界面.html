@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>uppjs 内容编辑器</title>
+<style>
+:root{
+  --bg:#eef1f7; --panel:#fff; --panel2:#f5f7fb; --fg:#121826; --fg2:#5b667c; --fg3:#8b95a8;
+  --line:#dbe1ec; --accent:#2f6fed; --soft:rgba(47,111,237,.10); --ok:#0f8a4a;
+  --warn:#c2700a; --bad:#c0392b; --shadow:0 10px 34px rgba(20,30,60,.14);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0e1117; --panel:#161b24; --panel2:#1c222d; --fg:#e9edf5; --fg2:#9aa5bb; --fg3:#6b7689;
+  --line:#2a3242; --accent:#5b8cff; --soft:rgba(91,140,255,.16); --ok:#4ec98a;
+  --warn:#e0a355; --bad:#ef7a6a; --shadow:0 10px 34px rgba(0,0,0,.5);
+}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:14px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",
+  "Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--line);
+  background:var(--panel);border-radius:8px;padding:5px 11px;transition:.12s}
+button:hover{border-color:var(--accent);color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+button.primary:hover{filter:brightness(1.08);color:#fff}
+button.danger:hover{border-color:var(--bad);color:var(--bad)}
+button:disabled{opacity:.45;cursor:default}
+input,textarea,select{font:inherit;color:var(--fg);background:var(--panel);
+  border:1px solid var(--line);border-radius:8px;padding:7px 10px;width:100%}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--soft)}
+textarea{resize:vertical;line-height:1.7}
+
+/* ---------- 顶栏 ---------- */
+.top{height:54px;display:flex;align-items:center;gap:12px;padding:0 16px;
+  background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.logo{width:28px;height:28px;border-radius:8px;background:var(--accent);color:#fff;
+  display:grid;place-items:center;font-weight:700;font-size:15px}
+.ttl{font-weight:600}
+.ttl i{font-style:normal;color:var(--fg3);font-weight:400;font-size:12.5px;margin-left:8px}
+.grow{flex:1}
+.top .hint{color:var(--fg3);font-size:12.5px}
+
+/* ---------- 布局 ---------- */
+.wrap{display:grid;grid-template-columns:246px minmax(0,1fr);height:calc(100vh - 54px)}
+.side{background:var(--panel);border-right:1px solid var(--line);overflow-y:auto;padding:12px 10px 30px}
+.side h4{margin:6px 8px 8px;font-size:11.5px;color:var(--fg3);font-weight:600;letter-spacing:.06em}
+.pg{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:9px;cursor:pointer;
+  margin-bottom:2px;border:1px solid transparent}
+.pg:hover{background:var(--panel2)}
+.pg.on{background:var(--soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+.pg .ic{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;flex:0 0 auto;
+  font-size:12px;font-weight:700;background:var(--soft);color:var(--accent)}
+.pg.on .ic{background:var(--accent);color:#fff}
+.pg .tx{min-width:0;flex:1}
+.pg .tx b{display:block;font-size:13.5px;font-weight:inherit;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.pg .tx s{display:block;text-decoration:none;color:var(--fg3);font-size:11.5px;font-weight:400}
+.pg .dot{width:7px;height:7px;border-radius:50%;flex:0 0 auto}
+.dot.live{background:var(--ok)} .dot.empty{background:var(--warn)} .dot.off{background:var(--fg3)}
+
+.main{overflow-y:auto;padding:18px 22px 60px}
+.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.bar h2{margin:0;font-size:19px}
+.bar .meta{color:var(--fg3);font-size:12.5px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{border:0;border-radius:0;background:transparent;padding:5px 13px}
+.seg button.on{background:var(--accent);color:#fff;font-weight:600}
+
+/* ---------- 条目区 ---------- */
+.sec{background:var(--panel);border:1px solid var(--line);border-radius:13px;
+  padding:6px 16px 10px;margin-bottom:16px}
+.sec>h3{margin:12px 0 8px;font-size:15.5px;display:flex;align-items:center;gap:8px}
+.sec>h3 .anchor{color:var(--fg3);font-size:12px;font-weight:400}
+.sub{margin:14px 0 4px;font-size:13.5px;color:var(--fg2);font-weight:600;
+  display:flex;align-items:center;gap:8px;padding-bottom:6px;border-bottom:1px dashed var(--line)}
+.sub .add{margin-left:auto;opacity:.6}
+.sub:hover .add{opacity:1}
+
+.row{display:flex;align-items:flex-start;gap:9px;padding:6px 8px 6px 4px;border-radius:8px;
+  border-left:2px solid transparent;position:relative}
+.row:hover{background:var(--panel2);border-left-color:var(--accent)}
+.row.drag{opacity:.35}
+.row.over{box-shadow:inset 0 2px 0 var(--accent)}
+.grip{color:var(--fg3);cursor:grab;user-select:none;font-size:13px;padding-top:1px;flex:0 0 auto;
+  opacity:0}
+.row:hover .grip{opacity:.75}
+.bd{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 9px}
+.nm{font-weight:600;font-size:14.5px}
+.nm a{color:var(--accent);text-decoration:none}
+.nm a:hover{text-decoration:underline}
+.ds{color:var(--fg2);font-size:13.5px}
+.nt{color:var(--fg3);font-size:12.5px}
+.nt::before{content:"｜";margin-right:2px;opacity:.55}
+.sub-n{color:var(--fg3);font-size:11.5px}
+.chips{display:inline-flex;gap:4px;flex:0 0 auto}
+.badge{font-size:10.5px;font-weight:600;line-height:1.75;padding:0 6px;border-radius:9px;
+  background:var(--soft);color:var(--accent);border:1px solid transparent}
+.badge.p{color:var(--fg2);border-color:var(--line);background:var(--panel2)}
+.ops{display:flex;gap:2px;flex:0 0 auto;opacity:0;transition:.12s}
+.row:hover .ops,.row.open .ops{opacity:1}
+.ops button{padding:2px 7px;font-size:12px;border-radius:6px;line-height:1.5}
+.blankstrip,.cmt{color:var(--fg3);font-size:12px;padding:7px 4px;border-top:1px dashed var(--line);
+  margin-top:6px}
+.cmt{background:var(--panel2);border-radius:8px;border:0;margin:10px 0}
+
+/* 空状态提示框。类名故意不叫 .empty —— 侧栏那些小圆点是 class="dot empty"，
+   撞上的话会被套上这里的 padding，撑成一个大色块。 */
+.blank{background:var(--panel);border:1px dashed var(--line);border-radius:13px;
+  padding:38px 24px;text-align:center;color:var(--fg2)}
+.blank h3{margin:0 0 8px;font-size:15.5px;color:var(--fg)}
+.blank p{margin:0 0 6px;font-size:13px}
+.blank .go{margin-top:14px}
+
+.rawbox{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px}
+.rawbox textarea{min-height:calc(100vh - 260px);font-family:ui-monospace,SFMono-Regular,Menlo,
+  Consolas,"PingFang SC",monospace;font-size:13px}
+
+/* ---------- 右侧抽屉 ---------- */
+.drawer{position:fixed;top:0;right:0;width:430px;max-width:92vw;height:100vh;z-index:40;
+  background:var(--panel);border-left:1px solid var(--line);box-shadow:var(--shadow);
+  transform:translateX(102%);transition:transform .2s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column}
+.drawer.on{transform:none}
+.drawer header{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center}
+.drawer header b{font-size:15px}
+.drawer .body{flex:1;overflow-y:auto;padding:16px 18px}
+.drawer footer{padding:13px 18px;border-top:1px solid var(--line);display:flex;gap:8px}
+.fld{margin-bottom:14px}
+.fld label{display:block;font-size:12.5px;color:var(--fg2);margin-bottom:5px;font-weight:600}
+.fld .tip{color:var(--fg3);font-size:11.5px;font-weight:400;margin-left:6px}
+.fld .row2{display:flex;gap:8px}
+.pick{display:flex;flex-wrap:wrap;gap:6px}
+.pick span{padding:4px 11px;border:1px solid var(--line);border-radius:8px;cursor:pointer;
+  font-size:13px;user-select:none;background:var(--panel2)}
+.pick span.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.previewline{background:var(--panel2);border:1px solid var(--line);border-radius:8px;
+  padding:9px 11px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;
+  word-break:break-all;color:var(--fg2)}
+
+/* ---------- 日志 / 预览 ---------- */
+.log{position:fixed;left:0;right:0;bottom:0;max-height:44vh;background:var(--panel);
+  border-top:1px solid var(--line);box-shadow:var(--shadow);z-index:45;
+  transform:translateY(102%);transition:transform .2s;display:flex;flex-direction:column}
+.log.on{transform:none}
+.log header{padding:9px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.log pre{margin:0;padding:13px 16px;overflow:auto;font-size:12.5px;line-height:1.65;
+  font-family:ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-all}
+
+.modal{position:fixed;inset:0;background:rgba(10,14,22,.55);z-index:50;display:none;
+  flex-direction:column}
+.modal.on{display:flex}
+.modal .mh{height:48px;background:var(--panel);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:10px;padding:0 14px}
+.modal iframe{flex:1;width:100%;border:0;background:#fff}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,26px);z-index:60;
+  background:#111827;color:#fff;padding:10px 18px;border-radius:10px;font-size:13.5px;
+  opacity:0;transition:.2s;pointer-events:none;max-width:70vw;text-align:center;line-height:1.7}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast.bad{background:var(--bad)}
+.toast.ok{background:var(--ok)}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <span class="logo">U</span>
+  <span class="ttl">内容编辑器<i>改完点「保存并上线」</i></span>
+  <span class="grow"></span>
+  <span class="hint" id="dirty"></span>
+  <button id="btnHelp">说明书</button>
+  <button id="btnPreview">预览</button>
+  <button class="primary" id="btnPublish">保存并上线</button>
+</div>
+
+<div class="wrap">
+  <aside class="side"><h4>页面</h4><div id="pages"></div></aside>
+  <main class="main" id="main"></main>
+</div>
+
+<aside class="drawer" id="drawer">
+  <header><b id="dTitle">编辑条目</b><span class="grow"></span>
+    <button id="dClose">关闭</button></header>
+  <div class="body">
+    <div class="fld">
+      <label>名字 <span class="tip">必填</span></label>
+      <input id="fTitle" autocomplete="off" placeholder="比如：IINA / 《置身事内》">
+    </div>
+    <div class="fld">
+      <label>网址 <span class="tip">选填，填了就成可点的链接</span></label>
+      <input id="fUrl" autocomplete="off" placeholder="https://">
+    </div>
+    <div class="fld">
+      <label>简述 <span class="tip">一句话说清这是什么，显示在名字后面</span></label>
+      <input id="fDesc" autocomplete="off" placeholder="比如：macOS 最强播放器">
+    </div>
+    <div class="fld">
+      <label>短评 <span class="tip">你自己的判断，会单独起一行显示</span></label>
+      <input id="fNote" autocomplete="off" placeholder="比如：用了三年，换不掉">
+    </div>
+    <div class="fld">
+      <label>标记</label>
+      <div class="pick" id="fStar"><span data-v="1">☆ 荐</span></div>
+    </div>
+    <div class="fld" id="platWrap">
+      <label>只跑哪个系统 <span class="tip">不选 = 多平台通用，页面上不出徽章</span></label>
+      <div class="pick" id="fPlat"></div>
+    </div>
+    <div class="fld">
+      <label>存进文件会长这样</label>
+      <div class="previewline" id="fPreview"></div>
+    </div>
+  </div>
+  <footer>
+    <button class="primary" id="dSave">保存</button>
+    <button id="dDelete" class="danger">删除这条</button>
+    <span class="grow"></span>
+    <button id="dCancel">取消</button>
+  </footer>
+</aside>
+
+<div class="log" id="log">
+  <header><b id="logTitle">运行输出</b><span class="grow"></span>
+    <button id="logClose">收起</button></header>
+  <pre id="logBody"></pre>
+</div>
+
+<div class="modal" id="modal">
+  <div class="mh"><b id="mTitle">预览</b><span class="grow"></span>
+    <span class="hint" id="mHint"></span>
+    <button id="mOpen">在新窗口打开</button>
+    <button id="mClose">关闭</button></div>
+  <iframe id="mFrame"></iframe>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var S = { pages: [], cur: null, data: null, mode: 'items', edit: null, plat: [], order: [], star: false };
+
+function $(id){ return document.getElementById(id); }
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function toast(msg, kind){
+  var t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast on' + (kind ? ' ' + kind : '');
+  clearTimeout(t._t);
+  t._t = setTimeout(function(){ t.className = 'toast'; }, kind === 'bad' ? 4200 : 2200);
+}
+function log(title, body){
+  $('logTitle').textContent = title;
+  $('logBody').textContent = body || '';
+  $('log').classList.add('on');
+}
+
+function api(path, body){
+  var opt = body ? { method:'POST', headers:{'Content-Type':'application/json'},
+                     body: JSON.stringify(body) } : {};
+  return fetch(path, opt).then(function(r){ return r.json(); });
+}
+
+/* ---------------- 页面列表 ---------------- */
+function loadState(){
+  return api('/api/state').then(function(r){
+    if (!r.ok) { toast(r.error || '读不到状态', 'bad'); return; }
+    S.pages = r.pages;
+    renderPages();
+    if (!S.cur) {
+      var first = S.pages.filter(function(p){ return p.kind === 'list'; })[0] || S.pages[0];
+      if (first) loadPage(first.path);
+    }
+  });
+}
+
+function renderPages(){
+  var h = '';
+  S.pages.forEach(function(p){
+    h += '<div class="pg' + (S.cur === p.path ? ' on' : '') + '" data-p="' + esc(p.path) + '">'
+       +   '<span class="ic">' + esc((p.title || '?').slice(0, 1)) + '</span>'
+       +   '<span class="tx"><b>' + esc(p.title) + '</b><s>' + esc(p.note)
+       +     (p.kind === 'list' ? ' · ' + p.items + ' 条' : '') + '</s></span>'
+       +   '<span class="dot ' + esc(p.state) + '"></span>'
+       + '</div>';
+  });
+  $('pages').innerHTML = h;
+  Array.prototype.forEach.call($('pages').children, function(el){
+    el.onclick = function(){ loadPage(el.dataset.p); };
+  });
+}
+
+function loadPage(path){
+  S.cur = path; renderPages();
+  $('main').innerHTML = '<div class="blank"><p>正在读取…</p></div>';
+  return api('/api/page?path=' + encodeURIComponent(path)).then(function(r){
+    if (!r.ok) { $('main').innerHTML = '<div class="blank"><p>' + esc(r.error) + '</p></div>'; return; }
+    S.data = r; S.order = r.plat_order || [];
+    S.mode = (r.kind === 'doc') ? 'raw' : 'items';
+    render();
+  });
+}
+
+/* ---------------- 主体渲染 ---------------- */
+function render(){
+  var d = S.data;
+  var h = '';
+  h += '<div class="bar"><h2>' + esc(d.title) + '</h2>'
+     + '<span class="meta">' + esc(d.path) + '　·　网页上是 ' + esc(d.out) + '</span>'
+     + '<span class="grow"></span>';
+  if (d.kind === 'list') {
+    h += '<span class="seg"><button data-m="items"' + (S.mode === 'items' ? ' class="on"' : '')
+       + '>条目</button><button data-m="raw"' + (S.mode === 'raw' ? ' class="on"' : '')
+       + '>源码</button></span>';
+  } else {
+    h += '<span class="meta">散文页，直接改 markdown</span>';
+  }
+  h += '</div>';
+
+  if (S.mode === 'raw') {
+    h += '<div class="rawbox"><textarea id="rawText" spellcheck="false">'
+       + esc(d.raw) + '</textarea>'
+       + '<div style="margin-top:10px;display:flex;gap:8px;align-items:center">'
+       + '<button class="primary" id="rawSave">保存这份源码</button>'
+       + '<span class="meta" id="rawInfo">' + d.raw.split('\n').length + ' 行</span></div></div>';
+    $('main').innerHTML = h;
+    $('rawText').oninput = function(){
+      $('rawInfo').textContent = this.value.split('\n').length + ' 行';
+    };
+    $('rawSave').onclick = saveRaw;
+  } else {
+    h += renderItems(d);
+    $('main').innerHTML = h;
+    bindItems();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.seg button'), function(b){
+    b.onclick = function(){ S.mode = b.dataset.m; render(); };
+  });
+}
+
+function renderItems(d){
+  var hasCat = d.blocks.some(function(b){ return b.k === 'cat'; });
+  if (d.items === 0 && !hasCat) {
+    return '<div class="blank"><h3>这一页还空着</h3>'
+      + '<p>位置已经留好了，点下面的按钮加第一条。填完保存，它就会出现在网站上。</p>'
+      + '<div class="go"><button class="primary" id="firstAdd">＋ 加第一条</button></div></div>';
+  }
+  var h = '', sec = null, lastItem = null;
+  d.blocks.forEach(function(b, i){
+    if (b.k === 'comment') {
+      h += '<div class="cmt">内容源开头有 ' + b.n + ' 行说明注释，不显示在网页上，编辑器不动它</div>';
+      return;
+    }
+    if (b.k === 'cat') {
+      if (sec) h += '</div>';
+      sec = b.title;
+      h += '<div class="sec"><h3>' + esc(b.title) + '<span class="anchor">#' + b.start + '</span></h3>';
+      lastItem = null;
+      return;
+    }
+    if (b.k === 'sub') {
+      h += '<div class="sub">' + esc(b.title)
+         + '<button class="add" data-add="' + b.start + '" data-indent="' + (b.indent || 0)
+         + '">＋ 往这组加一条</button></div>';
+      lastItem = null;
+      return;
+    }
+    // item
+    var f = b.fields;
+    var chips = '';
+    if (f.star) chips += '<span class="badge">荐</span>';
+    (f.plat || []).forEach(function(p){ chips += '<span class="badge p">' + esc(p) + '</span>'; });
+    var nm = f.url
+      ? '<a href="' + esc(f.url) + '" target="_blank" rel="noopener noreferrer">' + esc(f.title) + '</a>'
+      : esc(f.title);
+    h += '<div class="row" data-line="' + b.start + '" data-indent="' + b.indent + '" draggable="true"'
+       + ' style="margin-left:' + (b.indent * 8) + 'px">'
+       +   '<span class="grip" title="按住可以拖动排序">⠿</span>'
+       +   '<span class="bd"><span class="nm">' + nm + '</span>'
+       +     (chips ? '<span class="chips">' + chips + '</span>' : '')
+       +     (f.desc ? '<span class="ds">' + esc(f.desc) + '</span>' : '')
+       +     (f.note ? '<span class="nt">' + esc(f.note) + '</span>' : '')
+       +     (b.sub ? '<span class="sub-n">+' + b.sub + ' 行附注</span>' : '')
+       +   '</span>'
+       +   '<span class="ops">'
+       +     '<button data-act="edit">编辑</button>'
+       +     '<button data-act="up" title="上移">↑</button>'
+       +     '<button data-act="down" title="下移">↓</button>'
+       +     '<button data-act="add" title="' + (b.head ? '往这一组里加一条' : '在下面加一条')
+       +       '">＋</button>'
+       +     '<button data-act="del" title="删除">✕</button>'
+       +   '</span>'
+       + '</div>';
+    lastItem = b.start;
+  });
+  if (sec) h += '</div>';
+  h += '<div style="margin-top:6px"><button id="tailAdd">＋ 在最后加一条</button>'
+     + '<span class="meta" style="margin-left:10px">拖动左边的 ⠿ 可以调整顺序</span></div>';
+  return h;
+}
+
+function bindItems(){
+  var di = (S.data && S.data.default_indent) || 0;
+  var fa = $('firstAdd'); if (fa) fa.onclick = function(){ openEditor(null, di, -1); };
+  var ta = $('tailAdd'); if (ta) ta.onclick = function(){ openEditor(null, di, -1); };
+  Array.prototype.forEach.call(document.querySelectorAll('[data-add]'), function(b){
+    b.onclick = function(e){
+      e.stopPropagation();
+      openEditor(null, +b.dataset.indent, +b.dataset.add);
+    };
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.row'), function(row){
+    var line = +row.dataset.line, indent = +row.dataset.indent;
+    row.onclick = function(e){ if (e.target.closest('button')) return; openEditor(line, indent); };
+    Array.prototype.forEach.call(row.querySelectorAll('.ops button'), function(btn){
+      btn.onclick = function(e){
+        e.stopPropagation();
+        var a = btn.dataset.act;
+        if (a === 'edit') openEditor(line, indent);
+        else if (a === 'add') openEditor(null, indent, line);
+        else if (a === 'del') delItem(line);
+        else if (a === 'up') moveItem(line, -1);
+        else if (a === 'down') moveItem(line, 1);
+      };
+    });
+  });
+  bindDrag();
+}
+
+/* ---------------- 拖拽排序 ---------------- */
+function bindDrag(){
+  var src = null;
+  Array.prototype.forEach.call(document.querySelectorAll('.row'), function(row){
+    row.ondragstart = function(e){
+      src = row; row.classList.add('drag');
+      e.dataTransfer.effectAllowed = 'move';
+      try { e.dataTransfer.setData('text/plain', row.dataset.line); } catch(_) {}
+    };
+    row.ondragend = function(){
+      row.classList.remove('drag');
+      Array.prototype.forEach.call(document.querySelectorAll('.row.over'),
+        function(r){ r.classList.remove('over'); });
+    };
+    row.ondragover = function(e){
+      if (!src || src === row) return;
+      if (src.dataset.indent !== row.dataset.indent) return;
+      e.preventDefault();
+      row.classList.add('over');
+    };
+    row.ondragleave = function(){ row.classList.remove('over'); };
+    row.ondrop = function(e){
+      e.preventDefault();
+      row.classList.remove('over');
+      if (!src || src === row || src.dataset.indent !== row.dataset.indent) return;
+      var a = +src.dataset.line, b = +row.dataset.line;
+      src = null;
+      api('/api/op', { path:S.cur, op:'move_to', line:a, dst:b }).then(afterOp);
+    };
+  });
+}
+
+/* ---------------- 操作 ---------------- */
+function afterOp(r){
+  if (!r.ok) { toast(r.error || '没改成', 'bad'); return; }
+  if (r.warn && r.warn.length) toast(r.warn.join(' '), 'bad');
+  else if (!r.noop) toast('已保存', 'ok');
+  loadPage(S.cur).then(loadState);
+}
+
+function delItem(line){
+  if (!confirm('确定删掉这一条？保存前都还能从「本地资料/备份」里找回来，但这里删了就没了。')) return;
+  api('/api/op', { path:S.cur, op:'delete', line:line }).then(afterOp);
+}
+function moveItem(line, dir){
+  api('/api/op', { path:S.cur, op:'move', line:line, dir:dir }).then(function(r){
+    if (r.noop) { toast('已经在头/尾了'); return; }
+    afterOp(r);
+  });
+}
+function saveRaw(){
+  api('/api/raw', { path:S.cur, text:$('rawText').value }).then(afterOp);
+}
+
+/* ---------------- 编辑抽屉 ---------------- */
+function openEditor(line, indent, after){
+  // 两种用法：
+  //   openEditor(行号, 缩进)        改这一条
+  //   openEditor(null, 缩进, 行号)  在「行号」这一条 / 这一组的后面加一条
+  var editing = (line != null && after == null);
+  S.edit = { line: editing ? line : null,
+             indent: indent == null ? 4 : indent,
+             after: (after == null ? -1 : after) };
+  var f = { title:'', url:'', desc:'', note:'', star:false, plat:[] };
+
+  if (editing) {
+    var b = S.data.blocks.filter(function(x){ return x.k === 'item' && x.start === line; })[0];
+    if (!b) { toast('这一条找不到了，刷新一下页面', 'bad'); return; }
+    f = JSON.parse(JSON.stringify(b.fields));
+    S.edit.indent = b.indent;
+  } else if (after != null && after >= 0) {
+    var t = S.data.blocks.filter(function(x){ return x.k === 'item' && x.start === after; })[0];
+    if (t && t.head && t.child_indent != null) {
+      // 点在「分组头」的 + 上：要插进这个分组里，而不是插出一个同级的新分组
+      S.edit.indent = t.child_indent;
+      S.edit.after = (t.last_child != null ? t.last_child : after);
+    }
+  }
+
+  S.star = !!f.star;
+  $('dTitle').textContent = editing ? '编辑条目' : '新增条目';
+  $('dDelete').style.display = editing ? '' : 'none';
+  $('fTitle').value = f.title || '';
+  $('fUrl').value = f.url || '';
+  $('fDesc').value = f.desc || '';
+  $('fNote').value = f.note || '';
+  S.plat = (f.plat || []).slice();
+  $('platWrap').style.display = (S.data.kind === 'list') ? '' : 'none';
+  renderPicks();
+  updPreview();
+  $('drawer').classList.add('on');
+  setTimeout(function(){ $('fTitle').focus(); }, 60);
+}
+
+function renderPicks(){
+  $('fStar').children[0].className = S.star ? 'on' : '';
+  $('fPlat').innerHTML = S.order.map(function(p){
+    return '<span data-p="' + esc(p) + '"' + (S.plat.indexOf(p) >= 0 ? ' class="on"' : '')
+         + '>' + esc(p) + '</span>';
+  }).join('');
+  Array.prototype.forEach.call($('fPlat').children, function(el){
+    el.onclick = function(){
+      var p = el.dataset.p, i = S.plat.indexOf(p);
+      if (i >= 0) S.plat.splice(i, 1); else S.plat.push(p);
+      renderPicks(); updPreview();
+    };
+  });
+}
+
+function fields(){
+  return {
+    title: $('fTitle').value, url: $('fUrl').value,
+    desc: $('fDesc').value, note: $('fNote').value,
+    star: S.star, plat: S.plat
+  };
+}
+
+function renderLine(f, indent){
+  var pad = new Array((indent || 0) + 1).join(' ');
+  var name = (f.title || '').trim(), url = (f.url || '').trim();
+  var head = url ? '[' + name + '](' + url + ')' : name;
+  var line = pad + '- ' + (f.star ? '☆ ' : '') + head;
+  if ((f.desc || '').trim() || (f.note || '').trim()) {
+    line += '：' + (f.desc || '').trim();
+    if ((f.note || '').trim()) line += '｜' + f.note.trim();
+  }
+  if (f.plat && f.plat.length) line += ' ' + f.plat.map(function(p){ return '[' + p + ']'; }).join(' ');
+  return line;
+}
+
+function updPreview(){
+  var f = fields();
+  $('fPreview').textContent = renderLine(f, S.edit ? S.edit.indent : 4);
+}
+
+function bindDrawer(){
+  ['fTitle','fUrl','fDesc','fNote'].forEach(function(id){
+    $(id).oninput = updPreview;
+  });
+  $('fStar').onclick = function(){ S.star = !S.star; renderPicks(); updPreview(); };
+  $('dClose').onclick = $('dCancel').onclick = function(){ $('drawer').classList.remove('on'); };
+  $('dDelete').onclick = function(){
+    if (S.edit && S.edit.line != null) {
+      $('drawer').classList.remove('on');
+      delItem(S.edit.line);
+    }
+  };
+  $('dSave').onclick = function(){
+    var f = fields();
+    if (!f.title.trim()) { toast('名字不能空着', 'bad'); return; }
+    var payload;
+    if (S.edit.line != null) {
+      payload = { path:S.cur, op:'update', line:S.edit.line, fields:f };
+    } else {
+      payload = { path:S.cur, op:'insert', after:S.edit.after, indent:S.edit.indent, fields:f };
+    }
+    api('/api/op', payload).then(function(r){
+      if (!r.ok) { toast(r.error || '没存上', 'bad'); return; }
+      $('drawer').classList.remove('on');
+      toast(S.edit.line != null ? '改好了' : '加好了', 'ok');
+      loadPage(S.cur).then(loadState);
+    });
+  };
+}
+
+/* ---------------- 预览 / 上线 ---------------- */
+function bindTop(){
+  $('btnHelp').onclick = function(){ window.open('/help', '_blank'); };
+  $('btnPreview').onclick = function(){
+    this.disabled = true;
+    log('正在生成预览…', '');
+    api('/api/build', {}).then(function(r){
+      $('btnPreview').disabled = false;
+      log(r.ok ? '预览已经生成' : '预览生成失败', r.log);
+      if (r.ok) showPreview();
+    });
+  };
+  $('btnPublish').onclick = function(){
+    if (!confirm('把现在的改动生成页面、提交并推到线上？\n（GitHub Pages 大约 1 分钟后生效）')) return;
+    var btn = this; btn.disabled = true;
+    log('正在生成并推送…', '');
+    api('/api/publish', {}).then(function(r){
+      btn.disabled = false;
+      log(r.ok ? '✅ 已经上线' : '❌ 没推上去，看下面的输出', r.log);
+      toast(r.ok ? '已上线，1 分钟后生效' : '没推上去，看下面输出', r.ok ? 'ok' : 'bad');
+      if (r.ok) loadState();
+    });
+  };
+  $('logClose').onclick = function(){ $('log').classList.remove('on'); };
+  $('mClose').onclick = function(){ $('modal').classList.remove('on'); $('mFrame').src = 'about:blank'; };
+  $('mOpen').onclick = function(){ window.open(this.dataset.href, '_blank'); };
+}
+
+function showPreview(){
+  var out = (S.data && S.data.out) || 'index.html';
+  var url = '/preview/' + out + '?t=' + Date.now();
+  $('mTitle').textContent = '预览：' + (S.data ? S.data.title : '');
+  $('mHint').textContent = '这一份是 本地资料/预览/ 里的，不会影响线上';
+  $('mOpen').dataset.href = url;
+  $('mFrame').src = url;
+  $('modal').classList.add('on');
+}
+
+/* ---------------- 启动 ---------------- */
+bindTop(); bindDrawer();
+loadState();
+window.addEventListener('beforeunload', function(){});
+</script>
+</body>
+</html>

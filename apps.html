@@ -162,6 +162,25 @@ main{flex:1; min-width:0; padding-bottom:34px}
 .sec h2:hover .anchor{opacity:1}
 .sec-body{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:6px 14px}
 
+/* ---------- 空清单页：还没填内容的页面不摆一片空白 ----------
+   类名故意不叫 .empty —— 页面里那个 .empty 是「搜索无结果」用的、
+   默认 display:none，撞上的话这一段会被一起藏掉。 */
+.blank{
+  background:var(--panel); border:1px dashed var(--line); border-radius:var(--radius);
+  padding:46px 26px 40px; text-align:center;
+}
+.blank .ic{
+  width:54px; height:54px; line-height:54px; margin:0 auto 15px; font-size:24px;
+  border-radius:15px; background:var(--accent-soft); color:var(--accent);
+}
+.blank h3{font-size:16.5px; color:var(--fg); margin:0 0 9px; font-weight:600}
+.blank p{margin:0 auto 9px; max-width:540px; color:var(--fg2); font-size:13.5px; line-height:1.85}
+.blank p.hint{color:var(--fg3); font-size:12.5px; margin-bottom:0}
+.blank code{
+  background:var(--panel2); border:1px solid var(--line); border-radius:5px;
+  padding:1px 6px; font-size:12.5px; color:var(--fg2);
+}
+
 details.group{border-bottom:1px dashed var(--line); padding:4px 0; scroll-margin-top:calc(var(--hh) + 14px)}
 details.group:last-child{border-bottom:0}
 details.group.grp-dep{opacity:.78}

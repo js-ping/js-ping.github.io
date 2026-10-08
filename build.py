@@ -6,6 +6,7 @@ build.py —— 把 markdown 内容源编译成一套零依赖的静态站点
 用法：
     python3 build.py            # 生成首页 + 所有清单页 + 说明书
     python3 build.py --dump     # 只打印解析后的结构（JSON），用于校对内容有无丢失
+    python3 build.py --preview  # 只写「本地资料/预览/」，连空页也出一份，用来先看效果
 
 产出（会自动上线）：
     index.html    首页（导航，软件与资源放最显眼的位置）
@@ -54,6 +55,18 @@ SRC_DIR = ROOT / "内容源"
 
 SRC = SRC_DIR / "软件与资源.md"
 OUT = ROOT / "index.html"
+
+# --------------------------------------------------------------------------
+# 产物写到哪儿
+#   正常跑        -> 仓库根目录。生成完就等着提交上线。
+#   带 --preview  -> 「本地资料/预览/」，而且**连还没有内容的空页也出一份**，
+#                    用来"先看看这一页长什么样，再决定要不要填内容"。
+#   「本地资料/」整个目录在 .gitignore 里（既不提交也不发布），
+#   所以预览永远不会覆盖线上文件，也永远不会被误推上去。
+# --------------------------------------------------------------------------
+OUT_DIR = ROOT
+PREVIEW = "--preview" in sys.argv
+PREVIEW_DIR = ROOT / "本地资料" / "预览"
 
 # ==========================================================================
 # 【站点配置】—— 想改站名、开关功能，只改这一段
@@ -575,6 +588,17 @@ def make_node(text: str, is_bullet: bool = True):
     text, plats = take_platforms(text)
     dep = "~~" in text
     bare = text.replace("~~", "").strip()
+
+    # ☆ 是「荐」标记，两种写法都要认：
+    #   ☆ [名字](网址)   —— 写在链接前面
+    #   [☆ 名字](网址)   —— 写在链接文字里（内容源里现存的就是这种）
+    # 关键是要**先**把行首那个 ☆ 摘掉再认链接：否则「☆ 」会把行首顶开，
+    # LINK_RE 匹配不上，url 就成了空、has_link 变假，
+    # 「有下载链接」筛选、地域标记、域名统计会一起漏掉这一条。
+    lead_star = bool(re.match(r"☆\s*", bare))
+    if lead_star:
+        bare = re.sub(r"^☆\s*", "", bare)
+
     node = {
         "title": bare,
         "url": "",
@@ -614,6 +638,7 @@ def make_node(text: str, is_bullet: bool = True):
             break
 
     node["star"], node["title"] = extract_star(node["title"])
+    node["star"] = node["star"] or lead_star
     node["host"] = host_of(node["url"])
 
     node["title"] = re.sub(r"[。.．]+$", "", node["title"]).rstrip("：:").strip()
@@ -850,6 +875,22 @@ def leaf_count(nodes) -> int:
     return n
 
 
+def empty_state(cfg: dict) -> str:
+    """还没填内容的清单页：不摆一片空白，说清这页会放什么、内容该写进哪个文件。
+
+    正常上线时，enabled="auto" 的空页根本不会被生成，所以这段只在
+    「--preview 预览」或手动把空页设成 True 时才会出现。"""
+    return (
+        '<div class="blank">'
+        '<div class="ic">%s</div>'
+        '<h3>「%s」还在整理中</h3>'
+        '<p>%s</p>'
+        '<p class="hint">位置已经留好了。往 <code>%s</code> 里填第一条，重跑一次就会出现在这里。</p>'
+        '</div>'
+        % (esc(cfg.get("ico", "▤")), esc(cfg["title"]), esc(cfg["sub"]), esc(cfg["src"]))
+    )
+
+
 def render(cats, cfg: dict, updated: str) -> str:
     """把解析好的分类树渲染成一整页 HTML。cfg 的字段见 LIST_PAGES。"""
     show_host = cfg.get("layout") == "compact"
@@ -887,6 +928,10 @@ def render(cats, cfg: dict, updated: str) -> str:
             groups.extend(gs)
         body.append("</div></section>")
         toc_cats.append((c["id"], c["title"], leaf_count(c["children"]), groups))
+
+    # 一条条目都没有：给个像样的空状态，而不是一片空白
+    if not body:
+        body.append(empty_state(cfg))
 
     # 窄屏顶部的分类横条
     nav = "".join(
@@ -1391,6 +1436,25 @@ main{flex:1; min-width:0; padding-bottom:34px}
 .sec h2 .anchor{opacity:0; font-size:15px; color:var(--fg3)}
 .sec h2:hover .anchor{opacity:1}
 .sec-body{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:6px 14px}
+
+/* ---------- 空清单页：还没填内容的页面不摆一片空白 ----------
+   类名故意不叫 .empty —— 页面里那个 .empty 是「搜索无结果」用的、
+   默认 display:none，撞上的话这一段会被一起藏掉。 */
+.blank{
+  background:var(--panel); border:1px dashed var(--line); border-radius:var(--radius);
+  padding:46px 26px 40px; text-align:center;
+}
+.blank .ic{
+  width:54px; height:54px; line-height:54px; margin:0 auto 15px; font-size:24px;
+  border-radius:15px; background:var(--accent-soft); color:var(--accent);
+}
+.blank h3{font-size:16.5px; color:var(--fg); margin:0 0 9px; font-weight:600}
+.blank p{margin:0 auto 9px; max-width:540px; color:var(--fg2); font-size:13.5px; line-height:1.85}
+.blank p.hint{color:var(--fg3); font-size:12.5px; margin-bottom:0}
+.blank code{
+  background:var(--panel2); border:1px solid var(--line); border-radius:5px;
+  padding:1px 6px; font-size:12.5px; color:var(--fg2);
+}
 
 details.group{border-bottom:1px dashed var(--line); padding:4px 0; scroll-margin-top:calc(var(--hh) + 14px)}
 details.group:last-child{border-bottom:0}
@@ -2768,7 +2832,7 @@ def build_manifest():
              "purpose": "maskable"},
         ],
     }
-    (ROOT / "manifest.webmanifest").write_text(
+    (OUT_DIR / "manifest.webmanifest").write_text(
         json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
@@ -2868,14 +2932,14 @@ def sitemap_pages():
 
 def build_seo(today: str):
     """生成 robots.txt 与 sitemap.xml，跟着每次更新一起产出，不用手动维护。"""
-    (ROOT / "robots.txt").write_text(
+    (OUT_DIR / "robots.txt").write_text(
         "User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % SITE,
         encoding="utf-8")
     urls = "\n".join(
         "  <url><loc>%s/%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq>"
         "<priority>%s</priority></url>" % (SITE, p, today, cf, pr)
         for p, pr, cf in sitemap_pages())
-    (ROOT / "sitemap.xml").write_text(
+    (OUT_DIR / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + urls + "\n</urlset>\n", encoding="utf-8")
@@ -2893,6 +2957,11 @@ def patch_lottery():
     """
     p = ROOT / "lottery.html"
     if not p.exists():
+        return False
+    if PREVIEW:
+        # 预览模式下 lottery.html 不参与编译，直接整份复制过去，别去改原件
+        (OUT_DIR / "lottery.html").write_text(p.read_text(encoding="utf-8"),
+                                              encoding="utf-8")
         return False
     doc = p.read_text(encoding="utf-8")
     if LOTTERY_MARK in doc:
@@ -2978,10 +3047,17 @@ def build_feed(cats, today: str):
 
 
 def main():
+    global OUT_DIR
     today = git_date()
     dump = "--dump" in sys.argv
     pages = {}
     parsed = {}
+
+    if PREVIEW:
+        OUT_DIR = PREVIEW_DIR
+        if not OUT_DIR.exists():
+            OUT_DIR.mkdir(parents=True)
+        print("预览模式：产物写到 %s（不会碰线上文件）" % OUT_DIR.relative_to(ROOT))
 
     # ---------- 第一遍：先决定这次哪些页面会生成 ----------
     # 导航、首页卡片、sitemap、RSS 链接都要先知道结果，所以决策和渲染必须分开。
@@ -3002,9 +3078,12 @@ def main():
                   % (cfg["out"], n_rg, REGION_FILE.name))
         n_found = sum(leaf_count(c["children"]) for c in cats)
         if flag == "auto" and n_found == 0:
-            print("跳过 %s：%s 里还没有条目，先不挂上去（往源文件里填内容，重跑即可自动上线）"
-                  % (cfg["out"], cfg["src"]))
-            continue
+            if PREVIEW:
+                print("预览 %s：%s 里还没有条目，出的是空页骨架" % (cfg["out"], cfg["src"]))
+            else:
+                print("跳过 %s：%s 里还没有条目，先不挂上去（往源文件里填内容，重跑即可自动上线）"
+                      % (cfg["out"], cfg["src"]))
+                continue
         parsed[cfg["out"]] = cats
         LIVE.add(cfg["out"])
 
@@ -3030,7 +3109,7 @@ def main():
         if cats is None:
             continue
         page = render(cats, cfg, today)
-        out = ROOT / cfg["out"]
+        out = OUT_DIR / cfg["out"]
         out.write_text(page, encoding="utf-8")
 
         n = len(re.findall(r'<div class="[^"]*\bitem\b[^"]*" data-s=', page))
@@ -3047,7 +3126,7 @@ def main():
     for r in REDIRECTS:
         if r["to"] not in LIVE:
             continue
-        (ROOT / r["out"]).write_text(redirect_page(r), encoding="utf-8")
+        (OUT_DIR / r["out"]).write_text(redirect_page(r), encoding="utf-8")
         print("已生成 %s：跳转到 %s" % (r["out"], r["to"]))
 
     # ---------- 文档页：关于 / 隐私 / 404 / 更新日志 ----------
@@ -3058,12 +3137,12 @@ def main():
                               cfg["title"], cfg["out"], nav_current=cfg["out"],
                               noindex=cfg.get("noindex", False),
                               desc=cfg.get("desc", ""))
-        (ROOT / cfg["out"]).write_text(html, encoding="utf-8")
+        (OUT_DIR / cfg["out"]).write_text(html, encoding="utf-8")
         print("已生成 %s（文档页 / %d KB）" % (cfg["out"], len(html) // 1024))
 
     cl_html = build_doc_page(build_changelog_md(), "更新日志", CHANGELOG_OUT,
                              nav_current=CHANGELOG_OUT)
-    (ROOT / CHANGELOG_OUT).write_text(cl_html, encoding="utf-8")
+    (OUT_DIR / CHANGELOG_OUT).write_text(cl_html, encoding="utf-8")
     n_cl = len(git_commits())
     print("已生成 %s（更新日志，自动取自最近 %d 条提交）" % (CHANGELOG_OUT, n_cl))
 
@@ -3075,14 +3154,14 @@ def main():
         if cs and cfg.get("layout") == "list":
             stars.extend(collect_stars(cs, cfg["title"]))
     home = build_home(pages, today, stars)
-    (ROOT / "index.html").write_text(home, encoding="utf-8")
+    (OUT_DIR / "index.html").write_text(home, encoding="utf-8")
     print("已生成 index.html（首页）：全站 %d 条 / %d 个页面 / %d KB"
           % (sum(x["items"] for x in pages.values()), len(pages), len(home) // 1024))
 
     # ---------- RSS：只做文章归档 ----------
     feed = build_feed(parsed.get("articles.html") or [], today)
     if feed:
-        (ROOT / "feed.xml").write_text(feed, encoding="utf-8")
+        (OUT_DIR / "feed.xml").write_text(feed, encoding="utf-8")
         print("已生成 feed.xml（RSS 订阅）")
     else:
         print("未生成 feed.xml（文章归档还没有内容）")
@@ -3090,7 +3169,8 @@ def main():
     # ---------- 说明书：只写「本地资料/」，不上线 ----------
     if HELP_SRC.exists():
         help_out = build_help_html()
-        LOCAL_DIR.mkdir(exist_ok=True)
+        if not LOCAL_DIR.exists():
+            LOCAL_DIR.mkdir(parents=True)
         HELP_OUT.write_text(help_out, encoding="utf-8")
         (LOCAL_DIR / "help.html").write_text(help_out, encoding="utf-8")
         print("已生成本地说明书（不上线）：%s" % HELP_OUT.relative_to(ROOT))
@@ -3110,7 +3190,7 @@ def main():
     # 这两类错都「不报错、但肉眼才看得出」，所以在这里硬拦一道。
     import re as _re
     bad = []
-    for p in sorted(ROOT.glob("*.html")):
+    for p in sorted(OUT_DIR.glob("*.html")):
         t = p.read_text(encoding="utf-8")
         left = {x for x in _re.findall(r"__[A-Z][A-Z0-9_]{2,}__", t)}
         if left:
