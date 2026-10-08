@@ -46,6 +46,8 @@ PAGES = {
     "articles":  ("公众号长文归档", "文章归档", "写过的长文，按主题归档，能搜、能分类"),
     "books":     ("读过的书", "书单", "带年份、评分和一句短评"),
     "movies":    ("看过的片子", "影单", "带年份、评分和一句短评"),
+    "now":       ("最近在忙什么", "现在", "在做、在考、还在想的，一个月更新一次"),
+    "packs":     ("按场景挑软件", "专题合集", "装新 Mac / Windows 装机 / 写东西 / 给孩子，一套一套拿"),
     "lottery":   ("纯离线小工具", "彩票选号", "双色球 / 大乐透 随机选号与购票核对"),
     "links":     ("在线工具 · 资源站", "网址书签", "常开的网站和在线工具，按用途分好类"),
     "about":     ("关于", "关于这个站", "是什么、为什么做、怎么做的"),
@@ -191,7 +193,10 @@ def main():
         print("装了 Chrome 之后再跑一次即可；不跑也不影响网站 —— ")
         print("build.py 找不到 og/<页面>.png 时会自动回落到 og/default.png。")
         return 1
-    OG_DIR.mkdir(exist_ok=True)
+    # 注意：mkdir(exist_ok=True) 在部分环境（含本机的执行沙箱）会抛
+    # PermissionError: EEXIST —— 目录明明已存在却被拦下。先判存在更稳。
+    if not OG_DIR.exists():
+        OG_DIR.mkdir(parents=True)
     print("用 %s" % chrome)
     ok = 0
     with tempfile.TemporaryDirectory() as profile:

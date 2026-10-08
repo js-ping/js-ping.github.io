@@ -4,26 +4,26 @@
 <script>document.documentElement.className+=" js";</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>书单 · uppjs.com</title>
-<meta name="description" content="书单：读过的书，带年份、评分和一句短评。">
+<title>专题合集 · uppjs.com</title>
+<meta name="description" content="专题合集：同一批软件，按场景重新打包：装新 Mac 该装什么、Windows 装机清单、写东西用的一套、给孩子留的。条目全部引用自「软件与资源」，改一处两边都变。">
 <meta name="theme-color" content="#2f6fed">
-<link rel="canonical" href="https://uppjs.com/books.html">
+<link rel="canonical" href="https://uppjs.com/packs.html">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="uppjs.com">
-<meta property="og:url" content="https://uppjs.com/books.html">
-<meta property="og:title" content="书单 · uppjs.com">
-<meta property="og:description" content="书单：读过的书，带年份、评分和一句短评。">
-<meta property="og:image" content="https://uppjs.com/og/default.png">
+<meta property="og:url" content="https://uppjs.com/packs.html">
+<meta property="og:title" content="专题合集 · uppjs.com">
+<meta property="og:description" content="专题合集：同一批软件，按场景重新打包：装新 Mac 该装什么、Windows 装机清单、写东西用的一套、给孩子留的。条目全部引用自「软件与资源」，改一处两边都变。">
+<meta property="og:image" content="https://uppjs.com/og/packs.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="书单 · uppjs.com">
+<meta property="og:image:alt" content="专题合集 · uppjs.com">
 <meta name="twitter:card" content="summary_large_image">
 
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://uppjs.com/#website","url":"https://uppjs.com/","name":"uppjs.com · 软件与工具清单","description":"自己在用的 Mac / PC / 手机软件、硬件与外设，整理成清单长期更新，支持即时搜索。不接推广、不做商业排序，收录标准只有一条：用得住。","inLanguage":"zh-CN"},{"@type":"Person","@id":"https://uppjs.com/#author","name":"uppjs.com","url":"https://uppjs.com/about.html","description":"把在用的软件、工具和写法整理成清单，长期更新。"},{"@type":"CollectionPage","@id":"https://uppjs.com/books.html#page","url":"https://uppjs.com/books.html","name":"书单","description":"读过的书，带年份、评分和一句短评。","inLanguage":"zh-CN","isPartOf":{"@id":"https://uppjs.com/#website"},"author":{"@id":"https://uppjs.com/#author"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://uppjs.com/"},{"@type":"ListItem","position":2,"name":"书单","item":"https://uppjs.com/books.html"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://uppjs.com/#website","url":"https://uppjs.com/","name":"uppjs.com · 软件与工具清单","description":"自己在用的 Mac / PC / 手机软件、硬件与外设，整理成清单长期更新，支持即时搜索。不接推广、不做商业排序，收录标准只有一条：用得住。","inLanguage":"zh-CN"},{"@type":"Person","@id":"https://uppjs.com/#author","name":"uppjs.com","url":"https://uppjs.com/about.html","description":"把在用的软件、工具和写法整理成清单，长期更新。"},{"@type":"CollectionPage","@id":"https://uppjs.com/packs.html#page","url":"https://uppjs.com/packs.html","name":"专题合集","description":"同一批软件，按场景重新打包：装新 Mac 该装什么、Windows 装机清单、写东西用的一套、给孩子留的。条目全部引用自「软件与资源」，改一处两边都变。","inLanguage":"zh-CN","isPartOf":{"@id":"https://uppjs.com/#website"},"author":{"@id":"https://uppjs.com/#author"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://uppjs.com/"},{"@type":"ListItem","position":2,"name":"专题合集","item":"https://uppjs.com/packs.html"}]}]}</script>
 <style>
 :root{
   --bg:#f6f7f9; --panel:#ffffff; --panel2:#f0f2f5; --line:#e2e5ea;
@@ -1343,10 +1343,10 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
   <div class="bar">
     <a class="brand" href="index.html"><span class="logo">U</span>uppjs.com<em>个人清单站</em></a>
     <nav class="nav-links"><a href="apps.html">软件与资源</a>
-  <a class="on" href="books.html">书单</a>
+  <a href="books.html">书单</a>
   <a href="movies.html">影单</a>
   <a href="now.html">现在</a>
-  <a href="packs.html">专题合集</a>
+  <a class="on" href="packs.html">专题合集</a>
   <a href="lottery.html">彩票选号</a>
   <a href="about.html">关于</a>
   <a href="changelog.html">更新日志</a></nav>
@@ -1359,6 +1359,8 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
         <option value="all">全部</option>
         <option value="link">有下载链接</option>
         <option value="star">我推荐的</option>
+        <option value="pmac">只有 Mac 版</option>
+        <option value="pwin">只有 Windows 版</option>
       </select>
       <button id="toggleAll" title="展开 / 折叠全部分组">折叠</button>      <div class="appear">
         <button id="theme" title="外观：明暗与底色" aria-haspopup="dialog" aria-expanded="false">外观</button>
@@ -1378,7 +1380,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
   </div>
 </header>
 
-<nav class="cats"><div class="wrap"><a href="#在读">在读<span class="n">1</span></a><a href="#读完">读完<span class="n">4</span></a></div></nav>
+<nav class="cats"><div class="wrap"><a href="#装新-mac-第一天">装新 Mac 第一天<span class="n">13</span></a><a href="#windows-装机清单">Windows 装机清单<span class="n">14</span></a><a href="#写东西用的一套">写东西用的一套<span class="n">16</span></a><a href="#给孩子留的">给孩子留的<span class="n">7</span></a></div></nav>
 
 <div class="shell">
   <aside class="toc">
@@ -1389,41 +1391,75 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
       </div>
       <p class="sg">收录标准只有一条：<b>我真的在用、而且用得住</b>。不接推广、不做商业排序。</p>
       <div class="st">
-        <div><b>5</b><i>条收录</i></div>
-        <div><b>2</b><i>个分类</i></div>
-        <div><b>1</b><i>个分组</i></div>
+        <div><b>50</b><i>条收录</i></div>
+        <div><b>4</b><i>个分类</i></div>
+        <div><b>7</b><i>个分组</i></div>
       </div>
-      <div class="lnk"><a href="index.html">首页</a><a href="apps.html">软件与资源</a><a href="movies.html">影单</a></div>
+      <div class="lnk"><a href="index.html">首页</a><a href="apps.html">软件与资源</a><a href="books.html">书单</a></div>
     </div>
     <p class="toc-h">本页目录</p>
-<div class="toc-cat"><a href="#在读" data-t="在读">在读<span class="n">1</span></a>
-</div>
-<div class="toc-cat"><a href="#读完" data-t="读完">读完<span class="n">4</span></a>
+<div class="toc-cat"><a href="#装新-mac-第一天" data-t="装新-mac-第一天">装新 Mac 第一天<span class="n">13</span></a>
 <div class="toc-grp">
-<a href="#g1" data-t="g1">2026</a>
+<a href="#g1" data-t="g1">先装这些</a>
+<a href="#g2" data-t="g2">再装这些</a>
 </div>
+</div>
+<div class="toc-cat"><a href="#windows-装机清单" data-t="windows-装机清单">Windows 装机清单<span class="n">14</span></a>
+<div class="toc-grp">
+<a href="#g3" data-t="g3">装完系统先装这些</a>
+<a href="#g4" data-t="g4">做启动盘 / 装系统用</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#写东西用的一套" data-t="写东西用的一套">写东西用的一套<span class="n">16</span></a>
+<div class="toc-grp">
+<a href="#g5" data-t="g5">记笔记</a>
+<a href="#g6" data-t="g6">配图与素材</a>
+<a href="#g7" data-t="g7">AI 辅助</a>
+</div>
+</div>
+<div class="toc-cat"><a href="#给孩子留的" data-t="给孩子留的">给孩子留的<span class="n">7</span></a>
 </div>
   </aside>
 
   <main>
     <div class="pagehead">
-<nav class="crumbs" aria-label="面包屑"><a href="index.html">首页</a><span class="sep">›</span><span class="cur">书单</span></nav>
-      <p class="kicker">读过的书</p>
-      <h1>书单</h1>
-      <p class="sub">读过的书，带年份、评分和一句短评。</p>
+<nav class="crumbs" aria-label="面包屑"><a href="index.html">首页</a><span class="sep">›</span><span class="cur">专题合集</span></nav>
+      <p class="kicker">按场景挑软件</p>
+      <h1>专题合集</h1>
+      <p class="sub">同一批软件，按场景重新打包：装新 Mac 该装什么、Windows 装机清单、写东西用的一套、给孩子留的。条目全部引用自「软件与资源」，改一处两边都变。</p>
     </div>
     <div class="empty" id="empty">
       没有匹配的条目。<br><b>试试更短的关键词</b>，或把筛选切回「全部」。
     </div>
-<section class="sec" id="在读" data-spy>
-<h2>在读<a class="anchor" href="#在读" title="复制此节链接">#</a></h2>
+<section class="sec" id="装新-mac-第一天" data-spy>
+<h2>装新 Mac 第一天<a class="anchor" href="#装新-mac-第一天" title="复制此节链接">#</a></h2>
 <div class="sec-body">
-<div class="item star" data-s="《纳瓦尔宝典》 埃里克·乔根森 第一性原理那几章反复翻，比大多数讲财富的书实在 book.douban.com" data-l="1" data-star="1"><a class="nm" href="https://book.douban.com/subject/35876121/" target="_blank" rel="noopener noreferrer" title="《纳瓦尔宝典》">《纳瓦尔宝典》</a><span class="chips"><span class="badge" title="个人推荐">荐</span></span><span class="ds">埃里克·乔根森</span><span class="note">第一性原理那几章反复翻，比大多数讲财富的书实在</span></div>
+<details class="group grp" id="g1" data-spy open><summary><span class="grp-title">先装这些</span><span class="grp-n">5</span></summary><div class="grp-body"><div class="item" data-s="iina macos 最强播放器，基于 mpv，界面原生。但 mac 上还是找不到 potplayer 那种万能的，omniplayer 开机又太慢 先把播放器装上，别的都能等 iina.io mac macos 苹果" data-l="1" data-p="mac"><a class="nm" href="https://iina.io/" target="_blank" rel="noopener noreferrer" title="IINA">IINA</a><span class="chips"><span class="plat plat-mac" title="只有 Mac 版">Mac</span></span><span class="ds">macOS 最强播放器，基于 mpv，界面原生。但 Mac 上还是找不到 PotPlayer 那种万能的，OmniPlayer 开机又太慢</span><span class="note">先把播放器装上，别的都能等</span></div><div class="item" data-s="keka 官网下载免费，app store 版收费，看清楚再装。解压习惯和同类略有不同 解压，免费版够用，不弹窗 keka.io mac macos 苹果" data-l="1" data-p="mac"><a class="nm" href="https://www.keka.io/zh-cn/" target="_blank" rel="noopener noreferrer" title="Keka">Keka</a><span class="chips"><span class="plat plat-mac" title="只有 Mac 版">Mac</span></span><span class="ds">官网下载免费，App Store 版收费，看清楚再装。解压习惯和同类略有不同</span><span class="note">解压，免费版够用，不弹窗</span></div><div class="item" data-s="snipaste 最好用的截图软件，没有之一。官网是 snipaste.com，搜出来带广告的下载站别点 截图 + 贴图，用了就回不去 zh.snipaste.com" data-l="1"><a class="nm" href="https://zh.snipaste.com/" target="_blank" rel="noopener noreferrer" title="Snipaste">Snipaste</a><span class="ds">最好用的截图软件，没有之一。官网是 snipaste.com，搜出来带广告的下载站别点</span><span class="note">截图 + 贴图，用了就回不去</span></div><div class="item" data-s="maccy macos 剪贴板历史，搜一下就能翻出旧内容 剪贴板历史，复制过的都能翻回来 maccy.app mac macos 苹果" data-l="1" data-p="mac"><a class="nm" href="https://maccy.app" target="_blank" rel="noopener noreferrer" title="Maccy">Maccy</a><span class="chips"><span class="plat plat-mac" title="只有 Mac 版">Mac</span></span><span class="ds">macOS 剪贴板历史，搜一下就能翻出旧内容</span><span class="note">剪贴板历史，复制过的都能翻回来</span></div><div class="item" data-s="rectangle macos 窗口分屏管理，快捷键拖拽 窗口分屏，不装就得一直手动拖窗口 rectangleapp.com mac macos 苹果" data-l="1" data-p="mac"><a class="nm" href="https://rectangleapp.com" target="_blank" rel="noopener noreferrer" title="Rectangle">Rectangle</a><span class="chips"><span class="plat plat-mac" title="只有 Mac 版">Mac</span></span><span class="ds">macOS 窗口分屏管理，快捷键拖拽</span><span class="note">窗口分屏，不装就得一直手动拖窗口</span></div></div></details>
+<details class="group grp" id="g2" data-spy open><summary><span class="grp-title">再装这些</span><span class="grp-n">8</span></summary><div class="grp-body"><div class="item" data-s="qspace 替代访达，已购入会员，自带重命名、解压 双栏文件管理，finder 干不了的它能干 qspace.awehunt.com mac macos 苹果" data-l="1" data-p="mac"><a class="nm" href="https://qspace.awehunt.com/zh-cn/" target="_blank" rel="noopener noreferrer" title="Qspace">Qspace</a><span class="chips"><span class="plat plat-mac" title="只有 Mac 版">Mac</span></span><span class="ds">替代访达，已购入会员，自带重命名、解压</span><span class="note">双栏文件管理，Finder 干不了的它能干</span></div><div class="item" data-s="stats macos 菜单栏系统监控，替代 istat menus 菜单栏看 cpu / 内存 / 网速 github.com mac macos 苹果" data-l="1" data-p="mac"><a class="nm" href="https://github.com/exelban/stats" target="_blank" rel="noopener noreferrer" title="Stats">Stats</a><span class="chips"><span class="plat plat-mac" title="只有 Mac 版">Mac</span></span><span class="ds">macOS 菜单栏系统监控，替代 iStat Menus</span><span class="note">菜单栏看 CPU / 内存 / 网速</span></div><div class="item" data-s="hidden bar  菜单栏图标太多时一键收起来 github.com mac macos 苹果" data-l="1" data-p="mac"><a class="nm" href="https://github.com/dwarvesf/hidden" target="_blank" rel="noopener noreferrer" title="Hidden Bar">Hidden Bar</a><span class="chips"><span class="plat plat-mac" title="只有 Mac 版">Mac</span></span><span class="note">菜单栏图标太多时一键收起来</span></div><div class="item" data-s="aldente 必备的电池管理软件 长期插电的话，把充电限制在 80% apphousekitchen.com mac macos 苹果" data-l="1" data-p="mac"><a class="nm" href="https://apphousekitchen.com/" target="_blank" rel="noopener noreferrer" title="AlDente">AlDente</a><span class="chips"><span class="plat plat-mac" title="只有 Mac 版">Mac</span></span><span class="ds">必备的电池管理软件</span><span class="note">长期插电的话，把充电限制在 80%</span></div><div class="item" data-s="bartender 让右上角顶部图标变小 菜单栏图标的完整管理方案 macbartender.com mac macos 苹果" data-l="1" data-p="mac"><a class="nm" href="https://www.macbartender.com/" target="_blank" rel="noopener noreferrer" title="Bartender">Bartender</a><span class="chips"><span class="plat plat-mac" title="只有 Mac 版">Mac</span></span><span class="ds">让右上角顶部图标变小</span><span class="note">菜单栏图标的完整管理方案</span></div><div class="item" data-s="scroll reverser 鼠标滚轮方向反转，最好用的，没有之一 鼠标滚轮方向反着来 pilotmoon.com mac macos 苹果" data-l="1" data-p="mac"><a class="nm" href="https://pilotmoon.com/scrollreverser/" target="_blank" rel="noopener noreferrer" title="Scroll Reverser">Scroll Reverser</a><span class="chips"><span class="plat plat-mac" title="只有 Mac 版">Mac</span></span><span class="ds">鼠标滚轮方向反转，最好用的，没有之一</span><span class="note">鼠标滚轮方向反着来</span></div><div class="item" data-s="mos 也不错，缺点是容易和剪映冲突 滚轮平滑化，外接鼠标必备 github.com mac macos 苹果" data-l="1" data-p="mac"><a class="nm" href="https://github.com/Caldis/Mos" target="_blank" rel="noopener noreferrer" title="MOS">MOS</a><span class="chips"><span class="plat plat-mac" title="只有 Mac 版">Mac</span></span><span class="ds">也不错，缺点是容易和剪映冲突</span><span class="note">滚轮平滑化，外接鼠标必备</span></div><div class="item" data-s="mounty  在 mac 上读写 ntfs 盘 mounty.app mac macos 苹果" data-l="1" data-p="mac"><a class="nm" href="https://mounty.app/" target="_blank" rel="noopener noreferrer" title="Mounty">Mounty</a><span class="chips"><span class="plat plat-mac" title="只有 Mac 版">Mac</span></span><span class="note">在 Mac 上读写 NTFS 盘</span></div></div></details>
 </div></section>
-<section class="sec" id="读完" data-spy>
-<h2>读完<a class="anchor" href="#读完" title="复制此节链接">#</a></h2>
+<section class="sec" id="windows-装机清单" data-spy>
+<h2>Windows 装机清单<a class="anchor" href="#windows-装机清单" title="复制此节链接">#</a></h2>
 <div class="sec-body">
-<details class="group grp" id="g1" data-spy open><summary><span class="grp-title">2026</span><span class="grp-n">4</span></summary><div class="grp-body"><div class="item" data-s="《置身事内》 兰小欢 把中国经济的运行逻辑讲得比教科书明白 book.douban.com" data-l="1"><a class="nm" href="https://book.douban.com/subject/35546622/" target="_blank" rel="noopener noreferrer" title="《置身事内》">《置身事内》</a><span class="ds">兰小欢</span><span class="note">把中国经济的运行逻辑讲得比教科书明白</span></div><div class="item" data-s="《刻意练习》 安德斯·艾利克森 「有目的的练习」比一万小时那套说法靠谱得多 book.douban.com" data-l="1"><a class="nm" href="https://book.douban.com/subject/26895993/" target="_blank" rel="noopener noreferrer" title="《刻意练习》">《刻意练习》</a><span class="ds">安德斯·艾利克森</span><span class="note">「有目的的练习」比一万小时那套说法靠谱得多</span></div><div class="item" data-s="《如何高效学习》 斯科特·扬 整体性学习那套框架，到现在还在用 book.douban.com" data-l="1"><a class="nm" href="https://book.douban.com/subject/25783654/" target="_blank" rel="noopener noreferrer" title="《如何高效学习》">《如何高效学习》</a><span class="ds">斯科特·扬</span><span class="note">整体性学习那套框架，到现在还在用</span></div><div class="item" data-s="《古文观止》 吴楚材、吴调侯 陪孩子读，顺手把文言语法和英语语法对着看 book.douban.com" data-l="1"><a class="nm" href="https://book.douban.com/subject/35219498/" target="_blank" rel="noopener noreferrer" title="《古文观止》">《古文观止》</a><span class="ds">吴楚材、吴调侯</span><span class="note">陪孩子读，顺手把文言语法和英语语法对着看</span></div></div></details>
+<details class="group grp" id="g3" data-spy open><summary><span class="grp-title">装完系统先装这些</span><span class="grp-n">11</span></summary><div class="grp-body"><div class="item star" data-s="everything windows 秒级文件名搜索，比系统自带搜索快几个量级，没有之一 文件名搜索，装了就再也用不回系统自带搜索 voidtools.com" data-l="1" data-star="1"><a class="nm" href="https://www.voidtools.com/" target="_blank" rel="noopener noreferrer" title="Everything">Everything</a><span class="chips"><span class="badge" title="个人推荐">荐</span></span><span class="ds">Windows 秒级文件名搜索，比系统自带搜索快几个量级，没有之一</span><span class="note">文件名搜索，装了就再也用不回系统自带搜索</span></div><div class="item" data-s="7-zip 经典好用，就是界面有点怀旧 解压，干净 7-zip.org" data-l="1"><a class="nm" href="https://www.7-zip.org/" target="_blank" rel="noopener noreferrer" title="7-Zip">7-Zip</a><span class="ds">经典好用，就是界面有点怀旧</span><span class="note">解压，干净</span></div><div class="item" data-s="bandizip 免费最后一版，界面舒服无广告 解压的免费最后一版，界面更顺手 wwe.lanzoux.com win windows pc" data-l="1" data-p="win"><a class="nm" href="https://wwe.lanzoux.com/ialDVihl5sj" target="_blank" rel="noopener noreferrer" title="Bandizip">Bandizip</a><span class="chips"><span class="plat plat-win" title="只有 Windows 版">Win</span></span><span class="ds">免费最后一版，界面舒服无广告</span><span class="note">解压的免费最后一版，界面更顺手</span></div><div class="item" data-s="potplayer 音视频播放器 播放器，mac 上找不到同等替代 wwzt.lanzoul.com win windows pc" data-l="1" data-p="win"><a class="nm" href="https://wwzt.lanzoul.com/iGOC20if05mb" target="_blank" rel="noopener noreferrer" title="Potplayer">Potplayer</a><span class="chips"><span class="plat plat-win" title="只有 Windows 版">Win</span></span><span class="ds">音视频播放器</span><span class="note">播放器，Mac 上找不到同等替代</span></div><div class="item" data-s="powertoys 插件合集，悬停、分屏、快速启动等 微软官方的一组小工具合集 github.com win windows pc" data-l="1" data-p="win"><a class="nm" href="https://github.com/microsoft/PowerToys" target="_blank" rel="noopener noreferrer" title="PowerToys">PowerToys</a><span class="chips"><span class="plat plat-win" title="只有 Windows 版">Win</span></span><span class="ds">插件合集，悬停、分屏、快速启动等</span><span class="note">微软官方的一组小工具合集</span></div><div class="item" data-s="quicklook 按空格显示文件基本信息，图片视频可以直接浏览 按空格预览文件，跟 mac 一样 microsoft.com win windows pc" data-l="1" data-p="win"><a class="nm" href="https://www.microsoft.com/zh-cn/p/quicklook/9nv4bs3l1h4s?ocid=badge&amp;rtc=1&amp;activetab=pivot:overviewtab/" target="_blank" rel="noopener noreferrer" title="QuickLook">QuickLook</a><span class="chips"><span class="plat plat-win" title="只有 Windows 版">Win</span></span><span class="ds">按空格显示文件基本信息，图片视频可以直接浏览</span><span class="note">按空格预览文件，跟 Mac 一样</span></div><div class="item" data-s="ditto 粘贴板，将复制的东西有序地进行粘贴，特定情况下有用 剪贴板历史 ditto-cp.sourceforge.io win windows pc" data-l="1" data-p="win"><a class="nm" href="https://ditto-cp.sourceforge.io/" target="_blank" rel="noopener noreferrer" title="Ditto">Ditto</a><span class="chips"><span class="plat plat-win" title="只有 Windows 版">Win</span></span><span class="ds">粘贴板，将复制的东西有序地进行粘贴，特定情况下有用</span><span class="note">剪贴板历史</span></div><div class="item" data-s="sharex windows 截图/录屏/上传的瑞士军刀 截图 + 录屏，免费里最强 getsharex.com win windows pc" data-l="1" data-p="win"><a class="nm" href="https://getsharex.com" target="_blank" rel="noopener noreferrer" title="ShareX">ShareX</a><span class="chips"><span class="plat plat-win" title="只有 Windows 版">Win</span></span><span class="ds">Windows 截图/录屏/上传的瑞士军刀</span><span class="note">截图 + 录屏，免费里最强</span></div><div class="item" data-s="spacesniffer 优雅查看电脑文件大小 一眼看清硬盘被什么占满了 uderzo.it win windows pc" data-l="1" data-p="win"><a class="nm" href="http://www.uderzo.it/main_products/space_sniffer/index.html" target="_blank" rel="noopener noreferrer" title="SpaceSniffer">SpaceSniffer</a><span class="chips"><span class="plat plat-win" title="只有 Windows 版">Win</span></span><span class="ds">优雅查看电脑文件大小</span><span class="note">一眼看清硬盘被什么占满了</span></div><div class="item" data-s="火绒 系统安全，某些时候用得到，可不下 杀软 + 弹窗拦截，安静 huorong.cn win windows pc" data-l="1" data-p="win"><a class="nm" href="https://www.huorong.cn/" target="_blank" rel="noopener noreferrer" title="火绒">火绒</a><span class="chips"><span class="plat plat-win" title="只有 Windows 版">Win</span></span><span class="ds">系统安全，某些时候用得到，可不下</span><span class="note">杀软 + 弹窗拦截，安静</span></div><div class="item" data-s="geek 辅助卸载工具，清理功能强大 卸载之后扫残留 geekuninstaller.com win windows pc" data-l="1" data-p="win"><a class="nm" href="https://geekuninstaller.com/download" target="_blank" rel="noopener noreferrer" title="Geek">Geek</a><span class="chips"><span class="plat plat-win" title="只有 Windows 版">Win</span></span><span class="ds">辅助卸载工具，清理功能强大</span><span class="note">卸载之后扫残留</span></div></div></details>
+<details class="group grp" id="g4" data-spy open><summary><span class="grp-title">做启动盘 / 装系统用</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="ventoy 制作装机盘，默认安装后格式化为 ntfs 格式 一个 u 盘放多个镜像，不用反复格式化 ventoy.net" data-l="1"><a class="nm" href="https://www.ventoy.net/cn/index.html" target="_blank" rel="noopener noreferrer" title="Ventoy">Ventoy</a><span class="ds">制作装机盘，默认安装后格式化为 NTFS 格式</span><span class="note">一个 U 盘放多个镜像，不用反复格式化</span></div><div class="item" data-s="rufus 制作装机盘，轻便，一次只能做一个不推荐 做启动盘的老牌工具 rufus.ie win windows pc" data-l="1" data-p="win"><a class="nm" href="https://rufus.ie/zh_CN.html" target="_blank" rel="noopener noreferrer" title="Rufus">Rufus</a><span class="chips"><span class="plat plat-win" title="只有 Windows 版">Win</span></span><span class="ds">制作装机盘，轻便，一次只能做一个不推荐</span><span class="note">做启动盘的老牌工具</span></div><div class="item" data-s="系统下载 下载方式简单明了 官方镜像，别去第三方站下 xitongku.com win windows pc" data-l="1" data-p="win"><a class="nm" href="https://www.xitongku.com/" target="_blank" rel="noopener noreferrer" title="系统下载">系统下载</a><span class="chips"><span class="plat plat-win" title="只有 Windows 版">Win</span></span><span class="ds">下载方式简单明了</span><span class="note">官方镜像，别去第三方站下</span></div></div></details>
+</div></section>
+<section class="sec" id="写东西用的一套" data-spy>
+<h2>写东西用的一套<a class="anchor" href="#写东西用的一套" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<details class="group grp" id="g5" data-spy open><summary><span class="grp-title">记笔记</span><span class="grp-n">3</span></summary><div class="grp-body"><div class="item" data-s="obsidian 本地 markdown 笔记，个人使用免费 主力笔记，本地 markdown，插件够多 obsidian.md" data-l="1"><a class="nm" href="https://obsidian.md" target="_blank" rel="noopener noreferrer" title="Obsidian">Obsidian</a><span class="ds">本地 Markdown 笔记，个人使用免费</span><span class="note">主力笔记，本地 markdown，插件够多</span></div><div class="item" data-s="joplin 开源工作笔记，支持端到端加密同步，我的同步走 onedrive 开源替代，同步方案比 obsidian 省心 joplinapp.org" data-l="1"><a class="nm" href="https://joplinapp.org/" target="_blank" rel="noopener noreferrer" title="Joplin">Joplin</a><span class="ds">开源工作笔记，支持端到端加密同步，我的同步走 OneDrive</span><span class="note">开源替代，同步方案比 Obsidian 省心</span></div><div class="item" data-s="语雀 当作展示页面用，笔记不推荐 需要分享给别人看时用 yuque.com" data-l="1"><a class="nm" href="https://www.yuque.com/" target="_blank" rel="noopener noreferrer" title="语雀">语雀</a><span class="ds">当作展示页面用，笔记不推荐</span><span class="note">需要分享给别人看时用</span></div></div></details>
+<details class="group grp" id="g6" data-spy open><summary><span class="grp-title">配图与素材</span><span class="grp-n">7</span></summary><div class="grp-body"><div class="item" data-s="unsplash 免费高清照片，可商用无需署名 免费可商用图片，质量最高的一档 unsplash.com" data-l="1"><a class="nm" href="https://unsplash.com" target="_blank" rel="noopener noreferrer" title="Unsplash">Unsplash</a><span class="ds">免费高清照片，可商用无需署名</span><span class="note">免费可商用图片，质量最高的一档</span></div><div class="item" data-s="pexels 免费图片与视频，有中文界面  pexels.com" data-l="1"><a class="nm" href="https://www.pexels.com/zh-cn/" target="_blank" rel="noopener noreferrer" title="Pexels">Pexels</a><span class="ds">免费图片与视频，有中文界面</span></div><div class="item" data-s="pixabay 图片 / 视频 / 音乐 / 音效全免费  pixabay.com" data-l="1"><a class="nm" href="https://pixabay.com" target="_blank" rel="noopener noreferrer" title="Pixabay">Pixabay</a><span class="ds">图片 / 视频 / 音乐 / 音效全免费</span></div><div class="item star" data-s="iconfont 阿里巴巴矢量图标库，海量免费图标 图标，中文站里最全 iconfont.cn" data-l="1" data-star="1"><a class="nm" href="https://www.iconfont.cn" target="_blank" rel="noopener noreferrer" title="iconfont">iconfont</a><span class="chips"><span class="badge" title="个人推荐">荐</span></span><span class="ds">阿里巴巴矢量图标库，海量免费图标</span><span class="note">图标，中文站里最全</span></div><div class="item" data-s="思源黑体 adobe 开源中文字体，可商用 开源中文字体，商用不踩雷 github.com" data-l="1"><a class="nm" href="https://github.com/adobe-fonts/source-han-sans" target="_blank" rel="noopener noreferrer" title="思源黑体">思源黑体</a><span class="ds">Adobe 开源中文字体，可商用</span><span class="note">开源中文字体，商用不踩雷</span></div><div class="item" data-s="squoosh google 出品的图片压缩，本地跑不上传 压图，纯本地不上传 squoosh.app" data-l="1"><a class="nm" href="https://squoosh.app" target="_blank" rel="noopener noreferrer" title="Squoosh">Squoosh</a><span class="ds">Google 出品的图片压缩，本地跑不上传</span><span class="note">压图，纯本地不上传</span></div><div class="item" data-s="tinypng 图片压缩老牌工具，效果稳 压 png tinypng.com" data-l="1"><a class="nm" href="https://tinypng.com" target="_blank" rel="noopener noreferrer" title="TinyPNG">TinyPNG</a><span class="ds">图片压缩老牌工具，效果稳</span><span class="note">压 PNG</span></div></div></details>
+<details class="group grp" id="g7" data-spy open><summary><span class="grp-title">AI 辅助</span><span class="grp-n">6</span></summary><div class="grp-body"><div class="item" data-s="chatgpt 综合能力最均衡，订阅制，需要网络环境  chatgpt.com" data-l="1"><a class="nm" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" title="ChatGPT">ChatGPT</a><span class="ds">综合能力最均衡，订阅制，需要网络环境</span></div><div class="item" data-s="claude 长文写作和读代码更稳，订阅制，需要网络环境  claude.ai" data-l="1"><a class="nm" href="https://claude.ai/" target="_blank" rel="noopener noreferrer" title="Claude">Claude</a><span class="ds">长文写作和读代码更稳，订阅制，需要网络环境</span></div><div class="item" data-s="kimi 长文档一次读完，网页版免费够用 长文档 kimi.moonshot.cn" data-l="1"><a class="nm" href="https://kimi.moonshot.cn/" target="_blank" rel="noopener noreferrer" title="Kimi">Kimi</a><span class="ds">长文档一次读完，网页版免费够用</span><span class="note">长文档</span></div><div class="item" data-s="deepseek 国内直连，网页版免费不限次；接口便宜，适合自己折腾  deepseek.com" data-l="1"><a class="nm" href="https://www.deepseek.com/" target="_blank" rel="noopener noreferrer" title="DeepSeek">DeepSeek</a><span class="ds">国内直连，网页版免费不限次；接口便宜，适合自己折腾</span></div><div class="item" data-s="沉浸式翻译 双语对照翻译网页和 pdf，浏览器、ios、安卓都能装 看外文资料 immersivetranslate.com" data-l="1"><a class="nm" href="https://immersivetranslate.com/" target="_blank" rel="noopener noreferrer" title="沉浸式翻译">沉浸式翻译</a><span class="ds">双语对照翻译网页和 PDF，浏览器、iOS、安卓都能装</span><span class="note">看外文资料</span></div><div class="item" data-s="whisper 语音转文字，本地跑，中文识别不错 语音转文字，访谈 / 会议整理 github.com" data-l="1"><a class="nm" href="https://github.com/openai/whisper" target="_blank" rel="noopener noreferrer" title="Whisper">Whisper</a><span class="ds">语音转文字，本地跑，中文识别不错</span><span class="note">语音转文字，访谈 / 会议整理</span></div></div></details>
+</div></section>
+<section class="sec" id="给孩子留的" data-spy>
+<h2>给孩子留的<a class="anchor" href="#给孩子留的" title="复制此节链接">#</a></h2>
+<div class="sec-body">
+<div class="item" data-s="scratch 儿童编程 图形化编程入门 scratch.iruanhui.cn" data-l="1"><a class="nm" href="https://scratch.iruanhui.cn/?bd_vid=11038991590739980576" target="_blank" rel="noopener noreferrer" title="Scratch">Scratch</a><span class="ds">儿童编程</span><span class="note">图形化编程入门</span></div>
+<div class="item" data-s="国家中小学智慧教育平台 教育部官方，中小学全科免费资源 课内内容，官方免费 basic.smartedu.cn" data-l="1"><a class="nm" href="https://basic.smartedu.cn" target="_blank" rel="noopener noreferrer" title="国家中小学智慧教育平台">国家中小学智慧教育平台</a><span class="ds">教育部官方，中小学全科免费资源</span><span class="note">课内内容，官方免费</span></div>
+<div class="item" data-s="可汗学院 数学与科学，从零基础讲到大学  zh.khanacademy.org" data-l="1"><a class="nm" href="https://zh.khanacademy.org" target="_blank" rel="noopener noreferrer" title="可汗学院">可汗学院</a><span class="ds">数学与科学，从零基础讲到大学</span></div>
+<div class="item" data-s="中国哲学书电子化计划 先秦至清代古籍全文，公共领域 古籍原文 ctext.org" data-l="1"><a class="nm" href="https://ctext.org/zh" target="_blank" rel="noopener noreferrer" title="中国哲学书电子化计划">中国哲学书电子化计划</a><span class="ds">先秦至清代古籍全文，公共领域</span><span class="note">古籍原文</span></div>
+<div class="item" data-s="中华古籍资源库 国家图书馆高清古籍影像库  read.nlc.cn" data-l="1"><a class="nm" href="http://read.nlc.cn" target="_blank" rel="noopener noreferrer" title="中华古籍资源库">中华古籍资源库</a><span class="ds">国家图书馆高清古籍影像库</span></div>
+<div class="item" data-s="project gutenberg 7 万本公共领域电子书，多语言 公版电子书 gutenberg.org" data-l="1"><a class="nm" href="https://www.gutenberg.org" target="_blank" rel="noopener noreferrer" title="Project Gutenberg">Project Gutenberg</a><span class="ds">7 万本公共领域电子书，多语言</span><span class="note">公版电子书</span></div>
+<div class="item" data-s="openstax 莱斯大学出品的免费大学教材 免费大学教材 openstax.org" data-l="1"><a class="nm" href="https://openstax.org" target="_blank" rel="noopener noreferrer" title="OpenStax">OpenStax</a><span class="ds">莱斯大学出品的免费大学教材</span><span class="note">免费大学教材</span></div>
 </div></section>
 
     <details class="help" id="help">
@@ -1453,7 +1489,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
       <p>右上角的筛选可以和搜索叠加用：<strong>有下载链接</strong>只看能直接点开的，
          <strong>我推荐的</strong>只看我标了 ☆ 的。</p>
       <h3>内容怎么更新</h3>
-      <p>本页由仓库里的 <code>内容源/书单.md</code> 自动生成，改内容只改那一个文件，不用碰这个页面的代码。
+      <p>本页由仓库里的 <code>内容源/专题.md</code> 自动生成，改内容只改那一个文件，不用碰这个页面的代码。
          每次更新做了些什么，都记在<a href="changelog.html">更新日志</a>里。</p>
       <h3>数据与隐私</h3>
       <ul>
@@ -1484,9 +1520,9 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
       <div class="fl">
         <a href="index.html">首页</a>
         <a href="apps.html">软件与资源</a>
+        <a href="books.html">书单</a>
         <a href="movies.html">影单</a>
         <a href="now.html">现在</a>
-        <a href="packs.html">专题合集</a>
         <a href="lottery.html">彩票选号</a>
         <a href="about.html">关于</a>
         <a href="changelog.html">更新日志</a>
@@ -1496,9 +1532,9 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
     <div class="f-col">
       <h4>本页数据</h4>
       <div class="rows">
-        <div>源文件<b>内容源/书单.md</b></div>
-        <div>收录条目<b>5</b></div>
-        <div>外部链接<b>6</b></div>
+        <div>源文件<b>内容源/专题.md</b></div>
+        <div>收录条目<b>50</b></div>
+        <div>外部链接<b>51</b></div>
         <div>更新时间<b>2026-10-08</b></div>
       </div>
     </div>

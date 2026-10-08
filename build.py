@@ -124,6 +124,26 @@ LIST_PAGES = [
          sub="看过的电影和剧集，带年份、评分和一句短评。",
          home="看过的电影和剧集，带年份、评分和一句短评。",
          layout="list", enabled="auto"),
+    # —— 「现在」（Now 页）：数字花园的标配 ——
+    #    写清我最近在忙什么、在学什么，一个月更新一次。它不追热点，
+    #    但它是全站唯一能看出「这个站还活着」的地方，也是主页「最近」那块的出处。
+    dict(src="内容源/现在.md", out="now.html", kicker="最近在忙什么",
+         title="现在", ico="今",
+         sub="我最近在忙什么、在学什么、在看什么。一个月更新一次，不追热点，"
+             "只记真的还在推进的事 —— 停了的就删掉，不装样子。",
+         home="最近在忙什么，一个月更新一次。",
+         layout="list"),
+    # —— 专题合集：按「场景」把软件重新打包 ——
+    #    内容源里只写条目名（不写网址），构建时去「软件与资源」查真身把
+    #    网址 / 简述 / 平台标记带过来 —— 只引用，不复制，一条内容不存两份。
+    #    手写了链接的条目原样保留，方便临时塞一个清单外的东西。
+    dict(src="内容源/专题.md", out="packs.html", kicker="按场景挑软件",
+         title="专题合集", ico="合",
+         sub="同一批软件，按场景重新打包：装新 Mac 该装什么、Windows 装机清单、"
+             "写东西用的一套、给孩子留的。条目全部引用自「软件与资源」，"
+             "改一处两边都变。",
+         home="按场景重新打包的一批清单，条目全部引用自软件与资源，不存两份。",
+         layout="list", pack=True),
     # —— 网址书签：目前下线（2026-10-04 起），页面撤下、接口留着 ——
     #    想恢复：把 enabled 改成 True，重跑 build.py，再双击「2-更新网站.command」。
     #    下线期间 links.md 仍由「同步书签.py」照常更新，内容一条都不会丢。
@@ -2115,6 +2135,63 @@ def collect_recents(parsed):
     return out
 
 
+def norm_key(s: str) -> str:
+    """条目名归一化，用来在「软件与资源」里查同一条：
+    去 markdown 标记、去 ☆ 与删除线、去空格和句尾标点、转小写。"""
+    t = plain(s or "").replace("~~", "").replace("☆", "")
+    t = re.sub(r"[\s\u3000]+", "", t).strip("。.．")
+    return t.lower()
+
+
+def build_item_index(cats):
+    """把「软件与资源」的条目按标题建索引，供专题页引用。同名取第一条。"""
+    idx = {}
+
+    def walk(ns):
+        for x in ns:
+            if x.get("children") and not x.get("has_link"):
+                walk(x["children"])
+            else:
+                k = norm_key(x.get("title"))
+                if k and k not in idx:
+                    idx[k] = x
+    walk(cats or [])
+    return idx
+
+
+def enrich_pack(cats, index):
+    """专题页的条目在内容源里只写了名字 —— 这里去「软件与资源」里查真身。
+
+    网址 / 简述 / 平台 / 荐 全部带过来，**只引用不复制**，所以软件页改了描述，
+    专题页跟着变，不存在两处内容打架的问题。
+    内容源里写的那句「为什么选它」挪到 note（页面上单独一行显示）。
+
+    返回在软件页里查不到的条目名，供构建时提示 —— 多半是名字写错了。"""
+    miss = []
+
+    def walk(ns):
+        for x in ns:
+            if x.get("children") and not x.get("has_link"):
+                walk(x["children"])
+                continue
+            if x.get("url"):      # 自己带了链接的（手写的站外网址）原样保留
+                continue
+            hit = index.get(norm_key(x.get("title")))
+            if not hit:
+                if (x.get("title") or "").strip():
+                    miss.append(x["title"])
+                continue
+            x["note"] = x.get("desc") or ""        # 专题里写的「为什么选它」
+            x["desc"] = hit.get("desc") or ""      # 软件页的原简述
+            x["url"] = hit.get("url") or ""
+            x["has_link"] = bool(x["url"])
+            x["host"] = host_of(x["url"])
+            x["plat"] = hit.get("plat") or []
+            x["star"] = bool(x.get("star") or hit.get("star"))
+    walk(cats or [])
+    return miss
+
+
 def build_home(pages: dict, updated: str, stars=None, recents=None) -> str:
     """pages: {out 文件名: {"items":…, "links":…, "groups":…, "cats":[(id, 标题, 条数)]}}"""
     apps = pages.get("apps.html", {})
@@ -3184,6 +3261,18 @@ def main():
             print("=== %s ===" % out)
             print(json.dumps(cats, ensure_ascii=False, indent=1))
         return
+
+    # ---------- 专题页：把只写了名字的条目补全成真条目 ----------
+    # 必须在渲染之前做：补完的 url / desc / plat 会一起进 html。
+    apps_index = build_item_index(parsed.get("apps.html") or [])
+    for cfg in LIST_PAGES:
+        if not cfg.get("pack") or not parsed.get(cfg["out"]):
+            continue
+        miss = enrich_pack(parsed[cfg["out"]], apps_index)
+        if miss:
+            print("  ⚠ %s：这 %d 条在「软件与资源」里没找到同名条目，"
+                  "页面上会是没链接的普通文字：%s"
+                  % (cfg["out"], len(miss), "、".join(str(m) for m in miss[:8])))
 
     # ---------- 第二遍：渲染清单页 ----------
     for cfg in LIST_PAGES:
