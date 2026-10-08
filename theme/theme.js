@@ -35,33 +35,21 @@
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  /* ---------- 2. hero 打字机 ---------- */
-  function typer(el, text, speed) {
+  /* ---------- 2. hero 文案：直接显示 ----------
+     —— 原来是打字机逐字蹦（带闪烁光标），2026-10-08 按用户要求改成一次性显示。
+     HTML 里 data-typer-* 的属性名保留没动，省得模板跟着改；
+     「本站态度」那个小标签仍然由这里渲染。
+     顺带修了个原有小问题：旧代码在「减少动态效果」偏好下引言卡直接空白。 */
+  function fillText(el, text) {
     if (!el) return;
-    var txt = document.createTextNode('');
-    var cur = document.createElement('i');
-    cur.className = 'cur';
-    el.textContent = '';
-    el.appendChild(txt);
-    el.appendChild(cur);
-    if (reduce) { txt.nodeValue = text; cur.remove(); return; }
-    var i = 0;
-    (function step() {
-      if (i <= text.length) {
-        txt.nodeValue = text.slice(0, i);
-        i++;
-        setTimeout(step, speed + (i % 4 === 0 ? 45 : 0));
-      } else {
-        cur.remove();
-      }
-    })();
+    el.textContent = text;
   }
 
   var en = document.querySelector('[data-typer-en]');
-  if (en) typer(en, en.getAttribute('data-typer-en'), 62);
+  if (en) fillText(en, en.getAttribute('data-typer-en'));
 
   var q = document.querySelector('[data-typer-quote]');
-  if (q && !reduce) {
+  if (q) {
     var raw = q.getAttribute('data-typer-quote');
     q.innerHTML = '';
     var lab = document.createElement('span');
@@ -69,8 +57,8 @@
     lab.textContent = q.getAttribute('data-quote-label') || '本站态度';
     q.appendChild(lab);
     var holder = document.createElement('div');
+    holder.textContent = raw;
     q.appendChild(holder);
-    setTimeout(function () { typer(holder, raw, 34); }, 900);
   }
 
   /* ---------- 3. 入场动效：进入视口才播，逐个错开 ---------- */

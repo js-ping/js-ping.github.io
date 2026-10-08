@@ -311,11 +311,8 @@ a.brand:hover{color:var(--fg)}
   color:color-mix(in srgb, var(--fg3) 88%, var(--bg));
   padding-left:.42em;
 }
-.hero-en .cur{
-  display:inline-block; width:1px; height:1em; vertical-align:-.14em; margin-left:2px;
-  background:var(--accent); animation:blink 1.05s step-end infinite;
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+/* 打字机的闪烁光标（.hero-en/.hero-quote 的 .cur 与 blink）已随逐字效果一起删掉；
+   .item.cur（搜索命中高亮）是另一个类，别混淆。 */
 
 .hero-quote{
   position:relative; max-width:640px; margin:30px auto 0; padding:18px 26px;
@@ -328,10 +325,6 @@ a.brand:hover{color:var(--fg)}
   min-height:78px; display:flex; align-items:center; justify-content:center;
 }
 .hero-quote b{color:var(--fg); font-weight:700}
-.hero-quote .cur{
-  display:inline-block; width:2px; height:1.05em; vertical-align:-.16em; margin-left:2px;
-  background:var(--accent); animation:blink 1.05s step-end infinite;
-}
 .hero-quote .lab{
   position:absolute; left:20px; top:-9px; font-size:10.5px; font-weight:700;
   letter-spacing:.12em; text-transform:uppercase; color:var(--accent);
@@ -1237,11 +1230,8 @@ a.brand:hover{color:var(--fg)}
   color:color-mix(in srgb, var(--fg3) 88%, var(--bg));
   padding-left:.42em;
 }
-.hero-en .cur{
-  display:inline-block; width:1px; height:1em; vertical-align:-.14em; margin-left:2px;
-  background:var(--accent); animation:blink 1.05s step-end infinite;
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+/* 打字机的闪烁光标（.hero-en/.hero-quote 的 .cur 与 blink）已随逐字效果一起删掉；
+   .item.cur（搜索命中高亮）是另一个类，别混淆。 */
 
 .hero-quote{
   position:relative; max-width:640px; margin:30px auto 0; padding:18px 26px;
@@ -1254,10 +1244,6 @@ a.brand:hover{color:var(--fg)}
   min-height:78px; display:flex; align-items:center; justify-content:center;
 }
 .hero-quote b{color:var(--fg); font-weight:700}
-.hero-quote .cur{
-  display:inline-block; width:2px; height:1.05em; vertical-align:-.16em; margin-left:2px;
-  background:var(--accent); animation:blink 1.05s step-end infinite;
-}
 .hero-quote .lab{
   position:absolute; left:20px; top:-9px; font-size:10.5px; font-weight:700;
   letter-spacing:.12em; text-transform:uppercase; color:var(--accent);
@@ -1977,7 +1963,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <h1>更新日志</h1>
 <p>这个站的每一次改动都记在这里，最新的在最上面。记录由仓库的提交历史自动生成，不用手写，也就不会过期。</p>
 <h2>2026-10-08</h2>
-<ul><li>主页转向数字花园：去掉背景漂移动效 + 新增「最近在读/在看」模块 + 书单影单首版上线</li><li>重新生成页面：更新日志收进上面那个提交</li><li>网页版内容编辑器：填表改内容 + 预览 + 一键上线</li><li>重新生成页面：更新日志收进上面那个提交</li><li>三件事一起上线：两页合并转正 + 清单补网址 + 条目标平台</li><li>重新生成页面：更新日志收进上面两个提交，日期推进到 2026-10-08</li><li>根目录 README 改成 GitHub 仓库说明（站点内容在「内容源/」）</li><li>内容源统一收进「内容源/」目录 + 软件清单与免费资源合并草稿</li></ul>
+<ul><li>重新生成页面：更新日志收进上面那个提交</li><li>主页转向数字花园：去掉背景漂移动效 + 新增「最近在读/在看」模块 + 书单影单首版上线</li><li>重新生成页面：更新日志收进上面那个提交</li><li>网页版内容编辑器：填表改内容 + 预览 + 一键上线</li><li>重新生成页面：更新日志收进上面那个提交</li><li>三件事一起上线：两页合并转正 + 清单补网址 + 条目标平台</li><li>重新生成页面：更新日志收进上面两个提交，日期推进到 2026-10-08</li><li>根目录 README 改成 GitHub 仓库说明（站点内容在「内容源/」）</li><li>内容源统一收进「内容源/」目录 + 软件清单与免费资源合并草稿</li></ul>
 <h2>2026-10-07</h2>
 <ul><li>开奖数据每天自动补进内嵌快照 + 机选默认注数改为 1</li><li>彩票页说明书：修掉深色主题下「文件结构」段落白底浅字读不出来的问题</li><li>彩票页自动更新：不用任何账号，就能从境外节点拿到最新开奖</li><li>探测函数：第二轮候选（17500 备用路径 / 官方备用域名）+ 返回响应头</li><li>探测函数：加 ?peek= 模式，验数据格式与新鲜度</li><li>探测函数：全并发 + 6秒超时，避免 EdgeOne 504</li><li>临时：境外出口数据源可达性探测（用完即删）</li><li>彩票页：内嵌快照追到最新一期 + 清理旧版独立工具残留的说明文字</li></ul>
 <h2>2026-10-06</h2>
@@ -1989,7 +1975,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <h2>2026-10-02</h2>
 <ul><li>去掉条目规格行，书签名与展示形式重做</li></ul>
 <h2>2026-10-01</h2>
-<ul><li>改成多页站：导航首页 + 软件清单 + 网址书签</li><li>新增工具台导航页 + 收藏/已装 + 导出 + 条目元数据</li><li>新增 docs/：ICP 备案操作手册 + 网站升级路线图</li><li>新增外观面板：明暗三档 + 8 种底色 + 自定义取色器</li><li>搜索时分组计数改为「命中数 / 总数」，避免搜到 1 条却显示 18 的误导</li><li>内容规范统一：名称/标签/简述分层 + SEO 图标与安全头</li><li>使用说明修正证书章节：Makers 不会自动分配证书，补充两个易混页面区分</li><li>使用说明补充 EdgeOne 证书申请流程与故障速查表</li><li>使用说明补充绑定域名时的 CNAME 记录值来源与阿里云改法</li><li>使用说明补充 EdgeOne 建项实测要点</li><li>新增 edgeone.json：预设 EdgeOne Pages 构建配置，避免控制台填错</li><li>说明书增加 HTML 版自动生成，编辑改用 VSCode 优先</li></ul>
+<ul><li>改成多页站：导航首页 + 软件清单 + 网址书签</li><li>新增工具台导航页 + 收藏/已装 + 导出 + 条目元数据</li><li>新增 docs/：ICP 备案操作手册 + 网站升级路线图</li><li>新增外观面板：明暗三档 + 8 种底色 + 自定义取色器</li><li>搜索时分组计数改为「命中数 / 总数」，避免搜到 1 条却显示 18 的误导</li><li>内容规范统一：名称/标签/简述分层 + SEO 图标与安全头</li><li>使用说明修正证书章节：Makers 不会自动分配证书，补充两个易混页面区分</li><li>使用说明补充 EdgeOne 证书申请流程与故障速查表</li><li>使用说明补充绑定域名时的 CNAME 记录值来源与阿里云改法</li><li>使用说明补充 EdgeOne 建项实测要点</li><li>新增 edgeone.json：预设 EdgeOne Pages 构建配置，避免控制台填错</li></ul>
 </article>
 
 <footer>
@@ -2162,33 +2148,21 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  /* ---------- 2. hero 打字机 ---------- */
-  function typer(el, text, speed) {
+  /* ---------- 2. hero 文案：直接显示 ----------
+     —— 原来是打字机逐字蹦（带闪烁光标），2026-10-08 按用户要求改成一次性显示。
+     HTML 里 data-typer-* 的属性名保留没动，省得模板跟着改；
+     「本站态度」那个小标签仍然由这里渲染。
+     顺带修了个原有小问题：旧代码在「减少动态效果」偏好下引言卡直接空白。 */
+  function fillText(el, text) {
     if (!el) return;
-    var txt = document.createTextNode('');
-    var cur = document.createElement('i');
-    cur.className = 'cur';
-    el.textContent = '';
-    el.appendChild(txt);
-    el.appendChild(cur);
-    if (reduce) { txt.nodeValue = text; cur.remove(); return; }
-    var i = 0;
-    (function step() {
-      if (i <= text.length) {
-        txt.nodeValue = text.slice(0, i);
-        i++;
-        setTimeout(step, speed + (i % 4 === 0 ? 45 : 0));
-      } else {
-        cur.remove();
-      }
-    })();
+    el.textContent = text;
   }
 
   var en = document.querySelector('[data-typer-en]');
-  if (en) typer(en, en.getAttribute('data-typer-en'), 62);
+  if (en) fillText(en, en.getAttribute('data-typer-en'));
 
   var q = document.querySelector('[data-typer-quote]');
-  if (q && !reduce) {
+  if (q) {
     var raw = q.getAttribute('data-typer-quote');
     q.innerHTML = '';
     var lab = document.createElement('span');
@@ -2196,8 +2170,8 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
     lab.textContent = q.getAttribute('data-quote-label') || '本站态度';
     q.appendChild(lab);
     var holder = document.createElement('div');
+    holder.textContent = raw;
     q.appendChild(holder);
-    setTimeout(function () { typer(holder, raw, 34); }, 900);
   }
 
   /* ---------- 3. 入场动效：进入视口才播，逐个错开 ---------- */

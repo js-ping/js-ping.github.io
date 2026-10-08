@@ -635,11 +635,8 @@ a.brand:hover{color:var(--fg)}
   color:color-mix(in srgb, var(--fg3) 88%, var(--bg));
   padding-left:.42em;
 }
-.hero-en .cur{
-  display:inline-block; width:1px; height:1em; vertical-align:-.14em; margin-left:2px;
-  background:var(--accent); animation:blink 1.05s step-end infinite;
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+/* 打字机的闪烁光标（.hero-en/.hero-quote 的 .cur 与 blink）已随逐字效果一起删掉；
+   .item.cur（搜索命中高亮）是另一个类，别混淆。 */
 
 .hero-quote{
   position:relative; max-width:640px; margin:30px auto 0; padding:18px 26px;
@@ -652,10 +649,6 @@ a.brand:hover{color:var(--fg)}
   min-height:78px; display:flex; align-items:center; justify-content:center;
 }
 .hero-quote b{color:var(--fg); font-weight:700}
-.hero-quote .cur{
-  display:inline-block; width:2px; height:1.05em; vertical-align:-.16em; margin-left:2px;
-  background:var(--accent); animation:blink 1.05s step-end infinite;
-}
 .hero-quote .lab{
   position:absolute; left:20px; top:-9px; font-size:10.5px; font-weight:700;
   letter-spacing:.12em; text-transform:uppercase; color:var(--accent);
@@ -1780,33 +1773,21 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  /* ---------- 2. hero 打字机 ---------- */
-  function typer(el, text, speed) {
+  /* ---------- 2. hero 文案：直接显示 ----------
+     —— 原来是打字机逐字蹦（带闪烁光标），2026-10-08 按用户要求改成一次性显示。
+     HTML 里 data-typer-* 的属性名保留没动，省得模板跟着改；
+     「本站态度」那个小标签仍然由这里渲染。
+     顺带修了个原有小问题：旧代码在「减少动态效果」偏好下引言卡直接空白。 */
+  function fillText(el, text) {
     if (!el) return;
-    var txt = document.createTextNode('');
-    var cur = document.createElement('i');
-    cur.className = 'cur';
-    el.textContent = '';
-    el.appendChild(txt);
-    el.appendChild(cur);
-    if (reduce) { txt.nodeValue = text; cur.remove(); return; }
-    var i = 0;
-    (function step() {
-      if (i <= text.length) {
-        txt.nodeValue = text.slice(0, i);
-        i++;
-        setTimeout(step, speed + (i % 4 === 0 ? 45 : 0));
-      } else {
-        cur.remove();
-      }
-    })();
+    el.textContent = text;
   }
 
   var en = document.querySelector('[data-typer-en]');
-  if (en) typer(en, en.getAttribute('data-typer-en'), 62);
+  if (en) fillText(en, en.getAttribute('data-typer-en'));
 
   var q = document.querySelector('[data-typer-quote]');
-  if (q && !reduce) {
+  if (q) {
     var raw = q.getAttribute('data-typer-quote');
     q.innerHTML = '';
     var lab = document.createElement('span');
@@ -1814,8 +1795,8 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
     lab.textContent = q.getAttribute('data-quote-label') || '本站态度';
     q.appendChild(lab);
     var holder = document.createElement('div');
+    holder.textContent = raw;
     q.appendChild(holder);
-    setTimeout(function () { typer(holder, raw, 34); }, 900);
   }
 
   /* ---------- 3. 入场动效：进入视口才播，逐个错开 ---------- */
