@@ -1,0 +1,428 @@
+// ===========================================================================
+// 合并目标结构 —— 「软件清单」+「免费资源」→ 一份合并清单
+//
+// 这份文件是合并稿的唯一依据。改这里，然后双击「重新生成合并稿.command」。
+// 生成物：内容源/软件清单与免费资源.md（会被覆盖，别直接改那一份）
+//
+// 语法（注释用 //，空行忽略）：
+//   #分类                一级分类
+//   ##分组               分组
+//   [a] 名字             取「软件清单」里标题为「名字」的条目
+//   [f] 名字             取「免费资源」里标题为「名字」的条目
+//   [a@选择器] 名字      同名条目不止一条时用 @ 限定，选择器写一级分类名或分组名
+//   A + B                一行里合并多条
+//   {...}                把显示名换成这个（「浏览器」这类句柄改成产品名）
+//   => 整行文字          左边照常写引用，右边直接输出这句话（合并 / 润色用）
+//
+// 校验：脚本会检查每个源条目是否恰好被用到一次，漏掉或重复都直接报错。
+// ===========================================================================
+
+#AI 工具
+##对话与写作
+[a] ChatGPT
+[a] Claude
+[a] 豆包
+[a] Kimi
+[a] DeepSeek + [f] DeepSeek => [DeepSeek](https://www.deepseek.com/)：国内直连，网页版免费不限次；接口便宜，适合自己折腾。
+[f] 通义千问
+##本地跑模型
+[a] Ollama + [f] Ollama => [Ollama](https://ollama.com/)：本地跑开源大模型，数据完全不出门。命令行一行就能拉起，模型文件很占硬盘，动手前先看剩余空间。
+[a] LM Studio + [f] LM Studio => [LM Studio](https://lmstudio.ai/)：本地大模型的图形界面，不写代码也能用，和 Ollama 二选一就够。
+[a] Cherry Studio
+##写代码
+[a] Cursor
+[a] Claude Code
+##出图出视频
+[a] ComfyUI
+[a] 即梦 / 可灵
+##AI 应用与算力
+[a] 沉浸式翻译
+[a] NotebookLM + [f] NotebookLM => [NotebookLM](https://notebooklm.google.com/)：把自己的资料传上去，生成问答和摘要，答案带出处。
+[a] Whisper
+[f] Hugging Face Spaces
+[f] Google AI Studio
+[f] Google Colab
+[f] Kaggle Notebooks
+
+#上网与隐私
+##浏览器
+[a@Mac&iPhone] 浏览器 + [a@PC 软件] Chrome => [Chrome](https://www.google.cn/chrome/)：最完美的浏览器，可是没法登录，太膈应了。装的时候从官网下 64 位版本，不然有些插件会不管用。
+[a] Edge
+[f] Firefox
+[a] 书签同步xbrowsersync
+##社交与通讯
+[a@Mac&iPhone] 社交软件 + [a@PC 软件] QQ => [QQ](https://im.qq.com/download/)、[微信](https://weixin.qq.com/)：社交必备，Mac 和 PC 都要装。
+[f] Signal
+[f] Proton Mail
+##去广告与拦截
+[f] uBlock Origin
+[f] uBlock Origin Lite
+[f] AdGuard Home
+[f] NextDNS
+[f] Privacy Badger
+[a] Adblock Plus
+[a] DarkReader
+##密码与账号安全
+[f] Bitwarden
+[f] KeePassXC
+[f] Have I Been Pwned
+[f] SimpleLogin
+##浏览器插件
+[a] Tampermonkey
+[a] 暴力猴
+[a] Octotree
+[a] IA 图片助手
+[a] 哔哩哔哩过滤器
+[a] 哔哩哔哩下载助手
+[a] 腾讯交互翻译
+[a] 浏览器截图插件
+[a] 插件下载网
+
+#办公与文档
+##笔记
+[a] Joplin + [f] Joplin => [Joplin](https://joplinapp.org/)：开源工作笔记，支持端到端加密同步，我的同步走 OneDrive。
+[a] Onenote（笔记必备） {OneNote}
+[a] 语雀
+[a] Simplenote
+[a] snippets
+[f] Obsidian
+##文档与表格
+[a] WPS v11.8.2.11019 + [a@Mac&iPhone] 办公软件 => [☆ WPS](https://www.aliyundrive.com/s/W8sT57gsbJ2)：Mac 和 Windows 上都换不掉。Windows 用 v11.8.2.11019，最后一版支持经典模式（皮肤 → 经典），自带 PDF 阅读器。
+[f] LibreOffice
+[f] ONLYOFFICE
+##PDF 与电子书
+[a@Mac&iPhone] PDF24 + [a@PC 软件] PDF24 + [f] PDF24 => [PDF24](https://tools.pdf24.org/zh/)：在线版全能选手，不用装东西；客户端能合并、分割，处理都在本地完成。
+[a] PDFgear + [f] PDFgear => [PDFgear](https://www.pdfgear.com/zh/)：免费 PDF 编辑加 OCR，功能没阉割，配合 PDF24 一起用。
+[a] SumatraPDF阅读器 + [f] SumatraPDF => [SumatraPDF](https://www.sumatrapdfreader.org/free-pdf-reader)：轻量 PDF 及各种电子书格式阅读器，开源免费。
+[f] Calibre
+[f] Koodo Reader
+##输入法与词典
+[a@PC 软件] 手心输入法
+[a] 欧路词典
+##邮件
+[f] Thunderbird
+##CAD 与工程
+[a] 中望 CAD
+[a] CAD 2022
+[a] 天正 T20V9.0
+[a] Revit 2020
+[a] 插件-橄榄山
+[a] 插件-构件坞
+[a] AcmeCAD
+[a] CAD 字体
+[a] CADZXW
+[a] 卸载 CAD 的正确顺序
+[a] Revit 2020 许可管理器不起作用
+[f] FreeCAD
+
+#影音与图像
+##视频播放
+[f] VLC
+[f] IINA + [a@装机必备] 视频播放器 => [IINA](https://iina.io/)：macOS 最强播放器，基于 mpv，界面原生。但 Mac 上还是找不到 PotPlayer 那种万能的，OmniPlayer 开机又太慢。
+[a] Potplayer
+[a] 多屏同时播放
+##剪辑与转码
+[f] Shotcut
+[f] HandBrake
+[a] OBS + [f] OBS Studio => [OBS Studio](https://obsproject.com/)：录屏与直播推流，专业级且免费。
+[a] ShanaEncoder
+[a] 格式工厂
+[a] FFmpeg
+[a] Captura
+[a] oCam(v7bf)
+##音频
+[a@Mac&iPhone] 音乐播放器 => 网易云音乐、汽水音乐
+[f] Audacity
+##看图
+[a] FastStone_Image_Viewer_V7.8（荐） {FastStone Image Viewer}
+[a] IrfanView 图片（荐） {IrfanView}
+[a] HoneyView
+[a] Picasa
+[a] Billfish
+[a] 光影魔术手
+[f] ImageGlass
+##修图与设计
+[f] GIMP
+[f] Krita
+[f] Inkscape
+[a] InpaintSetup
+[a] Adobe 全家桶
+##录屏与截图
+[a@PC 软件] Snipaste + [a@Mac&iPhone] 截图软件 => [Snipaste](https://zh.snipaste.com/)：最好用的截图软件，没有之一。官网是 snipaste.com，搜出来带广告的下载站别点。
+[f] ShareX
+[f] Flameshot
+##3D 与动画
+[f] Blender
+[f] LottieFiles
+
+#文件与存储
+##网盘与同步
+[a] 坚果云
+[a] 百度网盘
+[a] 阿里云盘
+[a] 蓝奏云
+[a] 蓝奏云盘
+[a] 夸克网盘
+[a@Mac&iPhone] 网盘同步 => 网盘同步：夸克网盘、阿里云盘、百度网盘、蓝奏云、坚果云（Mac 和 PC 装的是同一批）。
+[f] Syncthing
+[f] qBittorrent
+[f] Motrix
+##互传与远程
+[f] LocalSend + [a@Mac&iPhone] 互传工具 => [LocalSend](https://localsend.org/zh-CN)：多平台互传，但是文件一多就卡，而且图片有些信息会丢失。
+[a] Handshaker
+[f] RustDesk
+[f] Wormhole
+[a] Spacedesk
+[a] MIUI+
+##压缩解压
+[a] Bandizip（6.25 版本） {Bandizip}
+[a] 7z （压缩） + [f] 7-Zip => [7-Zip](https://www.7-zip.org/)：经典好用，就是界面有点怀旧。
+[a@Mac&iPhone] 解压软件 {Keka}
+##搜索与查重
+[a] Everything + [f] Everything => [☆ Everything](https://www.voidtools.com/)：Windows 秒级文件名搜索，比系统自带搜索快几个量级，没有之一。
+[a] FileLocator Pro
+[a] Alldup
+[a] AnyTXT
+##重命名与整理
+[a] ReNamer
+[a] NewFolderWizard
+[a] Drop
+[a] OneCommander
+[a@Mac&iPhone] 文件管理 {Qspace}
+##下载工具
+[a@PC 软件] NDM + [a@Mac&iPhone] 下载工具 => [NDM](http://www.neatdownloadmanager.com/index.php/en/)：配合浏览器的下载神器，Mac 和 PC 都能用。
+[a] 迅雷（绿色版）
+
+#开发与建站
+##编辑器与 IDE
+[f] VS Code
+[f] Zed
+##静态托管
+[f] GitHub Pages
+[f] Cloudflare Pages
+[f] Vercel
+[f] Netlify
+##后端与数据库
+[f] Supabase
+##开发小工具
+[f] IT-Tools
+[f] CyberChef
+[f] Regex101
+[f] JSON Crack
+##代码配图
+[f] Carbon
+[f] Ray.so
+##游戏引擎
+[f] Godot
+[f] Unity Personal
+
+#学习与知识
+##编程学习
+[a] Scratch
+[f] freeCodeCamp
+[f] CS50
+[f] MDN Web Docs
+[f] 廖雪峰的官方网站
+[f] 菜鸟教程
+[f] OI Wiki
+[f] HelloGitHub
+##中文课程
+[f] 中国大学MOOC
+[f] 学堂在线
+[f] 国家中小学智慧教育平台
+[f] 网易公开课
+##国际公开课
+[f] 可汗学院
+[f] MIT OpenCourseWare
+##古籍
+[f] 中国哲学书电子化计划
+[f] 中华古籍资源库
+[f] 书格
+[f] 维基文库
+##电子书
+[f] Project Gutenberg
+[f] Standard Ebooks
+[f] Internet Archive
+##论文与教材
+[f] 国家哲学社会科学文献中心
+[f] arXiv
+[f] DOAJ
+[f] OpenStax
+[f] Zotero
+##学生与教育免费
+[f] JetBrains 学生授权
+[f] GitHub Student Pack
+[f] Figma 教育版
+[f] Autodesk 教育版
+[f] Microsoft 365 教育版
+[f] Notion 教育版
+
+#素材与在线工具
+##图片素材
+[f] Unsplash
+[f] Pexels
+[f] Pixabay
+[f] Openverse
+[f] unDraw
+##图标
+[f] iconfont
+[f] SVG Repo
+[f] Simple Icons
+##字体
+[f] Google Fonts
+[f] 思源黑体
+[f] 阿里巴巴普惠体
+##音效与视频素材
+[f] Freesound
+[f] Free Music Archive
+[f] Mixkit
+##在线工具
+[f] Photopea
+[f] Squoosh
+[f] TinyPNG
+[f] Excalidraw
+[f] draw.io
+##资源站
+[a] 正品软件购买
+
+#系统与装机
+##系统工具
+[a] PowerToys（工具必备） {PowerToys}
+[a] Quicker
+[a] QuickLook
+[a] PasteEx
+[a] CopyQ
+[a] Ditto
+[a] DeskPins
+[a] CMM
+[a] SpaceSniffer
+[a] Wnr
+[a] AIDA64
+[a] Lively
+[a] Moo0
+[a] 软媒良心产物
+##Mac 专属工具
+[a@Mac&iPhone] 右键助手专业版
+[a@Mac&iPhone] AlDente
+[a@Mac&iPhone] Bartender
+[a@Mac&iPhone] Scroll Reverser
+[a@Mac&iPhone] MOS
+[a@Mac&iPhone] 时间屏保 + [a@PC 软件] Fliqlo => [Fliqlo](https://fliqlo.com/screensaver/)：翻页时钟屏保，Mac 和 Windows 都有。Windows 版要把文件放进 `C:\Windows\System32` 和 `C:\Windows\SysWOW64`。
+[a@Mac&iPhone] 刘海隐藏 => [TopNotch](https://topnotch.app/)：隐藏 Mac 的刘海，必备。
+[a@MAC 软件] hidden bar
+[a@MAC 软件] Folder peek
+[a@MAC 软件] Omi
+[a@MAC 软件] Mounty
+[a@MAC 软件] Airdrop
+[f] Rectangle
+[f] Maccy
+[f] Stats
+##装机盘与系统安装
+[a] Ventoy
+[a] WinPE
+[a] Rufus
+[a] Diskgenius 单文件
+[a] 系统下载
+[a] 系统环境安装
+[a] U 盘启动报错 Verification failed
+##驱动与硬件检测
+[a] 驱动人生万能网卡
+[a] 驱动注入工具
+[a] AMD 驱动升级
+##激活与部署
+[a] Office Tool Plus
+[a] 系统、激活
+[a] win10 云萌
+[a] win 激活工具
+##安全与查毒
+[a] 火绒
+##清理与卸载
+[a] Geek
+[a] SoftCnKiller
+[a] 数据恢复
+
+#硬件与外设
+##充电器（氮化镓）
+[a] 小米手机
+[a] iPhone
+[a] Mac
+##电池
+[a] 7#小电池
+[a] 5#大电池
+##打印机
+[a] 惠普 m126nw
+##键鼠
+[a] 薄膜键盘 K380
+[a] 机械键盘
+[a] 罗技鹅卵石
+##显示器
+[a] 超长 2K 显示器
+[a] 4K 显示器
+[a] 明基色准系列
+##桌椅与增高架
+[a] 增高架
+[a] 椅子
+[a] 桌子
+##文具
+[a] 三菱 M5-559
+[a] 三菱 M5-450
+[a] 三菱防污 UL-S
+[a] 三菱彩铅
+[a] 小米巨能写
+[a] 百乐 P500
+
+#手机 App
+##安卓专属
+[a] wow 时钟
+[a] NFCToolsPRO
+[a] 习惯（Loop Habit Tracker） {Loop Habit Tracker}
+[a] Gitme
+[a] 小米天气
+[a] MiXplorer
+##双端常用
+[a] 社交沟通
+[a] 购物支付
+[a] 影音娱乐
+[a] 阅读与历史
+[a] 效率办公
+[a] 地图出行
+[a] 天气
+[a] 学习
+[a] 生活
+[a] 网盘
+##使用提醒
+[a@使用提醒] 手心输入法
+[a] 登录方式
+[a] 微信聊天记录
+
+#经验与备忘
+##Windows 技巧
+[a] 建议至少一年重置一次电脑
+[a] 取消开机密码
+[a] win11 任务栏
+[a] 本地网络加速
+[a] 批量新建文件夹出现乱码
+[a] 联想一键还原 + Win10 保留文件重置
+##浏览器技巧
+[a] 文件批量重命名
+[a] ctrl+shift+t
+[a] 重装 / 卸载之前先备份
+[a] 同步助手已经废了
+[a] Chrome 重装后需要添加的东西（隐私）
+##装机笔记
+[a@Mac&iPhone] 连接工具 {iMazing}
+[a@Mac&iPhone] 输入法 {微信输入法}
+[a@装机必备] 图片浏览 => 系统自带「预览」
+##自用备份（非官方渠道，自行判断）
+[a@Chrome 插件] chrome 包
+[a@PC 软件] 落雪
+##用过但放弃的
+[a@已废除] 知犀
+[a@已废除] uTools
+[a@已废除] PDF 补丁丁
+[a@已废除] Syncthing
+[a@已废除] 音乐播放器
+##还没找到好方案
+[a@目前仍不够满意的空缺] 重命名软件
+[a@目前仍不够满意的空缺] 图片快速简单处理软件
+[a@目前仍不够满意的空缺] 视频播放器

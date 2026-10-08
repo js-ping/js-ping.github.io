@@ -9,13 +9,20 @@ build.py —— 把 markdown 内容源编译成一套零依赖的静态站点
 
 产出（会自动上线）：
     index.html    首页（导航，软件清单放最显眼的位置）
-    apps.html     软件清单      <- README.md
-    free.html     免费资源      <- free.md + free-region.json（地域标记）
+    apps.html     软件清单      <- 内容源/软件清单.md
+    free.html     免费资源      <- 内容源/免费资源.md + free-region.json（地域标记）
     lottery.html  彩票选号工具   <- 独立单文件，不参与本脚本编译
 
 产出（上线开关关着，随时可开）：
-    links.html    网址书签      <- links.md（由「同步书签.py」从 Chrome 书签自动生成）
+    links.html    网址书签      <- 内容源/网址书签.md（由「同步书签.py」从 Chrome 书签自动生成）
                   → LIST_PAGES 里那一条的 enabled 改成 True 即恢复
+
+目录约定：
+    凡是 markdown 内容源，一律放「内容源/」，根目录不留 .md。
+    这样根目录只剩「要发布的东西（.html）+ 双击就能用的东西（.command）」，
+    打开文件夹不会一眼看到十几个 .md 分不清哪个是哪个。
+    唯一的例外是根目录的 README.md —— 它是 GitHub 仓库首页会读的那一份，
+    内容正文已移到「内容源/软件清单.md」，根目录那份只是仓库说明，不参与编译。
 
 产出（只在本机，不上线）：
     本地资料/使用说明.html     <- 本地资料/使用说明.md
@@ -26,7 +33,7 @@ build.py —— 把 markdown 内容源编译成一套零依赖的静态站点
     2. 每个页面都是单文件、零依赖、离线可用，数据全部内联。
     3. 想加一个新清单页：往下面的 LIST_PAGES 里加一条即可，其余全自动。
     4. 想临时撤下一个页面：把那条的 enabled 改成 False，代码和内容都留着。
-    5. 内容与「实测数据」分开：free.md 只写有哪些资源，链接好不好打开由
+    5. 内容与「实测数据」分开：内容源/免费资源.md 只写有哪些资源，链接好不好打开由
        「6-体检链接.command」实测后写进 free-region.json。机器管链接还活着吗，
        人管该不该收它 —— 两件事不要混在一份文件里。
 """
@@ -38,7 +45,12 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).parent
-SRC = ROOT / "README.md"
+
+# 所有 markdown 内容源都放在这个子目录里，根目录只留 html 和脚本。
+# 想加一个新清单页：把 .md 丢进 内容源/，再到下面 LIST_PAGES 里加一条。
+SRC_DIR = ROOT / "内容源"
+
+SRC = SRC_DIR / "软件清单.md"
 OUT = ROOT / "index.html"
 
 # ==========================================================================
@@ -68,7 +80,7 @@ OG_DEFAULT = "og/default.png"
 #              "auto" = 内容源里还没有真条目时不上线，首页显示为「规划中」；
 #                       你往源文件里填了内容，重跑 build.py 就自动上线。
 LIST_PAGES = [
-    dict(src="README.md", out="apps.html", kicker="Mac · Windows · 手机 · 外设",
+    dict(src="内容源/软件清单.md", out="apps.html", kicker="Mac · Windows · 手机 · 外设",
          title="软件清单", ico="▤",
          sub="我自己在用的软件、硬件和外设，长期更新。收录标准只有一条：用得住。",
          home="Mac / PC / 手机软件、硬件与外设。收录标准只有一条：我真的在用、而且用得住。",
@@ -76,25 +88,25 @@ LIST_PAGES = [
     # —— 免费资源：合法免费资源的导航，不收盗版 / 破解 / 翻墙 ——
     #    regions=True 表示这一页会读 free-region.json，给条目挂「慢 / 需代理」标记，
     #    并在筛选下拉里多出「只看国内直连」。那份数据由「6-体检链接.command」实测生成。
-    dict(src="free.md", out="free.html", kicker="开源 · 官方免费版 · 免费课程 · 公共领域",
+    dict(src="内容源/免费资源.md", out="free.html", kicker="开源 · 官方免费版 · 免费课程 · 公共领域",
          title="免费资源", ico="免",
          sub="整理过的合法免费资源：开源软件、官方免费版与学生包、免费课程、公共领域书籍、"
              "可商用素材。每条都标了国内能不能直连。不收盗版、破解和翻墙工具。",
          home="120+ 条合法免费资源，标了国内能不能直连，带搜索。",
          layout="list", regions=True),
     # —— 文章归档：把公众号长文搬进来，是目前唯一能带外部流量的模块 ——
-    dict(src="articles.md", out="articles.html", kicker="公众号长文归档",
+    dict(src="内容源/文章归档.md", out="articles.html", kicker="公众号长文归档",
          title="文章归档", ico="▦",
          sub="写过的长文，按主题归档。比在平台里一条条翻历史清楚得多。",
          home="写过的长文按主题归档，能搜、能分类。",
          layout="list", enabled="auto"),
     # —— 书单 / 影单：字段与筛选完全不同，所以分成两个页面（共用同一套模板） ——
-    dict(src="books.md", out="books.html", kicker="读过的书",
+    dict(src="内容源/书单.md", out="books.html", kicker="读过的书",
          title="书单", ico="▥",
          sub="读过的书，带年份、评分和一句短评。",
          home="看过的书，带年份、评分和一句短评。",
          layout="list", enabled="auto"),
-    dict(src="movies.md", out="movies.html", kicker="看过的片子",
+    dict(src="内容源/影单.md", out="movies.html", kicker="看过的片子",
          title="影单", ico="▤",
          sub="看过的电影和剧集，带年份、评分和一句短评。",
          home="看过的电影和剧集，带年份、评分和一句短评。",
@@ -102,7 +114,7 @@ LIST_PAGES = [
     # —— 网址书签：目前下线（2026-10-04 起），页面撤下、接口留着 ——
     #    想恢复：把 enabled 改成 True，重跑 build.py，再双击「2-更新网站.command」。
     #    下线期间 links.md 仍由「同步书签.py」照常更新，内容一条都不会丢。
-    dict(src="links.md", out="links.html", kicker="在线工具 · 资源站 · 常用站",
+    dict(src="内容源/网址书签.md", out="links.html", kicker="在线工具 · 资源站 · 常用站",
          title="网址书签", ico="链",
          sub="从浏览器书签里整理出来的常用网址，按用途分好类，一个搜索框全都能搜到。",
          home="常开的网站和在线工具，按用途分好类。",
@@ -113,11 +125,11 @@ LIST_PAGES = [
 #   src —— 内容源；out —— 产物；title —— 标题与导航文字
 #   404.md 会被托管平台自动用于 404，所以它固定产出到根目录的 404.html。
 DOC_PAGES = [
-    dict(src="about.md", out="about.html", title="关于",
+    dict(src="内容源/关于.md", out="about.html", title="关于",
          desc="这个站是什么、为什么要做、怎么做的。"),
-    dict(src="privacy.md", out="privacy.html", title="隐私说明", nav=False,
+    dict(src="内容源/隐私说明.md", out="privacy.html", title="隐私说明", nav=False,
          desc="不收集数据、不设 Cookie、不请求第三方——这个站的隐私说明。"),
-    dict(src="404.md", out="404.html", title="页面走丢了",
+    dict(src="内容源/404.md", out="404.html", title="页面走丢了",
          desc="这个地址没有内容。", nav=False, sitemap=False, noindex=True),
 ]
 
@@ -1571,7 +1583,7 @@ __BODY__
     <div class="f-col">
       <h4>本页数据</h4>
       <div class="rows">
-        <div>内容源<b>__SRC__</b></div>
+        <div>源文件<b>__SRC__</b></div>
         <div>收录条目<b>__TOTAL__</b></div>
         <div>外部链接<b>__LINKS__</b></div>
         <div>更新时间<b>__UPDATED__</b></div>

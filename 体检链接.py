@@ -37,7 +37,7 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).parent
-FREE_SRC = ROOT / "free.md"
+FREE_SRC = ROOT / "内容源" / "免费资源.md"
 REGION_FILE = ROOT / "free-region.json"
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -97,14 +97,14 @@ def probe_hard(url):
 
 def main():
     if not FREE_SRC.exists():
-        print("✗ 找不到 free.md，确认这个脚本和它在同一个文件夹里。")
+        print("✗ 找不到 内容源/免费资源.md，确认这个脚本和「内容源」文件夹在同一处。")
         return 1
 
     b = load_build()
     cats = b.build_tree(b.parse_lines(FREE_SRC.read_text(encoding="utf-8")))
     items = [(n["title"], n["url"]) for _c, n in b.iter_leaf_items(cats) if n.get("url")]
     if not items:
-        print("✗ free.md 里没找到带链接的条目。")
+        print("✗ 内容源/免费资源.md 里没找到带链接的条目。")
         return 1
 
     print("=" * 64)

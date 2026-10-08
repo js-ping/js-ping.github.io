@@ -37,7 +37,7 @@ from pathlib import Path
 from urllib.parse import quote, unquote
 
 ROOT = Path(__file__).resolve().parent
-OUT_MD = ROOT / "links.md"
+OUT_MD = ROOT / "内容源" / "网址书签.md"
 
 # ==========================================================================
 # 【配置区】一般不用动
@@ -743,11 +743,11 @@ def dedup_key(url, title):
 
 
 # ==========================================================================
-# 五、组装 links.md
+# 五、组装 内容源/网址书签.md
 # ==========================================================================
 
 HEADER = """<!--
-  links.md —— 网址书签页的内容源。
+  内容源/网址书签.md —— 网址书签页的内容源。
 
   ⚠ 这个文件是「同步书签.py」自动生成的，手改会在下次同步时被覆盖。
     想加网址 → 在 Chrome 里收藏；想删 → 在 Chrome 里删；想调整分类 → 改脚本里的 RULES。
@@ -921,7 +921,7 @@ def main():
     if args.dry_run:
         say("  %s（试运行，没有写文件）%s" % (C["y"], C["n"]))
     elif changed:
-        say("  %s✓ links.md 已更新%s" % (C["g"], C["n"]))
+        say("  %s✓ 内容源/网址书签.md 已更新%s" % (C["g"], C["n"]))
     else:
         say("  %s· 和上一次一样，没有变化%s" % (C["d"], C["n"]))
     say("")

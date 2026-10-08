@@ -1,6 +1,6 @@
 #!/bin/bash
 # 更新网站 —— 双击运行
-# 把 README.md 编译成 index.html，提交并推送到 GitHub
+# 把「内容源/」里的 markdown 编译成整套 html，提交并推送到 GitHub
 # 线上地址：https://uppjs.com
 
 cd "$(dirname "$0")" || exit 1
@@ -37,7 +37,7 @@ echo "  ① 生成网页中（首页 + 软件清单 + 彩票选号 + 关于 / �
 echo "     （说明书只写本地、不上线；书单影单文章归档填了内容才会自动上线）"
 if ! "$PY" build.py; then
   echo ""
-  echo -e "  ${R}✗ 生成失败${N}——多半是 README.md 里某一行格式写错了"
+  echo -e "  ${R}✗ 生成失败${N}——多半是「内容源」里某个 .md 有一行格式写错了"
   osascript -e 'display dialog "生成网页失败。
 
 请看终端窗口里的红色提示，改好对应的 .md 再试一次。" buttons {"好"} default button 1 with icon stop' >/dev/null 2>&1
