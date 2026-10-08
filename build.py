@@ -3213,6 +3213,65 @@ def build_feed(cats, today: str):
         % (SITE, newest, SITE, "\n".join(entries)))
 
 
+def clean_orphans():
+    """把「这次没生成、但上一轮留下来的」页面 html 删掉。
+
+    为什么需要这一步：enabled=False（或内容源改没了）之后，build.py 本来就
+    只是「不再产出」，旧 html 还躺在目录里 —— 而 EdgeOne 发的是整个目录，
+    所以页面看着下线了，网址照样返回 200。以前只能手动 git rm，容易忘。
+
+    安全边界（删错比漏删严重得多，所以这里收得很紧）：
+      ① 只认三张登记表里写过的文件名 —— 首页、更新日志、手写页面一概不碰；
+      ② 判断标准是「这次在不在 LIVE 里」，不是「表里面有没有出现过」；
+      ③ 顺带清掉同名分享图 og/<页面名>.png，免得留一堆没人引用的死文件；
+      ④ 预览模式只提示不动手 —— 预览目录本来就能随时删了重出。
+
+    一句话：想让页面彻底消失，把 enabled 改成 False（或删掉内容源），重跑构建就行。
+    """
+    known = [cfg["out"] for cfg in LIST_PAGES]
+    known += [cfg["out"] for cfg in DOC_PAGES]
+    known += [t["href"] for t in TOOL_PAGES]
+
+    def why(name):
+        """打印一句人话原因，方便看到「咦我的页面怎么没了」时立刻知道动了哪。"""
+        for cfg in LIST_PAGES:
+            if cfg["out"] != name:
+                continue
+            if cfg.get("enabled", True) is False:
+                return "这一页在 build.py 里被关掉了（enabled=False）"
+            if not (ROOT / cfg["src"]).exists():
+                return "内容源 %s 找不到了" % cfg["src"]
+            return "内容源 %s 里还没有条目（auto：往里面填一条就会自动上线）" % cfg["src"]
+        for cfg in DOC_PAGES:
+            if cfg["out"] == name:
+                return "内容源 %s 找不到了" % cfg["src"]
+        for t in TOOL_PAGES:
+            if t["href"] == name:
+                return "源文件 %s 找不到了" % t["href"]
+        return "这一轮没有生成它"
+
+    dead = [n for n in dict.fromkeys(known) if n not in LIVE and (OUT_DIR / n).exists()]
+    if not dead:
+        return
+
+    print("\n-- 清理已下线的旧页面 --")
+    for name in dead:
+        og_file = OUT_DIR / OG_DIR / (name.rsplit(".", 1)[0] + ".png")
+        og_note = ""
+        if og_file.exists():
+            og_note = "、分享图 og/%s" % og_file.name
+            if not PREVIEW:
+                og_file.unlink()
+        if PREVIEW:
+            print("  预览发现 %s：%s（正式构建会删掉 %s%s）"
+                  % (name, why(name), name, og_note))
+        else:
+            (OUT_DIR / name).unlink()
+            print("  已删除 %s：%s%s\n     想恢复：改回去再跑一次构建就行，内容都还在。"
+                  % (name, why(name), og_note))
+    print("")
+
+
 def main():
     global OUT_DIR
     today = git_date()
@@ -3263,6 +3322,11 @@ def main():
     for t in TOOL_PAGES:
         if (ROOT / t["href"]).exists():
             LIVE.add(t["href"])
+
+    # ---------- 下线就要真的看不见：把上一轮留下的旧页面删掉 ----------
+    # 放在决策之后、渲染之前：趁着 LIVE 已经算清楚、又还没开始写新文件。
+    # 「现在」这页就是吃了这个亏 —— enabled=False 之后 html 还在线上返回 200。
+    clean_orphans()
 
     if dump:
         for out, cats in parsed.items():
