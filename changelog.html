@@ -113,6 +113,11 @@ tbody tr:nth-child(even){background:var(--soft)}
   --sh1:0 1px 2px rgba(15,23,42,.05), 0 1px 3px rgba(15,23,42,.06);
   --sh2:0 4px 16px rgba(15,23,42,.07), 0 2px 6px rgba(15,23,42,.05);
   --sh3:0 22px 52px rgba(15,23,42,.15), 0 8px 22px rgba(15,23,42,.07);
+  /* 顶栏专用（shot header）。顶栏是通栏的，阴影稍微"实"一点就会被放大成一条
+     横贯全屏的黑边 —— 关于 / 更新日志这种正文页尤其明显，因为下面没有卡片
+     或分类条去垫它。所以这里比 sh1 更淡也更散：贴边只留 2px 的一点定点，
+     真正的层次交给 28px 的大范围散影（2026-10-09 收）。 */
+  --shh:0 1px 2px rgba(15,23,42,.04), 0 10px 28px rgba(15,23,42,.07);
   --ring:0 0 0 3px color-mix(in srgb, var(--accent) 24%, transparent);
   --ease:cubic-bezier(.22,.61,.36,1);
 
@@ -131,6 +136,9 @@ html[data-theme="dark"]{
         0 6px 20px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
   --sh3:inset 0 1px 0 rgba(255,255,255,.06),
         0 24px 56px rgba(0,0,0,.62), 0 8px 22px rgba(0,0,0,.45);
+  /* 暗色下的顶栏阴影。这里**不加**内高光：顶栏是通栏的，上沿那道白线
+     在整屏宽度上会被看成一横条亮边。只用一个更深的黑，把滚上来的内容压暗一档。 */
+  --shh:0 10px 28px rgba(0,0,0,.45);
 }
 @media (prefers-color-scheme: dark){
   html[data-theme="auto"]{
@@ -196,9 +204,15 @@ header{
 @supports (backdrop-filter:blur(14px)){
   header{background:color-mix(in srgb, var(--bg) 62%, transparent); backdrop-filter:saturate(1.7) blur(20px)}
 }
-header.scrolled{box-shadow:0 1px 18px rgba(15,23,42,.07)}
-html[data-theme="dark"] header.scrolled,
-html[data-theme="auto"] header.scrolled{box-shadow:0 1px 22px rgba(0,0,0,.42)}
+/* 顶栏滚动后压在内容上的那道阴影。值走 --shh 令牌（第 1 节），
+   明暗两套在那儿定义 —— 别在这儿直接写死颜色。
+   ⚠ 2026-10-09 修过一个性质很坏的 bug：原先这里给「暗色」和「auto」各写了一条
+   规则，但 auto 那条漏在 @media (prefers-color-scheme: dark) **外面** ——
+   于是**亮色模式下、主题设为 auto 的所有页面，顶栏都吃到了暗色那套 42% 黑阴影**。
+   清单页顶栏下面紧跟着分类条、首页是 hero，都把这道影子挡住或吃掉了；
+   只有关于 / 更新日志两页是纯正文、顶栏下面空着，一条黑带横在那儿，非常突兀。
+   现在三态（亮 / 暗 / auto-暗）全部收进第 1 节的 --shh，不再分散写。 */
+header.scrolled{box-shadow:var(--shh)}
 
 /* 首页：顶栏浮在 hero 之上，滚动后才有底色 */
 body.home header{
@@ -1102,6 +1116,11 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
   --sh1:0 1px 2px rgba(15,23,42,.05), 0 1px 3px rgba(15,23,42,.06);
   --sh2:0 4px 16px rgba(15,23,42,.07), 0 2px 6px rgba(15,23,42,.05);
   --sh3:0 22px 52px rgba(15,23,42,.15), 0 8px 22px rgba(15,23,42,.07);
+  /* 顶栏专用（shot header）。顶栏是通栏的，阴影稍微"实"一点就会被放大成一条
+     横贯全屏的黑边 —— 关于 / 更新日志这种正文页尤其明显，因为下面没有卡片
+     或分类条去垫它。所以这里比 sh1 更淡也更散：贴边只留 2px 的一点定点，
+     真正的层次交给 28px 的大范围散影（2026-10-09 收）。 */
+  --shh:0 1px 2px rgba(15,23,42,.04), 0 10px 28px rgba(15,23,42,.07);
   --ring:0 0 0 3px color-mix(in srgb, var(--accent) 24%, transparent);
   --ease:cubic-bezier(.22,.61,.36,1);
 
@@ -1120,6 +1139,9 @@ html[data-theme="dark"]{
         0 6px 20px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
   --sh3:inset 0 1px 0 rgba(255,255,255,.06),
         0 24px 56px rgba(0,0,0,.62), 0 8px 22px rgba(0,0,0,.45);
+  /* 暗色下的顶栏阴影。这里**不加**内高光：顶栏是通栏的，上沿那道白线
+     在整屏宽度上会被看成一横条亮边。只用一个更深的黑，把滚上来的内容压暗一档。 */
+  --shh:0 10px 28px rgba(0,0,0,.45);
 }
 @media (prefers-color-scheme: dark){
   html[data-theme="auto"]{
@@ -1185,9 +1207,15 @@ header{
 @supports (backdrop-filter:blur(14px)){
   header{background:color-mix(in srgb, var(--bg) 62%, transparent); backdrop-filter:saturate(1.7) blur(20px)}
 }
-header.scrolled{box-shadow:0 1px 18px rgba(15,23,42,.07)}
-html[data-theme="dark"] header.scrolled,
-html[data-theme="auto"] header.scrolled{box-shadow:0 1px 22px rgba(0,0,0,.42)}
+/* 顶栏滚动后压在内容上的那道阴影。值走 --shh 令牌（第 1 节），
+   明暗两套在那儿定义 —— 别在这儿直接写死颜色。
+   ⚠ 2026-10-09 修过一个性质很坏的 bug：原先这里给「暗色」和「auto」各写了一条
+   规则，但 auto 那条漏在 @media (prefers-color-scheme: dark) **外面** ——
+   于是**亮色模式下、主题设为 auto 的所有页面，顶栏都吃到了暗色那套 42% 黑阴影**。
+   清单页顶栏下面紧跟着分类条、首页是 hero，都把这道影子挡住或吃掉了；
+   只有关于 / 更新日志两页是纯正文、顶栏下面空着，一条黑带横在那儿，非常突兀。
+   现在三态（亮 / 暗 / auto-暗）全部收进第 1 节的 --shh，不再分散写。 */
+header.scrolled{box-shadow:var(--shh)}
 
 /* 首页：顶栏浮在 hero 之上，滚动后才有底色 */
 body.home header{
@@ -2103,7 +2131,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <h1>更新日志</h1>
 <p>这个站的每一次改动都记在这里，最新的在最上面。记录由仓库的提交历史自动生成，不用手写，也就不会过期。</p>
 <h2>2026-10-09</h2>
-<ul><li>圆角与阴影收敛成一套令牌；彩票页顶栏终于和全站一副样子</li><li>重新生成页面：更新日志收进上面那个提交（含机器人的开奖数据提交）</li><li>重新生成页面：更新日志收进上面那个提交</li><li>彩票页顶栏跟全站对齐：构建时自动注入，不再各写一份</li></ul>
+<ul><li>重新生成页面：更新日志收进上面那个提交</li><li>圆角与阴影收敛成一套令牌；彩票页顶栏终于和全站一副样子</li><li>重新生成页面：更新日志收进上面那个提交（含机器人的开奖数据提交）</li><li>重新生成页面：更新日志收进上面那个提交</li><li>彩票页顶栏跟全站对齐：构建时自动注入，不再各写一份</li></ul>
 <h2>2026-10-08</h2>
 <ul><li>开奖数据自动更新（2026-10-09）—— 快照截至 2026-10-08 / 2026-10-07</li><li>重新生成页面：更新日志收进上面那个提交</li><li>下线的页面真的从目录里消失：build.py 新增孤儿页面清理</li><li>重新生成页面：更新日志收进上面那个提交</li><li>四件事：下线「现在」页；顶栏全站焊死成一副样子（搜索/筛选移到分类条右端）；顶栏放宽；专题合集条目编号串成步骤并压紧</li><li>重新生成页面：更新日志收进上面那个提交</li><li>新增「现在」页与「专题合集」页：专题只写条目名，构建时引用软件与资源的网址/描述/平台，一条内容不存两份</li><li>重新生成页面：更新日志收进上面那个提交</li><li>hero 打字机改为直接显示：去掉逐字动画与闪烁光标（含减少动态偏好下引言空白的修复）</li><li>重新生成页面：更新日志收进上面那个提交</li><li>主页转向数字花园：去掉背景漂移动效 + 新增「最近在读/在看」模块 + 书单影单首版上线</li><li>重新生成页面：更新日志收进上面那个提交</li><li>网页版内容编辑器：填表改内容 + 预览 + 一键上线</li><li>重新生成页面：更新日志收进上面那个提交</li><li>三件事一起上线：两页合并转正 + 清单补网址 + 条目标平台</li><li>重新生成页面：更新日志收进上面两个提交，日期推进到 2026-10-08</li><li>根目录 README 改成 GitHub 仓库说明（站点内容在「内容源/」）</li><li>内容源统一收进「内容源/」目录 + 软件清单与免费资源合并草稿</li></ul>
 <h2>2026-10-07</h2>
@@ -2113,7 +2141,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <h2>2026-10-04</h2>
 <ul><li>更新日志：收进本次基建与拓展页的提交记录</li><li>补齐站点基建，搭好三个拓展页</li><li>路线图同步最新状态：书签页下线、说明书本地化、备考资料明确不做</li><li>撤下网址书签页与使用说明页，说明书改为只在本机生成</li></ul>
 <h2>2026-10-03</h2>
-<ul><li>书签同步改成「攒着推送」：本地随时更新，上线由你决定</li><li>新增「4-整理不上网站」：把被安全兜底挡下的书签收拢进「不上网站」文件夹</li></ul>
+<ul><li>书签同步改成「攒着推送」：本地随时更新，上线由你决定</li></ul>
 </article>
 
 <footer>

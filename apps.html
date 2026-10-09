@@ -439,6 +439,11 @@ footer{
   --sh1:0 1px 2px rgba(15,23,42,.05), 0 1px 3px rgba(15,23,42,.06);
   --sh2:0 4px 16px rgba(15,23,42,.07), 0 2px 6px rgba(15,23,42,.05);
   --sh3:0 22px 52px rgba(15,23,42,.15), 0 8px 22px rgba(15,23,42,.07);
+  /* 顶栏专用（shot header）。顶栏是通栏的，阴影稍微"实"一点就会被放大成一条
+     横贯全屏的黑边 —— 关于 / 更新日志这种正文页尤其明显，因为下面没有卡片
+     或分类条去垫它。所以这里比 sh1 更淡也更散：贴边只留 2px 的一点定点，
+     真正的层次交给 28px 的大范围散影（2026-10-09 收）。 */
+  --shh:0 1px 2px rgba(15,23,42,.04), 0 10px 28px rgba(15,23,42,.07);
   --ring:0 0 0 3px color-mix(in srgb, var(--accent) 24%, transparent);
   --ease:cubic-bezier(.22,.61,.36,1);
 
@@ -457,6 +462,9 @@ html[data-theme="dark"]{
         0 6px 20px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
   --sh3:inset 0 1px 0 rgba(255,255,255,.06),
         0 24px 56px rgba(0,0,0,.62), 0 8px 22px rgba(0,0,0,.45);
+  /* 暗色下的顶栏阴影。这里**不加**内高光：顶栏是通栏的，上沿那道白线
+     在整屏宽度上会被看成一横条亮边。只用一个更深的黑，把滚上来的内容压暗一档。 */
+  --shh:0 10px 28px rgba(0,0,0,.45);
 }
 @media (prefers-color-scheme: dark){
   html[data-theme="auto"]{
@@ -522,9 +530,15 @@ header{
 @supports (backdrop-filter:blur(14px)){
   header{background:color-mix(in srgb, var(--bg) 62%, transparent); backdrop-filter:saturate(1.7) blur(20px)}
 }
-header.scrolled{box-shadow:0 1px 18px rgba(15,23,42,.07)}
-html[data-theme="dark"] header.scrolled,
-html[data-theme="auto"] header.scrolled{box-shadow:0 1px 22px rgba(0,0,0,.42)}
+/* 顶栏滚动后压在内容上的那道阴影。值走 --shh 令牌（第 1 节），
+   明暗两套在那儿定义 —— 别在这儿直接写死颜色。
+   ⚠ 2026-10-09 修过一个性质很坏的 bug：原先这里给「暗色」和「auto」各写了一条
+   规则，但 auto 那条漏在 @media (prefers-color-scheme: dark) **外面** ——
+   于是**亮色模式下、主题设为 auto 的所有页面，顶栏都吃到了暗色那套 42% 黑阴影**。
+   清单页顶栏下面紧跟着分类条、首页是 hero，都把这道影子挡住或吃掉了；
+   只有关于 / 更新日志两页是纯正文、顶栏下面空着，一条黑带横在那儿，非常突兀。
+   现在三态（亮 / 暗 / auto-暗）全部收进第 1 节的 --shh，不再分散写。 */
+header.scrolled{box-shadow:var(--shh)}
 
 /* 首页：顶栏浮在 hero 之上，滚动后才有底色 */
 body.home header{

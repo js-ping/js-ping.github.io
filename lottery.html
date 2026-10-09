@@ -500,6 +500,11 @@ footer{ text-align:center; color:var(--fg3); font-size:12px; margin-top:26px }
   --sh1:0 1px 2px rgba(15,23,42,.05), 0 1px 3px rgba(15,23,42,.06);
   --sh2:0 4px 16px rgba(15,23,42,.07), 0 2px 6px rgba(15,23,42,.05);
   --sh3:0 22px 52px rgba(15,23,42,.15), 0 8px 22px rgba(15,23,42,.07);
+  /* 顶栏专用（shot header）。顶栏是通栏的，阴影稍微"实"一点就会被放大成一条
+     横贯全屏的黑边 —— 关于 / 更新日志这种正文页尤其明显，因为下面没有卡片
+     或分类条去垫它。所以这里比 sh1 更淡也更散：贴边只留 2px 的一点定点，
+     真正的层次交给 28px 的大范围散影（2026-10-09 收）。 */
+  --shh:0 1px 2px rgba(15,23,42,.04), 0 10px 28px rgba(15,23,42,.07);
   --ring:0 0 0 3px color-mix(in srgb, var(--accent) 24%, transparent);
   --ease:cubic-bezier(.22,.61,.36,1);
 
@@ -518,6 +523,9 @@ html[data-theme="dark"]{
         0 6px 20px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
   --sh3:inset 0 1px 0 rgba(255,255,255,.06),
         0 24px 56px rgba(0,0,0,.62), 0 8px 22px rgba(0,0,0,.45);
+  /* 暗色下的顶栏阴影。这里**不加**内高光：顶栏是通栏的，上沿那道白线
+     在整屏宽度上会被看成一横条亮边。只用一个更深的黑，把滚上来的内容压暗一档。 */
+  --shh:0 10px 28px rgba(0,0,0,.45);
 }
 @media (prefers-color-scheme: dark){
   html[data-theme="auto"]{
@@ -542,9 +550,15 @@ header{
 @supports (backdrop-filter:blur(14px)){
   header{background:color-mix(in srgb, var(--bg) 62%, transparent); backdrop-filter:saturate(1.7) blur(20px)}
 }
-header.scrolled{box-shadow:0 1px 18px rgba(15,23,42,.07)}
-html[data-theme="dark"] header.scrolled,
-html[data-theme="auto"] header.scrolled{box-shadow:0 1px 22px rgba(0,0,0,.42)}
+/* 顶栏滚动后压在内容上的那道阴影。值走 --shh 令牌（第 1 节），
+   明暗两套在那儿定义 —— 别在这儿直接写死颜色。
+   ⚠ 2026-10-09 修过一个性质很坏的 bug：原先这里给「暗色」和「auto」各写了一条
+   规则，但 auto 那条漏在 @media (prefers-color-scheme: dark) **外面** ——
+   于是**亮色模式下、主题设为 auto 的所有页面，顶栏都吃到了暗色那套 42% 黑阴影**。
+   清单页顶栏下面紧跟着分类条、首页是 hero，都把这道影子挡住或吃掉了；
+   只有关于 / 更新日志两页是纯正文、顶栏下面空着，一条黑带横在那儿，非常突兀。
+   现在三态（亮 / 暗 / auto-暗）全部收进第 1 节的 --shh，不再分散写。 */
+header.scrolled{box-shadow:var(--shh)}
 
 /* 首页：顶栏浮在 hero 之上，滚动后才有底色 */
 body.home header{
@@ -1174,6 +1188,9 @@ function showDataInfo() {
       ? '页面内置快照偏旧，且这次没能补全中间缺的期数（缺口太大）。建议重新生成一次页面。'
       : '当前显示的是页面内置的快照 —— 没能连上本站服务器（离线打开、或服务暂时不可用）。';
   alert(head + '\n' + line('ssq') + '\n' + line('dlt')
+    + (LIVE.updatedAt
+        ? '\n站上接口最近一次核对：' + cnStamp(LIVE.updatedAt) + '（北京时间）'
+        : '\n站上接口这次没连上，上面两个日期来自页面内嵌快照。')
     + '\n数据源：' + (LIVE.source || LIVE_SOURCE_DEFAULT)
     + '\n（官方接口优先；服务器在境外时会自动改用 17500.cn 的官方公告转录。详见说明书「六、数据更新」）'
     + '\n最终以官方公告为准。');
@@ -1455,6 +1472,20 @@ const LIVE = { state: 'snapshot', updatedAt: '', source: '' };
    此时页面上呈现的是页面里内嵌的那份快照。 */
 const LIVE_SOURCE_DEFAULT = '中国福利彩票官网 / 中国体彩网（内嵌快照）';
 
+/* 接口回的 updatedAt 是 UTC 的 ISO 串，这里转成「北京时间 月-日 时:分」。
+   为什么非要把它显示出来：页脚上那两个日期是**最新一期的开奖日**，不是
+   「数据什么时候更新过」。双色球周二/四/日开、大乐透周一/三/六开 ——
+   碰上两天没开奖的日子，日期就不动，看着像「今天没更新」。
+   把接口最近一次核对的时间摆在旁边，跑没跑一眼就能看出来。
+   （2026-10-09 加） */
+function cnStamp(iso) {
+  const d = new Date(iso);
+  if (!iso || isNaN(d.getTime())) return '';
+  const p = n => (n < 10 ? '0' : '') + n;
+  const cn = new Date(d.getTime() + (d.getTimezoneOffset() + 480) * 60000);
+  return p(cn.getMonth() + 1) + '-' + p(cn.getDate()) + ' ' + p(cn.getHours()) + ':' + p(cn.getMinutes());
+}
+
 function footText() {
   const head = LIVE.state === 'live'
     ? '线上数据 · 每次打开自动取最新一期'
@@ -1465,8 +1496,10 @@ function footText() {
      境外出口拿不到官方接口时会自动回退到 17500.cn —— 那是官方公告的转录站，
      接口会把实际用的是哪个源回报过来，这里原样显示，不替它遮掩。 */
   const src = LIVE.source || LIVE_SOURCE_DEFAULT;
+  const checked = LIVE.updatedAt ? ' · 接口核对于 ' + cnStamp(LIVE.updatedAt) : '';
   return 'uppjs.com · 本地工具 · ' + head
     + '（双色球截至 ' + INFO.ssq.last.date + ' / 大乐透截至 ' + INFO.dlt.last.date + '）'
+    + checked
     + ' · 数据源：' + src;
 }
 
