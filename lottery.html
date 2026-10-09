@@ -471,8 +471,64 @@ footer{ text-align:center; color:var(--fg3); font-size:12px; margin-top:26px }
 <!--UPP:HEADER-CSS:start-->
 <style>
 /* ⚠️ 这一段由 build.py 自动从 theme/theme.css 搬来，别手改 —— 下次构建会被覆盖。
+   搬的是两节：① 圆角 / 阴影 / 曲线等令牌　② 顶栏本身。
    想让本页顶栏变样，去改 theme/theme.css 的「3. 顶栏」那一节，重跑构建即可。 */
-:root{--hh:70px}
+/* ==========================================================================
+   1. 新令牌：圆角、阴影、动效曲线
+   ========================================================================== */
+:root{
+  /* ---------------- 圆角：只有这几档 ----------------
+     2026-10-09 收敛过一次。之前散着 3/5/6/7/9/10/11/14/15/20/25/30 十几个值，
+     同一屏里两个小方块圆角不一样，看着就是"没做完"。
+     记法：xs 徽章 · sm 按钮与行 · radius 中件 · lg 卡片 · xl 大卡 · full 胶囊。
+     细长装饰条（章节竖条、下划线）不在此列，那种必须用 2~3px 的小值。 */
+  --r-xs:8px;           /* 徽章、小图标块、目录子项 */
+  --r-sm:10px;          /* 按钮、输入框、目录项、列表行 */
+  --radius:12px;        /* 中件：图标、图片、内层块（老规则大量引用这个名字，别删） */
+  --radius-lg:18px;     /* 卡片：名片、章节体、折叠块 */
+  --radius-xl:24px;     /* 大卡：图文卡、大图标 */
+  --r-full:999px;       /* 胶囊：分类、标签、计数 */
+  --radius-sm:var(--r-sm);   /* 老名别名 */
+
+  --hh:70px;            /* 顶栏高度（2026-10-08 从 62px 放宽：原来那一行太挤了） */
+  --tocw:242px;         /* 清单页左侧栏宽度 */
+
+  /* ---------------- 阴影：亮色靠阴影、暗色靠内高光 ----------------
+     暗色下纯黑阴影叠在黑底上根本看不见（原来的 0 1px 2px rgba(0,0,0,.45)
+     就是白给的），所以暗色那套改成：顶部一道极淡内高光 + 更散的投影。
+     静置 sh1，悬停 sh2；sh3 只留给"浮起来"的浮层。 */
+  --sh1:0 1px 2px rgba(15,23,42,.05), 0 1px 3px rgba(15,23,42,.06);
+  --sh2:0 4px 16px rgba(15,23,42,.07), 0 2px 6px rgba(15,23,42,.05);
+  --sh3:0 22px 52px rgba(15,23,42,.15), 0 8px 22px rgba(15,23,42,.07);
+  --ring:0 0 0 3px color-mix(in srgb, var(--accent) 24%, transparent);
+  --ease:cubic-bezier(.22,.61,.36,1);
+
+  /* 卡片封面用的一组渐变（零图片，靠 CSS 出效果） */
+  --g1:linear-gradient(140deg,#3b82f6,#6366f1);
+  --g2:linear-gradient(140deg,#0ea5e9,#22d3ee);
+  --g3:linear-gradient(140deg,#8b5cf6,#d946ef);
+  --g4:linear-gradient(140deg,#f59e0b,#ef4444);
+  --g5:linear-gradient(140deg,#10b981,#14b8a6);
+  --g6:linear-gradient(140deg,#6366f1,#0ea5e9);
+}
+html[data-theme="dark"]{
+  --sh1:inset 0 1px 0 rgba(255,255,255,.045),
+        0 1px 2px rgba(0,0,0,.45), 0 4px 14px rgba(0,0,0,.28);
+  --sh2:inset 0 1px 0 rgba(255,255,255,.055),
+        0 6px 20px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
+  --sh3:inset 0 1px 0 rgba(255,255,255,.06),
+        0 24px 56px rgba(0,0,0,.62), 0 8px 22px rgba(0,0,0,.45);
+}
+@media (prefers-color-scheme: dark){
+  html[data-theme="auto"]{
+    --sh1:inset 0 1px 0 rgba(255,255,255,.045),
+          0 1px 2px rgba(0,0,0,.45), 0 4px 14px rgba(0,0,0,.28);
+    --sh2:inset 0 1px 0 rgba(255,255,255,.055),
+          0 6px 20px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
+    --sh3:inset 0 1px 0 rgba(255,255,255,.06),
+          0 24px 56px rgba(0,0,0,.62), 0 8px 22px rgba(0,0,0,.45);
+  }
+}
 /* ==========================================================================
    3. 顶栏
    ========================================================================== */
@@ -516,7 +572,7 @@ body.home header.scrolled{
        letter-spacing:-.015em; color:var(--fg); white-space:nowrap}
 a.brand:hover{color:var(--fg)}
 .brand .logo{
-  flex:none; width:31px; height:31px; border-radius:10px;
+  flex:none; width:31px; height:31px; border-radius:var(--r-sm);
   display:grid; place-items:center; color:#fff; font-size:14.5px; font-weight:800;
   background:linear-gradient(138deg, var(--accent), color-mix(in srgb, var(--accent) 52%, #a855f7));
   box-shadow:0 3px 11px color-mix(in srgb, var(--accent) 36%, transparent),
@@ -530,7 +586,7 @@ a.brand:hover{color:var(--fg)}
            overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none}
 .nav-links::-webkit-scrollbar{display:none}
 .nav-links a{
-  color:var(--fg2); font-size:13.5px; padding:8px 13px; border-radius:10px;
+  color:var(--fg2); font-size:13.5px; padding:8px 13px; border-radius:var(--r-sm);
   white-space:nowrap; transition:background .16s var(--ease), color .16s var(--ease);
 }
 .nav-links a:hover{background:var(--panel2); color:var(--fg)}
@@ -541,7 +597,7 @@ a.brand:hover{color:var(--fg)}
    —— 彩票页的顶栏样式是从这一节整体搬过去的，所以写在这里它自动跟着走。 */
 .tools>button, .tools>select{
   border:1px solid var(--line); background:var(--panel); color:var(--fg2);
-  border-radius:8px; padding:5px 11px; font-size:13px; font-family:inherit;
+  border-radius:var(--r-xs); padding:5px 11px; font-size:13px; font-family:inherit;
   font-weight:500; line-height:1.4; cursor:pointer; transition:all .15s var(--ease);
 }
 .tools>button:hover, .tools>select:hover{border-color:var(--fg3); color:var(--fg)}
@@ -569,6 +625,7 @@ a.brand:hover{color:var(--fg)}
   .search input{width:100%; font-size:13px; padding:8px 12px}
   #filter,#toggleAll,.tools>button,.tools>select{font-size:12px; padding:6px 10px}
 }
+:root{--hh:70px}
 </style>
 <!--UPP:HEADER-CSS:end--></head>
 <body class="toolpage" data-view="home">
@@ -580,7 +637,6 @@ a.brand:hover{color:var(--fg)}
     <nav class="nav-links"><a href="apps.html">软件与资源</a>
   <a href="books.html">书单</a>
   <a href="movies.html">影单</a>
-  <a href="packs.html">专题合集</a>
   <a class="on" href="lottery.html">彩票选号</a>
   <a href="about.html">关于</a>
   <a href="changelog.html">更新日志</a></nav>

@@ -140,13 +140,17 @@ LIST_PAGES = [
     #    内容源里只写条目名（不写网址），构建时去「软件与资源」查真身把
     #    网址 / 简述 / 平台标记带过来 —— 只引用，不复制，一条内容不存两份。
     #    手写了链接的条目原样保留，方便临时塞一个清单外的东西。
+    # —— 已下线（2026-10-09，用户要求去掉）——
+    #    页面撤下，内容源 内容源/专题.md 与引用机制（build_item_index /
+    #    enrich_pack / pack 开关）全部留着，一条没删。
+    #    想恢复：把 enabled 改成 True，重跑 build.py，再双击「2-更新网站.command」。
     dict(src="内容源/专题.md", out="packs.html", kicker="按场景挑软件",
          title="专题合集", ico="合",
          sub="同一批软件，按场景重新打包：装新 Mac 该装什么、Windows 装机清单、"
              "写东西用的一套、给孩子留的。条目全部引用自「软件与资源」，"
              "改一处两边都变。",
          home="按场景重新打包的一批清单，条目全部引用自软件与资源，不存两份。",
-         layout="list", pack=True),
+         layout="list", pack=True, enabled=False),
     # —— 网址书签：目前下线（2026-10-04 起），页面撤下、接口留着 ——
     #    想恢复：把 enabled 改成 True，重跑 build.py，再双击「2-更新网站.command」。
     #    下线期间 links.md 仍由「同步书签.py」照常更新，内容一条都不会丢。
@@ -1175,15 +1179,15 @@ SKIN_PANEL_CSS = r"""/* ---------- 外观面板（明暗 + 底色） ---------- 
 .appear{position:relative}
 .appear>button{
   border:1px solid var(--line); background:var(--panel); color:var(--fg2);
-  border-radius:8px; padding:5px 11px; font-size:13px; cursor:pointer;
+  border-radius:var(--r-xs); padding:5px 11px; font-size:13px; cursor:pointer;
   font-family:inherit; line-height:1.4;
 }
 .appear>button:hover{color:var(--fg); border-color:var(--fg3)}
 .ap-panel{
   position:absolute; right:0; top:calc(100% + 9px); z-index:70; width:268px;
-  background:var(--panel); border:1px solid var(--line); border-radius:12px;
+  background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
   padding:13px 13px 11px; text-align:left; white-space:normal;
-  box-shadow:0 14px 38px rgba(0,0,0,.20);
+  box-shadow:var(--sh3);   /* 浮层专用那一档：亮色大投影、暗色带内高光 */
 }
 .ap-panel[hidden]{display:none}
 .ap-lab{
@@ -1193,20 +1197,20 @@ SKIN_PANEL_CSS = r"""/* ---------- 外观面板（明暗 + 底色） ---------- 
 .ap-modes{display:flex; gap:6px; margin:0 0 13px}
 .ap-modes button{
   flex:1; border:1px solid var(--line); background:var(--panel2); color:var(--fg2);
-  border-radius:8px; padding:6px 0; font-size:12.5px; cursor:pointer;
+  border-radius:var(--r-xs); padding:6px 0; font-size:12.5px; cursor:pointer;
   font-family:inherit; white-space:nowrap;
 }
 .ap-modes button.on{border-color:var(--accent); background:var(--accent-soft); color:var(--accent); font-weight:600}
 .ap-sw{display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin:0 0 13px}
 .ap-sw button{
-  width:100%; height:32px; border-radius:9px; border:1px solid var(--line);
+  width:100%; height:32px; border-radius:var(--r-xs); border:1px solid var(--line);
   cursor:pointer; padding:0;
 }
 .ap-sw button.on{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
 .ap-foot{display:flex; gap:6px; border-top:1px solid var(--line); padding-top:11px}
 .ap-foot button{
   flex:1; border:1px solid var(--line); background:transparent; color:var(--fg2);
-  border-radius:8px; padding:6px 0; font-size:12.5px; cursor:pointer; font-family:inherit;
+  border-radius:var(--r-xs); padding:6px 0; font-size:12.5px; cursor:pointer; font-family:inherit;
 }
 .ap-foot button:hover{color:var(--fg); background:var(--panel2)}
 .ap-tip{font-size:11.5px; color:var(--fg3); line-height:1.55; margin:10px 0 0}
@@ -1361,9 +1365,9 @@ body{
 }
 a{color:var(--accent); text-decoration:none}
 a:hover{text-decoration:underline}
-code{background:var(--panel2); padding:1px 5px; border-radius:4px; font-size:12.5px;
+code{background:var(--panel2); padding:1px 5px; border-radius:var(--r-xs); font-size:12.5px;
      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-xs)}
 
 /* ---------- 顶栏 ---------- */
 header{
@@ -1387,13 +1391,13 @@ header{
 .search::before{content:"⌕"; position:absolute; left:11px; top:7px; color:var(--fg3); font-size:15px}
 .search button{
   position:absolute; right:4px; top:4px; border:0; background:transparent; color:var(--fg3);
-  font-size:16px; cursor:pointer; padding:4px 8px; border-radius:6px; display:none;
+  font-size:16px; cursor:pointer; padding:4px 8px; border-radius:var(--r-sm); display:none;
 }
 .search.has button{display:block}
 .tools{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--fg3); white-space:nowrap}
 .tools>button,.tools>select,.tools>a.tool-link{
   border:1px solid var(--line); background:var(--panel); color:var(--fg2);
-  padding:6px 9px; border-radius:8px; cursor:pointer; font-size:13px; max-width:150px;
+  padding:6px 9px; border-radius:var(--r-sm); cursor:pointer; font-size:13px; max-width:150px;
   white-space:nowrap;
 }
 .tools>button:hover,.tools>select:hover,.tools>a.tool-link:hover{
@@ -1409,7 +1413,7 @@ nav.cats .wrap{
 }
 nav.cats .wrap::-webkit-scrollbar{display:none}
 nav.cats a{
-  white-space:nowrap; padding:5px 11px; border-radius:20px; border:1px solid var(--line);
+  white-space:nowrap; padding:5px 11px; border-radius:var(--r-full); border:1px solid var(--line);
   background:var(--panel); color:var(--fg2); font-size:13px;
 }
 nav.cats a:hover,nav.cats a.on{border-color:var(--accent); color:var(--accent); text-decoration:none}
@@ -1431,12 +1435,12 @@ main{flex:1; min-width:0; padding-bottom:34px}
     padding-right:4px;
   }
   aside.toc::-webkit-scrollbar{width:6px}
-  aside.toc::-webkit-scrollbar-thumb{background:var(--line); border-radius:3px}
+  aside.toc::-webkit-scrollbar-thumb{background:var(--line); border-radius:var(--r-full)}
 }
 .toc-h{font-size:11px; letter-spacing:.09em; color:var(--fg3); text-transform:uppercase;
        margin:0 0 7px 9px}
 .toc-cat>a{
-  display:flex; align-items:center; gap:8px; padding:5px 9px; border-radius:7px;
+  display:flex; align-items:center; gap:8px; padding:5px 9px; border-radius:var(--r-sm);
   font-weight:600; font-size:13px; color:var(--fg2);
 }
 .toc-cat>a span.n{margin-left:auto}
@@ -1445,7 +1449,7 @@ main{flex:1; min-width:0; padding-bottom:34px}
 .toc-cat>a .n,.toc-grp a .n{font-size:11px; color:var(--fg3); font-weight:400}
 .toc-grp{margin:1px 0 7px 9px; border-left:1px solid var(--line); padding-left:7px}
 .toc-grp a{
-  display:block; padding:3px 7px; border-radius:6px; font-size:12.5px; color:var(--fg3);
+  display:block; padding:3px 7px; border-radius:var(--r-xs); font-size:12.5px; color:var(--fg3);
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 .toc-grp a:hover{color:var(--accent); background:var(--panel2); text-decoration:none}
@@ -1460,7 +1464,7 @@ main{flex:1; min-width:0; padding-bottom:34px}
 }
 .sec h2 .anchor{opacity:0; font-size:15px; color:var(--fg3)}
 .sec h2:hover .anchor{opacity:1}
-.sec-body{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:6px 14px}
+.sec-body{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:12px 16px}
 
 /* ---------- 空清单页：还没填内容的页面不摆一片空白 ----------
    类名故意不叫 .empty —— 页面里那个 .empty 是「搜索无结果」用的、
@@ -1471,13 +1475,13 @@ main{flex:1; min-width:0; padding-bottom:34px}
 }
 .blank .ic{
   width:54px; height:54px; line-height:54px; margin:0 auto 15px; font-size:24px;
-  border-radius:15px; background:var(--accent-soft); color:var(--accent);
+  border-radius:var(--radius); background:var(--accent-soft); color:var(--accent);
 }
 .blank h3{font-size:16.5px; color:var(--fg); margin:0 0 9px; font-weight:600}
 .blank p{margin:0 auto 9px; max-width:540px; color:var(--fg2); font-size:13.5px; line-height:1.85}
 .blank p.hint{color:var(--fg3); font-size:12.5px; margin-bottom:0}
 .blank code{
-  background:var(--panel2); border:1px solid var(--line); border-radius:5px;
+  background:var(--panel2); border:1px solid var(--line); border-radius:var(--r-xs);
   padding:1px 6px; font-size:12.5px; color:var(--fg2);
 }
 
@@ -1494,7 +1498,7 @@ details.group>summary::before{
 }
 details.group[open]>summary::before{transform:rotate(90deg)}
 .grp-n{color:var(--fg3); font-weight:400; font-size:11.5px;
-       background:var(--panel2); border-radius:10px; padding:0 7px}
+       background:var(--panel2); border-radius:var(--r-full); padding:0 7px}
 .grp-desc{margin:0 0 6px 19px; color:var(--fg2); font-size:13px}
 .grp-body{margin-left:19px; padding-bottom:6px}
 
@@ -1503,14 +1507,14 @@ details.group[open]>summary::before{transform:rotate(90deg)}
   display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 9px;
   border-radius:0 5px 5px 0;
 }
-.item:hover{border-left-color:var(--accent); background:var(--panel2)}
+.item:hover{background:var(--panel2)}
 .item .nm{font-weight:600; color:var(--fg); font-size:14.5px; flex:0 1 auto; min-width:0}
 .item a.nm{color:var(--accent)}
 .item a.nm:hover{text-decoration:underline}
 .item .chips{display:inline-flex; align-items:center; gap:4px; flex:0 0 auto}
 /* 地域标记：颜色跟着主题走，暗色下自动变亮，不会糊成一片 */
 .item .rg{
-  font-size:10.5px; line-height:1.75; padding:0 6px; border-radius:9px;
+  font-size:10.5px; line-height:1.75; padding:0 6px; border-radius:var(--r-xs);
   white-space:nowrap; border:1px solid transparent;
 }
 .item .rg-slow{
@@ -1531,10 +1535,10 @@ details.group[open]>summary::before{transform:rotate(90deg)}
 .item .note::before{content:"▸ "; color:var(--fg3)}
 .item.dep .nm{text-decoration:line-through; color:var(--fg3)}
 .item.dep .ds{color:var(--fg3); text-decoration:line-through}
-.item.cur{background:var(--accent-soft); border-left-color:var(--accent)}
+.item.cur{background:var(--accent-soft)}
 ul.sub{margin:4px 0 2px 0; padding-left:16px; color:var(--fg2); font-size:13px; width:100%}
 ul.sub li{margin:2px 0}
-mark{background:var(--mark); color:var(--mark-fg); border-radius:2px; padding:0 1px}
+mark{background:var(--mark); color:var(--mark-fg); border-radius:3px; padding:0 1px}
 
 @keyframes flash{from{background:var(--accent-soft)} to{background:transparent}}
 .flash{animation:flash 1.2s ease-out}
@@ -1566,7 +1570,7 @@ body[data-layout="compact"] .sec-body{
   gap:12px; align-items:start;
 }
 body[data-layout="compact"] details.group{
-  border:1px solid var(--line); border-radius:10px; background:var(--panel);
+  border:1px solid var(--line); border-radius:var(--r-sm); background:var(--panel);
   padding:11px 13px 12px;
 }
 body[data-layout="compact"] details.group>summary{
@@ -1578,7 +1582,7 @@ body[data-layout="compact"] details.group>summary .grp-n{
 }
 body[data-layout="compact"] .grp-body{padding-left:0; margin-left:0}
 body[data-layout="compact"] .item{
-  padding:3px 7px; margin:0 -7px; border-left:0; border-radius:6px;
+  padding:3px 7px; margin:0 -7px; border-left:0; border-radius:var(--r-sm);
   gap:0 9px; font-size:13.5px; line-height:1.55;
 }
 body[data-layout="compact"] .item:hover{background:var(--panel2); border-left-color:transparent}
@@ -1608,7 +1612,7 @@ body[data-layout="compact"] .sec-body > .item{min-width:0}
 
 /* ---------- 使用说明 ---------- */
 .help{margin-top:28px; background:var(--panel); border:1px solid var(--line);
-      border-radius:var(--radius); padding:6px 16px}
+      border-radius:var(--radius); padding:12px 18px}
 .help summary{cursor:pointer; font-weight:600; padding:8px 0}
 .help h3{font-size:14px; margin:16px 0 6px}
 .help p,.help li{color:var(--fg2); font-size:13px}
@@ -1617,7 +1621,7 @@ body[data-layout="compact"] .sec-body > .item{min-width:0}
                   vertical-align:top}
 .help th{background:var(--panel2); font-weight:600}
 .help kbd{background:var(--panel2); border:1px solid var(--line); border-bottom-width:2px;
-          border-radius:4px; padding:0 5px; font-size:12px; font-family:inherit}
+          border-radius:var(--r-xs); padding:0 5px; font-size:12px; font-family:inherit}
 
 footer{
   max-width:1180px; margin:0 auto; padding:0 16px 46px; color:var(--fg3); font-size:12.5px;
@@ -2421,7 +2425,7 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 a{color:var(--accent); text-decoration:none}
-:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-xs)}
 __SKIN_PANEL_CSS__
 /* >>> 外观层 v2（theme/theme.css，构建时内联） >>> */
 __UPGRADE_CSS__
@@ -2763,18 +2767,18 @@ hr{border:0; border-top:1px solid var(--line); margin:34px 0}
 ul,ol{margin:10px 0; padding-left:24px}
 li{margin:5px 0}
 code{
-  background:var(--code); border:1px solid var(--line); border-radius:4px;
+  background:var(--code); border:1px solid var(--line); border-radius:var(--r-xs);
   padding:1px 5px; font-size:13.5px;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 pre{
-  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
   padding:14px 16px; overflow-x:auto; margin:14px 0;
 }
 pre code{background:none; border:0; padding:0; font-size:13.5px; line-height:1.65}
 blockquote{
   margin:14px 0; padding:10px 16px; background:var(--soft);
-  border-left:3px solid var(--accent); border-radius:0 8px 8px 0;
+  border-left:3px solid var(--accent); border-radius:var(--r-sm);
 }
 blockquote p{margin:0}
 table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14px}
@@ -2796,7 +2800,7 @@ tbody tr:nth-child(even){background:var(--soft)}
   thead{display:none}
   table{margin:14px 0}
   tr{
-    border:1px solid var(--line); border-radius:10px; margin:0 0 10px;
+    border:1px solid var(--line); border-radius:var(--r-sm); margin:0 0 10px;
     padding:9px 13px; background:var(--card);
   }
   tbody tr:nth-child(even){background:var(--card)}
@@ -3064,12 +3068,12 @@ def redirect_page(r: dict) -> str:
 body{{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
  background:var(--bg);color:var(--fg);padding:24px;
  font:15px/1.7 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}}
-.box{{background:var(--card);border:1px solid var(--line);border-radius:16px;
+.box{{background:var(--card);border:1px solid var(--line);border-radius:18px;
  padding:30px 28px;max-width:460px;text-align:center}}
 h1{{font-size:18px;margin:0 0 8px}}
 p{{color:var(--fg2);font-size:13.5px;margin:0 0 18px}}
 a{{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;
- border-radius:11px;padding:9px 18px;font-weight:600}}
+ border-radius:12px;padding:9px 18px;font-weight:600}}
 </style>
 <script>location.replace("{to}" + location.hash);</script>
 </head>
@@ -3144,20 +3148,26 @@ def theme_section(num):
 
 
 def tool_header_css():
-    """给单文件页用的顶栏覆盖样式：theme.css 的顶栏整段 + 变量 --hh。
+    """给单文件页用的顶栏覆盖样式：令牌（第 1 节）+ 顶栏（第 3 节）+ 变量 --hh。
 
     放在单文件页自己样式的后面，同名规则后写覆盖先写 —— 这样它自己的旧值会被压掉。
+
+    2026-10-09 补搬了第 1 节：顶栏那一节里到处引用 --r-sm / --r-xs / --ease 这些令牌，
+    只搬第 3 节的话，单文件页里这几个变量是空的 —— var() 拿不到值就回落成初始值，
+    圆角直接变成 0，彩票页的顶栏会方得跟全站不是一回事。以后新令牌也一并跟过来。
     """
     css = (THEME_DIR / "theme.css").read_text(encoding="utf-8")
     hh = re.search(r"--hh:([^;]+);", css)
-    return (
-        LOT_CSS_S + "\n<style>\n"
-        "/* ⚠️ 这一段由 build.py 自动从 theme/theme.css 搬来，别手改 —— 下次构建会被覆盖。\n"
-        "   想让本页顶栏变样，去改 theme/theme.css 的「3. 顶栏」那一节，重跑构建即可。 */\n"
-        ":root{--hh:%s}\n%s\n</style>\n" % (hh.group(1).strip() if hh else "70px",
-                                            theme_section(3))
-        + LOT_CSS_E
-    )
+    hh_v = hh.group(1).strip() if hh else "70px"
+    # 这里用字符串拼接而不是 % / f-string：搬过来的 CSS 里迟早会出现 `%` 或 `{}`
+    # （color-mix 的百分比、@media 的大括号），一格式化就炸。
+    return (LOT_CSS_S + "\n<style>\n"
+            "/* ⚠️ 这一段由 build.py 自动从 theme/theme.css 搬来，别手改 —— 下次构建会被覆盖。\n"
+            "   搬的是两节：① 圆角 / 阴影 / 曲线等令牌　② 顶栏本身。\n"
+            "   想让本页顶栏变样，去改 theme/theme.css 的「3. 顶栏」那一节，重跑构建即可。 */\n"
+            + theme_section(1) + "\n" + theme_section(3) + "\n"
+            + ":root{--hh:" + hh_v + "}\n</style>\n"
+            + LOT_CSS_E)
 
 
 def sync_tool_header(doc):

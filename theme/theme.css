@@ -16,13 +16,26 @@
    1. 新令牌：圆角、阴影、动效曲线
    ========================================================================== */
 :root{
-  --radius:12px;
-  --radius-sm:9px;
-  --radius-lg:18px;
-  --radius-xl:24px;
+  /* ---------------- 圆角：只有这几档 ----------------
+     2026-10-09 收敛过一次。之前散着 3/5/6/7/9/10/11/14/15/20/25/30 十几个值，
+     同一屏里两个小方块圆角不一样，看着就是"没做完"。
+     记法：xs 徽章 · sm 按钮与行 · radius 中件 · lg 卡片 · xl 大卡 · full 胶囊。
+     细长装饰条（章节竖条、下划线）不在此列，那种必须用 2~3px 的小值。 */
+  --r-xs:8px;           /* 徽章、小图标块、目录子项 */
+  --r-sm:10px;          /* 按钮、输入框、目录项、列表行 */
+  --radius:12px;        /* 中件：图标、图片、内层块（老规则大量引用这个名字，别删） */
+  --radius-lg:18px;     /* 卡片：名片、章节体、折叠块 */
+  --radius-xl:24px;     /* 大卡：图文卡、大图标 */
+  --r-full:999px;       /* 胶囊：分类、标签、计数 */
+  --radius-sm:var(--r-sm);   /* 老名别名 */
+
   --hh:70px;            /* 顶栏高度（2026-10-08 从 62px 放宽：原来那一行太挤了） */
   --tocw:242px;         /* 清单页左侧栏宽度 */
 
+  /* ---------------- 阴影：亮色靠阴影、暗色靠内高光 ----------------
+     暗色下纯黑阴影叠在黑底上根本看不见（原来的 0 1px 2px rgba(0,0,0,.45)
+     就是白给的），所以暗色那套改成：顶部一道极淡内高光 + 更散的投影。
+     静置 sh1，悬停 sh2；sh3 只留给"浮起来"的浮层。 */
   --sh1:0 1px 2px rgba(15,23,42,.05), 0 1px 3px rgba(15,23,42,.06);
   --sh2:0 4px 16px rgba(15,23,42,.07), 0 2px 6px rgba(15,23,42,.05);
   --sh3:0 22px 52px rgba(15,23,42,.15), 0 8px 22px rgba(15,23,42,.07);
@@ -38,15 +51,21 @@
   --g6:linear-gradient(140deg,#6366f1,#0ea5e9);
 }
 html[data-theme="dark"]{
-  --sh1:0 1px 2px rgba(0,0,0,.45);
-  --sh2:0 4px 18px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
-  --sh3:0 24px 56px rgba(0,0,0,.62), 0 8px 22px rgba(0,0,0,.45);
+  --sh1:inset 0 1px 0 rgba(255,255,255,.045),
+        0 1px 2px rgba(0,0,0,.45), 0 4px 14px rgba(0,0,0,.28);
+  --sh2:inset 0 1px 0 rgba(255,255,255,.055),
+        0 6px 20px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
+  --sh3:inset 0 1px 0 rgba(255,255,255,.06),
+        0 24px 56px rgba(0,0,0,.62), 0 8px 22px rgba(0,0,0,.45);
 }
 @media (prefers-color-scheme: dark){
   html[data-theme="auto"]{
-    --sh1:0 1px 2px rgba(0,0,0,.45);
-    --sh2:0 4px 18px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
-    --sh3:0 24px 56px rgba(0,0,0,.62), 0 8px 22px rgba(0,0,0,.45);
+    --sh1:inset 0 1px 0 rgba(255,255,255,.045),
+          0 1px 2px rgba(0,0,0,.45), 0 4px 14px rgba(0,0,0,.28);
+    --sh2:inset 0 1px 0 rgba(255,255,255,.055),
+          0 6px 20px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
+    --sh3:inset 0 1px 0 rgba(255,255,255,.06),
+          0 24px 56px rgba(0,0,0,.62), 0 8px 22px rgba(0,0,0,.45);
   }
 }
 
@@ -85,7 +104,7 @@ a:hover{text-decoration:none}
 
 /* 细一点的滚动条 */
 *::-webkit-scrollbar{width:9px; height:9px}
-*::-webkit-scrollbar-thumb{background:color-mix(in srgb, var(--fg3) 32%, transparent); border-radius:6px}
+*::-webkit-scrollbar-thumb{background:color-mix(in srgb, var(--fg3) 32%, transparent); border-radius:var(--r-full)}
 *::-webkit-scrollbar-thumb:hover{background:color-mix(in srgb, var(--fg3) 55%, transparent)}
 *::-webkit-scrollbar-track{background:transparent}
 
@@ -133,7 +152,7 @@ body.home header.scrolled{
        letter-spacing:-.015em; color:var(--fg); white-space:nowrap}
 a.brand:hover{color:var(--fg)}
 .brand .logo{
-  flex:none; width:31px; height:31px; border-radius:10px;
+  flex:none; width:31px; height:31px; border-radius:var(--r-sm);
   display:grid; place-items:center; color:#fff; font-size:14.5px; font-weight:800;
   background:linear-gradient(138deg, var(--accent), color-mix(in srgb, var(--accent) 52%, #a855f7));
   box-shadow:0 3px 11px color-mix(in srgb, var(--accent) 36%, transparent),
@@ -147,7 +166,7 @@ a.brand:hover{color:var(--fg)}
            overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none}
 .nav-links::-webkit-scrollbar{display:none}
 .nav-links a{
-  color:var(--fg2); font-size:13.5px; padding:8px 13px; border-radius:10px;
+  color:var(--fg2); font-size:13.5px; padding:8px 13px; border-radius:var(--r-sm);
   white-space:nowrap; transition:background .16s var(--ease), color .16s var(--ease);
 }
 .nav-links a:hover{background:var(--panel2); color:var(--fg)}
@@ -158,7 +177,7 @@ a.brand:hover{color:var(--fg)}
    —— 彩票页的顶栏样式是从这一节整体搬过去的，所以写在这里它自动跟着走。 */
 .tools>button, .tools>select{
   border:1px solid var(--line); background:var(--panel); color:var(--fg2);
-  border-radius:8px; padding:5px 11px; font-size:13px; font-family:inherit;
+  border-radius:var(--r-xs); padding:5px 11px; font-size:13px; font-family:inherit;
   font-weight:500; line-height:1.4; cursor:pointer; transition:all .15s var(--ease);
 }
 .tools>button:hover, .tools>select:hover{border-color:var(--fg3); color:var(--fg)}
@@ -219,7 +238,7 @@ a.brand:hover{color:var(--fg)}
 }
 
 .hero-av{
-  width:96px; height:96px; border-radius:30px; margin:0 0 22px;
+  width:96px; height:96px; border-radius:var(--radius-xl); margin:0 0 22px;
   display:grid; place-items:center; color:#fff; font-size:42px; font-weight:800;
   letter-spacing:-.04em;
   background:linear-gradient(140deg, var(--accent), color-mix(in srgb, var(--accent) 48%, #a855f7));
@@ -258,14 +277,14 @@ a.brand:hover{color:var(--fg)}
   position:absolute; left:20px; top:-9px; font-size:10.5px; font-weight:700;
   letter-spacing:.12em; text-transform:uppercase; color:var(--accent);
   background:color-mix(in srgb, var(--panel) 92%, transparent);
-  padding:2px 9px; border-radius:999px;
+  padding:2px 9px; border-radius:var(--r-full);
   border:1px solid color-mix(in srgb, var(--accent) 26%, transparent);
 }
 
 .hero-cta{display:flex; flex-wrap:wrap; gap:11px; justify-content:center; margin:30px 0 0}
 .btn{
   display:inline-flex; align-items:center; gap:8px;
-  padding:11px 22px; border-radius:12px; font-size:14px; font-weight:600;
+  padding:11px 22px; border-radius:var(--radius); font-size:14px; font-weight:600;
   border:1px solid transparent; transition:transform .16s var(--ease), box-shadow .2s var(--ease),
             background .16s var(--ease), border-color .16s var(--ease);
 }
@@ -319,7 +338,7 @@ a.brand:hover{color:var(--fg)}
 /* 侧栏顶部的个人名片 */
 .me{text-align:center; padding:22px 18px 18px}
 .me .av{
-  width:66px; height:66px; border-radius:20px; margin:0 auto 13px;
+  width:66px; height:66px; border-radius:var(--radius-lg); margin:0 auto 13px;
   display:grid; place-items:center; color:#fff; font-size:28px; font-weight:800;
   background:linear-gradient(140deg, var(--accent), color-mix(in srgb, var(--accent) 48%, #a855f7));
   box-shadow:0 10px 26px color-mix(in srgb, var(--accent) 36%, transparent);
@@ -329,14 +348,14 @@ a.brand:hover{color:var(--fg)}
 /* 名片上的自我介绍：左对齐，比居中的一句 slogan 好读 */
 .me .bio{font-size:12.2px; color:var(--fg2); margin:12px 0 0; line-height:1.78; text-align:left}
 .me .cta{
-  display:block; margin:15px 0 0; padding:9px 0; border-radius:10px;
+  display:block; margin:15px 0 0; padding:9px 0; border-radius:var(--r-sm);
   background:var(--accent); color:#fff; font-size:13px; font-weight:600;
   box-shadow:0 8px 20px color-mix(in srgb, var(--accent) 30%, transparent);
   transition:transform .16s var(--ease);
 }
 .me .cta:hover{transform:translateY(-1px)}
 .me .cta2{
-  display:block; margin:7px 0 0; padding:8px 0; border-radius:10px;
+  display:block; margin:7px 0 0; padding:8px 0; border-radius:var(--r-sm);
   border:1px solid var(--line); color:var(--fg2); font-size:12.5px;
 }
 .me .cta2:hover{border-color:var(--accent); color:var(--accent)}
@@ -363,13 +382,13 @@ a.brand:hover{color:var(--fg)}
 /* 侧栏链接列表 */
 .slist{display:flex; flex-direction:column; gap:2px}
 .slist a{
-  display:flex; align-items:center; gap:9px; padding:7px 9px; border-radius:9px;
+  display:flex; align-items:center; gap:9px; padding:7px 9px; border-radius:var(--r-sm);
   font-size:13px; color:var(--fg2); border:1px solid transparent;
   transition:background .15s var(--ease), border-color .15s var(--ease), color .15s var(--ease);
 }
 .slist a:hover{background:var(--panel2); color:var(--fg); border-color:var(--line)}
 .slist a .ic{
-  flex:none; width:24px; height:24px; border-radius:7px; display:grid; place-items:center;
+  flex:none; width:24px; height:24px; border-radius:var(--r-xs); display:grid; place-items:center;
   background:var(--panel2); color:var(--fg2); font-size:12px; font-weight:700;
 }
 .slist a:hover .ic{background:var(--accent-soft); color:var(--accent)}
@@ -379,7 +398,7 @@ a.brand:hover{color:var(--fg)}
 .cloud{display:flex; flex-wrap:wrap; gap:6px}
 .cloud a{
   display:inline-flex; align-items:center; gap:5px;
-  padding:4px 10px; border-radius:999px; font-size:12.2px;
+  padding:4px 10px; border-radius:var(--r-full); font-size:12.2px;
   background:var(--panel2); color:var(--fg2); border:1px solid transparent;
   transition:all .15s var(--ease);
 }
@@ -401,7 +420,7 @@ a.brand:hover{color:var(--fg)}
   box-shadow:var(--sh1); font-size:13.5px; color:var(--fg2);
 }
 .notice .b{
-  flex:none; width:32px; height:32px; border-radius:10px; display:grid; place-items:center;
+  flex:none; width:32px; height:32px; border-radius:var(--r-sm); display:grid; place-items:center;
   background:var(--accent); color:#fff; font-size:15px;
 }
 .notice b{color:var(--fg)}
@@ -442,7 +461,7 @@ a.frow:hover{transform:translateY(-3px); box-shadow:var(--sh3); border-color:col
 .ftxt h3{margin:0 0 8px; font-size:19px; letter-spacing:-.02em; display:flex; align-items:center; gap:9px; flex-wrap:wrap}
 .ftxt h3 .pin{
   font-size:10.5px; font-weight:700; letter-spacing:.06em; color:#fff;
-  background:var(--accent); border-radius:6px; padding:2px 8px;
+  background:var(--accent); border-radius:var(--r-xs); padding:2px 8px;
 }
 .ftxt p{margin:0; color:var(--fg2); font-size:13.4px; line-height:1.72}
 .ftxt .meta{
@@ -469,7 +488,7 @@ a.frow:hover .go{gap:10px}
 }
 a.tcard:hover{transform:translateY(-3px); box-shadow:var(--sh3); border-color:color-mix(in srgb, var(--accent) 34%, var(--line))}
 .tcard .ti{
-  width:34px; height:34px; border-radius:11px; margin-bottom:11px;
+  width:34px; height:34px; border-radius:var(--radius); margin-bottom:11px;
   display:grid; place-items:center; font-size:16px; font-weight:700;
   color:#fff; background:var(--g1);
 }
@@ -481,11 +500,11 @@ a.tcard:hover{transform:translateY(-3px); box-shadow:var(--sh3); border-color:co
 .tcard p strong{color:var(--fg)}
 .tcard .cnt{
   position:absolute; right:15px; top:16px; font-size:10.5px; font-weight:700;
-  color:var(--accent); background:var(--accent-soft); border-radius:6px; padding:2px 8px;
+  color:var(--accent); background:var(--accent-soft); border-radius:var(--r-xs); padding:2px 8px;
 }
 .tcard .st{
   font-size:10.5px; font-weight:600; color:var(--fg3);
-  background:var(--panel2); border:1px solid var(--line); border-radius:5px; padding:1px 7px;
+  background:var(--panel2); border:1px solid var(--line); border-radius:var(--r-xs); padding:1px 7px;
 }
 .tcard.plan{opacity:.72; box-shadow:none}
 .tcard.plan .ti{background:var(--panel2); color:var(--fg3)}
@@ -519,7 +538,7 @@ nav.cats .wrap{max-width:1240px; margin:0 auto; padding:9px 22px;
 .cats-scroll::-webkit-scrollbar{display:none}
 .cats-tools{flex:none; margin-left:auto; display:flex; align-items:center; gap:8px; white-space:nowrap}
 nav.cats a{
-  white-space:nowrap; padding:6px 13px; border-radius:999px; border:1px solid var(--line);
+  white-space:nowrap; padding:6px 13px; border-radius:var(--r-full); border:1px solid var(--line);
   background:var(--panel); color:var(--fg2); font-size:12.8px; transition:all .15s var(--ease);
 }
 nav.cats a:hover,nav.cats a.on{
@@ -545,7 +564,7 @@ aside.toc::-webkit-scrollbar{width:6px}
 }
 .sidecard .top{display:flex; align-items:center; gap:11px}
 .sidecard .av{
-  flex:none; width:38px; height:38px; border-radius:12px; display:grid; place-items:center;
+  flex:none; width:38px; height:38px; border-radius:var(--radius); display:grid; place-items:center;
   color:#fff; font-size:17px; font-weight:800;
   background:linear-gradient(140deg, var(--accent), color-mix(in srgb, var(--accent) 48%, #a855f7));
   box-shadow:0 6px 16px color-mix(in srgb, var(--accent) 34%, transparent);
@@ -563,7 +582,7 @@ aside.toc::-webkit-scrollbar{width:6px}
   display:flex; gap:7px; margin:13px 0 0;
 }
 .sidecard .lnk a{
-  flex:1; text-align:center; padding:7px 0; border-radius:9px; font-size:12.2px;
+  flex:1; text-align:center; padding:7px 0; border-radius:var(--r-sm); font-size:12.2px;
   border:1px solid var(--line); color:var(--fg2); transition:all .15s var(--ease);
 }
 .sidecard .lnk a:hover{border-color:var(--accent); color:var(--accent); background:var(--accent-soft)}
@@ -572,10 +591,10 @@ aside.toc::-webkit-scrollbar{width:6px}
   font-size:11px; letter-spacing:.1em; color:var(--fg3); text-transform:uppercase;
   margin:0 0 8px 4px; font-weight:700;
 }
-.toc-cat>a{padding:6px 10px; border-radius:9px; font-weight:600; font-size:13px}
-.toc-cat>a.on{background:var(--accent-soft); color:var(--accent); box-shadow:inset 2px 0 0 var(--accent)}
+.toc-cat>a{padding:6px 10px; border-radius:var(--r-sm); font-weight:600; font-size:13px}
+.toc-cat>a.on{background:var(--accent-soft); color:var(--accent); font-weight:700}
 .toc-grp{margin:2px 0 9px 12px; border-left:1px solid var(--line); padding-left:8px}
-.toc-grp a{padding:4px 8px; border-radius:7px; font-size:12.4px}
+.toc-grp a{padding:4px 8px; border-radius:var(--r-xs); font-size:12.4px}
 
 /* 章节 + 分组：改成卡片感 */
 .sec{margin-bottom:26px; scroll-margin-top:calc(var(--hh) + 22px)}
@@ -591,49 +610,67 @@ aside.toc::-webkit-scrollbar{width:6px}
 .sec h2:hover .anchor{opacity:1}
 .sec-body{
   background:var(--panel); border:1px solid var(--line);
-  border-radius:var(--radius-lg); padding:8px 18px; box-shadow:var(--sh1);
+  border-radius:var(--radius-lg); padding:12px 16px; box-shadow:var(--sh1);
 }
 
 details.group{border-bottom:1px solid color-mix(in srgb, var(--line) 75%, transparent); padding:5px 0}
 details.group:last-child{border-bottom:0}
 details.group>summary{
   cursor:pointer; list-style:none; padding:9px 0; display:flex; align-items:center; gap:9px;
-  font-weight:700; font-size:14.5px; border-radius:10px; transition:color .15s var(--ease);
+  font-weight:700; font-size:14.5px; border-radius:var(--r-sm); transition:color .15s var(--ease);
 }
 details.group>summary:hover{color:var(--accent)}
 details.group>summary::-webkit-details-marker{display:none}
 .grp-n{
   font-size:11px; font-weight:600; color:var(--fg3); background:var(--panel2);
-  border-radius:999px; padding:1px 8px;
+  border-radius:var(--r-full); padding:1px 8px;
 }
 
-/* 条目行 */
+/* 条目行 —— 2026-10-09 修过两处"圆角处理不好"：
+   ① 原来是 border-radius:0 11px 11px 0，左边直角右边圆角，一行几十条看着像半拉的胶囊；
+      而且 11px 是孤例，不在圆角阶梯里。现在四角同圆角（--r-sm）。
+   ② 悬停时 transform:translateX(3px) 整行右移 —— 鼠标扫过去整页文字在抖。
+      现在原地变色，左侧那条强调线改成圆角内的伪元素（用 ::after，
+      因为 ::before 被专题页的序号占着），不会跟行圆角打架。 */
 .item{
+  position:relative;
   padding:9px 12px 9px 14px; margin:3px 0;
-  border-left:2px solid transparent; border-radius:0 11px 11px 0;
+  border-radius:var(--r-sm);
+  /* 2026-10-09 补一刀：基础层（build.py）里那条 border-left:2px 直边必须摘掉 ——
+     四角同圆之后，左边这条直边会在上下两个圆角处拐出硬角，看着像"贴歪了"。
+     强调线现在完全交给下面的 ::after，它是圆角内的浮条，不会跟行圆角打架。 */
+  border-left:0;
   display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 10px;
-  transition:background .15s var(--ease), border-color .15s var(--ease), transform .15s var(--ease);
+  transition:background .15s var(--ease);
 }
-.item:hover{background:var(--panel2); border-left-color:var(--accent); transform:translateX(3px)}
+.item::after{
+  content:""; position:absolute; left:0; top:9px; bottom:9px; width:2px;
+  border-radius:var(--r-full); background:transparent;
+  transition:background .15s var(--ease);
+}
+.item:hover{background:var(--panel2)}
+.item:hover::after{background:var(--accent)}
 .item .nm{font-weight:650; color:var(--fg); font-size:14.6px}
 .item a.nm{color:var(--fg)}
 .item a.nm:hover{color:var(--accent)}
 .item .ds{color:var(--fg2); font-size:13px; flex:1 1 280px; min-width:0; line-height:1.7}
+/* 徽章：三个小标记（荐 / 平台 / 地域）统一同一档圆角，别再一个 6 一个 9 */
 .item .badge{
   font-size:10.5px; font-weight:700; color:var(--accent);
-  background:var(--accent-soft); border-radius:6px; padding:1px 7px;
+  background:var(--accent-soft); border-radius:var(--r-xs); padding:1px 7px;
 }
 /* 平台标记：只给「挑系统」的条目挂，颜色比「荐」淡一档，不跟正文抢视线 */
 .item .plat{
   font-size:10.5px; font-weight:600; line-height:1.75; padding:0 6px;
-  border-radius:9px; white-space:nowrap; color:var(--fg2);
+  border-radius:var(--r-xs); white-space:nowrap; color:var(--fg2);
   border:1px solid color-mix(in srgb, var(--fg3) 36%, transparent);
   background:color-mix(in srgb, var(--fg3) 9%, transparent);
 }
 .item .note{flex:1 1 100%; color:var(--fg3); font-size:12.5px; line-height:1.68; padding-left:10px; border-left:2px solid var(--line); margin-top:2px}
 .item .note::before{content:"▸ "; color:var(--fg3)}
 ul.sub{margin:5px 0 3px; padding-left:18px; color:var(--fg2); font-size:12.8px; width:100%; line-height:1.7}
-.item.cur{background:var(--accent-soft); border-left-color:var(--accent)}
+.item.cur{background:var(--accent-soft)}
+.item.cur::after{background:var(--accent)}
 mark{background:var(--mark); color:var(--mark-fg); border-radius:3px; padding:0 2px}
 
 /* --------------------------------------------------------------------------
@@ -645,11 +682,11 @@ mark{background:var(--mark); color:var(--mark-fg); border-radius:3px; padding:0 
 .packpage details.group{margin-bottom:7px; counter-reset:pack}
 .packpage .item{
   position:relative; padding:7px 10px 7px 31px; margin:2px 0;
-  border-radius:9px; gap:3px 9px; counter-increment:pack;
+  border-radius:var(--r-sm); gap:3px 9px; counter-increment:pack;
 }
 .packpage .item::before{
   content:counter(pack); position:absolute; left:7px; top:9px;
-  min-width:16px; height:16px; padding:0 3px; border-radius:8px; box-sizing:border-box;
+  min-width:16px; height:16px; padding:0 3px; border-radius:var(--r-xs); box-sizing:border-box;
   display:grid; place-items:center; font-size:10px; font-weight:700;
   color:var(--fg3); background:var(--panel2); border:1px solid var(--line);
 }
@@ -664,7 +701,7 @@ mark{background:var(--mark); color:var(--mark-fg); border-radius:3px; padding:0 
 
 /* 清单页顶部搜索 / 筛选控件 */
 .search input, .search button, #filter, #toggleAll, .tool-link, .tools select, .tools button{
-  border-radius:10px;
+  border-radius:var(--r-sm);
 }
 .search input{
   border:1px solid var(--line); background:var(--panel); color:var(--fg);
@@ -674,7 +711,7 @@ mark{background:var(--mark); color:var(--mark-fg); border-radius:3px; padding:0 
 .search button, #toggleAll, .tool-link{
   border:1px solid var(--line); background:var(--panel); color:var(--fg2);
   padding:7px 12px; font-size:13px; cursor:pointer; font-family:inherit;
-  transition:all .15s var(--ease);
+  border-radius:var(--r-sm); transition:all .15s var(--ease);
 }
 .search button:hover, #toggleAll:hover, .tool-link:hover{border-color:var(--accent); color:var(--accent); text-decoration:none}
 #filter{
@@ -686,7 +723,7 @@ mark{background:var(--mark); color:var(--mark-fg); border-radius:3px; padding:0 
 /* 「这一页怎么用」折叠块 */
 .help{
   margin-top:34px; background:var(--panel); border:1px solid var(--line);
-  border-radius:var(--radius-lg); padding:8px 20px; box-shadow:var(--sh1);
+  border-radius:var(--radius-lg); padding:12px 18px; box-shadow:var(--sh1);
 }
 .help summary{cursor:pointer; font-weight:700; padding:10px 0; font-size:14px}
 .help h3{font-size:14px; margin:18px 0 7px}
@@ -694,7 +731,7 @@ mark{background:var(--mark); color:var(--mark-fg); border-radius:3px; padding:0 
 .help th{background:var(--panel2); font-weight:700}
 .help kbd{
   background:var(--panel2); border:1px solid var(--line); border-bottom-width:2px;
-  border-radius:6px; padding:1px 6px; font-size:12px; font-family:ui-monospace,Menlo,monospace;
+  border-radius:var(--r-xs); padding:1px 6px; font-size:12px; font-family:ui-monospace,Menlo,monospace;
 }
 
 .empty{
@@ -703,7 +740,7 @@ mark{background:var(--mark); color:var(--mark-fg); border-radius:3px; padding:0 
 }
 
 .totop{
-  position:fixed; right:22px; bottom:22px; width:44px; height:44px; border-radius:14px;
+  position:fixed; right:22px; bottom:22px; width:44px; height:44px; border-radius:var(--radius);
   border:1px solid var(--line); background:var(--panel); color:var(--fg2); cursor:pointer;
   font-size:17px; display:none; z-index:60; box-shadow:var(--sh2);
   transition:all .18s var(--ease);
@@ -728,7 +765,7 @@ article blockquote{
   margin:16px 0; padding:12px 18px; border-left:3px solid var(--accent);
   background:var(--accent-soft); border-radius:0 var(--radius) var(--radius) 0; color:var(--fg2);
 }
-article code{background:var(--panel2); border-radius:5px; padding:1.5px 6px; font-size:12.8px;
+article code{background:var(--panel2); border-radius:var(--r-xs); padding:1.5px 6px; font-size:12.8px;
   font-family:ui-monospace,Menlo,monospace}
 article pre{background:var(--panel2); border:1px solid var(--line); border-radius:var(--radius);
   padding:15px 17px; overflow:auto}
@@ -762,7 +799,7 @@ footer{
 .f-col .fl a:hover{color:var(--accent)}
 .f-brand{display:flex; align-items:center; gap:10px; margin:0 0 10px}
 .f-brand .logo{
-  width:28px; height:28px; border-radius:9px; display:grid; place-items:center;
+  width:28px; height:28px; border-radius:var(--r-xs); display:grid; place-items:center;
   color:#fff; font-size:13px; font-weight:800;
   background:linear-gradient(138deg, var(--accent), color-mix(in srgb, var(--accent) 52%, #a855f7));
 }
@@ -774,7 +811,7 @@ footer{
 }
 .f-badges{display:flex; flex-wrap:wrap; gap:7px}
 .f-badges span{
-  font-size:11px; padding:3px 9px; border-radius:999px;
+  font-size:11px; padding:3px 9px; border-radius:var(--r-full);
   border:1px solid var(--line); color:var(--fg3); background:var(--panel);
 }
 
@@ -795,11 +832,8 @@ body[data-layout="list"] .sec-body .item{
   column-gap:16px;
   align-items:baseline;
   padding:7px 10px 7px 12px;
-  border-left:2px solid transparent;
 }
-body[data-layout="list"] .sec-body .item:hover{
-  border-left-color:var(--accent);
-}
+body[data-layout="list"] .sec-body .item:hover::after{background:var(--accent)}
 body[data-layout="list"] .sec-body .item > .nm{
   grid-area:1 / 1 / 2 / 2;
   white-space:normal;
@@ -866,7 +900,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
   .shell{padding:14px 13px 0}
   nav.cats .wrap{padding:8px 13px}
   .hero{padding:calc(var(--hh) + 30px) 16px 58px; min-height:88svh}
-  .hero-av{width:80px; height:80px; border-radius:25px; font-size:35px}
+  .hero-av{width:80px; height:80px; border-radius:var(--radius-xl); font-size:35px}
   .hero-cta{width:100%; flex-direction:column}
   .btn{width:100%; justify-content:center}
   footer{padding:0 13px 38px}
