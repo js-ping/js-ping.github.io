@@ -1637,9 +1637,11 @@ __SKIN_PANEL_CSS__
 @media (max-width:720px){
   .bar{padding:8px 12px; gap:8px}
   .brand{font-size:14px}
-  /* 窄屏按钮多，工具区独占一行并允许换行，避免顶栏横向溢出 */
-  .tools{gap:6px; flex-wrap:wrap; white-space:normal; width:100%; justify-content:flex-start}
-  .tools>button,.tools>select,.tools>a.tool-link{padding:6px 8px; font-size:12.5px}
+  /* 2026-10-09：删掉了这里「把 .tools 撑满一整行」的老规则。
+     当年搜索框 / 筛选 / 折叠都塞在顶栏的 .tools 里，窄屏放不下才独占一行；
+     它们后来搬去了分类条（.cats-tools），顶栏只剩「外观」一个按钮 ——
+     那条 width:100% 还在的话，手机上「外观」就孤零零占一整行，
+     而手写的彩票页没这条反而正常，两页顶栏看着不一样。 */
   .appear>button{padding:6px 8px; font-size:12.5px}
   .ap-panel{position:fixed; top:calc(var(--hh) + 6px); right:12px; left:auto;
             width:min(276px,calc(100vw - 24px))}
@@ -3114,25 +3116,103 @@ def build_seo(today: str):
 
 LOTTERY_MARK = "<!-- uppjs:seo -->"
 
+# 手写单文件页（lottery.html）的顶栏同步标记。
+#   它不参与编译，顶栏当初是抄的一份老拷贝 —— 全站顶栏一改，它就掉队
+#   （2026-10-08 那次「顶栏焊死 + 放宽到 70px」之后它还是旧样子）。
+#   所以构建时把两样东西幂等注入进去，都用标记包住、重跑只替换标记之间的内容：
+#     ① 结构：整块 <header> = site_header("lottery.html", tools=这一页自己的按钮)
+#     ② 样式：theme.css 的「3. 顶栏」整段，原样搬过来（不重写，免得又多一份会掉队的拷贝）
+#   想改彩票页顶栏 → 去改 theme.css / site_header()，重跑构建自动同步。
+LOT_HDR_S = "<!--UPP:HEADER:start-->"
+LOT_HDR_E = "<!--UPP:HEADER:end-->"
+LOT_CSS_S = "<!--UPP:HEADER-CSS:start-->"
+LOT_CSS_E = "<!--UPP:HEADER-CSS:end-->"
+
+
+def theme_section(num):
+    """从 theme.css 里原样抠出一整段（按 `/* ==== 数字. 名字 ==== */` 分节）。
+
+    单文件页要复用某段样式时用它，而不是手抄一份 —— 抄的那份迟早掉队。
+    """
+    css = (THEME_DIR / "theme.css").read_text(encoding="utf-8")
+    marks = list(re.finditer(r"/\* ={10,}\n\s*(\d+)\. [^\n]*\n\s*={10,} \*/", css))
+    for i, m in enumerate(marks):
+        if m.group(1) == str(num):
+            end = marks[i + 1].start() if i + 1 < len(marks) else len(css)
+            return css[m.start():end].rstrip()
+    return ""
+
+
+def tool_header_css():
+    """给单文件页用的顶栏覆盖样式：theme.css 的顶栏整段 + 变量 --hh。
+
+    放在单文件页自己样式的后面，同名规则后写覆盖先写 —— 这样它自己的旧值会被压掉。
+    """
+    css = (THEME_DIR / "theme.css").read_text(encoding="utf-8")
+    hh = re.search(r"--hh:([^;]+);", css)
+    return (
+        LOT_CSS_S + "\n<style>\n"
+        "/* ⚠️ 这一段由 build.py 自动从 theme/theme.css 搬来，别手改 —— 下次构建会被覆盖。\n"
+        "   想让本页顶栏变样，去改 theme/theme.css 的「3. 顶栏」那一节，重跑构建即可。 */\n"
+        ":root{--hh:%s}\n%s\n</style>\n" % (hh.group(1).strip() if hh else "70px",
+                                            theme_section(3))
+        + LOT_CSS_E
+    )
+
+
+def sync_tool_header(doc):
+    """把单文件页的顶栏换成全站那一副（结构 + 样式），幂等。
+
+    这一页自己的功能按钮（「📅 数据快照」）从旧顶栏里捞出来，原样带过去 ——
+    同步的是「壳」，不是「内容」。
+    """
+    # ① 结构
+    btn = ""
+    m = re.search(r'<button[^>]*onclick="showDataInfo\(\)"[^>]*>.*?</button>', doc, re.S)
+    if m:
+        btn = m.group(0).strip() + "\n      "
+    hdr = LOT_HDR_S + "\n" + site_header("lottery.html", tools=btn) + "\n" + LOT_HDR_E
+    if LOT_HDR_S in doc:
+        doc = re.sub(re.escape(LOT_HDR_S) + r".*?" + re.escape(LOT_HDR_E),
+                     lambda _: hdr, doc, count=1, flags=re.S)
+    else:
+        doc = re.sub(r"<header>.*?</header>", lambda _: hdr, doc, count=1, flags=re.S)
+
+    # ② 样式（放 </head> 前，靠后写覆盖掉它自己的旧值）
+    css = tool_header_css()
+    if LOT_CSS_S in doc:
+        doc = re.sub(re.escape(LOT_CSS_S) + r".*?" + re.escape(LOT_CSS_E),
+                     lambda _: css, doc, count=1, flags=re.S)
+    elif "</head>" in doc:
+        doc = doc.replace("</head>", css + "</head>", 1)
+    return doc
+
 
 def patch_lottery():
-    """给手写的 lottery.html 补上分享图 / 结构化数据。
+    """给手写的 lottery.html 补上分享图 / 结构化数据，并把顶栏同步成全站那一副。
 
-    它是独立单文件、不参与编译，所以这里做一次「幂等注入」：
-    只在缺的时候插一段带标记的 head，插过就跳过。
+    它是独立单文件、不参与编译，所以这里做「幂等注入」：
+      · 顶栏（结构 + 样式）：每次构建都重刷 —— 全站顶栏改了，它就跟着改
+      · head 里的 SEO 段：只在缺的时候插一次
     这样即使以后整份换掉 lottery.html，重跑 build.py 也会自动补回来。
     """
     p = ROOT / "lottery.html"
     if not p.exists():
         return False
-    if PREVIEW:
-        # 预览模式下 lottery.html 不参与编译，直接整份复制过去，别去改原件
-        (OUT_DIR / "lottery.html").write_text(p.read_text(encoding="utf-8"),
-                                              encoding="utf-8")
-        return False
     doc = p.read_text(encoding="utf-8")
-    if LOTTERY_MARK in doc:
+    synced = sync_tool_header(doc)
+    changed = synced != doc
+    doc = synced
+
+    if PREVIEW:
+        # 预览模式下 lottery.html 不参与编译，写出同步后的副本，别去改原件
+        (OUT_DIR / "lottery.html").write_text(doc, encoding="utf-8")
         return False
+
+    if LOTTERY_MARK in doc:
+        if changed:
+            p.write_text(doc, encoding="utf-8")
+        return changed
     og = og_image("lottery.html")
     graph = site_jsonld() + [
         {"@type": "WebApplication", "@id": SITE + "/lottery.html#app",
@@ -3424,7 +3504,7 @@ def main():
     print("已生成 robots.txt 与 sitemap.xml（%d 个页面）" % len(sitemap_pages()))
 
     if patch_lottery():
-        print("已给 lottery.html 补上分享图与结构化数据")
+        print("已同步 lottery.html：顶栏（结构 + 样式）对齐全站，并补上分享图与结构化数据")
 
     build_manifest()
     print("已生成 manifest.webmanifest")

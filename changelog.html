@@ -227,15 +227,26 @@ a.brand:hover{color:var(--fg)}
 .nav-links a:hover{background:var(--panel2); color:var(--fg)}
 .nav-links a.on{background:var(--accent-soft); color:var(--accent); font-weight:600}
 .tools{margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap}
+/* 手写单文件页（彩票页）工具区里的按钮：跟旁边那个「外观」按钮取同一个尺寸
+   （`.appear>button` 是 5px 11px / 圆角 8px），否则同一行里两个按钮一大一小。
+   —— 彩票页的顶栏样式是从这一节整体搬过去的，所以写在这里它自动跟着走。 */
+.tools>button, .tools>select{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  border-radius:8px; padding:5px 11px; font-size:13px; font-family:inherit;
+  font-weight:500; line-height:1.4; cursor:pointer; transition:all .15s var(--ease);
+}
+.tools>button:hover, .tools>select:hover{border-color:var(--fg3); color:var(--fg)}
 
 /* 顶栏塞不下时的收缩顺序（导航任何时候都不隐藏，只是换行 / 横向滚动）：
-   ① 藏品牌小字与计数、把搜索框收窄  →  ② 导航横向滚动
-   ③ 再挤就换行：品牌 + 右侧工具一行，导航整行，搜索框跟着工具区排。 */
+   ① 藏品牌小字与计数  →  ② 导航横向滚动  →  ③ 再挤就换行：品牌 + 右侧工具一行，导航整行。
+   2026-10-09 清掉了三条引用了 body[data-layout] .search 的老规则 ——
+   搜索框 / 筛选 / 折叠早已搬到分类条（.cats-tools），顶栏的 .tools 里只剩「外观」一个按钮。
+   那几条里最碍事的是「≤560px 时 .tools 独占一行」，结果全站手机上「外观」孤零零占一行，
+   而手写的彩票页没这个属性反而更紧凑 —— 手机上两页顶栏看着不一样就是这个原因。 */
 @media (max-width:1180px){
   .bar{gap:10px}
   .brand em{display:none}
   #count{display:none}
-  body[data-layout] .search{flex:0 1 180px; min-width:130px}
 }
 @media (max-width:900px){
   header{height:auto; min-height:var(--hh)}
@@ -244,18 +255,10 @@ a.brand:hover{color:var(--fg)}
   /* ① 导航整行占满，横向滚动 —— 手机上也能跳去别的页 */
   .nav-links{order:2; flex:1 1 100%; margin-left:0; gap:2px}
   .nav-links a{padding:6px 9px; font-size:12.8px}
-  /* ② 右侧工具（外观 / 筛选 / 折叠 / 搜索）跟着品牌待在上一行 */
+  /* ② 右侧工具（外观 / 数据快照）跟着品牌待在上一行 */
   .tools{order:1; margin-left:auto; gap:6px; flex:0 0 auto; white-space:nowrap}
-  body[data-layout] .search{flex:0 1 190px; min-width:130px}
   .search input{width:100%; font-size:13px; padding:8px 12px}
   #filter,#toggleAll,.tools>button,.tools>select{font-size:12px; padding:6px 10px}
-}
-@media (max-width:560px){
-  /* ③ 手机上工具区放不下第一行了：整块挪到最下面独占一行，
-       搜索框吃掉剩下的宽度，筛选 / 折叠 / 外观 依次排开。 */
-  body[data-layout] .tools{order:3; flex:1 1 100%; margin-left:0; width:auto;
-                           flex-wrap:nowrap; gap:6px}
-  body[data-layout] .search{flex:1 1 auto; min-width:100px}
 }
 
 
@@ -1179,15 +1182,26 @@ a.brand:hover{color:var(--fg)}
 .nav-links a:hover{background:var(--panel2); color:var(--fg)}
 .nav-links a.on{background:var(--accent-soft); color:var(--accent); font-weight:600}
 .tools{margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap}
+/* 手写单文件页（彩票页）工具区里的按钮：跟旁边那个「外观」按钮取同一个尺寸
+   （`.appear>button` 是 5px 11px / 圆角 8px），否则同一行里两个按钮一大一小。
+   —— 彩票页的顶栏样式是从这一节整体搬过去的，所以写在这里它自动跟着走。 */
+.tools>button, .tools>select{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  border-radius:8px; padding:5px 11px; font-size:13px; font-family:inherit;
+  font-weight:500; line-height:1.4; cursor:pointer; transition:all .15s var(--ease);
+}
+.tools>button:hover, .tools>select:hover{border-color:var(--fg3); color:var(--fg)}
 
 /* 顶栏塞不下时的收缩顺序（导航任何时候都不隐藏，只是换行 / 横向滚动）：
-   ① 藏品牌小字与计数、把搜索框收窄  →  ② 导航横向滚动
-   ③ 再挤就换行：品牌 + 右侧工具一行，导航整行，搜索框跟着工具区排。 */
+   ① 藏品牌小字与计数  →  ② 导航横向滚动  →  ③ 再挤就换行：品牌 + 右侧工具一行，导航整行。
+   2026-10-09 清掉了三条引用了 body[data-layout] .search 的老规则 ——
+   搜索框 / 筛选 / 折叠早已搬到分类条（.cats-tools），顶栏的 .tools 里只剩「外观」一个按钮。
+   那几条里最碍事的是「≤560px 时 .tools 独占一行」，结果全站手机上「外观」孤零零占一行，
+   而手写的彩票页没这个属性反而更紧凑 —— 手机上两页顶栏看着不一样就是这个原因。 */
 @media (max-width:1180px){
   .bar{gap:10px}
   .brand em{display:none}
   #count{display:none}
-  body[data-layout] .search{flex:0 1 180px; min-width:130px}
 }
 @media (max-width:900px){
   header{height:auto; min-height:var(--hh)}
@@ -1196,18 +1210,10 @@ a.brand:hover{color:var(--fg)}
   /* ① 导航整行占满，横向滚动 —— 手机上也能跳去别的页 */
   .nav-links{order:2; flex:1 1 100%; margin-left:0; gap:2px}
   .nav-links a{padding:6px 9px; font-size:12.8px}
-  /* ② 右侧工具（外观 / 筛选 / 折叠 / 搜索）跟着品牌待在上一行 */
+  /* ② 右侧工具（外观 / 数据快照）跟着品牌待在上一行 */
   .tools{order:1; margin-left:auto; gap:6px; flex:0 0 auto; white-space:nowrap}
-  body[data-layout] .search{flex:0 1 190px; min-width:130px}
   .search input{width:100%; font-size:13px; padding:8px 12px}
   #filter,#toggleAll,.tools>button,.tools>select{font-size:12px; padding:6px 10px}
-}
-@media (max-width:560px){
-  /* ③ 手机上工具区放不下第一行了：整块挪到最下面独占一行，
-       搜索框吃掉剩下的宽度，筛选 / 折叠 / 外观 依次排开。 */
-  body[data-layout] .tools{order:3; flex:1 1 100%; margin-left:0; width:auto;
-                           flex-wrap:nowrap; gap:6px}
-  body[data-layout] .search{flex:1 1 auto; min-width:100px}
 }
 
 
@@ -2030,7 +2036,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <h1>更新日志</h1>
 <p>这个站的每一次改动都记在这里，最新的在最上面。记录由仓库的提交历史自动生成，不用手写，也就不会过期。</p>
 <h2>2026-10-08</h2>
-<ul><li>下线的页面真的从目录里消失：build.py 新增孤儿页面清理</li><li>重新生成页面：更新日志收进上面那个提交</li><li>四件事：下线「现在」页；顶栏全站焊死成一副样子（搜索/筛选移到分类条右端）；顶栏放宽；专题合集条目编号串成步骤并压紧</li><li>重新生成页面：更新日志收进上面那个提交</li><li>新增「现在」页与「专题合集」页：专题只写条目名，构建时引用软件与资源的网址/描述/平台，一条内容不存两份</li><li>重新生成页面：更新日志收进上面那个提交</li><li>hero 打字机改为直接显示：去掉逐字动画与闪烁光标（含减少动态偏好下引言空白的修复）</li><li>重新生成页面：更新日志收进上面那个提交</li><li>主页转向数字花园：去掉背景漂移动效 + 新增「最近在读/在看」模块 + 书单影单首版上线</li><li>重新生成页面：更新日志收进上面那个提交</li><li>网页版内容编辑器：填表改内容 + 预览 + 一键上线</li><li>重新生成页面：更新日志收进上面那个提交</li><li>三件事一起上线：两页合并转正 + 清单补网址 + 条目标平台</li><li>重新生成页面：更新日志收进上面两个提交，日期推进到 2026-10-08</li><li>根目录 README 改成 GitHub 仓库说明（站点内容在「内容源/」）</li><li>内容源统一收进「内容源/」目录 + 软件清单与免费资源合并草稿</li></ul>
+<ul><li>重新生成页面：更新日志收进上面那个提交</li><li>下线的页面真的从目录里消失：build.py 新增孤儿页面清理</li><li>重新生成页面：更新日志收进上面那个提交</li><li>四件事：下线「现在」页；顶栏全站焊死成一副样子（搜索/筛选移到分类条右端）；顶栏放宽；专题合集条目编号串成步骤并压紧</li><li>重新生成页面：更新日志收进上面那个提交</li><li>新增「现在」页与「专题合集」页：专题只写条目名，构建时引用软件与资源的网址/描述/平台，一条内容不存两份</li><li>重新生成页面：更新日志收进上面那个提交</li><li>hero 打字机改为直接显示：去掉逐字动画与闪烁光标（含减少动态偏好下引言空白的修复）</li><li>重新生成页面：更新日志收进上面那个提交</li><li>主页转向数字花园：去掉背景漂移动效 + 新增「最近在读/在看」模块 + 书单影单首版上线</li><li>重新生成页面：更新日志收进上面那个提交</li><li>网页版内容编辑器：填表改内容 + 预览 + 一键上线</li><li>重新生成页面：更新日志收进上面那个提交</li><li>三件事一起上线：两页合并转正 + 清单补网址 + 条目标平台</li><li>重新生成页面：更新日志收进上面两个提交，日期推进到 2026-10-08</li><li>根目录 README 改成 GitHub 仓库说明（站点内容在「内容源/」）</li><li>内容源统一收进「内容源/」目录 + 软件清单与免费资源合并草稿</li></ul>
 <h2>2026-10-07</h2>
 <ul><li>开奖数据每天自动补进内嵌快照 + 机选默认注数改为 1</li><li>彩票页说明书：修掉深色主题下「文件结构」段落白底浅字读不出来的问题</li><li>彩票页自动更新：不用任何账号，就能从境外节点拿到最新开奖</li><li>探测函数：第二轮候选（17500 备用路径 / 官方备用域名）+ 返回响应头</li><li>探测函数：加 ?peek= 模式，验数据格式与新鲜度</li><li>探测函数：全并发 + 6秒超时，避免 EdgeOne 504</li><li>临时：境外出口数据源可达性探测（用完即删）</li><li>彩票页：内嵌快照追到最新一期 + 清理旧版独立工具残留的说明文字</li></ul>
 <h2>2026-10-06</h2>
@@ -2042,7 +2048,7 @@ html.js .reveal.in{animation:rise .62s var(--ease) both}
 <h2>2026-10-02</h2>
 <ul><li>去掉条目规格行，书签名与展示形式重做</li></ul>
 <h2>2026-10-01</h2>
-<ul><li>改成多页站：导航首页 + 软件清单 + 网址书签</li><li>新增工具台导航页 + 收藏/已装 + 导出 + 条目元数据</li><li>新增 docs/：ICP 备案操作手册 + 网站升级路线图</li><li>新增外观面板：明暗三档 + 8 种底色 + 自定义取色器</li></ul>
+<ul><li>改成多页站：导航首页 + 软件清单 + 网址书签</li><li>新增工具台导航页 + 收藏/已装 + 导出 + 条目元数据</li><li>新增 docs/：ICP 备案操作手册 + 网站升级路线图</li></ul>
 </article>
 
 <footer>

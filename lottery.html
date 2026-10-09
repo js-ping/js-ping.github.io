@@ -468,18 +468,124 @@ footer{ text-align:center; color:var(--fg3); font-size:12px; margin-top:26px }
 .ap-tip{font-size:11.5px; color:var(--fg3); line-height:1.55; margin:10px 0 0}
 #apPick{position:absolute; width:0; height:0; opacity:0; pointer-events:none; border:0; padding:0}
 </style>
-</head>
+<!--UPP:HEADER-CSS:start-->
+<style>
+/* ⚠️ 这一段由 build.py 自动从 theme/theme.css 搬来，别手改 —— 下次构建会被覆盖。
+   想让本页顶栏变样，去改 theme/theme.css 的「3. 顶栏」那一节，重跑构建即可。 */
+:root{--hh:70px}
+/* ==========================================================================
+   3. 顶栏
+   ========================================================================== */
+header{
+  position:sticky; top:0; z-index:50;
+  height:var(--hh); box-sizing:border-box;
+  background:color-mix(in srgb, var(--bg) 84%, transparent);
+  border-bottom:1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  transition:background .24s var(--ease), border-color .24s var(--ease), box-shadow .24s var(--ease);
+}
+@supports (backdrop-filter:blur(14px)){
+  header{background:color-mix(in srgb, var(--bg) 62%, transparent); backdrop-filter:saturate(1.7) blur(20px)}
+}
+header.scrolled{box-shadow:0 1px 18px rgba(15,23,42,.07)}
+html[data-theme="dark"] header.scrolled,
+html[data-theme="auto"] header.scrolled{box-shadow:0 1px 22px rgba(0,0,0,.42)}
+
+/* 首页：顶栏浮在 hero 之上，滚动后才有底色 */
+body.home header{
+  position:fixed; left:0; right:0;
+  background:transparent; border-bottom-color:transparent;
+  backdrop-filter:none; -webkit-backdrop-filter:none; box-shadow:none;
+}
+body.home header.scrolled{
+  background:color-mix(in srgb, var(--bg) 80%, transparent);
+  border-bottom-color:color-mix(in srgb, var(--line) 80%, transparent);
+}
+@supports (backdrop-filter:blur(14px)){
+  body.home header.scrolled{
+    background:color-mix(in srgb, var(--bg) 58%, transparent);
+    backdrop-filter:saturate(1.7) blur(20px); -webkit-backdrop-filter:saturate(1.7) blur(20px);
+  }
+}
+
+/* 顶栏外壳：全站同一个宽度（1240 居中），三个页面模板共用。
+   flex-wrap:nowrap 是为了让「先收缩、再换行」的顺序可控 —— 换行只在窄屏媒体查询里开。 */
+.bar{max-width:1240px; margin:0 auto; padding:0 22px; height:100%;
+     display:flex; align-items:center; gap:18px; flex-wrap:nowrap}
+
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:15.5px;
+       letter-spacing:-.015em; color:var(--fg); white-space:nowrap}
+a.brand:hover{color:var(--fg)}
+.brand .logo{
+  flex:none; width:31px; height:31px; border-radius:10px;
+  display:grid; place-items:center; color:#fff; font-size:14.5px; font-weight:800;
+  background:linear-gradient(138deg, var(--accent), color-mix(in srgb, var(--accent) 52%, #a855f7));
+  box-shadow:0 3px 11px color-mix(in srgb, var(--accent) 36%, transparent),
+             inset 0 1px 0 rgba(255,255,255,.34);
+}
+.brand em{font-style:normal; font-weight:500; font-size:12.5px; color:var(--fg3); margin-left:2px}
+
+/* 导航链接：min-width:0 + 横向滚动，保证任何宽度下都不会被挤没。
+   以前在 1080px 以下直接把导航藏掉，手机上就跳不出当前页了。 */
+.nav-links{display:flex; gap:6px; margin-left:8px; min-width:0;
+           overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{
+  color:var(--fg2); font-size:13.5px; padding:8px 13px; border-radius:10px;
+  white-space:nowrap; transition:background .16s var(--ease), color .16s var(--ease);
+}
+.nav-links a:hover{background:var(--panel2); color:var(--fg)}
+.nav-links a.on{background:var(--accent-soft); color:var(--accent); font-weight:600}
+.tools{margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap}
+/* 手写单文件页（彩票页）工具区里的按钮：跟旁边那个「外观」按钮取同一个尺寸
+   （`.appear>button` 是 5px 11px / 圆角 8px），否则同一行里两个按钮一大一小。
+   —— 彩票页的顶栏样式是从这一节整体搬过去的，所以写在这里它自动跟着走。 */
+.tools>button, .tools>select{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  border-radius:8px; padding:5px 11px; font-size:13px; font-family:inherit;
+  font-weight:500; line-height:1.4; cursor:pointer; transition:all .15s var(--ease);
+}
+.tools>button:hover, .tools>select:hover{border-color:var(--fg3); color:var(--fg)}
+
+/* 顶栏塞不下时的收缩顺序（导航任何时候都不隐藏，只是换行 / 横向滚动）：
+   ① 藏品牌小字与计数  →  ② 导航横向滚动  →  ③ 再挤就换行：品牌 + 右侧工具一行，导航整行。
+   2026-10-09 清掉了三条引用了 body[data-layout] .search 的老规则 ——
+   搜索框 / 筛选 / 折叠早已搬到分类条（.cats-tools），顶栏的 .tools 里只剩「外观」一个按钮。
+   那几条里最碍事的是「≤560px 时 .tools 独占一行」，结果全站手机上「外观」孤零零占一行，
+   而手写的彩票页没这个属性反而更紧凑 —— 手机上两页顶栏看着不一样就是这个原因。 */
+@media (max-width:1180px){
+  .bar{gap:10px}
+  .brand em{display:none}
+  #count{display:none}
+}
+@media (max-width:900px){
+  header{height:auto; min-height:var(--hh)}
+  .bar{padding:8px 13px; gap:8px; row-gap:8px; flex-wrap:wrap; height:auto}
+  .brand{font-size:14.5px}
+  /* ① 导航整行占满，横向滚动 —— 手机上也能跳去别的页 */
+  .nav-links{order:2; flex:1 1 100%; margin-left:0; gap:2px}
+  .nav-links a{padding:6px 9px; font-size:12.8px}
+  /* ② 右侧工具（外观 / 数据快照）跟着品牌待在上一行 */
+  .tools{order:1; margin-left:auto; gap:6px; flex:0 0 auto; white-space:nowrap}
+  .search input{width:100%; font-size:13px; padding:8px 12px}
+  #filter,#toggleAll,.tools>button,.tools>select{font-size:12px; padding:6px 10px}
+}
+</style>
+<!--UPP:HEADER-CSS:end--></head>
 <body class="toolpage" data-view="home">
 
+<!--UPP:HEADER:start-->
 <header>
   <div class="bar">
     <a class="brand" href="index.html"><span class="logo">U</span>uppjs.com<em>个人清单站</em></a>
-    <nav class="nav-links"><a href="apps.html">软件清单</a>
-  <a href="free.html">免费资源</a>
+    <nav class="nav-links"><a href="apps.html">软件与资源</a>
+  <a href="books.html">书单</a>
+  <a href="movies.html">影单</a>
+  <a href="packs.html">专题合集</a>
   <a class="on" href="lottery.html">彩票选号</a>
   <a href="about.html">关于</a>
   <a href="changelog.html">更新日志</a></nav>
-    <div class="tools"><button type="button" onclick="showDataInfo()" title="这份数据是哪一期">📅 数据快照</button>      <div class="appear">
+    <div class="tools"><button type="button" onclick="showDataInfo()" title="这份数据是哪一期">📅 数据快照</button>
+            <div class="appear">
         <button id="theme" title="外观：明暗与底色" aria-haspopup="dialog" aria-expanded="false">外观</button>
         <div class="ap-panel" id="apPanel" hidden>
           <p class="ap-lab">明暗</p>
@@ -496,6 +602,7 @@ footer{ text-align:center; color:var(--fg3); font-size:12px; margin-top:26px }
       </div></div>
   </div>
 </header>
+<!--UPP:HEADER:end-->
 
 <nav class="cats"><div class="in2">
   <a data-v="home" onclick="go('home')">首页</a>

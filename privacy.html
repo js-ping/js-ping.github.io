@@ -16,7 +16,7 @@
 <meta property="og:url" content="https://uppjs.com/privacy.html">
 <meta property="og:title" content="隐私说明 · uppjs.com">
 <meta property="og:description" content="不收集数据、不设 Cookie、不请求第三方——这个站的隐私说明。">
-<meta property="og:image" content="https://uppjs.com/og/default.png">
+<meta property="og:image" content="https://uppjs.com/og/privacy.png">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://uppjs.com/#website","url":"https://uppjs.com/","name":"uppjs.com · 软件与工具清单","description":"自己在用的 Mac / PC / 手机软件、硬件与外设，整理成清单长期更新，支持即时搜索。不接推广、不做商业排序，收录标准只有一条：用得住。","inLanguage":"zh-CN"},{"@type":"Person","@id":"https://uppjs.com/#author","name":"uppjs.com","url":"https://uppjs.com/about.html","description":"把在用的软件、工具和写法整理成清单，长期更新。"},{"@type":"WebPage","@id":"https://uppjs.com/privacy.html#page","url":"https://uppjs.com/privacy.html","name":"隐私说明","description":"不收集数据、不设 Cookie、不请求第三方——这个站的隐私说明。","inLanguage":"zh-CN","isPartOf":{"@id":"https://uppjs.com/#website"},"author":{"@id":"https://uppjs.com/#author"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://uppjs.com/"},{"@type":"ListItem","position":2,"name":"隐私说明","item":"https://uppjs.com/privacy.html"}]}]}</script>
 <style>
@@ -227,15 +227,26 @@ a.brand:hover{color:var(--fg)}
 .nav-links a:hover{background:var(--panel2); color:var(--fg)}
 .nav-links a.on{background:var(--accent-soft); color:var(--accent); font-weight:600}
 .tools{margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap}
+/* 手写单文件页（彩票页）工具区里的按钮：跟旁边那个「外观」按钮取同一个尺寸
+   （`.appear>button` 是 5px 11px / 圆角 8px），否则同一行里两个按钮一大一小。
+   —— 彩票页的顶栏样式是从这一节整体搬过去的，所以写在这里它自动跟着走。 */
+.tools>button, .tools>select{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  border-radius:8px; padding:5px 11px; font-size:13px; font-family:inherit;
+  font-weight:500; line-height:1.4; cursor:pointer; transition:all .15s var(--ease);
+}
+.tools>button:hover, .tools>select:hover{border-color:var(--fg3); color:var(--fg)}
 
 /* 顶栏塞不下时的收缩顺序（导航任何时候都不隐藏，只是换行 / 横向滚动）：
-   ① 藏品牌小字与计数、把搜索框收窄  →  ② 导航横向滚动
-   ③ 再挤就换行：品牌 + 右侧工具一行，导航整行，搜索框跟着工具区排。 */
+   ① 藏品牌小字与计数  →  ② 导航横向滚动  →  ③ 再挤就换行：品牌 + 右侧工具一行，导航整行。
+   2026-10-09 清掉了三条引用了 body[data-layout] .search 的老规则 ——
+   搜索框 / 筛选 / 折叠早已搬到分类条（.cats-tools），顶栏的 .tools 里只剩「外观」一个按钮。
+   那几条里最碍事的是「≤560px 时 .tools 独占一行」，结果全站手机上「外观」孤零零占一行，
+   而手写的彩票页没这个属性反而更紧凑 —— 手机上两页顶栏看着不一样就是这个原因。 */
 @media (max-width:1180px){
   .bar{gap:10px}
   .brand em{display:none}
   #count{display:none}
-  body[data-layout] .search{flex:0 1 180px; min-width:130px}
 }
 @media (max-width:900px){
   header{height:auto; min-height:var(--hh)}
@@ -244,18 +255,10 @@ a.brand:hover{color:var(--fg)}
   /* ① 导航整行占满，横向滚动 —— 手机上也能跳去别的页 */
   .nav-links{order:2; flex:1 1 100%; margin-left:0; gap:2px}
   .nav-links a{padding:6px 9px; font-size:12.8px}
-  /* ② 右侧工具（外观 / 筛选 / 折叠 / 搜索）跟着品牌待在上一行 */
+  /* ② 右侧工具（外观 / 数据快照）跟着品牌待在上一行 */
   .tools{order:1; margin-left:auto; gap:6px; flex:0 0 auto; white-space:nowrap}
-  body[data-layout] .search{flex:0 1 190px; min-width:130px}
   .search input{width:100%; font-size:13px; padding:8px 12px}
   #filter,#toggleAll,.tools>button,.tools>select{font-size:12px; padding:6px 10px}
-}
-@media (max-width:560px){
-  /* ③ 手机上工具区放不下第一行了：整块挪到最下面独占一行，
-       搜索框吃掉剩下的宽度，筛选 / 折叠 / 外观 依次排开。 */
-  body[data-layout] .tools{order:3; flex:1 1 100%; margin-left:0; width:auto;
-                           flex-wrap:nowrap; gap:6px}
-  body[data-layout] .search{flex:1 1 auto; min-width:100px}
 }
 
 
@@ -1179,15 +1182,26 @@ a.brand:hover{color:var(--fg)}
 .nav-links a:hover{background:var(--panel2); color:var(--fg)}
 .nav-links a.on{background:var(--accent-soft); color:var(--accent); font-weight:600}
 .tools{margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap}
+/* 手写单文件页（彩票页）工具区里的按钮：跟旁边那个「外观」按钮取同一个尺寸
+   （`.appear>button` 是 5px 11px / 圆角 8px），否则同一行里两个按钮一大一小。
+   —— 彩票页的顶栏样式是从这一节整体搬过去的，所以写在这里它自动跟着走。 */
+.tools>button, .tools>select{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  border-radius:8px; padding:5px 11px; font-size:13px; font-family:inherit;
+  font-weight:500; line-height:1.4; cursor:pointer; transition:all .15s var(--ease);
+}
+.tools>button:hover, .tools>select:hover{border-color:var(--fg3); color:var(--fg)}
 
 /* 顶栏塞不下时的收缩顺序（导航任何时候都不隐藏，只是换行 / 横向滚动）：
-   ① 藏品牌小字与计数、把搜索框收窄  →  ② 导航横向滚动
-   ③ 再挤就换行：品牌 + 右侧工具一行，导航整行，搜索框跟着工具区排。 */
+   ① 藏品牌小字与计数  →  ② 导航横向滚动  →  ③ 再挤就换行：品牌 + 右侧工具一行，导航整行。
+   2026-10-09 清掉了三条引用了 body[data-layout] .search 的老规则 ——
+   搜索框 / 筛选 / 折叠早已搬到分类条（.cats-tools），顶栏的 .tools 里只剩「外观」一个按钮。
+   那几条里最碍事的是「≤560px 时 .tools 独占一行」，结果全站手机上「外观」孤零零占一行，
+   而手写的彩票页没这个属性反而更紧凑 —— 手机上两页顶栏看着不一样就是这个原因。 */
 @media (max-width:1180px){
   .bar{gap:10px}
   .brand em{display:none}
   #count{display:none}
-  body[data-layout] .search{flex:0 1 180px; min-width:130px}
 }
 @media (max-width:900px){
   header{height:auto; min-height:var(--hh)}
@@ -1196,18 +1210,10 @@ a.brand:hover{color:var(--fg)}
   /* ① 导航整行占满，横向滚动 —— 手机上也能跳去别的页 */
   .nav-links{order:2; flex:1 1 100%; margin-left:0; gap:2px}
   .nav-links a{padding:6px 9px; font-size:12.8px}
-  /* ② 右侧工具（外观 / 筛选 / 折叠 / 搜索）跟着品牌待在上一行 */
+  /* ② 右侧工具（外观 / 数据快照）跟着品牌待在上一行 */
   .tools{order:1; margin-left:auto; gap:6px; flex:0 0 auto; white-space:nowrap}
-  body[data-layout] .search{flex:0 1 190px; min-width:130px}
   .search input{width:100%; font-size:13px; padding:8px 12px}
   #filter,#toggleAll,.tools>button,.tools>select{font-size:12px; padding:6px 10px}
-}
-@media (max-width:560px){
-  /* ③ 手机上工具区放不下第一行了：整块挪到最下面独占一行，
-       搜索框吃掉剩下的宽度，筛选 / 折叠 / 外观 依次排开。 */
-  body[data-layout] .tools{order:3; flex:1 1 100%; margin-left:0; width:auto;
-                           flex-wrap:nowrap; gap:6px}
-  body[data-layout] .search{flex:1 1 auto; min-width:100px}
 }
 
 

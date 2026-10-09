@@ -17,7 +17,7 @@
 <meta property="og:url" content="https://uppjs.com/apps.html">
 <meta property="og:title" content="软件与资源 · uppjs.com">
 <meta property="og:description" content="软件与资源：我在用的软件、硬件与外设，加上整理过的合法免费资源：开源软件、官方免费版与学生包、免费课程、公共领域书籍、可商用素材。收录标准只有一条：用得住。不接推广、不做商业排序。">
-<meta property="og:image" content="https://uppjs.com/og/default.png">
+<meta property="og:image" content="https://uppjs.com/og/apps.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="软件与资源 · uppjs.com">
@@ -376,9 +376,11 @@ footer{
 @media (max-width:720px){
   .bar{padding:8px 12px; gap:8px}
   .brand{font-size:14px}
-  /* 窄屏按钮多，工具区独占一行并允许换行，避免顶栏横向溢出 */
-  .tools{gap:6px; flex-wrap:wrap; white-space:normal; width:100%; justify-content:flex-start}
-  .tools>button,.tools>select,.tools>a.tool-link{padding:6px 8px; font-size:12.5px}
+  /* 2026-10-09：删掉了这里「把 .tools 撑满一整行」的老规则。
+     当年搜索框 / 筛选 / 折叠都塞在顶栏的 .tools 里，窄屏放不下才独占一行；
+     它们后来搬去了分类条（.cats-tools），顶栏只剩「外观」一个按钮 ——
+     那条 width:100% 还在的话，手机上「外观」就孤零零占一整行，
+     而手写的彩票页没这条反而正常，两页顶栏看着不一样。 */
   .appear>button{padding:6px 8px; font-size:12.5px}
   .ap-panel{position:fixed; top:calc(var(--hh) + 6px); right:12px; left:auto;
             width:min(276px,calc(100vw - 24px))}
@@ -551,15 +553,26 @@ a.brand:hover{color:var(--fg)}
 .nav-links a:hover{background:var(--panel2); color:var(--fg)}
 .nav-links a.on{background:var(--accent-soft); color:var(--accent); font-weight:600}
 .tools{margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap}
+/* 手写单文件页（彩票页）工具区里的按钮：跟旁边那个「外观」按钮取同一个尺寸
+   （`.appear>button` 是 5px 11px / 圆角 8px），否则同一行里两个按钮一大一小。
+   —— 彩票页的顶栏样式是从这一节整体搬过去的，所以写在这里它自动跟着走。 */
+.tools>button, .tools>select{
+  border:1px solid var(--line); background:var(--panel); color:var(--fg2);
+  border-radius:8px; padding:5px 11px; font-size:13px; font-family:inherit;
+  font-weight:500; line-height:1.4; cursor:pointer; transition:all .15s var(--ease);
+}
+.tools>button:hover, .tools>select:hover{border-color:var(--fg3); color:var(--fg)}
 
 /* 顶栏塞不下时的收缩顺序（导航任何时候都不隐藏，只是换行 / 横向滚动）：
-   ① 藏品牌小字与计数、把搜索框收窄  →  ② 导航横向滚动
-   ③ 再挤就换行：品牌 + 右侧工具一行，导航整行，搜索框跟着工具区排。 */
+   ① 藏品牌小字与计数  →  ② 导航横向滚动  →  ③ 再挤就换行：品牌 + 右侧工具一行，导航整行。
+   2026-10-09 清掉了三条引用了 body[data-layout] .search 的老规则 ——
+   搜索框 / 筛选 / 折叠早已搬到分类条（.cats-tools），顶栏的 .tools 里只剩「外观」一个按钮。
+   那几条里最碍事的是「≤560px 时 .tools 独占一行」，结果全站手机上「外观」孤零零占一行，
+   而手写的彩票页没这个属性反而更紧凑 —— 手机上两页顶栏看着不一样就是这个原因。 */
 @media (max-width:1180px){
   .bar{gap:10px}
   .brand em{display:none}
   #count{display:none}
-  body[data-layout] .search{flex:0 1 180px; min-width:130px}
 }
 @media (max-width:900px){
   header{height:auto; min-height:var(--hh)}
@@ -568,18 +581,10 @@ a.brand:hover{color:var(--fg)}
   /* ① 导航整行占满，横向滚动 —— 手机上也能跳去别的页 */
   .nav-links{order:2; flex:1 1 100%; margin-left:0; gap:2px}
   .nav-links a{padding:6px 9px; font-size:12.8px}
-  /* ② 右侧工具（外观 / 筛选 / 折叠 / 搜索）跟着品牌待在上一行 */
+  /* ② 右侧工具（外观 / 数据快照）跟着品牌待在上一行 */
   .tools{order:1; margin-left:auto; gap:6px; flex:0 0 auto; white-space:nowrap}
-  body[data-layout] .search{flex:0 1 190px; min-width:130px}
   .search input{width:100%; font-size:13px; padding:8px 12px}
   #filter,#toggleAll,.tools>button,.tools>select{font-size:12px; padding:6px 10px}
-}
-@media (max-width:560px){
-  /* ③ 手机上工具区放不下第一行了：整块挪到最下面独占一行，
-       搜索框吃掉剩下的宽度，筛选 / 折叠 / 外观 依次排开。 */
-  body[data-layout] .tools{order:3; flex:1 1 100%; margin-left:0; width:auto;
-                           flex-wrap:nowrap; gap:6px}
-  body[data-layout] .search{flex:1 1 auto; min-width:100px}
 }
 
 
